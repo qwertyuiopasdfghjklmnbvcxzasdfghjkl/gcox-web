@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />    
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="KOALL"> 
+    <title>newton-app</title>
+    <style>
+      html,body{margin:0;padding:0;}
+      ul,li{margin:0;padding:0;list-style:none;}
+      #app{width:100%;height:400px;position:relative;overflow:hidden;}
+      ul{display:flex;flex-flow:wrap;justify-content:space-between;background-color:#fff;}
+      ul li{display:flex;padding:0 10px;height:30px;justify-content:center;align-items:center;}
+    </style>
+  </head>
+  <body>
+    <div>技术指标</div>
+    <ul id="quotasList"></ul>
+    <div>主题样式</div>
+    <ul id="mainStyles"></ul>
+    <div id="app"></div>
+    <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="kline.draw.js"></script>
+    <script>
+      $(function(){
+        var quotas = ['MACD', 'KDJ', 'StochRSI', 'RSI', 'DMI', 'OBV', 'BOLL', 'SAR', 'DMA', 'TRIX', 'BRAR', 'VR', 'EMV', 'WR', 'ROC', 'MTM', 'PSY']
+        quotas.forEach((item) => {
+          $("#quotasList").append(`<li ev="${item}">${item}</li>`)
+        })
+        var mainStyles = ['CandleStick', 'CandleStickHLC', 'OHLC']
+        mainStyles.forEach((item) => {
+          $("#mainStyles").append(`<li ev="${item}">${item}</li>`)
+        })
+        var a = KLineChart({
+          container: document.getElementById('app'),
+          scale: 2
+        })
+        a.switch_indic('MACD');
+        $("#quotasList").delegate('li', 'click', function(){
+          a.switch_indic($(this).attr("ev"));
+        });
+        $("#mainStyles").delegate('li', 'click', function(){
+          a.switch_chartStyle($(this).attr("ev"));
+        });
+        // https://www.binance.com/api/v1/klines?symbol=EOSBTC&interval=15m
+        function getDatas(){
+          $.ajax({
+            url: 'data.json',
+            type: 'get',
+            dataType: 'json',
+            success: function(res) {
+              //a.drawDepth({"asks":[["0.0060000",50]],"bids":[["0.0050000",50],["0.0040000",60]]})
+              res.forEach((item) => {
+                item[0] = Number(item[0])
+                item[1] = Number(item[1])
+                item[2] = Number(item[2])
+                item[3] = Number(item[3])
+                item[4] = Number(item[4])
+                item[5] = Number(item[5])
+              })
+              a.updateKlienDatas(res)
+            },
+            error: function(res) {
+              getDatas()
+            }
+          })
+        }
+        getDatas()
+        window.addEventListener('resize', function () {
+          a.resize()
+        })
+      })
+    </script>
+    <!-- built files will be auto injected -->
+  </body>
+</html>

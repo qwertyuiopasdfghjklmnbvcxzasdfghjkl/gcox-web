@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="aplus-terminal" content="1">
+  <meta name="apple-mobile-web-app-title" content="">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="format-detection" content="telephone=no, address=no">
+    <title>NEWTON交易所</title>
+    <script type="text/javascript" src="./static/js/flexible.js"></script>
+    <link rel="stylesheet" href="./static/css/act_base.css"/>
+    <link rel="stylesheet" href="./static/css/animate.min.css" type="text/css" />
+    <style type="text/css">
+    body{overflow:hidden;}
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/javascript">
+      (function(){
+        // 针对生产环境，只允许跳转到http://m.newtonxchange.com
+        var protocol = location.protocol;
+        var host = location.host.toLowerCase();
+        if (host === 'm.pre.newtonxchange.com' || host === 'm.test.newtonxchange.com') {
+          return
+        }
+        if (host.indexOf('newtonxchange.com') !== -1 && (protocol !== 'https:' || host !== 'm.newtonxchange.com')) {
+          location.href = 'https://m.newtonxchange.com';
+        }
+      })();
+    </script>
+    <!-- built files will be auto injected -->
+    <script type="text/javascript" src="./static/js/gt.js"></script>
+    <script type="text/javascript" src="./static/js/jsencrypt.min.js"></script>
+    <script type="text/javascript" src="./static/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="./static/js/iscroll.min.js"></script>
+    <script type="text/javascript" src="./static/js/fastclick.js"></script>
+    <script type="text/javascript">
+      if ('addEventListener' in document) {
+        document.addEventListener('DOMContentLoaded', function() {
+          FastClick.attach(document.body);
+        }, false);
+      }
+      if (!/http(s)?:/.test(location.protocol)) {
+        document.write('<script type="text/javascript" src="cordova.js"><\/script>');
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,136 @@
+a:hover, input:hover, button:hover, textarea:hover, a:focus, input:focus, button:focus, textarea:focus {
+  outline: none;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+select {
+  appearance: none;
+  padding-right: .48rem;
+  color: #cbd4ec;
+  background: transparent url(../../img/down-icon-cbd4ec@3x.png) no-repeat right .12rem center / .24rem auto;
+  border-width: 0;
+}
+select::-ms-expand {
+  display: none; /*清除ie的默认选择框样式，隐藏下拉箭头*/
+}
+
+::-webkit-input-placeholder { /*WebKit, Blink, Edge*/
+  color: #8089a3;
+}
+::-moz-placeholder { /*Mozilla Firefox 19+*/
+  color: #8089a3;
+}
+:-moz-placeholder { /*Mozilla Firefox 4 to 18*/
+  color: #8089a3;
+}
+:-ms-input-placeholder { /*Internet Explorer 10-11*/
+  color: #8089a3;
+}
+
+.f24 {font-size:.24rem;}
+.f26 {font-size:.26rem;}
+.f28 {font-size:.28rem;}
+.f30 {font-size:.30rem;}
+.f32 {font-size:.32rem;}
+.f36 {font-size:.36rem;}
+
+.unselected {
+  -webkit-touch-callout:none;
+  -webkit-user-select:none;
+  user-select:none;
+}
+.wrap {
+  position: relative;
+  height: 100vh;
+  background-color: #0d0d0d;
+  overflow-y: auto;
+}
+.page {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #0d0d0d;
+  .page-main {
+    position: absolute;
+    top: 0.8rem;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow-y: auto;
+  }
+}
+
+.tip {
+  position: fixed;
+  z-index: 99999;
+  left: 0;
+  right: 0;
+  top: 0;
+  min-height: .8rem;
+  padding: 0.2rem 0.3rem;
+  font-size: 0.28rem;
+  line-height: .4rem;
+  text-align: center;
+  transform: translateY(-100%);
+  transition: transform 300ms;
+  &.tip-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+  }
+  &.tip-info {
+    color: #31708f;
+    background-color: #d9edf7;
+  }
+  &.tip-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+  }
+  &.tip-danger {
+    color: #a94442;
+    background-color: #f2dede;
+  }
+}
+
+.pull-left {float: left;}
+.pull-right {float: right;}
+.clearfix:before,
+.clearfix:after {content: "";display: block;}
+.clearfix:after {clear: both;}
+.animated.short {animation-duration: 600ms;}
+
+/* 重置mint-ui样式 */
+.mint-button {
+  height: 40px;
+  &--primary {
+    background-color: #0072fd;
+    &.is-plain {
+      color: #0072fd;
+      border-color: #0072fd;
+    }
+  }
+}
+.mint-popup-right {
+  height: 100%;
+}
+.mint-loadmore {
+  overflow-x: hidden;
+  overflow-y: auto;
+  // 清除mint-loadmore-content的默认偏移值
+  &-content {
+    &.is-dropped {
+      transform: translate3d(0, 0, 0) !important;
+    }
+  }
+  // 自定义mint-loadmore-content的偏移值
+  &.is-loading &-content {
+    &.is-dropped {
+      transform: translate3d(0, .8rem, 0) !important;
+    }
+  }
+  &-top {
+    display: none;
+  }
+}
