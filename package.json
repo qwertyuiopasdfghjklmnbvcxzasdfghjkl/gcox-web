@@ -6,14 +6,14 @@
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
-    "dev-sit": "npm run dev -- SERVER_DOMAIN='\"pre.cdcc.ink\"' HTTPS=false",
-    "dev-pro": "npm run dev -- SERVER_DOMAIN='\"www.newtonxchange.com\"' HTTPS=true",
+    "dev-sit": "npm run dev -- SERVER_DOMAIN='\"pre.cdcc.ink\"' HTTPS=true",
+    "dev-pro": "npm run dev -- SERVER_DOMAIN='\"www.cdcc.ink\"' HTTPS=true",
     "dev-dev": "npm run dev -- SERVER_DOMAIN='\"dev.koall.io\"' HTTPS=true",
     "start": "node build/dev-server.js",
     "build": "node build/build.js",
-    "build-sit": "npm run build -- SERVER_DOMAIN='\"msit.newton.net\"' HTTPS=false APP=true",
-    "build-test": "npm run build -- SERVER_DOMAIN='\"test.newtonxchange.com\"' APP=true",
-    "build-pro": "npm run build -- SERVER_DOMAIN='\"pre.cdcc.ink\"' HTTPS=true APP=true"
+    "build-sit": "npm run build -- SERVER_DOMAIN='\"pre.cdcc.ink\"' HTTPS=false APP=true",
+    "build-test": "npm run build -- SERVER_DOMAIN='\"pre.cdcc.ink\"' APP=true",
+    "build-pro": "npm run build -- SERVER_DOMAIN='\"www.cdcc.ink\"' HTTPS=true APP=true"
   },
   "dependencies": {
     "axios": "^0.16.2",
