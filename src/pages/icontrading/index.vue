@@ -10,9 +10,8 @@
             <li :class="[tabactive==='tab-container1'?'activation':'']" @click="whickTabFun('tab-container1')"><span>{{$t('home.home_favorites')}}<!--自选--></span></li>
             <li :class="[tabactive==='tab-container2'?'activation':'']" @click="whickTabFun('tab-container2')"><span>BTC</span></li>
             <li :class="[tabactive==='tab-container3'?'activation':'']" @click="whickTabFun('tab-container3')"><span>ETH</span></li>
-            <!-- <li :class="[tabactive==='tab-container4'?'activation':'']" @click="whickTabFun('tab-container4')"><span>ATN</span><i></i></li> -->
+            <li :class="[tabactive==='tab-container4'?'activation':'']" @click="whickTabFun('tab-container4')"><span>CDCC</span><i></i></li>
             <li :class="[tabactive==='tab-container5'?'activation':'']" @click="whickTabFun('tab-container5')"><span>USDT</span><i></i></li>
-            <!-- <li :class="[tabactive==='tab-container6'?'activation':'']" @click="whickTabFun('tab-container6')"><span>MECoin</span><i></i></li> -->
           </ul>
         </section>
         <section class="coin_header">
@@ -137,14 +136,14 @@
         </div>
       </mt-tab-container-item>
 
-      <!--ATN-->
+      <!--CDCC-->
       <mt-tab-container-item id="tab-container4">
         <div class="box">
           <div class="inner">
             <section class="coin_content">
               <div class="item">
                 <div class="inner">
-                  <ul class="item" v-for="(item, index) in atnMarkets" :key="index" @click="goToExchangePage(item)">
+                  <ul class="item" v-for="(item, index) in cdccMarkets" :key="index" @click="goToExchangePage(item)">
                     <li>
                       <img :src="item.iconBase64?`data:image/png;base64,`+item.iconBase64:item.iconUrl"/>
                     </li>
@@ -197,35 +196,6 @@
         </div>
       </mt-tab-container-item>
 
-      <!--MECoin-->
-      <mt-tab-container-item id="tab-container6">
-        <div class="box">
-          <div class="inner">
-            <section class="coin_content">
-              <div class="item">
-                <div class="inner">
-                  <ul class="item" v-for="(item, index) in mecoinMarkets" :key="index" @click="goToExchangePage(item)">
-                    <li>
-                      <img :src="item.iconBase64?`data:image/png;base64,`+item.iconBase64:item.iconUrl"/>
-                    </li>
-                    <li>
-                      <h1><span>{{item.currencySymbol}}</span>/<i>{{item.baseSymbol}}</i></h1>
-                      <h2>24H {{toFixed(item.dealAmount, 0)}}</h2>
-                    </li>
-                    <li>
-                      <h1>{{toFixed(item.lastPrice)}}</h1>
-                      <h2>≈<span><valuation :lastPrice="item.lastPrice" :baseSymbol="item.baseSymbol"/></span></h2>
-                    </li>
-                    <li>
-                      <button class="c-button c-button-normal" :class="[percent(item).css]">{{percent(item).percent}}%</button>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </section>
-          </div>
-        </div>
-      </mt-tab-container-item>
     </mt-tab-container>
   </div>
 </template>
@@ -254,9 +224,8 @@ export default {
       favoriteMarkets: [],
       btcMarkets: [],
       ethMarkets: [],
-      atnMarkets: [],
-      usdtMarkets: [],
-      mecoinMarkets: []
+      cdccMarkets: [],
+      usdtMarkets: []
     }
   },
   computed: {
@@ -298,20 +267,17 @@ export default {
       this.favoriteMarkets = []
       this.btcMarkets = []
       this.ethMarkets = []
-      this.atnMarkets = []
+      this.cdccMarkets = []
       this.usdtMarkets = []
-      this.mecoinMarkets = []
       this.sortMarketDatas.forEach((item) => {
         if (item.baseSymbol === 'BTC') {
           this.btcMarkets.push(item)
         } else if (item.baseSymbol === 'ETH') {
           this.ethMarkets.push(item)
-        } else if (item.baseSymbol === 'ATN') {
-          this.atnMarkets.push(item)
+        } else if (item.baseSymbol === 'CDCC') {
+          this.cdccMarkets.push(item)
         } else if (item.baseSymbol === 'USDT') {
           this.usdtMarkets.push(item)
-        } else if (item.baseSymbol === 'MECoin') {
-          this.mecoinMarkets.push(item)
         }
         if (item.collection) {
           this.tabactive = 'tab-container1'
@@ -337,12 +303,10 @@ export default {
       let sysbomle = this.$route.params.sysbolm
       if (sysbomle === 'ETH') {
         this.whickTabFun('tab-container3')
-      } else if (sysbomle === 'ATN') {
+      } else if (sysbomle === 'CDCC') {
         this.whickTabFun('tab-container4')
       } else if (sysbomle==='USDT') {
         this.whickTabFun('tab-container5')
-      } else if (sysbomle==='MECoin') {
-        this.whickTabFun('tab-container6')
       } else {
         this.whickTabFun('tab-container2')
       }

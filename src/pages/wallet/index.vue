@@ -3,12 +3,15 @@
     <cp-top-back :back="false" :showLogo="true">
       <h1 class="header">{{$t('account.userDigitalAssets')}}<!--我的数字资产--></h1>
     </cp-top-back>
-
     <!--1、头部-->
     <div class="wallet-top">
       <h1>{{$t('exchange.exchange_valuation')}}<!--当前总估值-->（BTC）</h1>
       <h2>{{String(getBTCValuation).toMoney()}}</h2>
       <h3>≈ {{getCoinSign}} {{USDCNY}}</h3>
+    </div>
+    <div class="accountTabs">
+      <span :class="{active:accountType===1}" @click="accountType=1">{{$t('vote_mining.main_account')}}</span>
+      <span  :class="{active:accountType===2}" @click="accountType=2">{{$t('vote_mining.vote_mining_account')}}</span>
     </div>
     <!--2内容-->
     <section class="box search">
@@ -60,6 +63,7 @@ export default {
       myAssets: [],
       hideZero: false, // 是否隐藏
       filterTitle: '', // 搜索框
+      accountType:1,
     }
   },
   computed: {
@@ -77,6 +81,9 @@ export default {
           }
           return true
         }
+      })
+      ndatas = ndatas.filter(item=>{
+        return item.type===this.accountType
       })
       ndatas.sort((item1, item2) => {
         let m1 = numUtils.BN(item1.totalBalance)
@@ -134,6 +141,22 @@ export default {
   @font_color_transparent:#cbd4ec;
   @fs_24:.24rem;
   @f_c_2:#cfd3e9;
+
+  .accountTabs {
+    display: flex;
+    line-height: 0.8rem;
+    background-color: #0c151d;
+    font-size: 0.3rem;
+    margin-bottom: 8px;
+    span {flex: 1; text-align: center; border-bottom: 1px solid #0c151d; color: #fff;
+      &.active {
+        border-bottom-color: #0072fd;
+        color: #0072fd;
+      }
+      
+    }
+  }
+
   .trans-records-scroll {
     height: calc(~"100vh - 3.85rem");
     background-color: #161f2f;

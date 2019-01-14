@@ -69,7 +69,7 @@
             </li>
             <li class="menu-item language-item" v-show="languagesUnfold" v-for="item in languages">
                 <a @click="setLanguage(item.id)">
-                    {{item.name}}
+                    {{$t(`languages.${item.id.replace('-','')}`)}}
                 </a>
             </li>
             <li class="menu-item" v-if="isApp">
@@ -96,9 +96,9 @@ export default {
       isApp: config.app,
       version:config.version,
       languages: [
-        {id: 'en', name: 'English', n: 4},
-        {id: 'cht', name: '中文繁體', n: 2},
-        {id: 'zh-CN', name: '中文简体', n: 2}
+        {id: 'en', name: this.$t('languages.en'), n: 4},
+        {id: 'cht', name: this.$t('languages.cht'), n: 2},
+        {id: 'zh-CN', name: this.$t('languages.zhCN'), n: 2}
       ],
       languagesUnfold: false,
     }

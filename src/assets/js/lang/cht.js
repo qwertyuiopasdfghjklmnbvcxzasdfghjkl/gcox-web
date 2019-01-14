@@ -1256,7 +1256,8 @@ export default {
 		"user_center_SMS_code": "短信驗證碼",
 		"user_Choose_type": "選擇類型",
 		"user_center_login_IP_address": "IP 地址",
-		"user_center_history_coin": "幣種"
+		"user_center_history_coin": "幣種",
+		"recharge_memo":'充值備註'
 	},
 	"trade_record": {
 		"exchange_record": "幣幣成交記錄",
@@ -1800,6 +1801,11 @@ export default {
 	    "ORDER_TIME":"下單時間",
 	    "MOBILE":"手機號碼",
 	    "LOGIN_VOTE":"請登入後再投票"
+	},
+	languages:{
+		en:'English',
+		cht:'中文繁體',
+		zhCN:'中文簡體'
 	},
 	lastestVersion:'已經是最新版 ',
 	ok:'確定',

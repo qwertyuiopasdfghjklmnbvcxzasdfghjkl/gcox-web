@@ -1256,7 +1256,8 @@ export default {
 		"user_center_SMS_code": "短信验证码",
 		"user_Choose_type": "选择类型",
 		"user_center_login_IP_address": "IP 地址",
-		"user_center_history_coin": "币种"
+		"user_center_history_coin": "币种",
+		"recharge_memo":'充值备注'
 	},
 	"trade_record": {
 		"exchange_record": "币币成交记录",
@@ -1801,6 +1802,11 @@ export default {
 	    "ORDER_TIME":"下单时间",
 	    "MOBILE":"手机号码",
 	    "LOGIN_VOTE":"请登录后再投票"
+	},
+	languages:{
+		en:'English',
+		cht:'中文繁体',
+		zhCN:'中文简体'
 	},
 	lastestVersion:'已经是最新版',
 	ok:'确定',

@@ -12,8 +12,17 @@
             </div>
             <div ref="qrcode" class="qrcode" id="picture"></div>
             <p class="first-child"><a @click="savePic">{{$t('account.user_save_QRcode')}}<!--保存二维码到相册--></a></p>
-            <p class="two">{{symbolInfo.address}}</p>
+            <p class="two">{{getAddress}}</p>
             <p class="three" v-tap="{methods:copy}">{{$t('referral.copy')}}<!--复制--></p>
+            <template v-if="symbol==='EOS'">
+              <div class="header" style="margin-top: 0.5rem;">
+                <p><span>{{symbol}} {{$t('account.recharge_memo')}}<!--充值备注--></span></p>
+              </div>
+              <div ref="memoQrcode" class="qrcode" id="pictureMemo"></div>
+              <p class="first-child"><a @click="savePicMemo">{{$t('account.user_save_QRcode')}}<!--保存二维码到相册--></a></p>
+              <p class="two">{{symbolInfo.address}}</p>
+              <p class="three" v-tap="{methods:copyMemo}">{{$t('referral.copy')}}<!--复制--></p>
+            </template>
             <section>
               <div class="inner">
                 <h1>{{$t('public0.public243')}}：<!--温馨提示--></h1>
@@ -43,38 +52,67 @@ export default {
   data () {
     return {
       symbol: '',
-      address: ''
+      symbolInfo:{},
+      EOS_MEMO:''
     }
   },
   computed: {
     ...mapGetters(['getUserWallets']),
-    symbolInfo () {
-      let datas = this.getUserWallets
-      for (let i = 0; i < datas.length; i++) {
-        let d = datas[i]
-        if (this.$route.params.symbol === d.symbol) {
-          return d
-        }
-      }
-      return {}
+    getAddress(){
+      return this.symbol==='EOS'?this.EOS_MEMO:this.symbolInfo.address
     }
   },
   watch: {
     symbolInfo () {
       this.createQRCode()
+      this.createMQRCode()
+    },
+    getAddress(){
+      this.createQRCode()
     }
   },
   created () {
     this.symbol = this.$route.params.symbol
-    this.createQRCode()
+    this.getSymbolInfo()
+    if(this.symbol==='EOS' && !this.EOS_MEMO){
+      this.getEosAddress()
+    }
   },
   methods: {
+    getSymbolInfo () {
+      let datas = this.getUserWallets
+      for (let i = 0; i < datas.length; i++) {
+        let d = datas[i]
+        if (this.$route.params.symbol === d.symbol) {
+          this.symbolInfo = d
+          break
+        }
+      }
+    },
+    getEosAddress(){
+      userUtils.getEosAddress(data=>{
+        this.EOS_MEMO = data
+      })
+    },
     createQRCode () {
       if (!this.symbolInfo.address) {
         return
       }
+      console.log('this.symbolInfo===',this.symbolInfo)
       this.$nextTick(() => {
         utils.qrcode(this.$refs.qrcode, {
+          text: this.getAddress,
+          width: 373,
+          height: 373
+        })
+      })
+    },
+    createMQRCode () {
+      if (!this.symbolInfo.address) {
+        return
+      }
+      this.$nextTick(() => {
+        utils.qrcode(this.$refs.memoQrcode, {
           text: this.symbolInfo.address,
           width: 373,
           height: 373
@@ -84,7 +122,14 @@ export default {
     savePic () { // 保存图片
       cordovaUtils.saveImage(this.$refs.qrcode.querySelector('img').src)
     },
+    savePicMemo(){ //保存备注图片
+      cordovaUtils.saveImage(this.$refs.memoQrcode.querySelector('img').src)
+    },
     copy () {
+      utils.copyText(this.getAddress)
+      Toast(this.$t('public0.public33')) // 复制成功
+    },
+    copyMemo() {
       utils.copyText(this.symbolInfo.address)
       Toast(this.$t('public0.public33')) // 复制成功
     }
@@ -281,5 +326,10 @@ export default {
         text-align: left;
       }
     }
+  }
+  .wallet-contant {
+    height:-webkit-calc(~"100vh - 1.05rem");
+    height: calc(~"100vh - 1.05rem");
+    overflow-y: auto;
   }
 </style>

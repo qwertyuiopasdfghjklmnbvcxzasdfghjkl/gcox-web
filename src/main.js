@@ -28,7 +28,8 @@ import {
   TabContainerItem,
   Popup,
   Switch,
-  InfiniteScroll
+  InfiniteScroll,
+  Loadmore
 } from 'mint-ui' // 导入公共组件集合
 require('./api/directive') // 引入全局自定义指令集
 require('./api/filter') // 引入全局自定义过滤器
@@ -60,6 +61,7 @@ Vue.component(TabContainer.name, TabContainer)
 Vue.component(TabContainerItem.name, TabContainerItem)
 Vue.component(Popup.name, Popup)
 Vue.component(Switch.name, Switch)
+Vue.component(Loadmore.name, Loadmore)
 Vue.use(InfiniteScroll)
 Vue.use(VueAwesomeSwiper)
 

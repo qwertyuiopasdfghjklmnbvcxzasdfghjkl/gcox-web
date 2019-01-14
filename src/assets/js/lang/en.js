@@ -1256,7 +1256,8 @@ export default {
 		"user_center_SMS_code": "SMS Verification Code",
 		"user_Choose_type": "Choose Type",
 		"user_center_login_IP_address": "IP Address",
-		"user_center_history_coin": "Currency"
+		"user_center_history_coin": "Currency",
+		"recharge_memo":'Recharge Memo'
 	},
 	"trade_record": {
 		"exchange_record": "Exchange Order History",
@@ -1800,6 +1801,11 @@ export default {
 	    "ORDER_TIME":"Order time",
 	    "MOBILE":"MOBILE",
 	    "LOGIN_VOTE":"Please login and vote again."
+	},
+	languages:{
+		en:'English',
+		cht:'Chinese traditional',
+		zhCN:'Chinese simplified'
 	},
 	lastestVersion:'It\'s the latest version.',
 	ok:'Ok',
