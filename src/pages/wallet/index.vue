@@ -30,14 +30,14 @@
 
     <section id="scroll" class="box wallet-contant trans-records-scroll">
       <div class="inner">
-        <div v-for="(data,index) in filterDatas" class="item" v-tap="{methods:$root.routeTo, to:'page-trading', params:{symbol: data.symbol, symbolType: data.symbolType, index:data.index}}" :key="data.accountId">
+        <div v-for="(data,index) in filterDatas" class="item" v-tap="{methods:accountType===1?$root.routeTo:()=>{}, to:'page-trading', params:{symbol: data.symbol, symbolType: data.symbolType, index:data.index}}" :key="data.accountId">
           <div class="inner">
             <div class="header">
               <p>
                 <img :src="`data:image/png;base64,${data.iconBase64}`"/>
                 <span>{{data.symbol}}</span>
               </p>
-              <i class="i_right"></i>
+              <i class="i_right" v-show="accountType===1"></i>
             </div>
             <div class="content"><span>{{$t('account.estimated_value_available')}}<!--可用余额--></span><span>{{$t('public0.public34')}}<!--冻结金额--></span><span>{{$t('account.estimated_value_total')}}<!--总金额--></span></div>
             <div class="bottom"><span>{{data.availableBalance}}</span><span>{{data.frozenBalance}}</span><span>{{data.totalBalance}}</span></div>
@@ -45,6 +45,10 @@
         </div>
       </div>
     </section>
+    <button class="mint-button mint-button--primary mint-button--large transfer-btn"  @click="showTransfer=true">{{$t('vote_mining.funds_transfer')}}</button>
+    <mt-popup v-model="showTransfer" position="bottom">
+      <Transfer @closeDialog="closeTransferDialog" ref="transferDialog"></Transfer>
+    </mt-popup>
   </div>
 </template>
 
@@ -54,7 +58,12 @@ import { Indicator } from 'mint-ui'
 import Tip from '@/assets/js/tip'
 import numUtils from '@/assets/js/numberUtils'
 import userUtils from '@/api/wallet'
+import Transfer from '@/pages/vote_mining/transfer'
+
 export default {
+  components:{
+    Transfer,
+  },
   name: 'page-wallet',
   data () {
     return {
@@ -64,6 +73,7 @@ export default {
       hideZero: false, // 是否隐藏
       filterTitle: '', // 搜索框
       accountType:1,
+      showTransfer:false
     }
   },
   computed: {
@@ -116,6 +126,9 @@ export default {
   },
   methods: {
     ...mapActions(['setUserWallets']),
+    closeTransferDialog(){
+      this.showTransfer = false
+    },
     getList () {
       Indicator.open()
       userUtils.myAssets({}, (resSet) => {
@@ -141,13 +154,13 @@ export default {
   @font_color_transparent:#cbd4ec;
   @fs_24:.24rem;
   @f_c_2:#cfd3e9;
-
+  .transfer-btn {position: absolute; bottom: 0;left: 0; right: 0; border-radius: 0 !important; z-index: 1;}
   .accountTabs {
     display: flex;
     line-height: 0.8rem;
     background-color: #0c151d;
     font-size: 0.3rem;
-    margin-bottom: 8px;
+    margin-bottom: 0.16rem;
     span {flex: 1; text-align: center; border-bottom: 1px solid #0c151d; color: #fff;
       &.active {
         border-bottom-color: #0072fd;
@@ -158,7 +171,7 @@ export default {
   }
 
   .trans-records-scroll {
-    height: calc(~"100vh - 3.85rem");
+    height: calc(~"100vh - 4.7rem - 40px");
     background-color: #161f2f;
     overflow-y:auto;
   }

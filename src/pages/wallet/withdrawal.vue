@@ -42,7 +42,7 @@
         </div>
       </div>
       <div class="bottom" >
-        <button class="c-button c-button-normal c-button-blue" v-tap="{methods: walletWithdraw}">{{$t('account.estimated_value_withdrawal')}}<!--提现--></button>
+        <button class="mint-button mint-button--primary mint-button--large" v-tap="{methods: walletWithdraw}">{{$t('account.estimated_value_withdrawal')}}<!--提现--></button>
       </div>
     </div>
     <mt-popup class="place_order_popup" v-model="placeOrderVisible" position="bottom">
@@ -231,25 +231,7 @@ export default {
     width: 100%;
   }
 
-  .c-button{
-    font-size: .26rem;
-    appearance: none;
-    border-radius:.01rem;
-    border: 0;
-    box-sizing: border-box;
-    color: inherit;
-    display: inline-block;
-    height: .9rem;
-    outline: 0;
-    overflow: hidden;
-    position: relative;
-    text-align: center;
-  }
-  .c-button-blue{
-    color: #ffde00;
-    background-color: #292929;
-    border: 1px solid #ffde00;
-  }
+  
   .content {
     h1{
       padding: .3rem;
