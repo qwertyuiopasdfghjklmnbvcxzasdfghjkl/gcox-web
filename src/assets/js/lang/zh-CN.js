@@ -1812,8 +1812,8 @@ export default {
 	ok:'确定',
 	updateLog:"更新日志",
 	updateInfo:`
-	<p>1. 优化个人资产页面显示效果</p>
-	<p>2. 主菜单添加公告中心、帮助中心、提交请求页面链接</p>
-	<p>3. <a href="https://www.newtonxchange.com/static/newton-pro-1128.apk" download="newton-pro-1128.apk" target="_blank" style="color:#4394ff;">更好的体验，请重新下载App</p>
+	<p>1. 新增投票挖矿，资金划转模块</p>
+	<p>2. 完善EOS转账备注</p>
+	<p>3. 优化个人资产页面显示效果</p>
 	`
 }

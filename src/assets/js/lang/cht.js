@@ -1811,8 +1811,8 @@ export default {
 	ok:'確定',
 	updateLog:"更新日誌",
 	updateInfo:`
-	<p>1. 優化個人資產頁面顯示效果</p>
-	<p>2. 主菜單添加公告中心、幫助中心、提交請求頁面連結</p>
-	<p>3. <a href="https://www.newtonxchange.com/static/newton-pro-1128.apk" download="newton-pro-1128.apk" target="_blank" style="color:#4394ff;">更好的體驗，請重新下載App</p>
+	<p>1. 新增投票挖礦，資金劃轉模塊</p>
+	<p>2. 完善EOS轉賬備註</p>
+	<p>3. 優化個人資產頁面顯示效果</p>
 	`
 }

@@ -1811,8 +1811,8 @@ export default {
 	ok:'Ok',
 	updateLog:"Update log",
 	updateInfo:`
+	<p>1. New voting mining, fund transfer module</p>
+	<p>2. Improve EOS transfer notes</p>
 	<p>1. Optimizing the Display Effect of Personal Assets Page</p>
-	<p>2. Main menu add announcement center, help center, submit request page links</p>
-	<p>3. <a href="https://www.newtonxchange.com/static/newton-pro-1128.apk" download="newton-pro-1128.apk" target="_blank" style="color:#4394ff;">Better experience, please download App again</p>
 	`
 }
