@@ -181,6 +181,9 @@ export default {
     loadLoginInfo () {
       if (this.getApiToken) {
         walletApi.myAssets({}, (res) => {
+          res = res.filter(item=>{
+            return item.type===1
+          })
           this.setUserWallets(res)
         })
       } else {

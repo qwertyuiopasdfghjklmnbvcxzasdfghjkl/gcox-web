@@ -189,6 +189,9 @@ export default {
     },
     getWalletByCoin () {
       userUtils.myAssets({}, (res) => {
+        res = res.filter(item=>{
+          return item.type===1
+        })
         this.data = res
       })
     },

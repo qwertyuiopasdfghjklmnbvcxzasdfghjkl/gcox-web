@@ -322,6 +322,9 @@ export default {
     },
     getSymbolList () { // 获取币种列表
       userUtils.myAssets({}, (data) => {
+        data = data.filter(item=>{
+          return item.type===1
+        })
         this.symbolList = data.sort((item1, item2) => {
           if (item1.symbol === item2.symbol) {
             return 0
