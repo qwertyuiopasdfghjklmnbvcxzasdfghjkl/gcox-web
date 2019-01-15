@@ -30,7 +30,7 @@
 
     <section id="scroll" class="box wallet-contant trans-records-scroll">
       <div class="inner">
-        <div v-for="(data,index) in filterDatas" class="item" v-tap="{methods:accountType===1?$root.routeTo:()=>{}, to:'page-trading', params:{symbol: data.symbol, symbolType: data.symbolType, index:data.index}}" :key="data.accountId">
+        <div v-for="(data,index) in filterDatas" class="item" @click="goWalletDetail(data)" :key="data.accountId">
           <div class="inner">
             <div class="header">
               <p>
@@ -126,6 +126,11 @@ export default {
   },
   methods: {
     ...mapActions(['setUserWallets']),
+    goWalletDetail(data){
+      if(this.accountType===1){
+        this.$router.push({name:'page-trading', params:{symbol: data.symbol, symbolType: data.symbolType, index:data.index}})
+      }
+    },
     closeTransferDialog(){
       this.showTransfer = false
     },
