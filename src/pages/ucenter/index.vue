@@ -39,9 +39,10 @@
         <section class="item-section">
           <p v-tap="{methods:$root.routeTo, to:'page-saft'}"><i class="i_one3"></i><span>{{$t('account.user_center_safety')}}<!--安全中心--></span></p>
         </section>
-        <section class="item-section">
-          <p v-tap="{methods:$root.routeTo, to:'page-invite'}"><i class="i_one6"></i><span>{{$t('public0.public275')}}<!--推荐中心--></span></p>
-        </section>
+        <!--推荐中心-->
+        <!-- <section class="item-section">
+          <p v-tap="{methods:$root.routeTo, to:'page-invite'}"><i class="i_one6"></i><span>{{$t('public0.public275')}}</span></p>
+        </section> -->
         <section class="item-section">
           <p v-tap="{methods:$root.routeTo, to:'page-help'}"><i class="i_one4"></i><span>{{$t('account.user_center_help')}}<!--帮助--></span></p>
         </section>
