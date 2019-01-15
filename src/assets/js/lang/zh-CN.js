@@ -1683,7 +1683,9 @@ export default {
 		"helpURL":"https://newtonexchange.zendesk.com/hc/zh-cn/categories/360000871252-%E5%B8%AE%E5%8A%A9%E4%B8%AD%E5%BF%83",
 		"public290":"投票数必须大于等于10000",
 		"public291":"投票数必须为10000以上1000的整数倍",
-		"public292":"可用余额不足"
+		"public292":"可用余额不足",
+		"public285":"随时随地 流畅交易",
+		"public286":"无论你在何处都可以交易",
 
 	},
 	"vote_mining":{

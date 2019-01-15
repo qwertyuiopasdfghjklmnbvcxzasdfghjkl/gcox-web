@@ -1,7 +1,7 @@
 <template>
   <div class="page-top">
     <span class="btn-back" v-if="!showLogo && back" v-tap="{methods: jump}"></span>
-    <span class="left" v-if="showLogo">
+    <span class="left" v-if="showLogo" @click="$router.push('/home')">
       <img src="../../assets/img/cdcc/LOGO.png"/>
     </span>
     <slot></slot>

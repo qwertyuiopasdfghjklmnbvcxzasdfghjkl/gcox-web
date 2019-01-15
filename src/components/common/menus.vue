@@ -57,11 +57,11 @@
                 </li>
             </template>
             <!--APP下载-->
-            <!-- <li class="menu-item" v-if="!isApp">
+            <li class="menu-item" v-if="!isApp">
                 <router-link :to="{name:'page-download'}">
                     {{$t('public0.public212')}}
                 </router-link>
-            </li> -->
+            </li>
             <li class="menu-item language" :class="{unfold: languagesUnfold}" @click="languagesUnfold = !languagesUnfold">
                 <a>
                     {{$t('account.user_center_language')}}<!--语言-->

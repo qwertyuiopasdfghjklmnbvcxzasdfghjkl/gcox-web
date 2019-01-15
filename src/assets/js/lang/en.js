@@ -1683,7 +1683,9 @@ export default {
 		"helpURL":"https://newtonexchange.zendesk.com/hc/en-us/categories/360000871252-Help-Center",
 		"public290":"The number of votes must be greater than or equal to 10,000",
 		"public291":"The number of votes must be an integer multiple of 10,000 to 1000",
-		"public292":"Insufficient available balance"
+		"public292":"Insufficient available balance",
+		"public285":"Trading smoothly anytime, anywhere",
+		"public286":"No matter where you are, you can trade",
 	},
 	"vote_mining":{
 	    "estimate_profit_tips":"Vote for future estimates",
