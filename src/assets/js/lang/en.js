@@ -1813,8 +1813,9 @@ export default {
 	ok:'Ok',
 	updateLog:"Update log",
 	updateInfo:`
-	<p>1. New voting mining, fund transfer module</p>
-	<p>2. Improve EOS transfer notes</p>
-	<p>1. Optimizing the Display Effect of Personal Assets Page</p>
+	<p>1. Fix market pending order failure BUG</p>
+	<p>2. New voting mining, fund transfer module</p>
+	<p>3. Improve EOS transfer notes</p>
+	<p>4. Optimizing the Display Effect of Personal Assets Page</p>
 	`
 }
