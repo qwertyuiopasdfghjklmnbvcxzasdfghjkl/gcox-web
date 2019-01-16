@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import Tip from '@/assets/js/tip'
 import userApi from '@/api/individual'
 import userUtils from '@/api/wallet'
@@ -76,6 +77,7 @@ export default {
     this.getList()
   },
   methods: {
+    ...mapActions(['setUserWallets']),
     setAll(){
 
     },
@@ -110,6 +112,12 @@ export default {
       voteMiningApi.postTransfer(this.formData, res=>{
         Tip({type: 'success', message: this.$t('vote_mining.transfer_tips'), delay:3000})
         this.closeDialog()
+        userUtils.myAssets({}, (res) => {
+          res = res.filter(item=>{
+            return item.type===1
+          })
+          this.setUserWallets(res)
+        })
       },msg=>{
         Tip({type: 'danger', message: this.$t(`error_code.${msg}`)})
       })

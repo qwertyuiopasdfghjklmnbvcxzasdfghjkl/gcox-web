@@ -132,7 +132,7 @@ export default {
       currencyList: otcConfig.currencys,
       globalParams: {
         ad_type: 2,
-        symbol: 'BTC',
+        symbol: 'ETH',
         currency: 'CNY',
         state: 1, // 1未完成订单 2已完成订单 3已取消订单
         type: 0, // 0当前广告 1历史广告
