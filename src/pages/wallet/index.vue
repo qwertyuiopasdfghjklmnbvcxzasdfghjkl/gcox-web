@@ -145,7 +145,7 @@ export default {
         })
         this.myAssets = resSet
         this.showLoaing = false
-        this.setUserWallets(resSet)
+        // this.setUserWallets(resSet)
       }, (msg) => {
         Indicator.close()
         this.showLoaing = false

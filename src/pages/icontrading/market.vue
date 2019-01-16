@@ -94,7 +94,7 @@ export default {
     this.dataSocket && this.dataSocket.close()
   },
   methods: {
-    ...mapActions(['setLast24h', 'tiggerEvents','setMarketList','setUserWallets']),
+    ...mapActions(['setLast24h', 'tiggerEvents','setMarketList']),
     toggleMarketList (args) {
       this.showMarkets = !this.showMarkets
     },
