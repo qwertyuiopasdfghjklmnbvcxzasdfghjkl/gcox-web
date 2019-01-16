@@ -149,6 +149,11 @@ export default {
       this.checkLogin(to, from)
     }
   },
+  mounted(){
+    $('#app').on('click','input', (e)=>{
+      e.target.focus()
+    })
+  },
   methods: {
     ...mapActions(['setBTCValuation', 'setUSDCNY', 'setNetworkSignal','setBtcValues','setMarketList', 'setMarketConfig', 'setUserWallets', 'setUserInfo', 'setMenuVisible']),
     getMarketList () {
