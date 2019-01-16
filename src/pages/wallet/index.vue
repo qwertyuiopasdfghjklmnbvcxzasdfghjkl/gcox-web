@@ -47,7 +47,7 @@
     </section>
     <button class="mint-button mint-button--primary mint-button--large transfer-btn"  @click="showTransfer=true">{{$t('vote_mining.funds_transfer')}}</button>
     <mt-popup v-model="showTransfer" position="bottom">
-      <Transfer @closeDialog="closeTransferDialog" ref="transferDialog"></Transfer>
+      <Transfer @closeDialog="closeTransferDialog" @okCallback="transferDialogCallback" ref="transferDialog"></Transfer>
     </mt-popup>
   </div>
 </template>
@@ -134,6 +134,9 @@ export default {
     closeTransferDialog(){
       this.showTransfer = false
     },
+    transferDialogCallback(){
+      this.getList()
+    },
     getList () {
       Indicator.open()
       userUtils.myAssets({}, (resSet) => {
@@ -145,7 +148,6 @@ export default {
         })
         this.myAssets = resSet
         this.showLoaing = false
-        // this.setUserWallets(resSet)
       }, (msg) => {
         Indicator.close()
         this.showLoaing = false

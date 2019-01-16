@@ -111,6 +111,7 @@ export default {
       }
       voteMiningApi.postTransfer(this.formData, res=>{
         Tip({type: 'success', message: this.$t('vote_mining.transfer_tips'), delay:3000})
+        this.$emit('okCallback')
         this.closeDialog()
         userUtils.myAssets({}, (res) => {
           res = res.filter(item=>{
