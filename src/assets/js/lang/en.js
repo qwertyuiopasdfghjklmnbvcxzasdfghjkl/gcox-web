@@ -1815,10 +1815,7 @@ export default {
 	ok:'Ok',
 	updateLog:"Update log",
 	updateInfo:`
-	<p>1. Solve some browser clicks can't enter letters</p>
-	<p>2. Fix market pending order failure BUG</p>
-	<p>3. New voting mining, fund transfer module</p>
-	<p>4. Improve EOS transfer notes</p>
-	<p>5. Optimizing the Display Effect of Personal Assets Page</p>
+	<p> 1. Adjust OTC advertising strategy </p>
+	<p> 2. Optimizing market entrustment data </p>
 	`
 }
