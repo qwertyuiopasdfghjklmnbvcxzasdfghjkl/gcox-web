@@ -112,6 +112,8 @@ import orderlist from '@/pages/otc/orderlist'
 import placeorder from '@/pages/otc/placeorder'
 import myadslist from '@/pages/otc/myadslist'
 import Tip from '@/assets/js/tip'
+import shopsApi from '@/api/shops'
+
 Vue.component(TabContainer.name, TabContainer)
 Vue.component(TabContainerItem.name, TabContainerItem)
 export default {
@@ -124,6 +126,7 @@ export default {
   },
   data () {
     return {
+      isShop:false,
       placeOrderVisible: false,
       scroll: false,
       active: 'tab-container1',
@@ -168,6 +171,7 @@ export default {
     }
   },
   created(){
+    this.getShopsApply()
     if(this.$route.params.tab){
       this.active = this.$route.params.tab
       if(this.active==='tab-container1'){
@@ -190,6 +194,19 @@ export default {
     ...mapGetters(['getApiToken']),
   },
   methods: {
+    getShopsApply(){
+      if(this.getApiToken){
+        shopsApi.getShopsApply(res=>{
+          this.isShop = (res.data && res.data.state===3) || false
+        })
+      }
+    },
+    goToMyCenter () {
+      this.$router.push('/realname')
+    },
+    goToSettings () {
+      this.$router.push('/payway')
+    },
     checkSetState (successCallback, message, isCheckPaySet, isCheckPayType, id) {
       if (!this.getApiToken) {
         Tip({type: 'danger', message: this.$t(message)}) // 请登录后再发布广告||请登录后再交易
@@ -208,8 +225,7 @@ export default {
                     id: 'PAY_TYPE_UNMATCH',
                     content: this.$t('error_code.PAY_TYPE_UNMATCH'), // 支付方式不匹配，请设置对应的支付方式
                     okCallback: () => {
-                      this.$emit('goToSettings')
-                      this.$emit('removeDialog')
+                      this.goToSettings()
                     }
                   })
                 } else {
@@ -217,7 +233,18 @@ export default {
                 }
               })
             } else {
-              successCallback && successCallback(res.data.pay_type)
+              if(this.isShop){
+                successCallback && successCallback(res.data.pay_type)
+              } else {
+                Vue.$confirmDialog({
+                  id: 'goShopsApply',
+                  content: this.$t('business.ISSHOPS'),
+                  okCallback: () => {
+                    Tip({type: 'info', message: this.$t('business.APPLYISMADING')})
+                    // this.$router.push({to:'/mycenter/agencyApply'})
+                  }
+                })
+              }
             }
           }, (res) => {
             if (res.msg === 'NO_PAY_TYPE') {
@@ -225,8 +252,7 @@ export default {
                 id: 'NO_PAY_TYPE',
                 content: this.$t('error_code.SET_PAY_TYPE_FIRST'), // 请先设置支付方式
                 okCallback: () => {
-                  this.$emit('goToSettings')
-                  this.$emit('removeDialog')
+                  this.goToSettings()
                 }
               })
             } else {
@@ -242,8 +268,7 @@ export default {
             id: 'KYC_AUTH_FIRST',
             content: this.$t('error_code.KYC_AUTH_FIRST'), // 请先完成实名验证
             okCallback: () => {
-              this.$emit('goToMyCenter')
-              this.$emit('removeDialog')
+              this.goToMyCenter()
             }
           })
         } else {

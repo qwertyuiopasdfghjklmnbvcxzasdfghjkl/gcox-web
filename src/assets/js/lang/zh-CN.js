@@ -1803,7 +1803,9 @@ export default {
 	    "TOTAL_TRANSACTIONS":"总成交笔数",
 	    "ORDER_TIME":"下单时间",
 	    "MOBILE":"手机号码",
-	    "LOGIN_VOTE":"请登录后再投票"
+	    "LOGIN_VOTE":"请登录后再投票",
+	    "ISSHOPS":'非商家无法发布广告，是否立即申请？',
+	    "APPLYISMADING":'请先前往PC端申请。'
 	},
 	languages:{
 		en:'English',

@@ -164,7 +164,7 @@ const exportHistory = function (date, success, error) {
 market.exportHistory = exportHistory
 // 根据Symbol获取当前委托
 const getCurrentEntrustBySymbol = function (history, market, success, error) {
-  api.get(`${domain}api/v3/trade/my/orderBook?history=${history}&market=${market}`, (res) => {
+  api.get(`${domain}api/v3/trade/my/orderBook?history=${history}`, (res) => {
     if (res.rst === 1) {
       success && success(res.data)
     } else {
@@ -176,7 +176,7 @@ market.getCurrentEntrustBySymbol = getCurrentEntrustBySymbol
 
 // 历史成交
 const getHistoryDeal = function (history, market, success, error) {
-  api.get(`${domain}api/v3/trade/my/orderBook?history=${history}&market=${market}`, (res) => {
+  api.get(`${domain}api/v3/trade/my/orderBook?history=${history}`, (res) => {
     if (res.rst === 1) {
       success && success(res.data)
     } else {

@@ -1802,7 +1802,9 @@ export default {
 	    "TOTAL_TRANSACTIONS":"Total number of transactions",
 	    "ORDER_TIME":"Order time",
 	    "MOBILE":"MOBILE",
-	    "LOGIN_VOTE":"Please login and vote again."
+	    "LOGIN_VOTE":"Please login and vote again.",
+	    "ISSHOPS":'Non-merchase can\'t post ads, do you apply now?',
+	    "APPLYISMADING":'Please apply to PC before.'
 	},
 	languages:{
 		en:'English',

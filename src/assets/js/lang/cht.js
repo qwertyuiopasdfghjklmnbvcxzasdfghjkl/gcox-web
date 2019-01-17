@@ -1802,7 +1802,9 @@ export default {
 	    "TOTAL_TRANSACTIONS":"總成交筆數",
 	    "ORDER_TIME":"下單時間",
 	    "MOBILE":"手機號碼",
-	    "LOGIN_VOTE":"請登入後再投票"
+	    "LOGIN_VOTE":"請登入後再投票",
+	    "ISSHOPS":'非商戶無法發布廣告，是否立即申請？',
+	    "APPLYISMADING":'請先前往PC端申請。'
 	},
 	languages:{
 		en:'English',

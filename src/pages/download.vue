@@ -22,11 +22,11 @@
                         </a>
                     </div>
                     <div class="download-buttons" v-if="!isWeiXi">
-                        <a class="button" :class="{en:getLang=='en'}" href="https://www.cdcc.ink/static/CDCC-2019-01-14.apk" download="CDCC-2019-01-14.apk">
+                        <a class="button" :class="{en:getLang=='en'}" href="https://www.cdcc.ink/static/cdcc-release-1.0.1.apk" target="_blank">
                             <!--安卓下载-->
                             {{$t('public0.public226')}}
                         </a>
-                        <a class="button" :class="{en:getLang=='en'}" href="https://www.pgyer.com/68kt">
+                        <a class="button" :class="{en:getLang=='en'}" href="https://www.pgyer.com/68kt" target="_blank">
                             <!--IOS下载-->
                             {{$t('public0.public227')}}
                         </a>
