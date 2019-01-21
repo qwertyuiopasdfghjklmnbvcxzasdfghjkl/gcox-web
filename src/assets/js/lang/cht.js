@@ -1815,7 +1815,6 @@ export default {
 	ok:'確定',
 	updateLog:"更新日誌",
 	updateInfo:`
-	<p>1.調整OTC發佈廣告策略</p>
-	<p>2.優化市場委託數據</p>
+	<p>1. 調整二次驗證密碼規則</p>
 	`
 }

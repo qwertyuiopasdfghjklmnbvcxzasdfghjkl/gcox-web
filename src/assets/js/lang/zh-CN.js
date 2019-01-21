@@ -1816,7 +1816,6 @@ export default {
 	ok:'确定',
 	updateLog:"更新日志",
 	updateInfo:`
-	<p>1. 调整OTC发布广告策略</p>
-	<p>2. 优化市场委托数据</p>
+	<p>1. 调整二次验证密码规则</p>
 	`
 }

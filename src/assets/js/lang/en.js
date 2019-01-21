@@ -1815,7 +1815,6 @@ export default {
 	ok:'Ok',
 	updateLog:"Update log",
 	updateInfo:`
-	<p> 1. Adjust OTC advertising strategy </p>
-	<p> 2. Optimizing market entrustment data </p>
+	<p>1. Adjust the secondary verification password rule</p>
 	`
 }
