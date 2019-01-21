@@ -3,7 +3,7 @@
     <div class="title">{{mobileState === 1 ? $t('auth_warning.warning_SMS_auth') : $t('auth_warning.warning_google_auth')}}<!--短信验证||谷歌验证--></div>
     <!--短信验证-->
     <div class="form" v-if="mobileState === 1">
-      <input class="input" ref="box" type="password" v-validate="'required'" name="password" :msgs="msgs.password" :errs="errors" v-model="comData.password" :title="$t('account.user_center_login_password')" :placeholder="$t('account.user_center_login_password')"><!--登录密码-->
+      <input class="input" ref="box" type="password" v-validate="'required'" name="passwordVerify" :msgs="msgs.password" :errs="errors" v-model="comData.password" :title="$t('account.user_center_login_password')" :placeholder="$t('account.user_center_login_password')"><!--登录密码-->
       <div class="smsCode">
         <input class="input" v-validate="'required|pInteger'" :maxLength="6" name="smsCode" :msgs="msgs.smsCode" :errs="errors" v-model="comData.smsCode" :title="$t('account.user_center_SMS_code')" :placeholder="$t('account.user_center_SMS_code')"><!--短信验证码-->
         <span :class="{disabled: disabled}" @click="sendSMSCode">{{$t('account.user_center_send_SMS')}}<!--发送验证码-->{{disabled ? `（${time}s）` : ''}}</span>
