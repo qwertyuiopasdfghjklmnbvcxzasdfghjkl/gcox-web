@@ -37,11 +37,12 @@
 import Vue from 'vue'
 import {mapGetters} from 'vuex'
 import utils from '@/assets/js/utils'
+import config from '@/assets/js/config'
 export default {
   data () {
     return {
       isWeiXi: /MicroMessenger/i.test(window.navigator.userAgent),
-      apk:'https://www.cdcc.ink/static/cdcc-release-1.0.1.apk',
+      apk:`${config.origin}/static/cdcc-release-1.0.1.apk`,
       ios:'https://www.pgyer.com/68kt'
     }
   },
