@@ -1,4 +1,4 @@
-let domain = process.env.NODE_ENV === 'development' ? 'pre.cdcc.ink' : (location.host.split(':')[0] || 'dev.koall.io')
+let domain = process.env.NODE_ENV === 'development' ? 'pre.cdcc.ink' : location.host.split(':')[0]
 if (process.env.SERVER_DOMAIN) {
   domain = process.env.SERVER_DOMAIN
 }

@@ -13,7 +13,7 @@
     "build": "node build/build.js",
     "build-sit": "npm run build -- SERVER_DOMAIN='\"pre.cdcc.ink\"' HTTPS=false APP=true",
     "build-test": "npm run build -- SERVER_DOMAIN='\"pre.cdcc.ink\"' APP=true",
-    "build-pro": "npm run build -- SERVER_DOMAIN='\"api.cdcc.ink\"' APP=false",
+    "build-pro": "npm run build -- APP=false",
     "build-app": "npm run build -- SERVER_DOMAIN='\"api.cdcc.ink\"' APP=true"
 
   },

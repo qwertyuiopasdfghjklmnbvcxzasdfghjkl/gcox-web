@@ -22,7 +22,7 @@
                         </a>
                     </div>
                     <div class="download-buttons" v-if="!isWeiXi">
-                        <a class="button" :class="{en:getLang=='en'}" href="https://www.cdcc.ink/static/cdcc-release-1.0.1.apk" target="_blank">
+                        <a class="button" :class="{en:getLang=='en'}" :href="apk" target="_blank">
                             <!--安卓下载-->
                             {{$t('public0.public226')}}
                         </a>
@@ -49,6 +49,9 @@
 <script>
 import Vue from 'vue'
 import {mapGetters} from 'vuex'
+import config from '@/assets/js/config'
+import Tip from '@//assets/js/tip'
+
 export default {
   name: 'page-download',
   data () {
@@ -57,14 +60,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getLang'])
+    ...mapGetters(['getLang']),
+    apk(){
+        return `${config.url}/static/cdcc-release-1.0.1.apk`
+    }
   },
   methods: {
     showTip () {
-      Vue.$koallTipBox({icon: 'notification', message: this.$t('public0.public213')})
-    },
-    showTip2 () {
-      Vue.$confirmDialog({content: 'Coming soon', showCancel: false})
+      Tip({icon: 'danger', message: this.$t('public0.public213')})
     }
   }
 }
