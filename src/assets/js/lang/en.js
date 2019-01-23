@@ -1815,6 +1815,6 @@ export default {
 	ok:'Ok',
 	updateLog:"Update log",
 	updateInfo:`
-	<p>1. Adjust the secondary verification password rule</p>
+	<p>1. Home page ups and downs increase real-time updates</p>
 	`
 }
