@@ -95,6 +95,7 @@ export default {
   },
   data () {
     return {
+      marketInterval:null,
       swiperOption: {
         pagination: {
           el: '.swiper-pagination'
@@ -145,6 +146,13 @@ export default {
   },
   created () {
     this.getMarketCom()
+    this.marketInterval = setInterval(()=>{
+      this.getMarketCom()
+      window.getMarketList()
+    },5000)
+  },
+  beforeDestroy(){
+    clearInterval(this.marketInterval)
   },
   methods: {
     changeMarket(args){

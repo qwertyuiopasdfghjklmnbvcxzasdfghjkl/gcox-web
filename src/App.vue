@@ -43,6 +43,7 @@ export default {
     }
   },
   created () {
+    window.getMarketList = this.getMarketList
     let isfirst = localStorage.getItem('firstBitark')
     if(!isfirst && this.showGuide){
       // this.$router.replace({name: 'guide'})
