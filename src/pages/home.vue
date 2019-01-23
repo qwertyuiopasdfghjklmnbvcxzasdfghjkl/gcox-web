@@ -102,11 +102,12 @@ export default {
         }
       },
       products: [],
+      getMarketList:null,
       active: 'tab-rise-list'
     }
   },
   computed: {
-    ...mapGetters(['getMarketList']),
+    ...mapGetters(['getApiToken']),
     riseList () {
       if (!this.getMarketList) {
         return []
@@ -146,15 +147,27 @@ export default {
   },
   created () {
     this.getMarketCom()
+    this.getLocalMarketList()
     this.marketInterval = setInterval(()=>{
       this.getMarketCom()
-      window.getMarketList()
+      this.getLocalMarketList()
     },5000)
   },
   beforeDestroy(){
     clearInterval(this.marketInterval)
   },
   methods: {
+    getLocalMarketList () {
+      //更新获取市场列表
+      marketApi.marketList((res) => {
+        if (!this.getApiToken) {
+          res.forEach((item) => {
+            item.collection = false
+          })
+        }
+        this.getMarketList = res
+      })
+    },
     changeMarket(args){
       this.$router.replace({name:'exchange-market', params:{market:`${args.market.currencySymbol}_${args.market.baseSymbol}`}})
     },
