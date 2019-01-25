@@ -21,6 +21,8 @@ import GlobalWebSocket from '@/assets/js/websocket'
 import OtcWebSocket from '@/assets/js/websocket-otc'
 import bheader from '@/components/header'
 import userApi from '@/api/user'
+import marketApi from '@/api/market'
+
 export default {
   name: 'app',
   components: {
@@ -87,6 +89,7 @@ export default {
     }
   },
   created () {
+    this.getBTCValuation()
     this.getUserInfoMethod()
     this.checkRouteChange(this.$route)
     this.ws = new OtcWebSocket({
@@ -127,6 +130,15 @@ export default {
   },
   methods: {
     ...mapActions(['setBTCValuation', 'setUSDCNY', 'setNetworkSignal', 'setUserInfo']),
+    getBTCValuation(){
+      marketApi.BTCValuation(data=>{
+        this.setUSDCNY({
+          USD: numUtils.BN(data.USD).toFixed(2),
+          CNY: numUtils.BN(data.USDCNY).toFixed(2)
+        })
+        this.setBTCValuation(numUtils.BN(data.totalAmount).toFixed(8)) // 当前转换人民币
+      })
+    },
     checkRouteChange (currentRoute) {
       if (this.getApiToken) {
         currentRoute.meta.noEntry ? this.$router.push({name: 'home'}) : void 0

@@ -218,7 +218,7 @@ export default {
           verifyState: data.verifyState,
           verifyTimes: data.verifyTimes
         }
-        this.isUseCDCCPay = data.coinState === 1
+        this.isUseCDCCPay = (data.coinState === 1)
         this.vsloaded = true
       }, (msg) => {
         console.error(msg)

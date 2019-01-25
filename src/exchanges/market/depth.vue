@@ -100,12 +100,21 @@ export default {
     },
     filterAsks () {
       let asks = this.mergeDatas(this.asks)
+      asks = asks.filter(item=>{
+        let amount = numUtils.mul(item.avaliableAmount, item.price).toFixed(8)
+        return numUtils.BN(amount).gt('0.00000000') ? true : false
+      })
       return asks.sort((item1, item2) => {
         return numUtils.BN(item1.price).lt(item2.price) ? 1 : -1
       })
     },
     filterBids () {
-      return this.mergeDatas(this.bids)
+      let bids = this.mergeDatas(this.bids)
+      bids = bids.filter(item=>{
+        let amount = numUtils.mul(item.avaliableAmount, item.price).toFixed(8)
+        return numUtils.BN(amount).gt('0.00000000') ? true : false
+      })
+      return bids
     },
     askMax () {
       return this.getMaxAmount(this.filterAsks)
