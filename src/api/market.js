@@ -321,4 +321,16 @@ const rateSysparams = function (success, error) {
 }
 market.rateSysparams = rateSysparams
 
+// BTC估值
+const BTCValuation = function (success, error) {
+  api.get(`${domain}api/v3/kline/valuation`, (res) => {
+    if (res.rst === 1) {
+      success && success(res.data)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+market.BTCValuation = BTCValuation
+
 export default market
