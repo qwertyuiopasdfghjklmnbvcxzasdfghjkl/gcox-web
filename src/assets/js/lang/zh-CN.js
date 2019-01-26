@@ -1816,6 +1816,6 @@ export default {
 	ok:'确定',
 	updateLog:"更新日志",
 	updateInfo:`
-	<p>1. 首页涨跌幅榜增加实时更新</p>
+	<p>1. 调整首页成交量精度</p>
 	`
 }

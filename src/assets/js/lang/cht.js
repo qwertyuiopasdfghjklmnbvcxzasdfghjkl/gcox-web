@@ -1815,6 +1815,6 @@ export default {
 	ok:'確定',
 	updateLog:"更新日誌",
 	updateInfo:`
-	<p>1. 首頁漲跌幅榜增加實時更新</p>
+	<p>1. 調整首頁成交量精度</p>
 	`
 }

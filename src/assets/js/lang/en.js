@@ -1815,6 +1815,6 @@ export default {
 	ok:'Ok',
 	updateLog:"Update log",
 	updateInfo:`
-	<p>1. Home page ups and downs increase real-time updates</p>
+	<p>1. Adjust the volume accuracy of the home page</p>
 	`
 }

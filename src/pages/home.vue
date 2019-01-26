@@ -48,7 +48,7 @@
                   <span>
                     <font>{{item.currencySymbol}}</font>/{{item.baseSymbol}}
                   </span>
-                  <span>24H {{toFixed(item.dealAmount, 0)}}</span>
+                  <span>24H {{toFixed(item.dealAmount, 2)}}</span>
                 </div>
                 <div class="middle">
                   <span :class="{rise:Number(item.direction)===1,fall:Number(item.direction)===2}">{{toFixed(item.lastPrice)}}</span>
@@ -66,7 +66,7 @@
                   <span>
                     <font>{{item.currencySymbol}}</font>/{{item.baseSymbol}}
                   </span>
-                  <span>24H {{toFixed(item.dealAmount, 0)}}</span>
+                  <span>24H {{toFixed(item.dealAmount, 2)}}</span>
                 </div>
                 <div class="middle">
                   <span :class="{rise:Number(item.direction)===1,fall:Number(item.direction)===2}">{{toFixed(item.lastPrice)}}</span>
@@ -197,9 +197,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .page-container{position:absolute;top:0.8rem;left:0;right:0;bottom:0;overflow-y:auto;overflow-x:hidden;}
-.img-banner{width:100%;}
+.img-banner{width:100%; height: 3.91rem;}
 .img-banner /deep/ img{width:100%;}
 .recommend-banner{width:100%;height:1.6rem;display:flex;flex-direction:column;}
 .recommend-banner /deep/ .swiper-container{width:100%;height:100%;}
@@ -254,5 +254,10 @@ export default {
   font-size:0.3rem;font-weight:bold;
   background:#0072fd;
 }
-.tab-bg{background-color: #fff;}
+.tab-bg .sysmbol-list{background-color: #fff;}
+
+.tab-bg /deep/ .mint-tab-container-item {
+  height:-webkit-calc(~"100vh - 7.01rem");
+  height: calc(~"100vh - 7.01rem");
+}
 </style>
