@@ -257,7 +257,7 @@ export default {
 .tab-bg .sysmbol-list{background-color: #fff;}
 
 .tab-bg /deep/ .mint-tab-container-item {
-  height:-webkit-calc(~"100vh - 7.01rem");
-  height: calc(~"100vh - 7.01rem");
+  min-height:-webkit-calc(~"100vh - 7.01rem");
+  min-height: calc(~"100vh - 7.01rem");
 }
 </style>
