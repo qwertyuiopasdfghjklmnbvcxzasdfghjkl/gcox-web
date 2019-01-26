@@ -89,7 +89,7 @@
                     </li>
                     <li>
                       <h1><span>{{item.currencySymbol}}</span>/<i>{{item.baseSymbol}}</i></h1>
-                      <h2>24H {{toFixed(item.dealAmount, 0)}}</h2>
+                      <h2>24H {{toFixed(item.dealAmount, 2)}}</h2>
                     </li>
                     <li>
                       <h1>{{toFixed(item.lastPrice)}}</h1>
@@ -119,7 +119,7 @@
                     </li>
                     <li>
                       <h1><span>{{item.currencySymbol}}</span>/<i>{{item.baseSymbol}}</i></h1>
-                      <h2>24H {{toFixed(item.dealAmount, 0)}}</h2>
+                      <h2>24H {{toFixed(item.dealAmount, 2)}}</h2>
                     </li>
                     <li>
                       <h1>{{toFixed(item.lastPrice)}}</h1>
@@ -149,7 +149,7 @@
                     </li>
                     <li>
                       <h1><span>{{item.currencySymbol}}</span>/<i>{{item.baseSymbol}}</i></h1>
-                      <h2>24H {{toFixed(item.dealAmount, 0)}}</h2>
+                      <h2>24H {{toFixed(item.dealAmount, 2)}}</h2>
                     </li>
                     <li>
                       <h1>{{toFixed(item.lastPrice)}}</h1>
@@ -179,7 +179,7 @@
                     </li>
                     <li>
                       <h1><span>{{item.currencySymbol}}</span>/<i>{{item.baseSymbol}}</i></h1>
-                      <h2>24H {{toFixed(item.dealAmount, 0)}}</h2>
+                      <h2>24H {{toFixed(item.dealAmount, 2)}}</h2>
                     </li>
                     <li>
                       <h1>{{toFixed(item.lastPrice)}}</h1>
