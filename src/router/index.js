@@ -36,6 +36,10 @@ import msg from '@/pages/ucenter/msg'
 import about from '@/pages/ucenter/about'
 import help from '@/pages/ucenter/help'
 import saft from '@/pages/ucenter/saft'
+import apply from '@/pages/ucenter/apply'
+import apply_form from '@/pages/ucenter/apply_form'
+import apply_legal from '@/pages/ucenter/apply_legal'
+import merchant_manager from '@/pages/ucenter/merchantManage'
 import editPwd from '@/pages/ucenter/editPwd'
 import bindgoogle from '@/pages/ucenter/bindgoogle'
 import myInfo from '@/pages/ucenter/myInfo'/*我的资料*/
@@ -218,6 +222,34 @@ const router = new Router({
       path: '/saft',
       name: saft.name,
       component: saft,
+      meta: {login: true}
+    },
+    /*个人中心--商家申请*/
+    {
+      path: '/apply',
+      name: apply.name,
+      component: apply,
+      meta: {login: true}
+    },
+    /*个人中心--商家申请表*/
+    {
+      path: '/apply/apply_form',
+      name: apply_form.name,
+      component: apply_form,
+      meta: {login: true}
+    },
+    /*个人中心--商家申请条款*/
+    {
+      path: '/apply_legal',
+      name: apply_legal.name,
+      component: apply_legal,
+      meta: {login: true}
+    },
+    /*个人中心--商家管理*/
+    {
+      path: '/merchant_manager',
+      name: merchant_manager.name,
+      component: merchant_manager,
       meta: {login: true}
     },
     /*修改密码*/

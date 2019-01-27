@@ -39,6 +39,12 @@
         <section class="item-section">
           <p v-tap="{methods:$root.routeTo, to:'page-saft'}"><i class="i_one3"></i><span>{{$t('account.user_center_safety')}}<!--安全中心--></span></p>
         </section>
+        <section class="item-section">
+          <p v-tap="{methods:$root.routeTo, to:'page-apply'}"><i class="i_one8"></i><span>{{$t('seller_apply.seller_agency_apply')}}<!--商家申请--></span></p>
+        </section>
+        <section class="item-section">
+          <p v-tap="{methods:$root.routeTo, to:'page-manager'}"><i class="i_one8"></i><span>{{$t('seller_apply.merchant_manage')}}<!--商家管理--></span></p>
+        </section>
         <!--推荐中心-->
         <!-- <section class="item-section">
           <p v-tap="{methods:$root.routeTo, to:'page-invite'}"><i class="i_one6"></i><span>{{$t('public0.public275')}}</span></p>
@@ -270,7 +276,7 @@ export default {
   .item-section:nth-of-type(2) {
     margin-top: .2rem;
   }
-  .item-section:nth-of-type(5) {
+  .item-section:nth-of-type(7) {
     margin-top: .2rem;
   }
   .item-section {
@@ -320,6 +326,10 @@ export default {
     }
     .i_one7{
       background:url("../../assets/img/i_version.png") no-repeat left;
+      background-size: 100% 100%;
+    }
+    .i_one8{
+      background:url("../../assets/img/i_saft.png") no-repeat left;
       background-size: 100% 100%;
     }
   }

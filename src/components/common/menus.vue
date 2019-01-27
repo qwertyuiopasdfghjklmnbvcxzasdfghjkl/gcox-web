@@ -210,7 +210,7 @@ export default {
 
 <style scoped>
 .menus-container{width:4.92rem;height:100vh;background-color:#EFF0F4;font-size:0.24rem;}
-.menus-container /deep/ .top{display:flex;height:0.8rem;background-color:#292929;align-items:center;}
+.menus-container /deep/ .top{display:flex;height:0.8rem;background-color:#0c151d;align-items:center;}
 .menus-container /deep/ .top li{margin-right:0.19rem;}
 .menus-container /deep/ .top li:first-child{margin:0 0.3rem;}
 .menus-container /deep/ .top li a:active{color: #ffde00;}

@@ -329,12 +329,12 @@ export default {
 }
 .entrust-container {
     .mint-navbar {
-      background-color: #292929;
+      background-color: #0c151d;
       width:calc(~"100% + 0.6rem");
       margin-left:-0.3rem;
       .mint-tab-item {
         color: #8089a3;
-        border-bottom: 2px solid #292929;
+        border-bottom: 2px solid #0c151d;
         padding: 0.26rem 0.4rem;
         flex:inherit;
         margin-left:0.2rem;
