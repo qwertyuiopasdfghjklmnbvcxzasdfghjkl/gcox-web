@@ -18,6 +18,9 @@ import userApi from '@/api/individual'
 export default {
   name: 'page-apply-legal',
   data () {
+    return{
+      
+    }
   },
   methods: {
   }
