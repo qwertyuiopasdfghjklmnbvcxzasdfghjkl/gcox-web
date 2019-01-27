@@ -204,11 +204,13 @@ export default {
         if(!this.formData[item]){
           this.megTip[item] = this.msgs[item].required
           this.showTip[item] = true
+          return
         }
         if((item != 'commity')&&this.formData[item]){
           if(!this.reg[item].test(this.formData[item])){
             this.megTip[item] = this.msgs[item].err
             this.showTip[item] = true
+            return
           }
         } 
       }
