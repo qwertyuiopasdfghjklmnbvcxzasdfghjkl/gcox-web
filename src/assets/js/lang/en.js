@@ -1844,6 +1844,6 @@ export default {
 	ok:'Ok',
 	updateLog:"Update log",
 	updateInfo:`
-	<p>1. Adjust the volume accuracy of the home page</p>
+	<p>1. Add a business application and business management</p>
 	`
 }

@@ -1844,6 +1844,6 @@ export default {
 	ok:'確定',
 	updateLog:"更新日誌",
 	updateInfo:`
-	<p>1. 調整首頁成交量精度</p>
+	<p>1. 添加商家申請及商家管理</p>
 	`
 }

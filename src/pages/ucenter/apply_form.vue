@@ -246,11 +246,11 @@ export default {
           cancelButtonText:this.$t(`otc_legal.otc_legal_cancel`)
         }).then(action => {
           if(msg==='MOBILE_AUTH_FIRST'){
-            location.href='/#/saft'
+            this.$router.push({name:'page-saft'})
           } else if(msg==='KYC_AUTH_FIRST'){
-            location.href='/#/realname'
+            this.$router.push({name:'page-realname'})
           } else if(msg==='NO_PAY_TYPE'){
-            location.href='/#/payway'
+            this.$router.push({name:'page-payway'})
           } 
         })
       })

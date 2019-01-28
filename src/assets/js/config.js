@@ -15,7 +15,7 @@ const config = {
   protocol: protocol,
   brand: 'cdcc',
   mySymbol: 'CDCC',
-  version:'1.0.5'
+  version:'1.0.6'
 }
 
 export default config
