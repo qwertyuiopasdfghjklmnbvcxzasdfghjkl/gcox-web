@@ -1,79 +1,84 @@
 <template>
   <div class="page">
     <cp-top-back :showRight="false">
-      <h1>{{$t('seller_apply.seller_agency_apply')}}<!--商家申请--></h1>
+      <h1>{{$t('business.MERCHANT_APPLICATION')}}<!--商家申请--></h1>
     </cp-top-back>
 
     <div class="page-main content">
       <div class="inner">
-        <label for="">{{$t('seller_apply.mobile')}}：</label>
+        <label for="">{{$t('business.MOBILE')}}：</label>
         <div class="inpwp">
           <input 
             @blur="valVerify('mobile','blur')" 
             @input="valVerify('mobile','input')" 
             name="mobile" 
             v-model="formData.mobile" 
-            :placeholder="$t('seller_apply.entry_mobile')"><!--手机号-->
+            :placeholder="$t('public0.public287')+$t('business.MOBILE')"
+            :class="{error:showTip.mobile}"><!--手机号-->
           <p v-show="showTip.mobile" class="infor"><img width="14" src="../../assets/img/i-tiperr.png" alt=""> {{megTip.mobile}}</p>
         </div>
       </div>
       <div class="inner">
-        <label for="">{{$t('seller_apply.wechat')}}：</label>
+        <label for="">{{$t('business.WECHAT')}}：</label>
         <div class="inpwp">
           <input
             @blur="valVerify('wechat','blur')" 
             @input="valVerify('wechat','input')" 
             name="wechat" 
             v-model="formData.wechat" 
-            :placeholder="$t('seller_apply.entry_wechat')"><!--手机号-->
+            :placeholder="$t('public0.public287')+$t('business.WECHAT')"
+            :class="{error:showTip.wechat}"><!--微信号-->
           <p v-show="showTip.wechat" class="infor"><img width="14" src="../../assets/img/i-tiperr.png" alt="">  {{megTip.wechat}}</p>
         </div>
       </div>
       <div class="inner">
-        <label for="">{{$t('seller_apply.qq')}}：</label>
+        <label for="">{{$t('business.QQ')}}：</label>
         <div class="inpwp">
           <input
             @blur="valVerify('qq','blur')" 
             @input="valVerify('qq','input')" 
             name="qq" 
             v-model="formData.qq" 
-            :placeholder="$t('seller_apply.entry_qq')"><!--手机号-->
+            :placeholder="$t('business.QQ')"
+            :class="{error:showTip.qq}"><!--QQ号-->
           <p v-show="showTip.qq" class="infor"><img width="14" src="../../assets/img/i-tiperr.png" alt="">  {{megTip.qq}}</p>
         </div>
       </div>
       <div class="inner">
-        <label for="">{{$t('seller_apply.email')}}：</label>
+        <label for="">{{$t('login_register.email')}}：</label>
         <div class="inpwp">
           <input
             @blur="valVerify('email','blur')" 
             @input="valVerify('email','input')" 
             name="email" v-model="formData.email" 
-            :placeholder="$t('seller_apply.entry_email')"><!--手机号-->
+            :placeholder="$t('login_register.email')"
+            :class="{error:showTip.email}"><!--邮件-->
           <p v-show="showTip.email" class="infor"><img width="14" src="../../assets/img/i-tiperr.png" alt="">  {{megTip.email}}</p>
         </div>
       </div>
       <div class="inner">
-        <label for="">{{$t('seller_apply.commity')}}：</label>
+        <label for="">{{$t('business.CHOOSE_COMMUNITY')}}：</label>
         <div class="inpwp sel">
           <input
             readonly="readonly" 
-            name="commity" 
-            v-model="formData.commity" 
-            :placeholder="$t('seller_apply.entry_commity')" 
-            @click="showCommity=!showCommity"><!--手机号-->
-          <input readonly="readonly" @click="showCommity=!showCommity" class="sel-btnicon">
-          <ul class="mues" v-show="showCommity">
-            <li @click="formData.commity=item.commityName;showCommity=false;showTip.commity=false" v-for="item in commityData">
-              {{item.commityName}}
+            name="community" 
+            v-model="formData.community" 
+            :placeholder="$t('business.CHOOSE_COMMUNITY')" 
+            @click="showcommunity=!showcommunity"
+            :class="{error:showTip.community}"><!--手机号-->
+          <input readonly="readonly" @click="showcommunity=!showcommunity" class="sel-btnicon">
+          <ul class="mues" v-show="showcommunity">
+            <li @click="formData.community=item.communityName;showcommunity=false;showTip.community=false" v-for="item in communities">
+              {{item.communityName}}
             </li>
           </ul>
-          <p v-show="showTip.commity" class="infor"><img width="14" src="../../assets/img/i-tiperr.png" alt="">  {{$t('seller_apply.entry_commity')}}</p>
+          <p v-show="showTip.community" class="infor"><img width="14" src="../../assets/img/i-tiperr.png" alt="">  {{megTip.community}}</p>
         </div>
       </div>
       <div class="inner">
-        <input type="checkbox" v-model="ckeckVal">
-        <label class="otcLab">{{$t('seller_apply.otcGree')}}
-          <router-link :to="{name:'page-apply-legal'}" >{{$t('seller_apply.otcServer')}}</router-link><!--商家申请介绍-->
+        <input type="checkbox" v-model="ckeckVal" id="agreeCheck">
+        <label class="otcLab" for="agreeCheck">{{$t('login_register.agree_Service')}}
+          <a :href="getAgreementUrl" target="_blank">{{$t('login_register.bitark_service').format('OTC')}}</a><!--商家申请介绍-->
         </label>
       </div>
       <div class="inner btn">
@@ -81,7 +86,7 @@
           type="primary" 
           size="large"
           @click="applyBtn()"
-          >{{$t('seller_apply.btnApply')}}</mt-button>
+          >{{$t('business.APPLY')}}</mt-button>
       </div>
     </div>
 
@@ -105,70 +110,78 @@
 import userApi from '@/api/individual'
 import Tip from '@/assets/js/tip'
 import { MessageBox } from 'mint-ui'
+import shopsApi from '@/api/shops'
+
 export default {
   name: 'page-apple-form',
   data () {
     return {
+      locked: false,
       showSubSucces: false,
-      showCommity:false,
+      showcommunity:false,
       ckeckVal:false,
       showTip: { 
         mobile: false,
         wechat: false,
         qq: false,
         email: false,
-        commity: false,
+        community: false,
       },
       megTip: { 
         mobile: '',
         wechat: '',
         qq: '',
         email: '',
-        commity: '',
+        community: '',
       },
       formData: {
         mobile: '',
         wechat: '',
         qq: '',
         email: '',
-        commity: '',
+        community:''
       },
-      commityData: {
-        0:{commityName:'清分社区',commityID:'qf',},
-        1:{commityName:'水池社区',commityID:'sc',}
-      },
+      communities:[]
     }
   },
   created () {
+    shopsApi.getShopsCommunity(res=>{
+      this.communities = res.data
+    })
   },
   computed: {
     msgs (){
       return {
         mobile: {
-          required: this.$t('seller_apply.entry_mobile'),
-          err: this.$t('seller_apply.entry_mobile_err'),
+          required: this.$t('public0.public287')+this.$t('business.MOBILE'),
+          err: this.$t('public0.public128'),
           }, // 请输入手机号码,格式错误
         wechat: {
-          required: this.$t('seller_apply.entry_wechat'),
-          err: this.$t('seller_apply.entry_mobile_err'),
+          required: this.$t('public0.public287')+this.$t('business.WECHAT'),
           }, // 请输入微信号码,格式错误
         qq: {
-          required: this.$t('seller_apply.entry_qq'),
-          err: this.$t('seller_apply.entry_mobile_err'),
+          required: this.$t('public0.public287')+this.$t('business.QQ'),
           }, // 请输入qq号码,格式错误
         email: {
-          required: this.$t('seller_apply.entry_email'),
-          err: this.$t('seller_apply.entry_mobile_err'),
+          required: this.$t('login_register.email'),
+          err: this.$t('exchange.exchange_Email_format_error'),
           }, // 请输入邮箱,格式错误
-        commity: {required: this.$t('seller_apply.entry_commity')}, // 请选择您在的社区
+        community: {required: this.$t('business.CHOOSE_YOUR_COMMUNITY')}, // 请选择您在的社区
       }
     },
     reg() {
       return {
         mobile: /^\d{11}$/,
-        wechat: /^[a-zA-Z]{1}[-_a-zA-Z0-9]{5,19}$/,
-        qq: /^[1-9]\d{4,9}$/,
+        wechat: /^\w+$/,
+        qq: /^\w+$/,
         email: /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/,
+      }
+    },
+    getAgreementUrl () {
+      if (this.getLang === 'zh-CN' || this.getLang === 'cht') {
+        return 'https://cdcc.kf5.com/hc/kb/article/1225857/'
+      } else {
+        return 'https://cdcc.kf5.com/hc/kb/article/1225857/'
       }
     }
   },
@@ -206,7 +219,7 @@ export default {
           this.showTip[item] = true
           return
         }
-        if((item != 'commity')&&this.formData[item]){
+        if((item != 'community')&&this.formData[item]){
           if(!this.reg[item].test(this.formData[item])){
             this.megTip[item] = this.msgs[item].err
             this.showTip[item] = true
@@ -215,10 +228,32 @@ export default {
         } 
       }
       if(!this.ckeckVal){
-        Tip({type: 'danger', message: this.$t('seller_apply.agree_terms')})
+        Tip({type: 'danger', message: this.$t('public0.public122')})
         return
       }
-      this.showSubSucces = true
+      if (this.locked) {
+        return
+      }
+      this.locked = true
+      shopsApi.postShopsApply(this.formData, res=>{
+        this.locked = false
+        Tip({type: 'success', message: this.$t('business.APPLY_SUCCESSFUL')})
+        this.$router.replace({name:'page-apply'})
+      },msg=>{
+        this.locked = false
+        MessageBox.confirm(this.$t(`error_code.${msg}`),this.$t(`business.APPLY_FAILED`),{
+          confirmButtonText:this.$t(`ok`),
+          cancelButtonText:this.$t(`otc_legal.otc_legal_cancel`)
+        }).then(action => {
+          if(msg==='MOBILE_AUTH_FIRST'){
+            location.href='/#/saft'
+          } else if(msg==='KYC_AUTH_FIRST'){
+            location.href='/#/realname'
+          } else if(msg==='NO_PAY_TYPE'){
+            location.href='/#/payway'
+          } 
+        })
+      })
     }
     
   }
@@ -284,7 +319,7 @@ export default {
       font-size: 0.28rem;
       color:#333;
       a{
-        color:#333;
+        color:#0072fd;
       }
     }
     input[type='checkbox']{
@@ -307,6 +342,9 @@ export default {
         line-height: 0.7rem;
         font-size: 0.26rem;
         background: #fff;
+        &.error {
+          border-color: red;
+        }
       }
       input:focus{
         color: #000;

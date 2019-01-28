@@ -226,14 +226,14 @@ const router = new Router({
     },
     /*个人中心--商家申请*/
     {
-      path: '/apply',
+      path: '/merchant_apply',
       name: apply.name,
       component: apply,
       meta: {login: true}
     },
     /*个人中心--商家申请表*/
     {
-      path: '/apply/apply_form',
+      path: '/merchant_apply/form',
       name: apply_form.name,
       component: apply_form,
       meta: {login: true}

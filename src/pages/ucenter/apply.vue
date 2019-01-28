@@ -1,64 +1,43 @@
 <template>
   <div class="page">
     <cp-top-back :showRight="false">
-      <h1>{{$t('seller_apply.seller_agency_apply')}}<!--商家申请--></h1>
+      <h1>{{$t('business.MERCHANT_APPLICATION')}}<!--商家申请--></h1>
     </cp-top-back>
 
     <div class="page-main content">
       <div class="apply-rule">
-        <h2>商家简介：</h2>
-        <p>成为商家后您可以发布广告，赚取溢价。</p>
-        <p>升级为白银以上商家，更有专属认证标志。</p>
-        <h2>申请规则：</h2>
-        <p>通过实名认证、短信认证及设置收款方式的用户均可以申请为普通商家。</p>
-        <p>我们将在72小时内对您的商家申请资料进行审核，我们会通过站内信或电话的方式与您通知您结果。</p>
-        <p>普通商家在OTC达到一定交易额（自己发布广告的交易额），可升级为更高等级的商家。</p>
-        <p>享受手续折扣，具体如下所示：</p>
-        <h2>等级权益：</h2>
+        <h2>{{$t('business.Merchant_brief')}}<!-- 商家简介 -->：</h2>
+        <p>{{$t('business.BUSINESS_INTERESTS')}}</p>
+        <h2>{{$t('business.APPLICATION_RULES')}}：</h2>
+        <p>{{$t('business.APPLICATION_RULES_1')}}</p>
+        <p>{{$t('business.APPLICATION_RULES_2')}}</p>
+        <p>{{$t('business.APPLICATION_RULES_3')}}</p>
+        <p>{{$t('business.FEE_DISCOUNT')}}</p>
+        <h2>{{$t('business.Hierarchy')}}<!-- 等级权益 -->：</h2>
         <table class="tab">
           <tr>
-            <th>商家等级</th>
-            <th>广告服务费</th>
-            <th>单次广告限额<br>(CNY))</th>
-            <th>晋级标准<br>(交易额)</th>
-            <th>专属标识</th>
+            <th>{{$t('business.MERCHANT_LEVEL')}}<!-- 商家等级 --></th>
+            <th>{{$t('business.AD_SERVICE_FEE')}}<!-- 广告服务费 --></th>
+            <th style="width: 1.5rem;">{{$t('business.SINGLE_AD_LIMIT')}}</th>
+            <th style="width: 1.5rem;">{{$t('business.PROMOTION_STANDARD')}}</th>
+            <th>{{$t('business.EXCLUSIVE_LOGO')}}</th>
           </tr>
-          <tr>
-            <td>平台商家</td>
-            <td>1%</td>
-            <td>10000</td>
-            <td>0</td>
-            <td>-</td>
-          </tr>
-          <tr>
-            <td>白银商家</td>
-            <td>0.8%</td>
-            <td>50000</td>
-            <td>1000</td>
-            <td><img width="18" src="../../assets/img/i-silver.png" alt=""></td>
-          </tr>
-          <tr>
-            <td>黄金商家</td>
-            <td>0.8%</td>
-            <td>50000</td>
-            <td>1000</td>
-            <td><img width="18" src="../../assets/img/i-gold.png" alt=""></td>
-          </tr>
-          <tr>
-            <td>钻石商家</td>
-            <td>0.8%</td>
-            <td>50000</td>
-            <td>1000</td>
-            <td><img width="18" src="../../assets/img/i-jewel.png" alt=""></td>
-          </tr>
+          <tr  v-for="item in shopsLevel">
+            <td>{{merchant_name(item.levelIndex)}}</td>
+            <td>{{item.feeRate*100}}%</td>
+            <td>{{item.adLimit}}</td>
+            <td>{{item.riseStandard}}</td>
+            <td><img :src="levelSymbol[item.shopsLevelId]" v-if="item.shopsLevelId>=2"><span v-else>-</span></td>
+          </tr>          
         </table>
       </div>
       <div class="btn-bot">
         <mt-button 
           type="primary" 
           size="large"
-          @click="tipMeg()"
-          >{{$t('seller_apply.btnApplySeller')}}</mt-button>
+          v-tap="{methods:$root.routeTo, to:'page-apple-form'}"
+          >{{applyText}}</mt-button>
+
       </div>
       
       
@@ -68,37 +47,46 @@
 
 <script>
 import userApi from '@/api/individual'
-import Tip from '@/assets/js/tip'
+import shopsApi from '@/api/shops'
+import silver from '@/assets/img/i-silver.png'
+import golden from '@/assets/img/i-gold.png'
+import diamond from '@/assets/img/i-jewel.png'
 export default {
   name: 'page-apply',
   data () {
     return {
-      formData: {
-        mobile: '',
-        wechat: '',
-        qq: '',
-        email: '',
-        commity: '',
-      },
+      applyStatus:null,
+      shopsLevel:[],
+      levelSymbol:{2:silver,3:golden,4:diamond}
     }
   },
-  created () {
-    //this.ruleForm()
-  },
-  computed:{
-    meg() {
-      return
-      Tip({type: 'danger',  message: this.$t('seller_apply.real_name')});
+  computed: {
+    applyText(){
+      if(this.applyStatus===1 || this.applyStatus===2){
+        return this.$t('public0.public151')
+      } else {
+        return this.$t('business.TO_APPLY')
+      }
     }
+  },
+  created(){
+    this.getShopsLevel()
+    this.getShopsApply()
   },
   methods: {
-    tipMeg(){
-      
-      Tip({type: 'danger', message: this.$t('seller_apply.real_name')});
-      
-      this.$router.push({name: 'page-apple-form'});
-    }
-    
+    merchant_name(level){
+      return this.$t(`business.MERCHANT_LEVEL_${level}`)
+    },
+    getShopsLevel(){
+      shopsApi.getShopsLevel(res=>{
+        this.shopsLevel = res.data
+      })
+    },
+    getShopsApply(){
+      shopsApi.getShopsApply(res=>{
+        this.applyStatus = (res.data && res.data.state) || null
+      })
+    },
   }
 }
 </script>
@@ -170,6 +158,9 @@ export default {
       }
       th{
         background: #eee;
+      }
+      img {
+        width: 0.36rem;
       }
     }
   }

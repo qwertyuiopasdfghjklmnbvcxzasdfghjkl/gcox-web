@@ -1,29 +1,29 @@
 <template>
   <div class="page">
     <cp-top-back :showRight="false">
-      <h1>{{$t('seller_apply.merchant_manage')}}<!--商家申请--></h1>
+      <h1>{{$t('business.MERCHANT_MANAGE')}}<!--商家申请--></h1>
     </cp-top-back>
     <div class="page-main content">
       <div class="mgWp">
         <div class="mgItem">
-          <p>{{merthant.lv.name}}</p>
-          <input readonly type="text" v-model="merthant.lv.val">
+          <p>{{$t('business.LEVEL')}}</p>
+          <p>{{shopsInfo.levelName}}</p>
         </div>
         <div class="mgItem">
-          <p>{{merthant.fee.name}}</p>
-          <input readonly type="text" v-model="merthant.fee.val">
+          <p>{{$t('public.fee_rate')}}</p>
+          <p>{{shopsInfo.feeRate*100}}%</p>
         </div>
         <div class="mgItem">
-          <p>{{merthant.commity.name}}</p>
-          <input readonly type="text" v-model="merthant.commity.val">
+          <p>{{$t('business.ATTRIBUTION_COMMUNITY')}}</p>
+          <p>{{shopsInfo.community}}</p>
         </div>
         <div class="mgItem">
-          <p>{{merthant.tolVolume.name}}</p>
-          <input readonly type="text" v-model="merthant.tolVolume.val">
+          <p>{{$t('business.TOTAL_VOLUME')}}</p>
+          <p>{{(shopsInfo.totalCurrency+'').toMoney()}} CNY</p>
         </div>
         <div class="mgItem">
-          <p>{{merthant.tolNumber.name}}</p>
-          <input readonly type="text" v-model="merthant.tolNumber.val">
+          <p>{{$t('business.TOTAL_TRANSACTIONS')}}</p>
+          <p>{{shopsInfo.totalNumber}}</p>
         </div>
         
       </div>
@@ -34,21 +34,25 @@
 
 <script>
 import userApi from '@/api/individual'
+import shopsApi from '@/api/shops'
 export default {
   name: 'page-manager',
   data () {
     return {
-      merthant:{
-        lv:{name:'当前等级',val:'普通商家'},
-        fee:{name:'手续费率',val:'1%'},
-        commity:{name:'当属社区',val:'清分社区'},
-        tolVolume:{name:'总成交量',val:'355，545.23CNY'},
-        tolNumber:{name:'总成交笔数',val:'357'},
-      }
+      shopsInfo:{},
     }
   },
+  created(){
+    this.getShopsApply()
+  },
   methods: {
-    
+    getShopsApply(){
+      shopsApi.getShopsApply(res=>{
+        if(res.data){
+          this.shopsInfo = res.data
+        }
+      })
+    },
   }
 }
 </script>
@@ -82,13 +86,11 @@ export default {
         font-size: 0.3rem;
         padding: .05rem 0;
         color: #666;
-      }
-      input{
-        width: 100%;
-        font-size: 0.38rem;
-        padding:  .15rem 0 .05rem;
-        color: #000;
-        border: 0;
+        &:last-of-type {
+          font-size: 0.38rem;
+          padding:  .15rem 0 .05rem;
+          color: #000;
+        }
       }
     }
     .mgItem:last-of-type{

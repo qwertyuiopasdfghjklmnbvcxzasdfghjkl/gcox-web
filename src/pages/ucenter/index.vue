@@ -39,11 +39,11 @@
         <section class="item-section">
           <p v-tap="{methods:$root.routeTo, to:'page-saft'}"><i class="i_one3"></i><span>{{$t('account.user_center_safety')}}<!--安全中心--></span></p>
         </section>
-        <section class="item-section">
-          <p v-tap="{methods:$root.routeTo, to:'page-apply'}"><i class="i_one8"></i><span>{{$t('seller_apply.seller_agency_apply')}}<!--商家申请--></span></p>
+        <section class="item-section" v-if="!showShops">
+          <p v-tap="{methods:$root.routeTo, to:'page-apply'}"><i class="icon-shield"></i><span>{{$t('business.MERCHANT_APPLICATION')}}<!--商家申请--></span></p>
         </section>
-        <section class="item-section">
-          <p v-tap="{methods:$root.routeTo, to:'page-manager'}"><i class="i_one8"></i><span>{{$t('seller_apply.merchant_manage')}}<!--商家管理--></span></p>
+        <section class="item-section" v-if="showShops">
+          <p v-tap="{methods:$root.routeTo, to:'page-manager'}"><i class="icon-shop"></i><span>{{$t('business.MERCHANT_MANAGE')}}<!--商家管理--></span></p>
         </section>
         <!--推荐中心-->
         <!-- <section class="item-section">
@@ -70,6 +70,8 @@ import Tip from '@/assets/js/tip'
 import userInfoApi from '@/api/individual'
 import avatar from '@/assets/img/touxiang.png'
 import config from '@/assets/js/config'
+import shopsApi from '@/api/shops'
+
 export default {
   name: 'page-ucenter',
   data () {
@@ -88,6 +90,7 @@ export default {
       },
       isUseBarkPay: false,
       messageList: [],
+      showShops:false
     }
   },
   computed: {
@@ -109,11 +112,17 @@ export default {
     },
   },
   created () {
+    this.getShopsApply()
     this.fnUserState()
     this.fnDownloadHeader()
     this.getMessageList()
   },
   methods: {
+    getShopsApply(){
+      shopsApi.getShopsApply(res=>{
+        this.showShops = (res.data && res.data.state===3) || false
+      })
+    },
     checkUpdate(){
       // 检测更新
       if (window.chcp) {
@@ -267,6 +276,7 @@ export default {
      }
    }
   }
+  .item-section p > i {font-size: 0.35rem; color: #0474EA;}
 
   .item-section:nth-of-type(1), .item-section:nth-of-type(4), .item-section:nth-of-type(6){
     p {
