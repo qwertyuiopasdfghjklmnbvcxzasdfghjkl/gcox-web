@@ -16,7 +16,7 @@
                 </li>
             </ul>
         </div>
-        <div><p :class="{sell:(getLast24h.direction!=1)}">{{baseSymbol==='USDT'?Number(getLast24h.close).toFixed(3):getLast24h.close}}<span><valuation :lastPrice="getLast24h.close" :baseSymbol="baseSymbol"/></span></p></div>
+        <div><p :class="{sell:(getLast24h.direction!=1)}">{{currentSymbol+baseSymbol==='BTCUSDT'?Number(getLast24h.close).toFixed(3):getLast24h.close}}<span><valuation :lastPrice="getLast24h.close" :baseSymbol="baseSymbol"/></span></p></div>
         <div>
             <ul class="buy-list" ref="parentListBid">
                 <li v-for="(item, index) in filterBids" :style="listItemStyle(item, 'bid')">
