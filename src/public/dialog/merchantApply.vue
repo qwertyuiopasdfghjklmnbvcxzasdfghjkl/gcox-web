@@ -123,11 +123,11 @@ export default {
             okCallback(){
               self.$emit('removeDialog')
               if(msg==='MOBILE_AUTH_FIRST'){
-                location.href='/#/mycenter/safety'
+                this.$router.push({to:'/mycenter/safety'})
               } else if(msg==='KYC_AUTH_FIRST'){
-                location.href='/#/mycenter/authentication'
+                this.$router.push({to:'/mycenter/authentication'})
               } else if(msg==='NO_PAY_TYPE'){
-                location.href='/#/mycenter/settings'
+                this.$router.push({to:'/mycenter/settings'})
               } 
             }
           })
