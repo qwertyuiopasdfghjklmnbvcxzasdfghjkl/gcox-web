@@ -43,7 +43,7 @@ export default {
     return {
       isWeiXi: /MicroMessenger/i.test(window.navigator.userAgent),
       apk:`${config.origin}/static/cdcc-release-1.0.1.apk`,
-      ios:'https://www.pgyer.com/2lKH'
+      ios:'https://www.pgyer.com/68kt'
     }
   },
   computed: {
