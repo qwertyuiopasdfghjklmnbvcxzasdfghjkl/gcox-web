@@ -1,1 +1,1 @@
-FROM repo.koall.io:8080/webend
+FROM repo2.koall.io:9016/webend
