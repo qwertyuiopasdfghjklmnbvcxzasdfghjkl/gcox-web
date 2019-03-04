@@ -2,7 +2,7 @@
     <div class="home">
         <div class="center">
           <div class="home-left">
-            <left ref="markets" :baseSymbol="baseSymbol" v-model="accuracy" :symbol="symbol" :toFixed="toFixed" @changeSymbol="changeSymbol"></left>
+            <left ref="markets" :baseSymbol="baseSymbol" v-model="fixedNumber" :symbol="symbol" :toFixed="toFixed" @changeSymbol="changeSymbol"></left>
           </div>
           <div class="home-center">
             <div class="home-center-top">
@@ -17,21 +17,21 @@
                 <ul class="top-left-header-right">
                   <li class="last-item">
                     <span class="last-price market-symbol" :class="[(getLast24h.direction===1  || getLast24h.direction===0) ? 'font-green':'font-red']">
-                      {{toFixed(getLast24h.close)}}
+                      {{toFixed(getLast24h.close, fixedNumber)}}
                       <font class="last-valuation-price"> ≈ <valuation :lastPrice="getLast24h.close" :baseSymbol="baseSymbol"/></font>
                     </span>
                   </li>
                   <li class="last-item last-change">
                     <span class="last-title">{{$t('home.home_change_24h')}}<!--24h涨跌--></span>
-                    <span class="last-price" :class="[getLast24h.isDown?'last-number-down':'last-number']">{{getLast24h.rfvol}} {{getLast24h.percent}}%</span>
+                    <span class="last-price" :class="[getLast24h.isDown?'last-number-down':'last-number']">{{toFixed(getLast24h.rfvol, fixedNumber)}} {{getLast24h.percent}}%</span>
                   </li>
                   <li class="last-item">
                     <span class="last-title">{{$t('home.home_high_24h')}}<!--24h最高价--></span>
-                    <span class="last-price">{{toFixed(getLast24h.high)}}</span>
+                    <span class="last-price">{{toFixed(getLast24h.high, fixedNumber)}}</span>
                   </li>
                   <li class="last-item">
                     <span class="last-title">{{$t('home.home_low_24h')}}<!--24h最低价--></span>
-                    <span class="last-price">{{toFixed(getLast24h.bottom)}}</span>
+                    <span class="last-price">{{toFixed(getLast24h.bottom, fixedNumber)}}</span>
                   </li>
                   <li class="last-item">
                     <span class="last-title">{{$t('home.home_volume_24h')}}<!--24h成交量--></span>
@@ -40,11 +40,11 @@
                 </ul>
               </div>
               <div class="market-container">
-                <market ref="kline" :iconUrl="iconUrl" :klineData="klineData" :baseSymbol="baseSymbol" :currentSymbol="currentSymbol" :symbol="symbol" @switchPeriod="switchPeriod" :closeMainLoading="closeMainLoading"/>
+                <market ref="kline" :iconUrl="iconUrl" :klineData="klineData" :baseSymbol="baseSymbol" :currentSymbol="currentSymbol" :fixedNumber="fixedNumber" :symbol="symbol" @switchPeriod="switchPeriod" :closeMainLoading="closeMainLoading"/>
               </div>
             </div>
             <div class="home-center-bottom">
-              <businesspanel ref="businesspanel" :accuracy="accuracy" :fixedNumber="fixedNumber" :baseSymbol="baseSymbol" :currentSymbol="currentSymbol" :toFixed="toFixed" :fromWallet="fromWallet" :toWallet="toWallet"/>
+              <businesspanel ref="businesspanel" :fixedNumber="fixedNumber" :baseSymbol="baseSymbol" :currentSymbol="currentSymbol" :fromWallet="fromWallet" :toWallet="toWallet"/>
               <entrust ref="entrust" :valuationCout="valuationCout" :newRmbCount="newRmbCount" :currentSymbol="currentSymbol" :baseSymbol="baseSymbol" :fixedNumber="fixedNumber" :symbol="symbol" :toFixed="toFixed" :mul="mul" :changeEntrustData="changeEntrustData"/>
             </div>
           </div>
@@ -84,8 +84,8 @@ export default {
   data () {
     return {
       isFirst: true,
-      accuracy: 8,
       fixedNumber: 8,
+      Quantityaccu: 8,
       klineData: [], // k线数据
       socket: null,
       fromWallet: null,
@@ -154,7 +154,8 @@ export default {
           let datas = res.data && res.data.constructor === Array ? res.data : []
           let newArray = []
           datas.forEach((item) => {
-            newArray.push([Number(item[0]), parseFloat(item[1]) || 0, parseFloat(item[2]) || 0, parseFloat(item[3]) || 0, parseFloat(item[4]) || 0, parseFloat(item[5]) || 0])
+            // newArray.push([Number(item[0]), parseFloat(item[1]) || 0, parseFloat(item[2]) || 0, parseFloat(item[3]) || 0, parseFloat(item[4]) || 0, parseFloat(item[5]) || 0])
+            newArray.push([Number(item[0]), parseFloat(this.toFixed(Number(item[1]))) || 0, parseFloat(this.toFixed(Number(item[2]))) || 0, parseFloat(this.toFixed(Number(item[3]))) || 0, parseFloat(this.toFixed(Number(item[4]))) || 0, parseFloat(this.toFixed(Number(item[5]))) || 0])
           })
           if (!this.isFirst) {
             let tempObj = {}
