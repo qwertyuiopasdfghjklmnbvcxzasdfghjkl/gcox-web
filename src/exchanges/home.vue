@@ -49,8 +49,8 @@
             </div>
           </div>
           <div class="home-right">
-            <depth ref="depth" :currentSymbol="currentSymbol" :baseSymbol="baseSymbol" :fixedNumber="fixedNumber"/>
-            <lastdeal ref="lastdeal" :currentSymbol="currentSymbol" :baseSymbol="baseSymbol" :fixedNumber="fixedNumber" :symbol="symbol" :toFixed="toFixed"/>
+            <depth ref="depth" :currentSymbol="currentSymbol" :baseSymbol="baseSymbol" :fixedNumber="fixedNumber" :Quantityaccu="Quantityaccu" :Amountaccu="Amountaccu" :digit="digit"/>
+            <lastdeal ref="lastdeal" :currentSymbol="currentSymbol" :baseSymbol="baseSymbol" :fixedNumber="fixedNumber" :Quantityaccu="Quantityaccu" :symbol="symbol" :toFixed="toFixed"/>
           </div>
         </div>
     </div>
@@ -84,8 +84,10 @@ export default {
   data () {
     return {
       isFirst: true,
-      fixedNumber: 8,
-      Quantityaccu: 8,
+      fixedNumber: 8, //价格进度控制
+      Quantityaccu: 4, //数量精度控制
+      Amountaccu: 8, //金额精度控制
+      digit: 4, //深度合并的选项数量
       klineData: [], // k线数据
       socket: null,
       fromWallet: null,
@@ -137,6 +139,9 @@ export default {
     symbol () {
       this.get24hPrice()
       this.socket && this.socket.switchPeriod && this.socket.switchSymbol(this.symbol)
+    },
+    fixedNumber(newVal){
+      this.$refs.depth.mergeValue = newVal
     }
   },
   created () {
