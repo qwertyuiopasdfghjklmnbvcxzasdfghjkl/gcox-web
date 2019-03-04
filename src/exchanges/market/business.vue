@@ -109,9 +109,6 @@ export default {
       type: String,
       default: 'limit'
     },
-    accuracy: {
-      default: 0
-    },
     fixedNumber: {
       type: Number
     },
@@ -209,6 +206,7 @@ export default {
       this.formData.amount = ''
     },
     'formData.price' (newVal, oldVal) {
+      this.formData.price = this.toFixed(newVal)
       this.changeValue(newVal, oldVal, 'price')
     },
     'formData.amount' (newVal, oldVal) {
@@ -220,7 +218,9 @@ export default {
     getLast24h (newVal) {
       if (this.updateValue) {
         this.updateValue = false
-        this.formData.price = utils.removeEndZero(this.getLast24h.close)
+        setTimeout(()=>{
+        this.formData.price = this.toFixed(utils.removeEndZero(this.getLast24h.close))
+      },200)
       }
     },
     symbol () {
