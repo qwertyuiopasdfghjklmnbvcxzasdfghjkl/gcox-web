@@ -149,15 +149,17 @@ export default {
       })
     },
     getAccuracy () {
-      var accuracy = 8
+      let accuracy,Quantityaccu,Amountaccu,digit
       for (let i = 0; i < this.products.length; i++) {
         let data = this.products[i]
         if (data.market === this.symbol) {
-          accuracy = Number(data.accuracy)
+          this.$parent.fixedNumber = Number(data.accuracy) || 8
+          this.$parent.Quantityaccu = Number(data.quantityAccu) || 4
+          this.$parent.Amountaccu = Number(data.amountAccu) || 8
+          this.$parent.digit = Number(data.digit) || 4
           break
         }
       }
-      this.$parent.fixedNumber = accuracy
     },
     marketConfig () {
       let config = {}
