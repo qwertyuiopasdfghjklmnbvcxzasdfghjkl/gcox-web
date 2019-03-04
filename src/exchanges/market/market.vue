@@ -27,7 +27,7 @@
                       </span>
                       <span class="list1-col list1-right">
                         <font class="list1-price">
-                          {{toFixed(data.lastPrice)}}{{data.baseSymbol}}
+                          {{toFixed(data.lastPrice, data.accuracy)}}{{data.baseSymbol}}
                         </font>
                         <font class="list1-amount">
                           <i><valuation :lastPrice="data.lastPrice" :baseSymbol="data.baseSymbol"/></i>
@@ -157,7 +157,7 @@ export default {
           break
         }
       }
-      return accuracy
+      this.$parent.fixedNumber = accuracy
     },
     marketConfig () {
       let config = {}
