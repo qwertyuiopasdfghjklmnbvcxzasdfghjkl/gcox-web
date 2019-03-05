@@ -10,8 +10,8 @@
             <ul class="deal-list">
                 <li v-for="(item, index) in datas" :key="index" :class="{buy:item.direction==1}" @click="clickChangeValue(item)">
                     <span>{{index+1}}</span>
-                    <span>{{$root.toFixed(item.price,8)}}</span>
-                    <span>{{$root.toFixed(item.amount,4)}}</span>
+                    <span>{{toFixed(item.price)}}</span>
+                    <span>{{toFixed(item.amount,accuracy.quantityAccu)}}</span>
                 </li>
             </ul>
         </div>
@@ -26,8 +26,8 @@ import market from '@/api/market'
 export default {
   props: {
     value: null,
-    fixedNumber: {
-      type: Number
+    accuracy: {
+      type:Object
     },
     baseSymbol: {
       type: String,
@@ -106,7 +106,7 @@ export default {
       })
     },
     toFixed (price, fixed) {
-      return numUtils.BN(price).toFixed(fixed || this.fixedNumber)
+      return numUtils.BN(price).toFixed(fixed || this.accuracy.fixedNumber)
     },
     formatDate (date) {
       return (new Date(Number(date))).format('HH:mm:ss')
@@ -136,7 +136,7 @@ export default {
 .latest-deal .deal-list{height: 100%;overflow-y: auto;}
 .latest-deal .deal-list li{height:0.6rem;line-height: 0.6rem;}
 .latest-deal .deal-list li span{
-  display: inline-block;float:left;width: 38%;font-size: 0.24rem;transform: scale(0.916);
+  display: inline-block;float:left;width: 38%;font-size: 0.24rem;transform: scale(0.916); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .latest-deal .deal-list li span:nth-of-type(1){width: 24%;color: #8089a3}
 .latest-deal .deal-list li span:nth-of-type(2){color: #e76d42;}

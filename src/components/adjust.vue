@@ -1,7 +1,7 @@
 <template>
   <div class="price-adjust">
     <div><i class="deduct" v-tap="{methods:down}"></i></div>
-    <div><numberbox v-model="inputValue"></numberbox></div>
+    <div><numberbox v-model="inputValue" :accuracy="accuracy"></numberbox></div>
     <div><i class="add" v-tap="{methods:up}"></i></div>
   </div>
 </template>
@@ -11,7 +11,7 @@ import numberbox from '@/components/numberInput'
 import numUtils from '@/assets/js/numberUtils'
 export default {
   name: 'cp-adjust',
-  props: ['value'],
+  props: ['value','accuracy'],
   components: {
     numberbox
   },

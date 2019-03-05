@@ -57,10 +57,10 @@
                       </li>
                       <li>
                         <h1><span>{{item.currencySymbol}}</span>/<i>{{item.baseSymbol}}</i></h1>
-                        <h2>24H {{toFixed(item.dealAmount, 2)}}</h2>
+                        <h2>24H {{toFixed(item.dealAmount, item.quantityAccu)}}</h2>
                       </li>
                       <li>
-                        <h1>{{toFixed(item.lastPrice)}}</h1>
+                        <h1>{{toFixed(item.lastPrice, item.accuracy)}}</h1>
                         <h2>≈<span><valuation :lastPrice="item.lastPrice" :baseSymbol="item.baseSymbol"/></span></h2>
                       </li>
                       <li>
@@ -89,10 +89,10 @@
                     </li>
                     <li>
                       <h1><span>{{item.currencySymbol}}</span>/<i>{{item.baseSymbol}}</i></h1>
-                      <h2>24H {{toFixed(item.dealAmount, 2)}}</h2>
+                      <h2>24H {{toFixed(item.dealAmount, item.quantityAccu)}}</h2>
                     </li>
                     <li>
-                      <h1>{{toFixed(item.lastPrice)}}</h1>
+                      <h1>{{toFixed(item.lastPrice, item.accuracy)}}</h1>
                       <h2>≈<span><valuation :lastPrice="item.lastPrice" :baseSymbol="item.baseSymbol"/></span></h2>
                     </li>
                     <li>
@@ -119,10 +119,10 @@
                     </li>
                     <li>
                       <h1><span>{{item.currencySymbol}}</span>/<i>{{item.baseSymbol}}</i></h1>
-                      <h2>24H {{toFixed(item.dealAmount, 2)}}</h2>
+                      <h2>24H {{toFixed(item.dealAmount, item.quantityAccu)}}</h2>
                     </li>
                     <li>
-                      <h1>{{toFixed(item.lastPrice)}}</h1>
+                      <h1>{{toFixed(item.lastPrice, item.accuracy)}}</h1>
                       <h2>≈<span><valuation :lastPrice="item.lastPrice" :baseSymbol="item.baseSymbol"/></span></h2>
                     </li>
                     <li>
@@ -149,10 +149,10 @@
                     </li>
                     <li>
                       <h1><span>{{item.currencySymbol}}</span>/<i>{{item.baseSymbol}}</i></h1>
-                      <h2>24H {{toFixed(item.dealAmount, 2)}}</h2>
+                      <h2>24H {{toFixed(item.dealAmount, item.quantityAccu)}}</h2>
                     </li>
                     <li>
-                      <h1>{{toFixed(item.lastPrice)}}</h1>
+                      <h1>{{toFixed(item.lastPrice, item.accuracy)}}</h1>
                       <h2>≈<span><valuation :lastPrice="item.lastPrice" :baseSymbol="item.baseSymbol"/></span></h2>
                     </li>
                     <li>
@@ -179,10 +179,10 @@
                     </li>
                     <li>
                       <h1><span>{{item.currencySymbol}}</span>/<i>{{item.baseSymbol}}</i></h1>
-                      <h2>24H {{toFixed(item.dealAmount, 2)}}</h2>
+                      <h2>24H {{toFixed(item.dealAmount, item.quantityAccu)}}</h2>
                     </li>
                     <li>
-                      <h1>{{toFixed(item.lastPrice)}}</h1>
+                      <h1>{{toFixed(item.lastPrice, item.accuracy)}}</h1>
                       <h2>≈<span><valuation :lastPrice="item.lastPrice" :baseSymbol="item.baseSymbol"/></span></h2>
                     </li>
                     <li>

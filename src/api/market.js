@@ -9,7 +9,7 @@ let market = {}
 
 // 市场列表 获取所有产品
 const marketList = function (success, error) {
-  api.get(`${domain}api/v2/trade/market`, (res) => {
+  api.get(`${domain}api/v3/trade/market`, (res) => {
     if (res.rst === 1) {
       success && success(res.data)
     } else {
@@ -287,7 +287,7 @@ market.getKlineTestData = getKlineTestData
 
 // 首页市场推荐
 const marketListCom = function (recommand, success, error) {
-  api.get(`${domain}api/v2/trade/market?recommand=${recommand}`, (res) => {
+  api.get(`${domain}api/v3/trade/market?recommand=${recommand}`, (res) => {
     if (res.rst === 1) {
       success && success(res.data)
     } else {

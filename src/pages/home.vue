@@ -12,7 +12,7 @@
               <ul class="list">
                 <li class="list-item">
                   <span class="market">{{item.currencySymbol}}/{{item.baseSymbol}}</span>
-                  <span class="price" :class="{rise: Number(item.direction) === 1, fall: Number(item.direction) === 2}">{{toFixed(item.lastPrice)}}</span>
+                  <span class="price" :class="{rise: Number(item.direction) === 1, fall: Number(item.direction) === 2}">{{toFixed(item.lastPrice, item.accuracy)}}</span>
                 </li>
                 <li class="list-item">
                   <span v-html="percent(item)"></span>
@@ -48,10 +48,10 @@
                   <span>
                     <font>{{item.currencySymbol}}</font>/{{item.baseSymbol}}
                   </span>
-                  <span>24H {{toFixed(item.dealAmount, 2)}}</span>
+                  <span>24H {{toFixed(item.dealAmount, item.quantityAccu)}}</span>
                 </div>
                 <div class="middle">
-                  <span :class="{rise:Number(item.direction)===1,fall:Number(item.direction)===2}">{{toFixed(item.lastPrice)}}</span>
+                  <span :class="{rise:Number(item.direction)===1,fall:Number(item.direction)===2}">{{toFixed(item.lastPrice, item.accuracy)}}</span>
                   <span>≈ <valuation :lastPrice="item.lastPrice" :baseSymbol="item.baseSymbol"/></span>
                 </div>
                 <div class="right" v-html="percent(item)">
@@ -66,10 +66,10 @@
                   <span>
                     <font>{{item.currencySymbol}}</font>/{{item.baseSymbol}}
                   </span>
-                  <span>24H {{toFixed(item.dealAmount, 2)}}</span>
+                  <span>24H {{toFixed(item.dealAmount, item.quantityAccu)}}</span>
                 </div>
                 <div class="middle">
-                  <span :class="{rise:Number(item.direction)===1,fall:Number(item.direction)===2}">{{toFixed(item.lastPrice)}}</span>
+                  <span :class="{rise:Number(item.direction)===1,fall:Number(item.direction)===2}">{{toFixed(item.lastPrice, item.accuracy)}}</span>
                   <span>≈ <valuation :lastPrice="item.lastPrice" :baseSymbol="item.baseSymbol"/></span>
                 </div>
                 <div class="right" v-html="percent(item)">
@@ -239,7 +239,7 @@ export default {
 .tabs /deep/ li{display:flex;flex:1;height:0.7rem;font-size:0.28rem;font-weight:500;justify-content:center;align-items:center;}
 .tabs /deep/ li.current{background:#0072fd;color:#fff;}
 .sysmbol-list{}
-.sysmbol-list /deep/ li{display:flex;width:100%;height:1.2rem;padding:0 0.3rem;justify-content:space-between;align-items:center;}
+.sysmbol-list /deep/ li{display:flex;width:100%;height:1.2rem;padding:0 0.3rem;justify-content:space-between;align-items:center; border-bottom: 1px solid #eee;}
 .sysmbol-list /deep/ li > div{display:flex;flex:1;min-width:0;flex-direction:column;font-size:0.24rem;color:#666;font-weight:500;}
 .sysmbol-list /deep/ li > div span{display:block;width:96%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 .sysmbol-list /deep/ li > div.left font{color:#333;font-size:0.3rem;}

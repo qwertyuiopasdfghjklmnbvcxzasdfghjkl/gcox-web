@@ -13,12 +13,12 @@
                     </ul>
                 </transition>
             </div>
-        <cp-adjust v-model="formData.price" v-if="!isMarket"></cp-adjust>
+        <cp-adjust v-model="formData.price" v-if="!isMarket" :accuracy="accuracy.fixedNumber"></cp-adjust>
         <p class="price-placeholder" v-if="isMarket">{{$t('exchange.exchange_market_price')}}</p>
         <p class="fabi">
           <valuation :lastPrice="formData.price" :baseSymbol="baseSymbol"/>
         </p>
-        <cp-adjust style="margin-top: 0.6rem;" v-model="formData.amount"></cp-adjust>
+        <cp-adjust style="margin-top: 0.6rem;" v-model="formData.amount" :accuracy="accuracy.quantityAccu"></cp-adjust>
         <p class="btc-tip">{{isBuy ? baseSymbol : currentSymbol}} {{$t('exchange.exchange_balance')}}：<!--{symbol}余额-->{{toFixed(isBuy ? toBalance.availableBalance : fromBalance.availableBalance).toMoney()}}</p>
         <div class="range-percent">
             <p>{{percent}}%</p>
@@ -37,7 +37,7 @@
             <div class="total-input" v-if="!isMarket">
                 <span>{{$t('exchange.exchange_total')}}<!--金额--></span>
                 <div>
-                    <span>{{formData.total || 0}} {{baseSymbol}}</span>
+                    <span>{{toFixed(formData.total, accuracy.amountAccu) || 0}} {{baseSymbol}}</span>
                 </div>
             </div>
             <p class="fabi" style="margin-top: 0.3rem;" v-if="!isMarket">
@@ -62,9 +62,8 @@ import cpAdjust from '@/components/adjust'
 import valuation from '@/components/valuation'
 export default {
   props: {
-    fixedNumber: {
-      type: Number,
-      default: 8
+    accuracy: {
+      type:Object
     },
     currentSymbol: {
       type: String,
@@ -150,7 +149,9 @@ export default {
     getLast24h (newVal) {
       if (this.updateValue) {
         this.updateValue = false
-        this.formData.price = utils.removeEndZero(this.getLast24h.close)
+        setTimeout(()=>{
+          this.formData.price = this.toFixed(utils.removeEndZero(this.getLast24h.close))
+        },200)
       }
     },
     symbol () {
@@ -380,7 +381,7 @@ export default {
       }
     },
     toFixed (value, fixed) {
-      return numUtils.BN(value || 0).toFixed(fixed === undefined ? this.fixedNumber : fixed, 1)
+      return numUtils.BN(value || 0).toFixed(fixed === undefined ? this.accuracy.fixedNumber : fixed, 1)
     }
   }
 }
@@ -433,7 +434,7 @@ export default {
 .left .range-percent .dots.d4 span:nth-of-type(4),
 .left .range-percent .dots.d5 span:nth-of-type(5){background-color: @write-007;}
 .left .space-area{display:flex;flex:1;}
-.left .ac-area{width:100%;margin-bottom:0.6rem;margin-top:0.2rem;}
+.left .ac-area{width:100%;margin-bottom:0.36rem;margin-top:0.2rem;}
 .left .actBtn,.left .buyBtn,.left .sellBtn{
   margin-top: 0.5rem;width: 100%;height: 0.95rem;color: #fff;border: none;font-size: 0.34rem;
   

@@ -12,16 +12,16 @@
                 </li>
                 <li v-for="(item, index) in filterAsks" :style="listItemStyle(item, 'ask')">
                     <span @click="clickChangeValue(toFixed(item.price), 'price')">{{toFixed(item.price)}}</span>
-                    <span @click="clickChangeValue(toFixed(item.price), 'price')">{{toFixed(item.avaliableAmount, 4)}}</span>
+                    <span @click="clickChangeValue(toFixed(item.price), 'price')">{{toFixed(item.avaliableAmount, accuracy.quantityAccu)}}</span>
                 </li>
             </ul>
         </div>
-        <div><p :class="{sell:(getLast24h.direction!=1)}">{{currentSymbol+baseSymbol==='BTCUSDT'?Number(getLast24h.close).toFixed(3):getLast24h.close}}<span><valuation :lastPrice="getLast24h.close" :baseSymbol="baseSymbol"/></span></p></div>
+        <div><p :class="{sell:(getLast24h.direction!=1)}">{{toFixed(getLast24h.close)}}<span><valuation :lastPrice="getLast24h.close" :baseSymbol="baseSymbol"/></span></p></div>
         <div>
             <ul class="buy-list" ref="parentListBid">
                 <li v-for="(item, index) in filterBids" :style="listItemStyle(item, 'bid')">
                     <span @click="clickChangeValue(toFixed(item.price), 'price')">{{toFixed(item.price)}}</span>
-                    <span @click="clickChangeValue(toFixed(item.price), 'price')">{{toFixed(item.avaliableAmount, 4)}}</span>
+                    <span @click="clickChangeValue(toFixed(item.price), 'price')">{{toFixed(item.avaliableAmount, accuracy.quantityAccu)}}</span>
                 </li>
                 <li v-for="n in bidLength">
                     <span>--</span>
@@ -41,6 +41,9 @@ import valuation from '@/components/valuation'
 export default {
   props: {
     value: null,
+    accuracy: {
+      type:Object
+    },
     baseSymbol: {
       type: String,
       default: ''
@@ -48,10 +51,6 @@ export default {
     currentSymbol: {
       type: String,
       default: ''
-    },
-    fixedNumber: {
-      type: Number,
-      default: 8
     }
   },
   components: {
@@ -62,7 +61,6 @@ export default {
       asks: [],
       bids: [],
       mergeLen: 20,
-      mergeValue: 8,
       price: '0',
       active: 'askbid',
       direction: null
@@ -256,10 +254,7 @@ export default {
       }
     },
     toFixed (value, fixed) {
-      return numUtils.BN(value || 0).toFixed(fixed === undefined ? this.mergeValue : fixed, 1)
-    },
-    muldepth (v1, v2) {
-      return numUtils.mul(v1, v2).toFixed(this.mergeValue, 1)
+      return numUtils.BN(value || 0).toFixed(fixed === undefined ? this.accuracy.fixedNumber : fixed, 1)
     }
   }
 }

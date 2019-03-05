@@ -8,13 +8,13 @@
     </cp-top-back>
     <div class="page-main">
       <section class="exchange-container clearfix">
-        <business :pTradeType="tradeType" :currentSymbol="currentSymbol" :baseSymbol="baseSymbol"></business>
+        <business :pTradeType="tradeType" :currentSymbol="currentSymbol" :baseSymbol="baseSymbol" :accuracy="accuracy"></business>
         <div class="right">
           <transition enter-active-class="animated short slideInDown" leave-active-class="animated short slideOutUp">
-            <depth v-model="showLatestDeal" :baseSymbol="baseSymbol" :currentSymbol="currentSymbol" v-show="!showLatestDeal"></depth>
+            <depth v-model="showLatestDeal" :baseSymbol="baseSymbol" :currentSymbol="currentSymbol" v-show="!showLatestDeal" :accuracy="accuracy"></depth>
           </transition>
           <transition enter-active-class="animated short slideInUp" leave-active-class="animated short slideOutDown">
-            <lastdeal :currentSymbol="currentSymbol" :baseSymbol="baseSymbol" :symbol="symbol" v-model="showLatestDeal" v-show="showLatestDeal"></lastdeal>
+            <lastdeal :currentSymbol="currentSymbol" :baseSymbol="baseSymbol" :symbol="symbol" v-model="showLatestDeal" v-show="showLatestDeal" :accuracy="accuracy"></lastdeal>
           </transition>
         </div>
       </section>
@@ -59,6 +59,18 @@ export default {
   },
   computed: {
     ...mapGetters(['getInitMarket', 'getMarketList', 'getUserWallets']),
+    accuracy(){
+      let fixedNumber = 8, quantityAccu = 4, amountAccu = 8
+      for(let item of this.getMarketList || []){
+        if(item.market === this.symbol){
+          fixedNumber = Number(item.accuracy)
+          quantityAccu = Number(item.quantityAccu)
+          amountAccu = Number(item.amountAccu)
+          break
+        }
+      }
+      return {fixedNumber:fixedNumber, quantityAccu:quantityAccu, amountAccu:amountAccu}
+    },
     baseSymbol () {
       let symbol = this.$route.params.market
       if (symbol) {
@@ -215,7 +227,7 @@ background-size: 90%;
 .wallet-list li:active{color: #292929;background-color: #8089a3;}
 
 .exchange-container, .entrust-container {
-  height:-webkit-calc(100vh - 0.8rem);height: calc(100vh - 0.8rem);min-height:10rem;
+  height:-webkit-calc(100vh - 0.8rem);height: calc(~'100vh - 0.8rem');min-height:10rem;
   background-color: #161f2f;padding-left: 0.3rem;padding-right: 0.3rem;position: relative;
 }
 .exchange-container {padding-top: 0.3rem;}
