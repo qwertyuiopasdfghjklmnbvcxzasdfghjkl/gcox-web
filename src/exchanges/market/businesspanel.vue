@@ -16,10 +16,10 @@
         </ul>
         <div class="business-panel-form" v-show="isShow">
             <div class="business-panel-left">
-                <business ref="business_buy" :active="active" tradeType="buy" :fixedNumber="fixedNumber" :baseSymbol="baseSymbol" :currentSymbol="currentSymbol" :fromWallet="fromWallet" :toWallet="toWallet"/>
+                <business ref="business_buy" :active="active" tradeType="buy" :fixedNumber="fixedNumber" :Quantityaccu="Quantityaccu" :Amountaccu="Amountaccu" :baseSymbol="baseSymbol" :currentSymbol="currentSymbol" :fromWallet="fromWallet" :toWallet="toWallet"/>
             </div>
             <div class="business-panel-right">
-                <business ref="business_sell" :active="active" tradeType="sell" :fixedNumber="fixedNumber" :baseSymbol="baseSymbol" :currentSymbol="currentSymbol" :fromWallet="fromWallet" :toWallet="toWallet"/>
+                <business ref="business_sell" :active="active" tradeType="sell" :fixedNumber="fixedNumber" :Quantityaccu="Quantityaccu" :Amountaccu="Amountaccu" :baseSymbol="baseSymbol" :currentSymbol="currentSymbol" :fromWallet="fromWallet" :toWallet="toWallet"/>
             </div>
         </div>
     </div>
@@ -30,7 +30,7 @@ import marketApi from '@/api/market'
 import { mapActions } from 'vuex'
 import business from '@/exchanges/market/business'
 export default {
-  props: ['fixedNumber', 'baseSymbol', 'currentSymbol', 'fromWallet', 'toWallet'],
+  props: ['fixedNumber','Quantityaccu','Amountaccu', 'baseSymbol', 'currentSymbol', 'fromWallet', 'toWallet'],
   components: {
     business
   },
