@@ -94,7 +94,7 @@
                     <span class="font-default">{{toFixed(btc.lowPrice24h,btc.accuracy)}}</span>
                   </router-link><!--24h最低价-->
                   <router-link :to="{name: 'exchange_index',params:{symbol:btc.currencySymbol+'_'+btc.baseSymbol}}" tag='td'>
-                    <span class="font-default">{{toFixed(btc.dealAmount,btc.amountAccu)}}</span>
+                    <span class="font-default">{{toFixed(btc.dealAmount,btc.quantityAccu)}}</span>
                   </router-link><!--24h成交量-->
                 </tr>
                 </tbody>
