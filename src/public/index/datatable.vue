@@ -82,19 +82,19 @@
                     <span class="font-white">{{btc.currencySymbol}}</span><span class="font-default">/{{btc.baseSymbol}}</span>
                   </router-link><!--市场-->
                   <router-link :to="{name: 'exchange_index',params:{symbol:btc.currencySymbol+'_'+btc.baseSymbol}}" tag='td'>
-                    <span class="" :class="[(getDirection(btc.direction)===1 || getDirection(btc.direction)===0)?'font-green':'font-red']" >{{toFixed(btc.lastPrice)}} </span><span class="font-default">/<valuation :lastPrice="btc.lastPrice" :baseSymbol="btc.baseSymbol"/></span>
+                    <span class="" :class="[(getDirection(btc.direction)===1 || getDirection(btc.direction)===0)?'font-green':'font-red']" >{{toFixed(btc.lastPrice, btc.accuracy)}} </span><span class="font-default">/<valuation :lastPrice="btc.lastPrice" :baseSymbol="btc.baseSymbol"/></span>
                   </router-link><!--最新价-->
                   <router-link :to="{name: 'exchange_index',params:{symbol:btc.currencySymbol+'_'+btc.baseSymbol}}" tag='td'>
                     <span class="font-green" v-html="percent(btc)" ></span>
                   </router-link><!--24h涨跌-->
                   <router-link :to="{name: 'exchange_index',params:{symbol:btc.currencySymbol+'_'+btc.baseSymbol}}" tag='td'>
-                    <span class="font-default" >{{toFixed(btc.highPrice24h)}}</span>
+                    <span class="font-default" >{{toFixed(btc.highPrice24h,btc.accuracy)}}</span>
                   </router-link><!--24h最高价-->
                   <router-link :to="{name: 'exchange_index',params:{symbol:btc.currencySymbol+'_'+btc.baseSymbol}}" tag='td'>
-                    <span class="font-default">{{toFixed(btc.lowPrice24h)}}</span>
+                    <span class="font-default">{{toFixed(btc.lowPrice24h,btc.accuracy)}}</span>
                   </router-link><!--24h最低价-->
                   <router-link :to="{name: 'exchange_index',params:{symbol:btc.currencySymbol+'_'+btc.baseSymbol}}" tag='td'>
-                    <span class="font-default">{{toFixed(btc.dealAmount,2)}}</span>
+                    <span class="font-default">{{toFixed(btc.dealAmount,btc.amountAccu)}}</span>
                   </router-link><!--24h成交量-->
                 </tr>
                 </tbody>
