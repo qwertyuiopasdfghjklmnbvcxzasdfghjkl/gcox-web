@@ -8015,7 +8015,7 @@
     var a = ChartSettings.get()
     a.language = b
     ChartSettings.save()
-  }
+  }  
   //切换主题(Dark|Light)
   ChartManager.prototype.switch_theme = function(theme) {
     ChartManager.getInstance().setThemeName("frame0", theme);
