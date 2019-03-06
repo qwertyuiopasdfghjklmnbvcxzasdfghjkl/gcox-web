@@ -6,7 +6,7 @@
         <div>
           <p class="market"><span class="symbol-switch" v-tap="{methods:toggleMarketList}">{{symbol_display}}</span></p>
           <p class="price" :class="{up:(getLast24h.direction!=2)}">
-            <span :class="{red:getLast24h.direction==2,green:getLast24h.direction==1}">{{getLast24h.close}}</span>
+            <span :class="{red:getLast24h.direction==2,green:getLast24h.direction==1}">{{toFixed(getLast24h.close)}}</span>
             <span :class="{red:Number(getLast24h.percent)<0,green:Number(getLast24h.percent)>0}">{{getLast24h.percent}}%</span>
           </p>
           <p class="fabi">≈ <valuation :lastPrice="getLast24h.close" :baseSymbol="baseSymbol"/></p>
@@ -16,9 +16,9 @@
             <img v-tap="{methods:keep}" v-if="curMarket && !curMarket.collection" src="../../assets/img/cdcc/favorite@3x.png"/>
             <img v-tap="{methods:keep}" v-if="curMarket && curMarket.collection" src="../../assets/img/cdcc/favorite-selected@3x.png"/>
           </p>
-          <p>{{$t('exchange.exchange_high')}}<!--24h最高价--><span>{{getLast24h.high}}</span></p>
-          <p>{{$t('exchange.exchange_low')}}<!--24h最低价--><span>{{getLast24h.bottom}}</span></p>
-          <p>{{$t('home.home_volume_24h')}}<!--24h成交量--><span>{{$root.toFixed(getLast24h.vol, 2)}} {{baseSymbol}}</span></p>
+          <p>{{$t('exchange.exchange_high')}}<!--24h最高价--><span>{{toFixed(getLast24h.high)}}</span></p>
+          <p>{{$t('exchange.exchange_low')}}<!--24h最低价--><span>{{toFixed(getLast24h.bottom)}}</span></p>
+          <p>{{$t('home.home_volume_24h')}}<!--24h成交量--><span>{{toFixed(getLast24h.vol, accuracy.quantityAccu)}} {{baseSymbol}}</span></p>
         </div>
       </div>
       <ul class="tabs">
@@ -115,6 +115,15 @@ export default {
   },
   computed: {
     ...mapGetters(['getApiToken', 'getLast24h', 'getInitMarket', 'getMarketList']),
+    accuracy(){
+      let fixedNumber = 8, quantityAccu = 4, amountAccu = 8
+      if(this.curMarket){
+        fixedNumber = Number(this.curMarket.accuracy)
+        quantityAccu = Number(this.curMarket.quantityAccu)
+        amountAccu = Number(this.curMarket.amountAccu)
+      }
+      return {fixedNumber:fixedNumber, quantityAccu:quantityAccu, amountAccu:amountAccu}
+    },
     curMarket () {
       if (!this.getMarketList) {
         return false
@@ -248,7 +257,7 @@ export default {
         klineType: 'eosbtc',
         scale: 2,
         hideDepth: true,
-        fixedNumber: 8,
+        fixedNumber: this.accuracy.fixedNumber,
         ThemeColor: {
           Background: '#0d0d0d'
         }
@@ -276,7 +285,8 @@ export default {
             let datas = res.data && res.data.constructor === Array ? res.data : []
             let newArray = []
             datas.forEach((item) => {
-              newArray.push([Number(item[0]), parseFloat(item[1]) || 0, parseFloat(item[2]) || 0, parseFloat(item[3]) || 0, parseFloat(item[4]) || 0, parseFloat(item[5]) || 0])
+              // newArray.push([Number(item[0]), parseFloat(item[1]) || 0, parseFloat(item[2]) || 0, parseFloat(item[3]) || 0, parseFloat(item[4]) || 0, parseFloat(item[5]) || 0])
+              newArray.push([Number(item[0]), parseFloat(this.toFixed(Number(item[1]))) || 0, parseFloat(this.toFixed(Number(item[2]))) || 0, parseFloat(this.toFixed(Number(item[3]))) || 0, parseFloat(this.toFixed(Number(item[4]))) || 0, parseFloat(this.toFixed(Number(item[5]))) || 0])
             })
             if (!this.isFirstKline) {
               let tempObj = {}
@@ -343,8 +353,8 @@ export default {
       }
       this.indice = args.t
     },
-    toFixed (v1) {
-      return numUtils.BN(v1).toFixed(8)
+    toFixed (value, fixed) {
+      return numUtils.BN(value || 0).toFixed(fixed === undefined ? this.accuracy.fixedNumber : fixed, 1)
     },
     keep () {
       let data = this.curMarket
