@@ -1844,6 +1844,7 @@ export default {
 	ok:'Ok',
 	updateLog:"Update log",
 	updateInfo:`
-	<p>1. Add a business application and business management</p>
+	<p>1. Add market precision control</p>
+	<p>2. Adjust login secondary verification rules</p>
 	`
 }

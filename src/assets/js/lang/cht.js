@@ -1844,6 +1844,7 @@ export default {
 	ok:'確定',
 	updateLog:"更新日誌",
 	updateInfo:`
-	<p>1. 添加商家申請及商家管理</p>
+	<p>1. 添加市場精度控制</p>
+	<p>2. 調整登錄二次驗證規則</p>
 	`
 }

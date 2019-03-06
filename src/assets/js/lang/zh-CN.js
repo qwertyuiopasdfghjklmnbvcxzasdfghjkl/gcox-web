@@ -1819,6 +1819,7 @@ export default {
 	ok:'确定',
 	updateLog:"更新日志",
 	updateInfo:`
-	<p>1. 添加商家申请及商家管理</p>
+	<p>1. 添加市场精度控制</p>
+	<p>2. 调整登录二次验证规则</p>
 	`
 }

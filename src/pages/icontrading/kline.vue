@@ -76,6 +76,7 @@
 </template>
 
 <script>
+import { MessageBox, Toast } from 'mint-ui'
 import { mapGetters, mapActions } from 'vuex'
 import ECharts from '@/assets/js/echarts.min'
 import KLineWebSocket from '@/assets/js/websocket'
@@ -373,7 +374,13 @@ export default {
           })
         }
       } else {
-        data.collection = !data.collection
+        MessageBox.confirm(`${this.$t('exchange.exchange_Not_logged')}, ${this.$t('public0.public142')}`,{
+          title:this.$t('public0.public242'),
+          confirmButtonText: this.$t('exchange.exchange_determine'),
+          cancelButtonText: this.$t('account.user_cancel')
+        }).then(state=>{
+          this.$router.push({path:'/login'})
+        })
       }
     }
   }

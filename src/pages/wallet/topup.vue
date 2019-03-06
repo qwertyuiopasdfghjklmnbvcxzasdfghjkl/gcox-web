@@ -306,6 +306,9 @@ export default {
       // left: 50%;top: 50%;
       // margin-left: -140px;
       // margin-top: -140px;
+      /deep/ canvas {
+        max-width: 100%;
+      }
     }
     .content{
       display: inline-block;
