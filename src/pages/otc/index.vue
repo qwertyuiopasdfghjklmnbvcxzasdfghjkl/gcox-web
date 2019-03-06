@@ -191,7 +191,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getApiToken']),
+    ...mapGetters(['getApiToken','getLang']),
   },
   methods: {
     getShopsApply(){
@@ -236,12 +236,12 @@ export default {
               if(this.isShop){
                 successCallback && successCallback(res.data.pay_type)
               } else {
+                let lang = this.getLang==="zh-CN"?'非商家无法发布广告，是否立即申请？':(this.getLang==="cht"?'非商戶無法發布廣告，是否立即申請？':'Non-merchase can\'t post ads, do you apply now?')
                 Vue.$confirmDialog({
                   id: 'goShopsApply',
-                  content: this.$t('business.ISSHOPS'),
+                  content: lang,
                   okCallback: () => {
-                    Tip({type: 'info', message: this.$t('business.APPLYISMADING')})
-                    // this.$router.push({to:'/mycenter/agencyApply'})
+                    this.$router.push({path:'/merchant_apply'})
                   }
                 })
               }
