@@ -284,7 +284,7 @@ export default {
                   id: 'goShopsApply',
                   content: lang,
                   okCallback: () => {
-                    this.$router.push({to:'/mycenter/agencyApply'})
+                    this.$router.push({path:'/mycenter/agencyApply'})
                   }
                 })
               }
