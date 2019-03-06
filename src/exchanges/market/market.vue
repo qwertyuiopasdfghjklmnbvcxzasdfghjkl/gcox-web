@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 import numUtils from '@/assets/js/numberUtils'
 import marketApi from '@/api/market'
@@ -268,7 +269,8 @@ export default {
       }
     },
     keep (data) {
-      console.log(data)
+      let self = this
+      // console.log(data)
       if (this.getApiToken) {
         if (data.collection) { // 取消
           marketApi.removeCollection({
@@ -284,7 +286,14 @@ export default {
           })
         }
       } else {
-        data.collection = !data.collection
+        Vue.$confirmDialog({
+          id: 'please_login',
+          showCancel: true,
+          content: `${window.$i18n.t('exchange.exchange_Not_logged')}, ${window.$i18n.t('public0.public142')}`, // 请前往登录
+          okCallback: () => {
+            self.$router.push({path:'/login'})
+          }
+        })
       }
     },
     changeSymbol (data) {
