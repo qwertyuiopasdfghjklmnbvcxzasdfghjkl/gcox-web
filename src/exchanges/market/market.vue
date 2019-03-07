@@ -33,7 +33,7 @@
                           <i><valuation :lastPrice="data.lastPrice" :baseSymbol="data.baseSymbol"/></i>
                         </font>
                         <font class="list1-amount">
-                          vol. {{toFixed(data.dealAmount, data.amountAccu)}} {{data.baseSymbol}}
+                          vol. {{toFixed(data.dealAmount, data.quantityAccu)}} {{data.baseSymbol}}
                         </font>
                       </span>
                       <span class="list1-col list1-fall active"></span><!-- 跌涨 -->
@@ -59,7 +59,7 @@
                           <em class="list-collection icon-star-full"  :class="{collection:data.collection}" @click.stop="keep(data)"></em>
                           {{data.currencySymbol}}/{{data.baseSymbol}}
                       </span>
-                      <span class="list-col price" :class="[(getDirection(data.direction)===1 || getDirection(data.direction)===0)?'font-green':'font-red']">{{toFixed(data.lastPrice)}}</span>
+                      <span class="list-col price" :class="[(getDirection(data.direction)===1 || getDirection(data.direction)===0)?'font-green':'font-red']">{{toFixed(data.lastPrice,data.accuracy)}}</span>
                       <span class="list-col fall" v-html="percent(data)"></span><!-- 跌涨 -->
                   </li>
                   <li class="list-loading" v-if="showLoading && products.length===0">
