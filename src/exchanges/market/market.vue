@@ -33,7 +33,7 @@
                           <i><valuation :lastPrice="data.lastPrice" :baseSymbol="data.baseSymbol"/></i>
                         </font>
                         <font class="list1-amount">
-                          vol. {{toFixed(data.dealAmount, data.quantityAccu)}} {{data.baseSymbol}}
+                          vol. {{toFixed(data.dealAmount, 2)}} {{data.baseSymbol}}
                         </font>
                       </span>
                       <span class="list1-col list1-fall active"></span><!-- 跌涨 -->
