@@ -18,7 +18,7 @@
           </p>
           <p>{{$t('exchange.exchange_high')}}<!--24h最高价--><span>{{toFixed(getLast24h.high)}}</span></p>
           <p>{{$t('exchange.exchange_low')}}<!--24h最低价--><span>{{toFixed(getLast24h.bottom)}}</span></p>
-          <p>{{$t('home.home_volume_24h')}}<!--24h成交量--><span>{{toFixed(getLast24h.vol, accuracy.quantityAccu)}} {{baseSymbol}}</span></p>
+          <p>{{$t('home.home_volume_24h')}}<!--24h成交量--><span>{{toFixed(getLast24h.vol, 2)}} {{baseSymbol}}</span></p>
         </div>
       </div>
       <ul class="tabs">

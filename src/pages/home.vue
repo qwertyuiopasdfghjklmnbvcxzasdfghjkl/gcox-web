@@ -48,7 +48,7 @@
                   <span>
                     <font>{{item.currencySymbol}}</font>/{{item.baseSymbol}}
                   </span>
-                  <span>24H {{toFixed(item.dealAmount, item.quantityAccu)}}</span>
+                  <span>24H {{toFixed(item.dealAmount, 2)}}</span>
                 </div>
                 <div class="middle">
                   <span :class="{rise:Number(item.direction)===1,fall:Number(item.direction)===2}">{{toFixed(item.lastPrice, item.accuracy)}}</span>
@@ -66,7 +66,7 @@
                   <span>
                     <font>{{item.currencySymbol}}</font>/{{item.baseSymbol}}
                   </span>
-                  <span>24H {{toFixed(item.dealAmount, item.quantityAccu)}}</span>
+                  <span>24H {{toFixed(item.dealAmount, 2)}}</span>
                 </div>
                 <div class="middle">
                   <span :class="{rise:Number(item.direction)===1,fall:Number(item.direction)===2}">{{toFixed(item.lastPrice, item.accuracy)}}</span>
