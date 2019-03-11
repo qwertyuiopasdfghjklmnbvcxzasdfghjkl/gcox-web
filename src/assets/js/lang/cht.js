@@ -1092,7 +1092,8 @@ export default {
 		"MOBILE_AUTH_FIRST":"請先綁定短信驗證",
 		"SHOPS_APPLY_FAIL":"申請失敗",
 		"SHOPS_APPLY_AGAIN":"不要重複申請",
-		"SHOPS_APPLY_SUCCESS":"申請成功"
+		"SHOPS_APPLY_SUCCESS":"申請成功",
+		USER_FORBID_LOGIN:'您的賬戶已凍結，無法登陸。'
 	},
 	"account": {
 		"user_registration_record": "登錄記錄",

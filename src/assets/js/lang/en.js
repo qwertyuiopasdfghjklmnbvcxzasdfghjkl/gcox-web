@@ -1092,7 +1092,8 @@ export default {
 		"MOBILE_AUTH_FIRST":"Please bind SMS verification first.",
 		"SHOPS_APPLY_FAIL":"Successful application",
 		"SHOPS_APPLY_AGAIN":"Do not repeat the application",
-		"SHOPS_APPLY_SUCCESS":"Successful application"
+		"SHOPS_APPLY_SUCCESS":"Successful application",
+		USER_FORBID_LOGIN:'Your account is frozen and cannot be logged in.'
 	},
 	"account": {
 		"user_registration_record": "Login History",

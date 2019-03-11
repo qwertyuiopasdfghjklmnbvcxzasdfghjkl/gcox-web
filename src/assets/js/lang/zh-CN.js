@@ -1092,7 +1092,8 @@ export default {
 		"MOBILE_AUTH_FIRST":"请先绑定短信验证",
 		"SHOPS_APPLY_FAIL":"申请失败",
 		"SHOPS_APPLY_AGAIN":"不要重复申请",
-		"SHOPS_APPLY_SUCCESS":"申请成功"
+		"SHOPS_APPLY_SUCCESS":"申请成功",
+		USER_FORBID_LOGIN:'您的账户已冻结，无法登陆。'
 	},
 	"account": {
 		"user_registration_record": "登录记录",
