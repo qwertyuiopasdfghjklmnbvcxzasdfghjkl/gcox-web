@@ -139,9 +139,9 @@ export default {
 .login-right{position: relative;float: right;width: 50%;height: 100%;}
 .login-right-item{position: relative;box-sizing: border-box; height: 560px;padding: 80px 60px 40px;}
 .login-right-item .caption{height: 40px;font-size: 38px;line-height: 40px;color: #3A76E7;}
-.login-right-item .prompt{padding-bottom: 24px;overflow: auto;}
-.login-right-item .prompt i{float: left;width: 24px;height: 24px;margin-top: 12px;font-weight: bold;font-size: 16px;line-height: 24px;color: #fff;text-align: center;background-color: #FF4022;border-radius: 50%;}
-.login-right-item .prompt span{float: left;min-height: 24px;padding: 11px 0 8px 8px;font-size: 18px;line-height: 24px;color: #3A76E7;}
+.login-right-item .prompt{padding-bottom: 24px; display: flex;}
+.login-right-item .prompt i{display: inline-block; width: 24px;height: 24px;margin-top: 12px;font-weight: bold;font-size: 16px;line-height: 24px;color: #fff;text-align: center;background-color: #FF4022;border-radius: 50%;}
+.login-right-item .prompt span{flex: 1; min-height: 24px;padding: 11px 0 8px 8px;font-size: 18px;line-height: 24px;color: #3A76E7;}
 
 .login-right-item /deep/ .inputbox{width: auto !important;min-height: auto !important;}
 .login-right-item /deep/ .title{height: 34px;line-height: 34px;font-size: 16px;color: #3A76E7;text-align: left;}
@@ -166,7 +166,7 @@ export default {
 .login-right-item .checkbox-group span a{color: #fdb902;text-decoration: underline;}
 .login-right-item .checkbox-group span a:hover{color: #fdb902;}
 
-.login-right-item .button-group{position: absolute;bottom: 20px;left: 60px;width: 428px;}
+.login-right-item .button-group{position: absolute;bottom: 40px;left: 60px;width: 428px;}
 .login-right-item .button-group /deep/ .button{
   display: block;justify-content: center;align-items: center;width: 100% !important;height: 55px !important;padding: 0;margin-top: 0;
   font-weight: bold;font-size: 18px;color: #fff;border: none;border-radius: 4px;cursor: pointer; background: -webkit-linear-gradient(left, #0589F6, #0240CF);  background: linear-gradient(left, #0589F6, #0240CF);
