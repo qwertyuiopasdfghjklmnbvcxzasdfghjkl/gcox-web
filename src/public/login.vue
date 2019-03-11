@@ -166,7 +166,7 @@ export default {
 .login-right-item .checkbox-group span a{color: #fdb902;text-decoration: underline;}
 .login-right-item .checkbox-group span a:hover{color: #fdb902;}
 
-.login-right-item .button-group{position: absolute;bottom: 40px;left: 60px;width: 428px;}
+.login-right-item .button-group{position: absolute;bottom: 20px;left: 60px;width: 428px;}
 .login-right-item .button-group /deep/ .button{
   display: block;justify-content: center;align-items: center;width: 100% !important;height: 55px !important;padding: 0;margin-top: 0;
   font-weight: bold;font-size: 18px;color: #fff;border: none;border-radius: 4px;cursor: pointer; background: -webkit-linear-gradient(left, #0589F6, #0240CF);  background: linear-gradient(left, #0589F6, #0240CF);
