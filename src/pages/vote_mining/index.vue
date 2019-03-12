@@ -290,6 +290,10 @@ export default {
 }
 .img-banner img{
   display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 .content{
   background: #310274 url("../../assets/img/cdcc/mining-bg.jpg") no-repeat center top;
