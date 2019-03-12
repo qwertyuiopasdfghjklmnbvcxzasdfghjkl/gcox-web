@@ -389,6 +389,7 @@ export default {
     position: relative;
     background: linear-gradient(to bottom, #f2f1f7, #fff);
     select {
+      font-size: 0.24rem;
       height: .75rem;
       vertical-align: middle;
       color: #0072fd;
