@@ -63,7 +63,7 @@
               </label>
               <span>
                 <label for="service">{{$t('login_register.agree_Service')}}<!--我已阅读并同意--></label>
-                <a href="javascript:;">{{$t('login_register.bitark_service').format(brand)}}<!--NEWTON服务条款--></a>
+                <a :href="getAgreementUrl" target="_blank">{{$t('login_register.bitark_service').format(brand)}}<!--NEWTON服务条款--></a>
               </span>
             </div>
             <div class="register-content-row button">
@@ -135,6 +135,13 @@ export default {
         email: {required: this.$t('login_register.email'), email: this.$t('exchange.exchange_Email_format_error')}, // 请输入邮箱；邮箱格式错误
         password: {required: this.$t('login_register.password')}, // 请输入密码
         passwordConfirm: {required: this.$t('login_register.confirm_password')} // 请再次输入密码
+      }
+    },
+    getAgreementUrl () {
+      if (this.getLang === 'zh-CN' || this.getLang === 'cht') {
+        return 'https://cdcc.kf5.com/hc/kb/article/1225585/'
+      } else {
+        return 'https://cdcc.kf5.com/hc/kb/article/1225582/'
       }
     }
   },

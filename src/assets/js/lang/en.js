@@ -1835,6 +1835,7 @@ export default {
 		"MOBILE": "MOBILE",
 		Merchant_brief:'Business introduction',
 		Hierarchy:'Hierarchy',
+		LOGIN_VOTE:'Please log in and vote again'
 	},
 	languages:{
 		en:'English',
@@ -1845,7 +1846,6 @@ export default {
 	ok:'Ok',
 	updateLog:"Update log",
 	updateInfo:`
-	<p>1. Add market precision control</p>
-	<p>2. Adjust login secondary verification rules</p>
+	<p>1. Optimize partial page adaptation</p>
 	`
 }

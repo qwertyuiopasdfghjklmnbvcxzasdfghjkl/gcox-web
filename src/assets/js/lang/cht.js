@@ -1835,6 +1835,7 @@ export default {
 		"MOBILE": "手機號碼",
 		Merchant_brief:'商家簡介',
 		Hierarchy:'等級權益',
+		LOGIN_VOTE:'請登錄後再投票'
 	},
 	languages:{
 		en:'English',
@@ -1845,7 +1846,6 @@ export default {
 	ok:'確定',
 	updateLog:"更新日誌",
 	updateInfo:`
-	<p>1. 添加市場精度控制</p>
-	<p>2. 調整登錄二次驗證規則</p>
+	<p>1. 優化部分頁面適配效果</p>
 	`
 }

@@ -423,10 +423,10 @@ export default {
   text-align: center;color: #8089A3;font-size: 0.24rem;margin-bottom: 0.25rem;
 }
 .left .range-percent .dots{
-  position: absolute;left: 0;right: 0;top: 0.15rem;display: flex;justify-content:space-between;
+  position: absolute;left: 0;right: 0;top: 8px;display: flex;justify-content:space-between;
 }
 .left .range-percent .dots span{
-  z-index: 1;width: 0.3rem;height: 0.3rem;background-color: #46566f;border-radius: 100%;
+  z-index: 1;width: 15px;height: 15px;background-color: #46566f;border-radius: 100%;
 }
 .left .range-percent .dots.d1 span:nth-of-type(1),
 .left .range-percent .dots.d2 span:nth-of-type(2),

@@ -1,4 +1,4 @@
-let domain = process.env.NODE_ENV === 'development' ? 'pre.cdcc.ink' : location.host.split(':')[0]
+let domain = process.env.NODE_ENV === 'development' ? 'dev.koall.io' : location.host.split(':')[0]
 if (process.env.SERVER_DOMAIN) {
   domain = process.env.SERVER_DOMAIN
 }
@@ -15,7 +15,7 @@ const config = {
   protocol: protocol,
   brand: 'cdcc',
   mySymbol: 'CDCC',
-  version:'1.0.6'
+  version:'1.0.7'
 }
 
 export default config

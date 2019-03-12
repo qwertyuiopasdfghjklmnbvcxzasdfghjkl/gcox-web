@@ -328,7 +328,8 @@ export default {
   border: 1px solid #0072fd;
 }
 .entrust-container {
-    .mint-navbar {
+  font-size: 0.24rem;
+    /deep/ .mint-navbar {
       background-color: #0c151d;
       width:calc(~"100% + 0.6rem");
       margin-left:-0.3rem;

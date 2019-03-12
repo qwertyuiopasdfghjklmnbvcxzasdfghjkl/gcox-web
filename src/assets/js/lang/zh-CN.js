@@ -1810,6 +1810,7 @@ export default {
 		"MOBILE": "手机号码",
 		Merchant_brief:'商家简介',
 		Hierarchy:'等级权益',
+		LOGIN_VOTE:'请登录后再投票'
 	},
 	languages:{
 		en:'English',
@@ -1820,7 +1821,6 @@ export default {
 	ok:'确定',
 	updateLog:"更新日志",
 	updateInfo:`
-	<p>1. 添加市场精度控制</p>
-	<p>2. 调整登录二次验证规则</p>
+	<p>1. 优化部分页面适配效果</p>
 	`
 }
