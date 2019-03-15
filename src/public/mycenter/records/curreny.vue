@@ -52,7 +52,7 @@
           <span class="avgPrice">{{getPrice(item.averagePrice)}}</span><!--成交均价-->
           <span class="tradeVolume">{{toFixed(item.finishedAmount)}}</span><!--成交量-->
           <span class="tradeSum">{{toFixed(item.dealCurrency)}} {{item.direction === 1 ? item.fromSymbol : item.toSymbol}}</span><!--成交金额-->
-          <span class="charge" :title="fee(item)">{{fee(item)}}</span><!--手续费-->
+          <span class="charge" v-html="fee(item)"></span><!--手续费-->
         </li>
       </ul>
       <page v-if="!coinsLoading && coinsEntrust.length > 0" :pageIndex="coinsParams.current" :pageSize="coinsParams.limit" :total="coinsTotal" @changePageIndex="coinsPageChange"/>
@@ -116,7 +116,7 @@ export default {
   methods: {
     fee(item){
       if(Number(item.deductionFee)){
-        return `${this.toFixed(item.fee)} ${item.toSymbol} , ${this.toFixed(item.deductionFee)} ${this.symbolDeduction}`
+        return `${this.toFixed(item.fee)} ${item.toSymbol}, ${this.toFixed(item.deductionFee)} ${this.symbolDeduction}`
       } else {
         return `${this.toFixed(item.fee)} ${item.toSymbol}`
       }
@@ -242,10 +242,10 @@ export default {
 .curreny /deep/ .record ul li span.time{width: 160px;}
 .curreny /deep/ .record ul li span.market{width: 100px;}
 .curreny /deep/ .record ul li span.type{width: 60px;}
-.curreny /deep/ .record ul li span.avgPrice{width: 140px;}
-.curreny /deep/ .record ul li span.tradeVolume{width: 140px;}
-.curreny /deep/ .record ul li span.tradeSum{width: 140px;}
-.curreny /deep/ .record ul li span.charge{width: 190px;}
+.curreny /deep/ .record ul li span.avgPrice{width: 120px;}
+.curreny /deep/ .record ul li span.tradeVolume{width: 120px;}
+.curreny /deep/ .record ul li span.tradeSum{width: 120px;}
+/*.curreny /deep/ .record ul li span.charge{width: 250px;}*/
 .curreny /deep/ .record ul li.list span.buy{color: #23CD09;}
 .curreny /deep/ .record ul li.list span.sell{color: #F34246;}
 
