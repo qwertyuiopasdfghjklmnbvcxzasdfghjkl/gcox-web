@@ -26,7 +26,7 @@
                             <!--安卓下载-->
                             {{$t('public0.public226')}}
                         </a>
-                        <a class="button" :class="{en:getLang=='en'}" href="https://www.pgyer.com/68kt" target="_blank">
+                        <a class="button" :class="{en:getLang=='en'}" href="https://www.pgyer.com/eS28" target="_blank">
                             <!--IOS下载-->
                             {{$t('public0.public227')}}
                         </a>
