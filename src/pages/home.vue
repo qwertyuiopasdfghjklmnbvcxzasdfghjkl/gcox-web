@@ -3,7 +3,9 @@
       <cp-top-back :back="false" :showLogo="true"></cp-top-back>
       <div class="page-container">
         <div class="img-banner">
-          <img src="../assets/img/cdcc/banner@3x.jpg"/>
+          <img v-if="getLang==='zh-CN'" src="../assets/img/cdcc/app_banner_cn.png"/>
+          <img v-if="getLang==='cht'" src="../assets/img/cdcc/app_banner_cht.png"/>
+          <img v-if="getLang==='en'" src="../assets/img/cdcc/app_banner_en.png"/>
         </div>
         <div class="recommend-banner">
           <swiper :options="swiperOption">
@@ -107,7 +109,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getApiToken']),
+    ...mapGetters(['getApiToken','getLang']),
     riseList () {
       if (!this.getMarketList) {
         return []
