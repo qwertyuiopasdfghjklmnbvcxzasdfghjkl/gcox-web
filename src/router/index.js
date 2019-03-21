@@ -5,6 +5,7 @@ import exchange from './exchange'
 import otc from './otc'
 import voteMining from './vote_mining'
 import login from '@/public/login'
+import loginEnjoy from '@/public/login_enjoy'
 import twoverify from '@/public/twoverify'
 import register from '@/public/register'
 import findpwd from '@/public/findpwd'
@@ -35,6 +36,12 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: login,
+      meta: {noEntry: true}
+    },
+    {
+      path: '/login-enjoy',
+      name: 'login-enjoy',
+      component: loginEnjoy,
       meta: {noEntry: true}
     },
     {

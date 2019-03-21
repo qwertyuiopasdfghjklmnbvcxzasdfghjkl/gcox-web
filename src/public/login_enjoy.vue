@@ -9,17 +9,11 @@
                         <i>!</i>
                         <span>{{$t('login_register.warm_prompt')}}<!--请确认您正在访问：-->www.cdcc.ink</span>
                     </div>
-                    <inputbox name="email" ref="email" v-model="formData.username" v-validate="'required'" :msgs="msgs.username" :errs="errors" :title="`${$t('otc_exchange.otc_exchange_Email')}/${$t('account.user_center_phone')}`" :placeholder="$t('public0.public246')" :autocomplete="'on'" @keyupEnter="login"/><!--邮箱/手机号-->
+                    <inputbox name="email" ref="email" v-model="formData.username" v-validate="'required'" :msgs="msgs.username" :errs="errors" :title="`ENJOY ${$t('account.user_center_account')}`" :placeholder="$t('public0.public287')+' ENJOY '+ $t('account.user_center_account')" :autocomplete="'on'" @keyupEnter="login"/><!--ENJOY 账号-->
                     <inputbox type="password" name="password" v-model="formData.password" v-validate="'required'" :msgs="msgs.password" :errs="errors" :title="$t('exchange.exchange_password')" :placeholder="$t('login_register.password')" :autocomplete="'on'" @keyupEnter="login"/><!--密码-->
                     <div class="button-group">
-                        <buttonbox :class="{disabled:locked||gtLocked}" :text="$t('login_register.login')" @click="login"/><!--登录-->
-                        <div class="link">
-                            <a href="javascript:;" @click="registerDialog">{{$t('exchange.exchange_not_account')}}<!--立即注册--></a>
-                            <a href="javascript:;" @click="sendemailDialog">{{$t('login_register.forget_password')}}<!--忘记密码--></a>
-                        </div>
-                        <div class="third-login">
-                          第三方登录：<RouterLink to="/login-enjoy" tag="span"><i class="enjoy"></i> ENJOY</RouterLink>
-                        </div>
+                        <buttonbox :class="{disabled:locked||gtLocked}" :text="'ENJOY '+ $t('login_register.login')" @click="login"/><!--登录-->
+                        
                     </div>
                 </div>
             </div>
@@ -46,14 +40,15 @@ export default {
       gtLocked: false,
       formData: {
         username: '',
-        password: ''
+        password: '',
+        userType: 5
       }
     }
   },
   computed: {
     msgs () {
       return {
-        username: {required: this.$t('public0.public246')}, // 请输入邮箱或手机号
+        username: {required: this.$t('public0.public287')+' ENJOY '+ this.$t('account.user_center_account')}, // 请输入ENJOY账户
         password: {required: this.$t('login_register.password')} // 请输入密码
       }
     }
