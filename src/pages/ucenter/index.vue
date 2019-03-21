@@ -22,13 +22,19 @@
             <p>{{getUserInfo.username}}<!--用户名||邮箱--></p>
           </li>
         </ul>
+        <p class="sale">
+          <span>
+            {{$t('account.user_center_pay_fees').format('CDCC', '50%')}}<!--使用CDCC支付交易手续费（50% 折扣）-->
+          </span>
+          <a class="icon-checkbox" href="javascript:;" :class="isUseCDCCPay ? 'icon-checkbox-checked' : 'icon-checkbox-unchecked'" @click="switchCoinState"></a>
+        </p>
       </div>
     </div>
 
     <div class="two">
       <div class="inner">
         <section class="item-section">
-          <p><i class="i_one"></i><span>{{$t('account.user_center_promotion')}}<!--活动推广--></span></p>
+          
         </section>
         <section class="item-section">
           <p v-tap="{methods:$root.routeTo, to:'page-msg'}"><i class="i_one1"></i><span>{{$t('account.user_center_message')}}<!--消息--><i v-if="hasNewMessage" class="circular" ></i></span></p><!--v-if="hasNewMessage"-->
@@ -76,6 +82,7 @@ export default {
   name: 'page-ucenter',
   data () {
     return {
+      isUseCDCCPay: false,
       isApp: config.app,
       version:config.version,
       avatarUrl: avatar,
@@ -88,7 +95,6 @@ export default {
         verifyState: 0,
         verifyTimes: 0
       },
-      isUseBarkPay: false,
       messageList: [],
       showShops:false
     }
@@ -118,6 +124,14 @@ export default {
     this.getMessageList()
   },
   methods: {
+    switchCoinState () {
+      // 切换使用CDCC支付交易手续费（50% 折扣）
+      userInfoApi.switchCDCCChargeState((msg) => {
+        this.isUseCDCCPay = !this.isUseCDCCPay
+      }, (msg) => {
+        console.error(msg)
+      })
+    },
     getShopsApply(){
       shopsApi.getShopsApply(res=>{
         this.showShops = (res.data && res.data.state===3) || false
@@ -190,7 +204,7 @@ export default {
           verifyState: data.verifyState,
           verifyTimes: data.verifyTimes
         }
-        this.isUseBarkPay = data.coinState === 1
+        this.isUseCDCCPay = (data.coinState === 1)
         setTimeout(() => {
           Indicator.close()
         }, 500)
@@ -430,5 +444,14 @@ export default {
   .header {
     font-size: .32rem;
     color: #cbd4ec;
+  }
+  .sale {
+    background-color:#0c151d;
+    padding-left: 0.5rem;
+    padding-right:0.5rem;
+    padding-bottom: 0.3rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.28rem;
   }
 </style>

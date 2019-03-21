@@ -7,6 +7,18 @@ import api from '@/api'
 let domain = ''
 let individual = {}
 
+// 使用CDCC支付交易手续费
+const switchCDCCChargeState = function (success, error) {
+  api.get(`${domain}api/v2/individual/coinState`, (res) => {
+    if (res.rst === 1) {
+      success && success(res.data)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+individual.switchCDCCChargeState = switchCDCCChargeState
+
 // 登录之后添加一条登录记录
 const addLoginHistory = function () {
   api.get(`${domain}api/v2/individual/addRecentLoginRecord`)
