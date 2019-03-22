@@ -11,8 +11,8 @@
       </h1>
       <ul class="detail">
         <li><span>{{$t('exchange.exchange_date')}}</span><span>{{new Date(Number(item.createdAt)).format()}}</span></li>
-        <li><span>{{$t('exchange.exchange_Transaction_price')}}</span><span>{{getPrice(item.averagePrice)}} {{item.fromSymbol}}</span></li>
-        <li><span>{{$t('exchange.exchange_Transaction_volume')}}</span><span>{{toFixed(item.finishedAmount)}} {{item.toSymbol}}</span></li>
+        <li><span>{{$t('exchange.exchange_Transaction_price')}}</span><span>{{getPrice(item.averagePrice)}} <template v-if="item.direction===1">{{item.fromSymbol}}</template><template v-else>{{item.toSymbol}}</template></span></li>
+        <li><span>{{$t('exchange.exchange_Transaction_volume')}}</span><span>{{toFixed(item.finishedAmount)}} <template v-if="item.direction===1">{{item.toSymbol}}</template><template v-else>{{item.fromSymbol}}</template></span></li>
         <li><span>{{$t('exchange.exchange_Transaction_amount')}}</span><span>{{toFixed(item.dealCurrency)}} {{item.direction === 1 ? item.fromSymbol : item.toSymbol}}</span></li>
         <li><span>{{$t('exchange.advanced_fee')}}</span><span v-html="fee(item)"></span></li>
       </ul>

@@ -31,11 +31,11 @@
                   </span>
                   <span class="price">
                     {{getPrice(item.averagePrice)}}
-                    <p>{{item.fromSymbol}}</p>
+                    <p><template v-if="item.direction===1">{{item.fromSymbol}}</template><template v-else>{{item.toSymbol}}</template></p>
                   </span>
                   <span class="vol">
                     {{toFixed(item.finishedAmount)}}
-                    <p>{{item.toSymbol}}</p>
+                    <p><template v-if="item.direction===1">{{item.toSymbol}}</template><template v-else>{{item.fromSymbol}}</template></p>
                   </span>
                 </div>
               </li>
