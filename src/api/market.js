@@ -7,6 +7,18 @@ import uuid from 'uuid/v1'
 let domain = ''
 let market = {}
 
+// 首页手续费率
+const rateSysparams = function (success, error) {
+  api.get(`${domain}api/v2/trade/sys_params`, (res) => {
+    if (res.rst === 1) {
+      success && success(res.data)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+market.rateSysparams = rateSysparams
+
 // 市场列表 获取所有产品
 const marketList = function (success, error) {
   api.get(`${domain}api/v3/trade/market`, (res) => {

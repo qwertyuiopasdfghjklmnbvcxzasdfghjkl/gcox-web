@@ -1321,7 +1321,8 @@ export default {
 		"history_entrust": "歷史委托",
 		"not_exchange_record": "暫無成交記錄",
 		"export_1w": "最近壹周",
-		"export_1y": "最近壹年"
+		"export_1y": "最近壹年",
+		"trans_record":"交易記錄"
 	},
 	"beta": {
 		"beta10": "通過制定完善的社區代幣獎勵規則，將社區進行代幣化，同時對接數字貨幣交易所，促進數字資產流轉，區塊鏈生態搭建。",

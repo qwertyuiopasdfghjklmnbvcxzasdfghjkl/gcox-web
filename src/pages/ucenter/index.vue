@@ -34,9 +34,6 @@
     <div class="two">
       <div class="inner">
         <section class="item-section">
-          
-        </section>
-        <section class="item-section">
           <p v-tap="{methods:$root.routeTo, to:'page-msg'}"><i class="i_one1"></i><span>{{$t('account.user_center_message')}}<!--消息--><i v-if="hasNewMessage" class="circular" ></i></span></p><!--v-if="hasNewMessage"-->
         </section>
         <section class="item-section">
@@ -44,6 +41,9 @@
         </section>
         <section class="item-section">
           <p v-tap="{methods:$root.routeTo, to:'page-saft'}"><i class="i_one3"></i><span>{{$t('account.user_center_safety')}}<!--安全中心--></span></p>
+        </section>
+        <section class="item-section">
+          <p v-tap="{methods:$root.routeTo, to:'trans-record'}"><i class="icon-new-message"></i><span>{{$t('trade_record.trans_record')}}<!--交易记录--></span></p>
         </section>
         <section class="item-section" v-if="!showShops">
           <p v-tap="{methods:$root.routeTo, to:'page-apply'}"><i class="icon-shield"></i><span>{{$t('business.MERCHANT_APPLICATION')}}<!--商家申请--></span></p>
@@ -292,15 +292,12 @@ export default {
   }
   .item-section p > i {font-size: 0.35rem; color: #0474EA;}
 
-  .item-section:nth-of-type(1), .item-section:nth-of-type(4), .item-section:nth-of-type(6){
+ .item-section:nth-of-type(5){
     p {
       border-bottom: 0;
     }
   }
-  .item-section:nth-of-type(2) {
-    margin-top: .2rem;
-  }
-  .item-section:nth-of-type(7) {
+  .item-section:nth-of-type(6) {
     margin-top: .2rem;
   }
   .item-section {

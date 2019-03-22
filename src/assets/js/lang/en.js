@@ -1321,7 +1321,8 @@ export default {
 		"history_entrust": "Order History",
 		"not_exchange_record": "You have no exchange order history",
 		"export_1w": "Last 1W",
-		"export_1y": "Last 1Y"
+		"export_1y": "Last 1Y",
+		"trans_record":"Transaction record"
 	},
 	"beta": {
 		"beta10": "A token community will come into being by establishing a sound community token reward rules and connections wil be made to digital currency exchanges to promote the flow of digital assets and the construction of block-chain ecosystem.",

@@ -52,6 +52,8 @@ import paypal from '@/pages/ucenter/paypal'/*PayPal收款设置*/
 import payway from '@/pages/ucenter/payway'/*收款方式设置*/
 import un_or_bindphone from '@/pages/ucenter/un_or_bindphone'/*解除/绑定短信验证*/
 import invite from '@/pages/ucenter/invite'
+import transRecord from '@/pages/ucenter/trans_record'
+import transDetail from '@/pages/ucenter/trans_detail'
 
 import voteMiningIndex from '@/pages/vote_mining/index' /*投票挖矿*/
 import voteMiningProfit from '@/pages/vote_mining/profit'
@@ -327,6 +329,20 @@ const router = new Router({
       path: '/invite',
       name: invite.name,
       component: invite,
+      meta: {login: true}
+    },
+    /*个人中心--交易记录*/
+    {
+      path: '/trans-record',
+      name: transRecord.name,
+      component: transRecord,
+      meta: {login: true}
+    },
+    /*个人中心--交易记录详情*/
+    {
+      path: '/trans-record-detail/:id',
+      name: transDetail.name,
+      component: transDetail,
       meta: {login: true}
     },
 

@@ -1296,7 +1296,8 @@ export default {
 		"history_entrust": "历史委托",
 		"not_exchange_record": "暂无成交记录",
 		"export_1w": "最近一周",
-		"export_1y": "最近一年"
+		"export_1y": "最近一年",
+		"trans_record":"交易记录"
 	},
 	"beta": {
 		"beta10": "通过制定完善的社区代币奖励规则，将社区进行代币化，同时对接数字货币交易所，促进数字资产流转，区块链生态搭建。",
