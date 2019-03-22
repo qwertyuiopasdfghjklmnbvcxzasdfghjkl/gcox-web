@@ -26,7 +26,7 @@
               <li class="item" v-for="(item, index) in record" @click="goDetail(item)">
                 <div>
                   <span class="market">
-                    <span v-if="item.direction===1">{{$t('exchange.exchange_buys')}}</span><span class="sell" v-else>{{$t('exchange.exchange_sells')}}</span> {{item.toSymbol}}/{{item.fromSymbol}}
+                    <span v-if="item.direction===1">{{$t('exchange.exchange_buys')}} {{item.toSymbol}}/{{item.fromSymbol}}</span><span class="sell" v-else>{{$t('exchange.exchange_sells')}} {{item.fromSymbol}}/{{item.toSymbol}}</span>
                     <p>{{new Date(Number(item.createdAt)).format()}}</p>
                   </span>
                   <span class="price">

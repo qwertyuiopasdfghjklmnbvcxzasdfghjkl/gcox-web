@@ -6,7 +6,7 @@
 
     <div class="page-main content">
       <h1 class="title">
-        {{item.toSymbol}} / {{item.fromSymbol}}
+        <template v-if="item.direction===1">{{item.toSymbol}}/{{item.fromSymbol}}</template><template v-else>{{item.fromSymbol}}/{{item.toSymbol}}</template>
         <span v-if="item.direction===1">{{$t('exchange.exchange_buys')}}</span><span class="sell" v-else>{{$t('exchange.exchange_sells')}}</span>
       </h1>
       <ul class="detail">
