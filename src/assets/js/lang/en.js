@@ -1847,6 +1847,6 @@ export default {
 	ok:'Ok',
 	updateLog:"Update log",
 	updateInfo:`
-	<p>1. Optimize partial page adaptation</p>
+	<p>1. Adding Transaction Records and Details to Personal Center</p>
 	`
 }

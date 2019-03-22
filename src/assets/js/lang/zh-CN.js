@@ -1822,6 +1822,6 @@ export default {
 	ok:'确定',
 	updateLog:"更新日志",
 	updateInfo:`
-	<p>1. 优化部分页面适配效果</p>
+	<p>1. 个人中心添加交易记录及详情查询</p>
 	`
 }

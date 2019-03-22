@@ -1847,6 +1847,6 @@ export default {
 	ok:'確定',
 	updateLog:"更新日誌",
 	updateInfo:`
-	<p>1. 優化部分頁面適配效果</p>
+	<p>1. 個人中心添加交易記錄及詳情査詢</p>
 	`
 }

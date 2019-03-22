@@ -81,7 +81,7 @@ export default {
     color: #FF0033;
   }
 }
-.detail {padding: 0.3rem; margin-top: 0.3rem;}
+.detail {padding: 0.5rem; margin-top: 0.3rem;}
 .detail li{
   text-align: right;
   display: flex;
