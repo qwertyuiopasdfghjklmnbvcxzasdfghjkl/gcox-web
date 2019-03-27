@@ -17,9 +17,9 @@
                             <a href="javascript:;" @click="registerDialog">{{$t('exchange.exchange_not_account')}}<!--立即注册--></a>
                             <a href="javascript:;" @click="sendemailDialog">{{$t('login_register.forget_password')}}<!--忘记密码--></a>
                         </div>
-                        <!-- <div class="third-login">
+                        <div class="third-login">
                           第三方登录：<RouterLink to="/login-enjoy" tag="span"><i class="enjoy"></i> ENJOY</RouterLink>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
