@@ -32,7 +32,7 @@
     				<p><span>*</span>{{$t('business.VOTE_NUM')}}：</p>
     				<p><input type="number" name="amount"  v-model="formData.amount" :placeholder="votesPlaceholder"></p>
     			</div>
-    			<div class="mt50"><button type="button" class="btn-enjoy" @click="enjoyVote">{{$t('business.ENJOY')}}</button></div>
+    			<div class="mt50"><button type="button" disabled class="btn-enjoy" @click="enjoyVote">{{$t('business.ENJOY')}}</button></div>
     			<div class="mt45 fs32 text-center gray">
     				{{$t('business.NOT_VOTE')}}<router-link :to="{name:'vote_mining_profile'}" tag="span" class="blue pointer">{{$t('business.VIEW_EARNINGS')}}</router-link>
     			</div>
@@ -320,6 +320,9 @@ export default {
 
 .btn-enjoy {height: 85px; border: none; width: 100%; color: #fff; font-size: 32px; border-radius: 40px; background-color: #005AE4; cursor: pointer;}
 .btn-enjoy:hover {background-color: #0044ad;}
+.btn-enjoy[disabled] {
+    background-color: #999;
+}
 
 .rules {color: #BAFEFF;}
 .rules p {line-height: 1.5; padding-bottom: 45px;}
