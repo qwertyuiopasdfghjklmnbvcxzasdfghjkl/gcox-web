@@ -38,7 +38,7 @@
               </div>
             </div>
             <div class="mag50">
-              <button type="button" class="btn-enjoy" @click="enjoyVote">{{$t('business.ENJOY')}}</button>
+              <button type="button" disabled="" class="btn-enjoy" @click="enjoyVote">{{$t('business.ENJOY')}}</button>
             </div>
             <div class="botm">
   				    {{$t('business.NOT_VOTE')}}
@@ -439,6 +439,7 @@ export default {
       border-radius: .4rem;
       background-color: #0072fd;
       cursor: pointer;
+      &[disabled] {background-color: #999;}
     }
     .botm{
       font-size: .23rem;
