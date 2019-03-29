@@ -16,6 +16,10 @@
             <span class="user-address" v-show="!toAddress && userAddress" @click="toAddress = userAddress">{{userAddress}}</span>
           </p>
         </li>
+        <li v-if="symbol==='EOS'">
+          <p>{{$t('account.user_center_history_note')}}<!--提现备注--></p>
+          <p><input type="text" maxlength="1000" v-model="memo" :placeholder="'Memo,'+$t('public0.public237')" /></p>
+        </li>
         <li>
           <p>{{$t('account.user_Draw_the_number')}}<!--提现数量--></p>
           <p><input type="number" v-model="amount" v-validate="'required|isLessMin|isMoreMax'" name="amount" :placeholder="$t('account.user_minimum_number_of_cash').format(`：${minWithdraw} ${symbol}`)"><!--最小提现数量为：{0} {symbol}。--></p>
@@ -78,7 +82,8 @@ export default {
       toAddress: '',
       data: [],
       mobileState: null,
-      userAddress: null
+      userAddress: null,
+      memo:''
     }
   },
   computed: {
@@ -91,7 +96,8 @@ export default {
         symbol: this.$route.params.symbol,
         symbolType: this.symbolInfo.symbolType,
         phoneNumber: this.getUserInfo.mobile,
-        countryCode: this.getUserInfo.countryCode || '+86'
+        countryCode: this.getUserInfo.countryCode || '+86',
+        memo: this.memo
       }
     },
     msgs () {
@@ -199,7 +205,7 @@ export default {
       var validData = {
         selToAddress: this.toAddress,
         amount: this.amount,
-        fromAccount: this.data.fromAccount
+        fromAccount: this.data.fromAccount,
       }
       this.$validator.validateAll(validData).then((validResult) => {
         if (!validResult) {

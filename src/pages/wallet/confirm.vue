@@ -82,6 +82,7 @@ export default {
           toAddress: this.params.selToAddress,
           googleCode: this.formData.verifyCode,
           type: 0,
+          memo: this.params.memo,
           lang: window.localStorage.getItem('lang') === 'zh-CN' ? 'cn' : 'en'
         }
         userUtils.walletWithdraw(formData, () => {
@@ -142,7 +143,8 @@ export default {
           type: 1,
           lang: window.localStorage.getItem('lang') === 'zh-CN' ? 'cn' : 'en',
           password: this.comData.password,
-          smsCode: this.comData.smsCode
+          smsCode: this.comData.smsCode,
+          memo: this.params.memo
         }
         let saveFun = () => {
           userUtils.walletWithdraw(formData, () => {
