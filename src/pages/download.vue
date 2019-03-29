@@ -12,21 +12,21 @@
                         {{$t('public0.public286')}}
                     </div>
                     <div class="download-buttons" v-if="isWeiXi">
-                        <a class="button" @click="showTip">
+                        <a class="button" @click="showTip" v-if="android">
                             <!--安卓下载-->
                             {{$t('public0.public226')}}
                         </a>
-                        <a class="button" @click="showTip">
+                        <a class="button" @click="showTip" v-if="apple">
                             <!--IOS下载-->
                             {{$t('public0.public227')}}
                         </a>
                     </div>
                     <div class="download-buttons" v-if="!isWeiXi">
-                        <a class="button" :class="{en:getLang=='en'}" :href="apk" target="_blank">
+                        <a class="button" :class="{en:getLang=='en'}" :href="apk" target="_blank" v-if="android">
                             <!--安卓下载-->
                             {{$t('public0.public226')}}
                         </a>
-                        <a class="button" :class="{en:getLang=='en'}" href="https://www.pgyer.com/eS28" target="_blank">
+                        <a class="button" :class="{en:getLang=='en'}" :href="apple" target="_blank" v-if="apple">
                             <!--IOS下载-->
                             {{$t('public0.public227')}}
                         </a>
@@ -51,21 +51,39 @@ import Vue from 'vue'
 import {mapGetters} from 'vuex'
 import config from '@/assets/js/config'
 import Tip from '@//assets/js/tip'
+import market from '@/api/market'
 
 export default {
   name: 'page-download',
   data () {
     return {
+      android:'',
+      apple:'',
       isWeiXi: /MicroMessenger/i.test(window.navigator.userAgent)
     }
   },
   computed: {
     ...mapGetters(['getLang']),
     apk(){
-        return `${config.url}/static/cdcc-release-1.0.1.apk`
+        return `${config.url}${this.android}`
     }
   },
+  created(){
+    this.getrateSysparams()
+  },
   methods: {
+    getrateSysparams () {
+      market.rateSysparams((res) => {
+        res.forEach((item) => {
+          if (item.code === 'androidPath') {
+            this.android = item.value
+          }
+          if (item.code === 'appleUrl') {
+            this.apple = item.value
+          }
+        })
+      })
+    },
     showTip () {
       Tip({icon: 'danger', message: this.$t('public0.public213')})
     }
