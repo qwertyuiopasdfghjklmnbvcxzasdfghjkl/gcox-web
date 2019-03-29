@@ -6,23 +6,23 @@
                 <h1 class="title1">{{$t('public0.public285')}}</h1>
                 <h3 class="title2">{{$t('public0.public286')}}</h3>
                 <div class="buttons" v-if="isWeiXi">
-                    <a class="button" @click="showTip">
+                    <a class="button" @click="showTip" v-if="android">
                         <!--安卓下载-->
                         {{$t('public0.public226')}}
                     </a>
-                    <a class="button" @click="showTip">
+                    <a class="button" @click="showTip" v-if="apple">
                         <!--IOS下载-->
                         {{$t('public0.public227')}}
                     </a>
                 </div>
                 <div class="buttons" v-if="!isWeiXi">
-                    <div class="qrcode" ref="qrcode_apk"></div>
-                    <a class="button" :class="{en:getLang=='en'}" :href="apk" target="_blank">
+                    <div class="qrcode" ref="qrcode_apk" v-show="android"></div>
+                    <a class="button" :class="{en:getLang=='en'}" :href="apk" target="_blank" v-if="android">
                         <!--安卓下载-->
                         <img src="../assets/images/download/android.png">{{$t('public0.public226')}}
                     </a>
-                    <div class="qrcode" ref="qrcode_ios"></div>
-                    <a class="button" :class="{en:getLang=='en'}" :href="ios" target="_blank">
+                    <div class="qrcode" ref="qrcode_ios" v-show="apple"></div>
+                    <a class="button" :class="{en:getLang=='en'}" :href="apple" target="_blank" v-if="apple">
                         <!--IOS下载-->
                         <img src="../assets/images/download/iphone.png">{{$t('public0.public227')}}
                     </a>
@@ -38,30 +38,64 @@ import Vue from 'vue'
 import {mapGetters} from 'vuex'
 import utils from '@/assets/js/utils'
 import config from '@/assets/js/config'
+import market from '@/api/market'
 export default {
   data () {
     return {
+      android:'',
+      apple:'',
       isWeiXi: /MicroMessenger/i.test(window.navigator.userAgent),
-      apk:`${config.origin}/static/cdcc-release-1.0.1.apk`,
       ios:'https://www.pgyer.com/eS28'
     }
   },
   computed: {
-    ...mapGetters(['getLang'])
+    ...mapGetters(['getLang']),
+    apk(){
+        return `${config.origin}${this.android}`
+    }
   },
-  mounted(){
-    utils.qrcode(this.$refs.qrcode_apk, {
-      text: this.apk,
-      width: 150,
-      height: 150
-    })
-    utils.qrcode(this.$refs.qrcode_ios, {
-      text: this.ios,
-      width: 150,
-      height: 150
-    })
+  created(){
+    this.getrateSysparams()
+  },
+  watch:{
+    android(_new){
+      if(_new){
+        this.initAndroidQr()
+      }
+    },
+    apple(_new){
+      if(_new){
+        this.initAppleQr()
+      }
+    }
   },
   methods: {
+    initAndroidQr(){
+      utils.qrcode(this.$refs.qrcode_apk, {
+        text: this.apk,
+        width: 150,
+        height: 150
+      })
+    },
+    initAppleQr(){
+      utils.qrcode(this.$refs.qrcode_ios, {
+        text: this.apple,
+        width: 150,
+        height: 150
+      })
+    },
+    getrateSysparams () {
+      market.rateSysparams((res) => {
+        res.forEach((item) => {
+          if (item.code === 'androidPath') {
+            this.android = item.value
+          }
+          if (item.code === 'appleUrl') {
+            this.apple = item.value
+          }
+        })
+      })
+    },
     showTip () {
       Vue.$koallTipBox({icon: 'notification', message: this.$t('public0.public213')})
     },
