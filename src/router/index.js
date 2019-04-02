@@ -4,6 +4,7 @@ import store from '@/store'
 import guide from '@/pages/guide'
 import home from '@/pages/home'
 import login from '@/pages/login'
+import loginEnjoy from '@/pages/login_enjoy'
 import findPwd from '@/pages/findPwd'/*找回密码*/
 import twoverify from '@/pages/twoverify'/*二次认证*/
 import register from '@/pages/register'
@@ -107,6 +108,12 @@ const router = new Router({
       path: '/login', // 登录页面
       name: login.name,
       component: login,
+      meta: {noEntry: true}
+    },
+    {
+      path: '/login_enjoy', // enjoy登录页面
+      name: loginEnjoy.name,
+      component: loginEnjoy,
       meta: {noEntry: true}
     },
     {

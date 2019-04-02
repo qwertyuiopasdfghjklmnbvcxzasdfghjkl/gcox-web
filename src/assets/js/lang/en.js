@@ -229,7 +229,8 @@ export default {
 		"Mail_sent_successfully": "Mail sent successfully",
 		"email": "Please enter your email",
 		"agree_Service": "I have read and agree to the",
-		"register": "Register"
+		"register": "Register",
+		"thirdLogin": "Third party login"
 	},
 	"countrys": {
 		"PR": "Puerto Rico",
@@ -721,6 +722,8 @@ export default {
 		"warning_content": "For security reason, we strongly recommend you to enable 2FA on your account."
 	},
 	"error_code": {
+		"USER_ENJOY_ALREADY_EXIST":"Login failed, the account has been registered, please contact customer service personnel.",
+		"USERNAME_OR_PASSWORD_FAIL":"ERROR Incorrect username or password",
 		"DELETE_FAIL": "Fail to Delete",
 		"SETTING_SUCCESS": "Succeed",
 		"AD_DOWN_SUCCESS": "Offer ended successfully",
@@ -1847,6 +1850,7 @@ export default {
 	ok:'Ok',
 	updateLog:"Update log",
 	updateInfo:`
-	<p>1. Adding Transaction Records and Details to Personal Center</p>
+	<p>1. Add third party login</p>
+	<p>2. Adding Transaction Records and Details to Personal Center</p>
 	`
 }

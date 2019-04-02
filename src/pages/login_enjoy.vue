@@ -12,18 +12,14 @@
       <div class="login-content">
         <div class="login-content-inner">
           <div class="login-content-input username">
-            <input type="text" name="username" v-model="formData.username" :placeholder="`${$t('otc_exchange.otc_exchange_Email')}/${$t('account.user_center_phone')}`"><!--邮箱/手机号-->
+            <input type="text" name="username" v-model="formData.username" :placeholder="$t('public0.public287')+' ENJOY '+ $t('account.user_center_account')"><!--ENJOY 账号-->
           </div>
           <div class="login-content-input password">
             <input type="password" name="password" v-model="formData.password" :placeholder="$t('exchange.exchange_password')" maxlength="16"><!--密码-->
             <i class="hidden" v-tap="{methods: resetPW}"></i>
           </div>
           <div class="login-content-button">
-            <mt-button type="primary" :class="{disabled:locked||gtLocked}" size="large" @click="login">{{$t('login_register.login')}}<!--登录--></mt-button>
-          </div>
-          <div class="login-content-link">
-            <span>{{$t('login_register.thirdLogin')}} <router-link tag="a" :to="{name:'login-enjoy'}"><i class="enjoy"></i> ENJOY<!--第三方登录--></router-link></span>
-            <router-link tag="a" :to="{name:'findpwd'}">{{$t('login_register.forget_password')}}<!--忘记密码--></router-link>
+            <mt-button type="primary" :class="{disabled:locked||gtLocked}" size="large" @click="login">{{'ENJOY '+ $t('login_register.login')}}<!--登录--></mt-button>
           </div>
         </div>
       </div>
@@ -39,7 +35,7 @@ import utils from '@/assets/js/utils'
 import userApi from '@/api/user'
 import myAPi from '@/api/individual'
 export default {
-  name: 'login',
+  name: 'login-enjoy',
   data () {
     return {
       brand: config.brand.toUpperCase(),
@@ -47,7 +43,8 @@ export default {
       gtLocked: false,
       formData: {
         username: '',
-        password: ''
+        password: '',
+        userType: 5
       },
       account: '',
       password: ''
@@ -74,7 +71,7 @@ export default {
     },
     login (args) {
       if (!this.$root.trim(this.formData.username,1)) {
-        Tip({type: 'danger', message: this.$t('public0.public246')})
+        Tip({type: 'danger', message: this.$t('public0.public287')+' ENJOY '+ this.$t('account.user_center_account')})
         $('.login-form input[name=username]').focus()
         return
       }
@@ -236,19 +233,17 @@ export default {
     }
   }
   &-link {
-    margin-top: 0.3rem;
     height: .8rem;
     font-size: .3rem;
     line-height: .8rem;
-    color: #333;
+    color: #0072fd;
     text-align: right;
-    display: flex;
-    justify-content: space-between;
-    a {
-      color: #0072fd;
-    }
-    i { display: inline-block; width: 0.4rem; height: 0.4rem; overflow: hidden; background-size: contain; background-repeat: no-repeat;background-position: center; vertical-align: middle;}
-    .enjoy {background-image: url('../assets/img/ico-enjoy.png');}
+  }
+  .forget_pd{
+    text-align: center;
+    color: #000;
+    font-size: .24rem;
+    margin-top: .3rem;
   }
 }
 </style>

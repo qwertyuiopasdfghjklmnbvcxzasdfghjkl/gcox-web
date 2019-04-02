@@ -229,7 +229,8 @@ export default {
 		"Mail_sent_successfully": "郵件發送成功",
 		"email": "請輸入郵箱",
 		"agree_Service": "我已閱讀並同意",
-		"register": "註冊"
+		"register": "註冊",
+		"thirdLogin": "協力廠商登入"
 	},
 	"countrys": {
 		"PR": "波多黎各",
@@ -721,6 +722,8 @@ export default {
 		"warning_content": "為了您的賬號安全，我們強烈建議您開啟二次驗證。"
 	},
 	"error_code": {
+		"USER_ENJOY_ALREADY_EXIST":"登入失敗，該帳號已注册，請聯系客服人員。",
+		"USERNAME_OR_PASSWORD_FAIL":"用戶名或密碼錯誤",
 		"DELETE_FAIL": "刪除失敗",
 		"SETTING_SUCCESS": "設置成功",
 		"AD_DOWN_SUCCESS": "廣告下架成功",
@@ -1847,6 +1850,7 @@ export default {
 	ok:'確定',
 	updateLog:"更新日誌",
 	updateInfo:`
-	<p>1. 個人中心添加交易記錄及詳情査詢</p>
+	<p>1. 添加協力廠商登入</p>
+	<p>2. 個人中心添加交易記錄及詳情査詢</p>
 	`
 }

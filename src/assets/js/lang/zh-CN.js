@@ -229,7 +229,8 @@ export default {
 		"Mail_sent_successfully": "邮件发送成功",
 		"email": "请输入邮箱",
 		"agree_Service": "我已阅读并同意",
-		"register": "注册"
+		"register": "注册",
+		"thirdLogin": "第三方登录"
 	},
 	"countrys": {
 		"PR": "波多黎各",
@@ -721,6 +722,8 @@ export default {
 		"warning_content": "为了您的账号安全，我们强烈建议您开启二次验证。"
 	},
 	"error_code": {
+		"USER_ENJOY_ALREADY_EXIST":"登录失败，该账号已注册，请联系客服人员。",
+		"USERNAME_OR_PASSWORD_FAIL":"用户名或密码错误",
 		"DELETE_FAIL": "删除失败",
 		"SETTING_SUCCESS": "设置成功",
 		"AD_DOWN_SUCCESS": "广告下架成功",
@@ -1822,6 +1825,7 @@ export default {
 	ok:'确定',
 	updateLog:"更新日志",
 	updateInfo:`
-	<p>1. 个人中心添加交易记录及详情查询</p>
+	<p>1. 添加第三方登录</p>
+	<p>2. 个人中心添加交易记录及详情查询</p>
 	`
 }
