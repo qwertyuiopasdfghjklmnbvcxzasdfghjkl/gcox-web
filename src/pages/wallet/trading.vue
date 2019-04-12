@@ -13,13 +13,15 @@
           <span>{{porp.symbol}}</span>
         </h2>
         <div class="wallet-feature-operation">
-          <span v-tap="{methods: $root.routeTo, to: 'page-topup', params: {symbol: porp.symbol}}">
-            <img src="../../assets/img/i_cz.png">
-            <em>{{$t('account.estimated_value_deposit')}}<!--充值--></em>
+          <span v-tap="{methods: $root.routeTo, to: (!currentSymbolInfo || currentSymbolInfo.rechargeFlag!==1)?'':'page-topup', params: {symbol: porp.symbol}}">
+            <img src="../../assets/img/i_cz1.png" v-if="!currentSymbolInfo || currentSymbolInfo.rechargeFlag!==1">
+            <img src="../../assets/img/i_cz.png" v-else>
+            <em :class="{disabled:!currentSymbolInfo || currentSymbolInfo.rechargeFlag!==1}">{{$t('account.estimated_value_deposit')}}<!--充值--></em>
           </span>
           <span v-tap="{methods: withdrawal, params: {symbol: porp.symbol, symbolType: porp.symbolType}}">
-            <img src="../../assets/img/i_tx.png">
-            <em>{{$t('account.estimated_value_withdrawal')}}<!--提现--></em>
+            <img src="../../assets/img/i_tx1.png" v-if="!currentSymbolInfo || currentSymbolInfo.withdrawFlag!==1">
+            <img src="../../assets/img/i_tx.png" v-else>
+            <em :class="{disabled:!currentSymbolInfo || currentSymbolInfo.withdrawFlag!==1}">{{$t('account.estimated_value_withdrawal')}}<!--提现--></em>
           </span>
           <span v-tap="{methods: $root.routeTo, to: 'page-iconindex', params: {symbol: porp.symbol}}">
             <img src="../../assets/img/i_jy.png">
@@ -352,6 +354,9 @@ export default {
       this.showSymbolList = false
     },
     withdrawal () { // 前往提现
+      if(!this.currentSymbolInfo || this.currentSymbolInfo.withdrawFlag!==1){
+        return
+      }
       userApi.getUserState((data) => {
         if (data.verifyState !== 2) {
           MessageBox({
