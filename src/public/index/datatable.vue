@@ -272,7 +272,7 @@
       markets () {
         // 收藏
         // return ['BTC', 'ETH', 'CDCC', 'USDT', this.$t('public0.public283')]
-        return ['BTC', 'ETH', 'CDCC', 'USDT']
+        return ['VE','BTC', 'ETH', 'CDCC', 'USDT']
       },
       /* 选中数据的集合 */
       mytotalList: function () {
