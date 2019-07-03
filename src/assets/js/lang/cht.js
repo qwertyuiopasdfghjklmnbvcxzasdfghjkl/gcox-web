@@ -1850,7 +1850,6 @@ export default {
 	ok:'確定',
 	updateLog:"更新日誌",
 	updateInfo:`
-	<p>1. 添加協力廠商登入</p>
-	<p>2. 個人中心添加交易記錄及詳情査詢</p>
+	<p>1. 新增VE市場</p>
 	`
 }

@@ -1825,7 +1825,6 @@ export default {
 	ok:'确定',
 	updateLog:"更新日志",
 	updateInfo:`
-	<p>1. 添加第三方登录</p>
-	<p>2. 个人中心添加交易记录及详情查询</p>
+	<p>1. 新增VE市场</p>
 	`
 }

@@ -1850,7 +1850,6 @@ export default {
 	ok:'Ok',
 	updateLog:"Update log",
 	updateInfo:`
-	<p>1. Add third party login</p>
-	<p>2. Adding Transaction Records and Details to Personal Center</p>
+	<p>1. Add VE Market</p>
 	`
 }
