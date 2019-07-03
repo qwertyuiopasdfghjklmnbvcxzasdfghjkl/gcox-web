@@ -15,7 +15,7 @@
                         {{$t('public.navigation_exchange')}}<!--币币交易-->
                       </a>
                     </li>
-                    <li>
+                    <li v-if="false">
                       <a @click="reloadPage('vote_mining_index')" :class="{'current':$route.name.includes('vote_mining')}">
                         {{$t('business.MINING_TITLE')}}<!--投票挖矿-->
                       </a>
@@ -126,7 +126,7 @@
               {{$t('public.navigation_exchange')}}<!--币币交易-->
             </a>
           </li>
-          <li>
+          <li v-if="false">
             <a @click="reloadPage('vote_mining_index')" :class="{'current':$route.name.includes('vote_mining')}">
               {{$t('business.MINING_TITLE')}}<!--投票挖矿-->
             </a>
