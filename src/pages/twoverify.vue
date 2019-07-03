@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import Tip from '@/assets/js/tip'
 import utils from '@/assets/js/utils'
 import userApi from '@/api/user'
@@ -81,6 +81,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['getLang']),
     verifyCodeLength () { // 短信长度
       return Number(this.formData.verifyType) === 0 ? 6 : 6
     },
@@ -198,7 +199,8 @@ export default {
       this.disabled = true
       myAPi.sendAuthSMSCode({
         phoneNumber: this.formData.mobile,
-        countryCode: this.countryCode
+        countryCode: this.countryCode,
+        lang:this.getLang
       }, (res) => {
         let timeOut = () => {
           this.time--

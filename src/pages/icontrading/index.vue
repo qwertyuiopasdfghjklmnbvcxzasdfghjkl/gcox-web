@@ -8,6 +8,7 @@
         <section class="coin_tab">
           <ul>
             <li :class="[tabactive==='tab-container1'?'activation':'']" @click="whickTabFun('tab-container1')"><span>{{$t('home.home_favorites')}}<!--自选--></span></li>
+            <li :class="[tabactive==='tab-container6'?'activation':'']" @click="whickTabFun('tab-container6')"><span>VE</span></li>
             <li :class="[tabactive==='tab-container2'?'activation':'']" @click="whickTabFun('tab-container2')"><span>BTC</span></li>
             <li :class="[tabactive==='tab-container3'?'activation':'']" @click="whickTabFun('tab-container3')"><span>ETH</span></li>
             <li :class="[tabactive==='tab-container4'?'activation':'']" @click="whickTabFun('tab-container4')"><span>CDCC</span><i></i></li>
@@ -72,6 +73,36 @@
                 </div>
               </section>
             </div>
+          </div>
+        </div>
+      </mt-tab-container-item>
+
+      <!--VE-->
+      <mt-tab-container-item id="tab-container6">
+        <div class="box">
+          <div class="inner">
+            <section class="coin_content">
+              <div class="item">
+                <div class="inner">
+                  <ul class="item" v-for="(item, index) in veMarkets" :key="index" @click="goToExchangePage(item)">
+                    <li>
+                      <img :src="item.iconBase64?`data:image/png;base64,`+item.iconBase64:item.iconUrl"/>
+                    </li>
+                    <li>
+                      <h1><span>{{item.currencySymbol}}</span>/<i>{{item.baseSymbol}}</i></h1>
+                      <h2>24H {{toFixed(item.dealAmount, 2)}}</h2>
+                    </li>
+                    <li>
+                      <h1>{{toFixed(item.lastPrice, item.accuracy)}}</h1>
+                      <h2>≈<span><valuation :lastPrice="item.lastPrice" :baseSymbol="item.baseSymbol"/></span></h2>
+                    </li>
+                    <li>
+                      <button class="c-button c-button-normal" :class="[percent(item).css]">{{percent(item).percent}}%</button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </section>
           </div>
         </div>
       </mt-tab-container-item>
@@ -222,6 +253,7 @@ export default {
       tabactive: 'tab-container2',
       markets: [],
       favoriteMarkets: [],
+      veMarkets: [],
       btcMarkets: [],
       ethMarkets: [],
       cdccMarkets: [],
@@ -270,7 +302,9 @@ export default {
       this.cdccMarkets = []
       this.usdtMarkets = []
       this.sortMarketDatas.forEach((item) => {
-        if (item.baseSymbol === 'BTC') {
+        if (item.baseSymbol === 'VE') {
+          this.veMarkets.push(item)
+        } else if (item.baseSymbol === 'BTC') {
           this.btcMarkets.push(item)
         } else if (item.baseSymbol === 'ETH') {
           this.ethMarkets.push(item)
@@ -301,7 +335,9 @@ export default {
     },
     fromWaletsysbolm () { // 钱包跳转过来
       let sysbomle = this.$route.params.sysbolm
-      if (sysbomle === 'ETH') {
+      if (sysbomle === 'VE') {
+        this.whickTabFun('tab-container6')
+      } else if (sysbomle === 'ETH') {
         this.whickTabFun('tab-container3')
       } else if (sysbomle === 'CDCC') {
         this.whickTabFun('tab-container4')

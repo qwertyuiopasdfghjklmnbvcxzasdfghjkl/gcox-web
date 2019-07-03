@@ -24,7 +24,7 @@
                 <router-link :to="{name:'page-home'}">{{$t('public0.public206')}}<!--首页--></router-link>
             </li>
             <!--投票挖矿-->
-            <li class="menu-item" @click="hideVisible">
+            <li class="menu-item" @click="hideVisible" v-if="false">
                 <router-link :to="{name:'vote_mining_index'}">
                     {{$t('business.MINING_TITLE')}}
                 </router-link>
