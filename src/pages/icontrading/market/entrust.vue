@@ -125,13 +125,16 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getApiToken']),
+    ...mapGetters(['getApiToken','getMarketList']),
+    symbolList(){
+      return this.getMarketList?this.getMarketList.map(item=>{return item.baseSymbol}).join('|'):''
+    },
     ncdatas () {
-      let newDatas = []
+      let newDatas = [], patt = new RegExp(`(.*)(${this.symbolList})$`)
       this.cdatas.forEach((item) => {
-        let ms = item.market.match(/(.*)(BTC|ETH|ATN|USDT)$/)
-        item.currencySymbol = ms[1]
-        item.baseSymbol = ms[2]
+        let ms = item.market.match(patt)
+        item.currencySymbol = ms && ms[1]
+        item.baseSymbol = ms && ms[2]
         newDatas.push(item)
       })
       return newDatas.filter((item) => {
@@ -143,11 +146,11 @@ export default {
       })
     },
     nhdatas () {
-      let newDatas = []
+      let newDatas = [], patt = new RegExp(`(.*)(${this.symbolList})$`)
       this.hdatas.forEach((item) => {
-        let ms = item.market.match(/(.*)(BTC|ETH|ATN|USDT)$/)
-        item.currencySymbol = ms[1]
-        item.baseSymbol = ms[2]
+        let ms = item.market.match(patt)
+        item.currencySymbol = ms&&ms[1]
+        item.baseSymbol = ms&&ms[2]
         newDatas.push(item)
       })
       return newDatas.filter((item) => {

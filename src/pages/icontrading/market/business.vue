@@ -5,7 +5,7 @@
             <button type="button" class="sell" :class="{active:!isBuy}" @click="switchTradeType('sell')">{{$t('exchange.exchange_sell')}}<!--卖出--></button>
         </div>
         <div class="trust-type-choice">
-            <span @click="toggleChoice">{{$t(entrustType=='market'?'exchange.exchange_market':'exchange.exchange_limit')}}</span>
+            <span @click="toggleChoice" :class="{active:!fixedPrice}">{{$t(entrustType=='market'?'exchange.exchange_market':'exchange.exchange_limit')}}</span>
                 <transition enter-active-class="animated short fadeIn" leave-active-class="animated short fadeOut">
                     <ul class="choices" v-show="isTrustChioce">
                         <li @click="toggleChoice('limit')">{{$t('exchange.exchange_limit')}}<!--限价委托--></li>
@@ -13,7 +13,8 @@
                     </ul>
                 </transition>
             </div>
-        <cp-adjust v-model="formData.price" v-if="!isMarket" :accuracy="accuracy.fixedNumber"></cp-adjust>
+        <cp-adjust v-model="formData.price" v-if="!isMarket && !fixedPrice" :accuracy="accuracy.fixedNumber"></cp-adjust>
+        <p class="price-placeholder" v-if="!isMarket && fixedPrice">{{fixedPrice}}</p>
         <p class="price-placeholder" v-if="isMarket">{{$t('exchange.exchange_market_price')}}</p>
         <p class="fabi">
           <valuation :lastPrice="formData.price" :baseSymbol="baseSymbol"/>
@@ -97,7 +98,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getApiToken', 'getMarketConfig', 'getLast24h', 'getEntrustNewPrice', 'getUserWallets']),
+    ...mapGetters(['getApiToken', 'getMarketConfig', 'getLast24h', 'getEntrustNewPrice', 'getUserWallets','getMarketList']),
     symbol () {
       return `${this.currentSymbol}${this.baseSymbol}`
     },
@@ -127,9 +128,25 @@ export default {
     },
     marketPrice () {
       return this.$t('exchange.exchange_market_price') // 市价
+    },
+    fixedPrice(){
+      let fixedPrice = 0, fixedBuyOrSellPrice = 0
+      for(let item of this.getMarketList||[]){
+        if(item.market===this.symbol){
+          fixedPrice = Number(item.fixedPrice)
+          fixedBuyOrSellPrice = Number(this.isBuy?item.fixedBuyPrice:item.fixedSellPrice)
+          break
+        }
+      }
+      return fixedBuyOrSellPrice?fixedBuyOrSellPrice:fixedPrice
     }
   },
   watch: {
+    fixedPrice(_n){
+      if(_n){
+        this.entrustType = 'limit'
+      }
+    },
     entrustType () {
       this.percent = 0
       this.formData.amount = ''
@@ -182,6 +199,9 @@ export default {
         this.tradeType = type
     },
     toggleChoice (e) {
+        if(this.fixedPrice){
+          return
+        }
         if (typeof e === 'string') {
             this.entrustType = e
         }
@@ -222,14 +242,15 @@ export default {
         return
       }
       this.changeInput = type
-      if (type === 'total' && numUtils.BN(this.formData.price).gt(0)) {
-        this.formData.amount = this.toFixed(numUtils.div(this.formData.total, this.formData.price))
+      let Price = this.fixedPrice===0?this.formData.price:this.fixedPrice
+      if (type === 'total' && numUtils.BN(Price).gt(0)) {
+        this.formData.amount = this.toFixed(numUtils.div(this.formData.total, Price), this.Quantityaccu)
       } else if (type === 'total' && numUtils.BN(this.formData.amount).gt(0)) {
         this.formData.price = this.toFixed(numUtils.div(this.formData.total, this.formData.amount))
-      } else if (numUtils.BN(this.formData.price).gt(0) && numUtils.BN(this.formData.amount).gt(0)) {
-        this.formData.total = this.toFixed(numUtils.mul(this.formData.price, this.formData.amount))
-      } else if (numUtils.BN(this.formData.price).gt(0) && numUtils.BN(this.formData.total).gt(0)) {
-        this.formData.amount = this.toFixed(numUtils.div(this.formData.total, this.formData.price))
+      } else if (numUtils.BN(Price).gt(0) && numUtils.BN(this.formData.amount).gt(0)) {
+        this.formData.total = this.toFixed(numUtils.mul(Price, this.formData.amount), this.Amountaccu)
+      } else if (numUtils.BN(Price).gt(0) && numUtils.BN(this.formData.total).gt(0)) {
+        this.formData.amount = this.toFixed(numUtils.div(this.formData.total, Price), this.Quantityaccu)
       } else {
         this.changeInput = ''
       }
@@ -238,13 +259,13 @@ export default {
       p = p / 100
       let amount = numUtils.mul(this.tradeType === 'buy' ? this.toBalance.availableBalance : this.fromBalance.availableBalance, p).toFixed(this.fixedNumber)
       if (this.entrustType === 'market' && this.tradeType === 'buy') {
-        this.formData.amount = numUtils.div(amount, this.getLast24h.close).toFixed(this.fixedNumber, 1)
+        this.formData.amount = Number(amount)?numUtils.div(amount, this.getLast24h.close).toFixed(this.fixedNumber, 1):''
         return
       }
       if (this.tradeType === 'buy') {
-        this.formData.total = amount
+        this.formData.total = Number(amount)?amount:''
       } else {
-        this.formData.amount = amount
+        this.formData.amount = Number(amount)?amount:''
       }
     },
     buyOrSell () {
@@ -261,7 +282,7 @@ export default {
       let toAccountId = null
       let direction = null// 1买 2卖
       if (this.entrustType === 'limit') { // 限价
-        price = this.formData.price
+        price = this.fixedPrice===0?this.formData.price:this.fixedPrice
         if (!price) {
           msg = this.$t('exchange.exchange_price_empty') // 价格不能为空
         } else if (numUtils.BN(price).equals(numUtils.BN(0))) {
@@ -400,7 +421,7 @@ export default {
 .left .acBtns button.buy.active{color:#fff;background:@write-0c9;}
 .left .acBtns button.sell.active{color:#fff;background:@write-e76;}
 .left .trust-type-choice{margin-top:0.45rem;font-size: 0.3rem;position: relative;height: 0.5rem;}
-.left .trust-type-choice > span:after{
+.left .trust-type-choice > span.active:after{
   display: inline-block;content: '';margin-left: 0.2rem;border-top: 0.15rem  solid #fff;
   border-left: 0.13rem solid transparent;border-right: 0.13rem solid transparent;
 }

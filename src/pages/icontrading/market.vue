@@ -8,7 +8,7 @@
     </cp-top-back>
     <div class="page-main">
       <section class="exchange-container clearfix">
-        <business :pTradeType="tradeType" :currentSymbol="currentSymbol" :baseSymbol="baseSymbol" :accuracy="accuracy"></business>
+        <business ref="business" :pTradeType="tradeType" :currentSymbol="currentSymbol" :baseSymbol="baseSymbol" :accuracy="accuracy"></business>
         <div class="right">
           <transition enter-active-class="animated short slideInDown" leave-active-class="animated short slideOutUp">
             <depth v-model="showLatestDeal" :baseSymbol="baseSymbol" :currentSymbol="currentSymbol" v-show="!showLatestDeal" :accuracy="accuracy"></depth>
@@ -115,6 +115,8 @@ export default {
     },
     changeMarket (args) {
       this.showMarkets = false
+      this.$refs.business.percent = 0
+      this.$refs.business.formData.amount = ''
       this.$router.replace({name: 'exchange-market', params: {market: `${args.market.currencySymbol}_${args.market.baseSymbol}`}})
     },
     InitDataSoket () { //初始化数据websoket
