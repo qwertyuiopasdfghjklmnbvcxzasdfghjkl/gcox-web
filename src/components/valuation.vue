@@ -19,9 +19,9 @@ export default {
           return numUtils.div(lastPrice, this.getUsdRate).toFixed(6).toMoney()
         } else if (this.baseSymbol === 'VE') {
           if (this.getLang === 'en') {
-            return Number(this.getUsdRate).toFixed(6).toMoney()
+            return numUtils.mul(lastPrice, this.getUsdRate).toFixed(6).toMoney()
           }
-          return '1.000000'
+          return numUtils.BN(lastPrice).toFixed(6).toMoney()
         }
         let curMarketBtc = this.getBtcValues[this.baseSymbol]
         if (!curMarketBtc && this.baseSymbol !== 'BTC') {
