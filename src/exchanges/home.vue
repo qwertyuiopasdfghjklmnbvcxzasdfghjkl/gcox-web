@@ -44,7 +44,7 @@
               </div>
             </div>
             <div class="home-center-bottom">
-              <businesspanel ref="businesspanel" :fixedNumber="fixedNumber" :Quantityaccu="Quantityaccu" :Amountaccu="Amountaccu" :baseSymbol="baseSymbol" :currentSymbol="currentSymbol" :fromWallet="fromWallet" :toWallet="toWallet"/>
+              <businesspanel ref="businesspanel" :fixedNumber="fixedNumber" :Quantityaccu="Quantityaccu" :Amountaccu="Amountaccu" :baseSymbol="baseSymbol" :currentSymbol="currentSymbol" :fromWallet="fromWallet" :toWallet="toWallet" :marketList="marketList"/>
               <entrust ref="entrust" :valuationCout="valuationCout" :newRmbCount="newRmbCount" :currentSymbol="currentSymbol" :baseSymbol="baseSymbol" :fixedNumber="fixedNumber" :symbol="symbol" :toFixed="toFixed" :mul="mul" :changeEntrustData="changeEntrustData"/>
             </div>
           </div>
@@ -95,7 +95,8 @@ export default {
       changeEntrustData: {},
       closeMainLoading: false,
       valuationCout: 0, // 当前估值
-      newRmbCount: 0 // 最新人民币估值
+      newRmbCount: 0, // 最新人民币估值
+      marketList: [] //市场列表
     }
   },
   computed: {
@@ -293,6 +294,8 @@ export default {
       this.klineData = []
       this.$refs.businesspanel.$refs.business_buy.formData.amount = ''
       this.$refs.businesspanel.$refs.business_sell.formData.amount = ''
+      this.$refs.businesspanel.$refs.business_buy.percent = '0'
+      this.$refs.businesspanel.$refs.business_sell.percent = '0'
       this.$router.push({name: 'exchange_index', params: {symbol: `${currentSymbol}_${baseSymbol}`}})
     },
     showCoinInfo () {
