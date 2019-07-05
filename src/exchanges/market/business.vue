@@ -10,10 +10,11 @@
                 <div class="formel price">
                     <label class="formel-label">{{$t('exchange.exchange_price')}}<!--价格--></label>
                     <div class="formel-text">
-                        <numberbox ref="price" :style="baseStyle" v-if="!isMarket" :accuracy="fixedNumber" class="formel-textbox" type="text" v-model="formData.price" :readonly="isMarket"/>
+                        <numberbox ref="price" :style="baseStyle" v-if="!isMarket && fixedPrice!==0" :accuracy="fixedNumber" class="formel-textbox" type="text" v-model="fixedPrice" :readonly="true"/>
+                        <numberbox ref="price" :style="baseStyle" v-if="!isMarket && fixedPrice===0" :accuracy="fixedNumber" class="formel-textbox" type="text" v-model="formData.price"/>
                         <input v-if="isMarket" class="formel-textbox" :value="$t('exchange.exchange_market_price')" type="text" readonly="readonly"/>
                         <em class="tip-title" ref="tipBaseSymbol">{{baseSymbol}}</em>
-                        <arrows :disabled="isMarket" :fixedNumber="fixedNumber" v-model="formData.price"/>
+                        <arrows :disabled="isMarket || (!isMarket && fixedPrice!==0)" :fixedNumber="fixedNumber" v-model="formData.price"/>
                         <em v-show="isShowPrice" class="error-tip icon-arrow-down">
                           <i><valuation :lastPrice="formData.price" :baseSymbol="baseSymbol"/></i>
                         </em>
@@ -131,6 +132,10 @@ export default {
     },
     toWallet: {
       type: Object
+    },
+    marketList: {
+      type: Array,
+      default: []
     }
   },
   components: {
@@ -201,6 +206,17 @@ export default {
     },
     curPercent () {
       return Math.max(this.hoverPercent, this.percent)
+    },
+    fixedPrice(){
+      let fixedPrice = 0, fixedBuyOrSellPrice = 0
+      for(let item of this.marketList){
+        if(item.market===this.symbol){
+          fixedPrice = Number(item.fixedPrice)
+          fixedBuyOrSellPrice = Number(this.isBuy?item.fixedBuyPrice:item.fixedSellPrice)
+          break
+        }
+      }
+      return fixedBuyOrSellPrice?fixedBuyOrSellPrice:fixedPrice
     }
   },
   watch: {
@@ -321,14 +337,15 @@ export default {
         return
       }
       this.changeInput = type
-      if (type === 'total' && numUtils.BN(this.formData.price).gt(0)) {
-        this.formData.amount = this.toFixed(numUtils.div(this.formData.total, this.formData.price), this.Quantityaccu)
+      let Price = this.fixedPrice===0?this.formData.price:this.fixedPrice
+      if (type === 'total' && numUtils.BN(Price).gt(0)) {
+        this.formData.amount = this.toFixed(numUtils.div(this.formData.total, Price), this.Quantityaccu)
       } else if (type === 'total' && numUtils.BN(this.formData.amount).gt(0)) {
         this.formData.price = this.toFixed(numUtils.div(this.formData.total, this.formData.amount))
-      } else if (numUtils.BN(this.formData.price).gt(0) && numUtils.BN(this.formData.amount).gt(0)) {
-        this.formData.total = this.toFixed(numUtils.mul(this.formData.price, this.formData.amount), this.Amountaccu)
-      } else if (numUtils.BN(this.formData.price).gt(0) && numUtils.BN(this.formData.total).gt(0)) {
-        this.formData.amount = this.toFixed(numUtils.div(this.formData.total, this.formData.price), this.Quantityaccu)
+      } else if (numUtils.BN(Price).gt(0) && numUtils.BN(this.formData.amount).gt(0)) {
+        this.formData.total = this.toFixed(numUtils.mul(Price, this.formData.amount), this.Amountaccu)
+      } else if (numUtils.BN(Price).gt(0) && numUtils.BN(this.formData.total).gt(0)) {
+        this.formData.amount = this.toFixed(numUtils.div(this.formData.total, Price), this.Quantityaccu)
       } else {
         this.changeInput = ''
       }
@@ -337,13 +354,13 @@ export default {
       p = p / 100
       let amount = numUtils.mul(this.tradeType === 'buy' ? this.toBalance.availableBalance : this.fromBalance.availableBalance, p).toFixed(this.fixedNumber)
       if (this.active === 'market' && this.tradeType === 'buy') {
-        this.formData.amount = numUtils.div(amount, this.getLast24h.close).toFixed(this.fixedNumber, 1)
+        this.formData.amount = Number(amount)?numUtils.div(amount, this.getLast24h.close).toFixed(this.fixedNumber, 1):''
         return
       }
       if (this.tradeType === 'buy') {
-        this.formData.total = amount
+        this.formData.total = Number(amount)?amount:''
       } else {
-        this.formData.amount = amount
+        this.formData.amount = Number(amount)?amount:''
       }
     },
     buyOrSell () {
@@ -360,7 +377,7 @@ export default {
       let toAccountId = null
       let direction = null// 1买 2卖
       if (this.active === 'limit') { // 限价
-        price = this.formData.price
+        price = this.fixedPrice===0?this.formData.price:this.fixedPrice
         if (!price) {
           msg = this.$t('exchange.exchange_price_empty') // 价格不能为空
         } else if (numUtils.BN(price).equals(numUtils.BN(0))) {
@@ -544,7 +561,7 @@ export default {
 .formel-label{width:70px;line-height:36px;text-align:right;color:#333;overflow: hidden;text-overflow: ellipsis;padding-right:20px;}
 .formel-text{width:calc(100% - 90px);position:relative;color:#333;}
 .formel-textbox{width:calc(100% - 18px);height:34px;line-height:34px;border:1px solid #ccc;padding:0 8px;background:transparent;color:#333;font-size:16px;}
-.formel-textbox[readonly='readonly']{cursor:not-allowed;}
+.formel-textbox[readonly='readonly']{cursor:not-allowed; background-color: #eee;}
 .formel-textbox:focus{border-color:#3A76E7!important;}
 .tip-title{height:22px;line-height:22px;position:absolute;z-index:1;right:51px;top:calc(50% - 10px);padding:0 4px;background:transparent;}
 .percent{width:calc(100% - 104px);height:4px;display:flex;background:#eee;margin:18px 0 18px 97px;position:relative;}
