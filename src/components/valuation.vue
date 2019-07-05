@@ -17,16 +17,11 @@ export default {
             return numUtils.BN(lastPrice).toFixed(6).toMoney()
           }
           return numUtils.div(lastPrice, this.getUsdRate).toFixed(6).toMoney()
-        } else if (this.baseSymbol === 'ATN') {
+        } else if (this.baseSymbol === 'VE') {
           if (this.getLang === 'en') {
-            return numUtils.mul(lastPrice, '0.1').toFixed(6).toMoney()
+            return Number(this.getUsdRate).toFixed(6).toMoney()
           }
-          return numUtils.div(numUtils.mul(lastPrice, '0.1'), this.getUsdRate).toFixed(6).toMoney()
-        } else if (this.baseSymbol === 'MECoin') {
-          if (this.getLang === 'en') {
-            return numUtils.mul(lastPrice, '0.25').toFixed(6).toMoney()
-          }
-          return numUtils.div(numUtils.mul(lastPrice, '0.25'), this.getUsdRate).toFixed(6).toMoney()
+          return '1.000000'
         }
         let curMarketBtc = this.getBtcValues[this.baseSymbol]
         if (!curMarketBtc && this.baseSymbol !== 'BTC') {
