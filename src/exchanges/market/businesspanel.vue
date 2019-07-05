@@ -9,7 +9,7 @@
             <li class="tab-item" :class="{selected:isShow && active==='limit'}" @click="switchTab('limit')">
               {{$t('exchange.exchange_limit')}}<!--限价委托-->
             </li>
-            <li class="tab-item" :class="{selected:isShow && active==='market'}" @click="switchTab('market')">
+            <li class="tab-item" :class="{selected:isShow && active==='market'}" @click="switchTab('market')" v-if="!fixedPrice">
               {{$t('exchange.exchange_market')}}<!--市价委托-->
             </li>
             <li class="procedure-item" v-if="isShow">{{$t('public.fee_rate')}}：{{rateData || 0.01}}%<!--手续费率--></li>
@@ -41,6 +41,18 @@ export default {
       rateData: null
     }
   },
+  computed:{
+    fixedPrice(){
+      let fixedPrice = 0
+      for(let item of this.marketList){
+        if(item.market===`${this.currentSymbol}${this.baseSymbol}`){
+          fixedPrice = Number(item.fixedPrice || item.fixedBuyPrice || item.fixedSellPrice)
+          break
+        }
+      }
+      return fixedPrice
+    }
+  },
   watch: {
     isShow () {
       this.$nextTick(() => {
@@ -49,6 +61,11 @@ export default {
           params: {type: 'resize', value: this.isShow}
         })
       })
+    },
+    fixedPrice(_n){
+      if(_n){
+        this.active = 'limit'
+      }
     }
   },
   created () {
