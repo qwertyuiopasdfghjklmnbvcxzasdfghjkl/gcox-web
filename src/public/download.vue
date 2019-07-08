@@ -51,7 +51,8 @@ export default {
   computed: {
     ...mapGetters(['getLang']),
     apk(){
-        return `${config.origin}${this.android}`
+        // return `${config.origin}${this.android}`
+        return 'https://www.pgyer.com/PSc1'
     }
   },
   created(){
