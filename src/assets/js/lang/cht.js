@@ -1850,6 +1850,6 @@ export default {
 	ok:'確定',
 	updateLog:"更新日誌",
 	updateInfo:`
-	<p>1. 新增VE市場</p>
+	<p>1. 優化部分頁面顯示效果</p>
 	`
 }

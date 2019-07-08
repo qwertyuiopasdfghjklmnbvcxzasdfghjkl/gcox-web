@@ -1850,6 +1850,6 @@ export default {
 	ok:'Ok',
 	updateLog:"Update log",
 	updateInfo:`
-	<p>1. Add VE Market</p>
+	<p>1. Optimize the display effect of some pages</p>
 	`
 }

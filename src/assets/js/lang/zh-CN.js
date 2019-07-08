@@ -1825,6 +1825,6 @@ export default {
 	ok:'确定',
 	updateLog:"更新日志",
 	updateInfo:`
-	<p>1. 新增VE市场</p>
+	<p>1. 优化部分页面显示效果</p>
 	`
 }
