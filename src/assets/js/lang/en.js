@@ -1644,7 +1644,7 @@ export default {
 		"public44": "Please select the address or use the new address",
 		"public49": "Mobile phone Numbers should be 9 to 11 digits",
 		"public156": "My Offer History",
-		"public277": "Please  wait for the slider initialization to complete.",
+		"public277": "Verification module is loading, please try again later.",
 		"public155": "My Offer",
 		"public276": "Save to album",
 		"public47": "The amount of cash can not be larger than the available balance {0}",

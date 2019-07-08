@@ -22,7 +22,7 @@
             <mt-button type="primary" :class="{disabled:locked||gtLocked}" size="large" @click="login">{{$t('login_register.login')}}<!--登录--></mt-button>
           </div>
           <div class="login-content-link">
-            <span>{{$t('login_register.thirdLogin')}} <router-link tag="a" :to="{name:'login-enjoy'}"><i class="enjoy"></i> ENJOY<!--第三方登录--></router-link></span>
+            <!-- <span>{{$t('login_register.thirdLogin')}} <router-link tag="a" :to="{name:'login-enjoy'}"><i class="enjoy"></i> ENJOY</router-link></span> -->
             <router-link tag="a" :to="{name:'findpwd'}">{{$t('login_register.forget_password')}}<!--忘记密码--></router-link>
           </div>
         </div>
