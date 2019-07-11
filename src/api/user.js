@@ -47,7 +47,7 @@ user.getUserInfo = getUserInfo
 
 // 注册
 const register = function (formData, success, error) {
-  api.post(`${domain}api/v2/user/register`, formData, (res) => {
+  api.post(`${domain}api/v1/gcox/user/register`, formData, (res) => {
     if (res.rst === 1) {
       success && success(res.msg)
     } else {

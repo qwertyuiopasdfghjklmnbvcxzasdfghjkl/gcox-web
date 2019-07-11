@@ -4,10 +4,10 @@
             <div class="login-left"></div>
             <div class="login-right">
                 <div class="login-right-item item-login">
-                    <div class="caption">{{$t('login_register.title_login').format('CDCC')}}<!--欢迎来到CDCC--></div>
+                    <div class="caption">{{$t('login_register.title_login').format('GCOX')}}<!--欢迎来到GCOX--></div>
                     <div class="prompt">
                         <i>!</i>
-                        <span>{{$t('login_register.warm_prompt')}}<!--请确认您正在访问：-->www.cdcc.ink</span>
+                        <span>{{$t('login_register.warm_prompt')}}<!--请确认您正在访问：-->www.gcox.ink</span>
                     </div>
                     <inputbox name="email" ref="email" v-model="formData.username" v-validate="'required'" :msgs="msgs.username" :errs="errors" :title="`ENJOY ${$t('account.user_center_account')}`" :placeholder="$t('public0.public287')+' ENJOY '+ $t('account.user_center_account')" :autocomplete="'on'" @keyupEnter="login"/><!--ENJOY 账号-->
                     <inputbox type="password" name="password" v-model="formData.password" v-validate="'required'" :msgs="msgs.password" :errs="errors" :title="$t('exchange.exchange_password')" :placeholder="$t('login_register.password')" :autocomplete="'on'" @keyupEnter="login"/><!--密码-->

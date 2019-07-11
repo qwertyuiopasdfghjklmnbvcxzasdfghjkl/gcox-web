@@ -27,21 +27,21 @@
 .icon-ve:before {
   content: "\e95f";
 }
-.icon-cdcc .path1:before {
+.icon-gcox .path1:before {
   content: "\e95b";
   color: rgb(36, 77, 146);
 }
-.icon-cdcc .path2:before {
+.icon-gcox .path2:before {
   content: "\e95c";
   margin-left: -1em;
   color: rgb(235, 207, 34);
 }
-.icon-cdcc .path3:before {
+.icon-gcox .path3:before {
   content: "\e95d";
   margin-left: -1em;
   color: rgb(36, 77, 146);
 }
-.icon-cdcc .path4:before {
+.icon-gcox .path4:before {
   content: "\e95e";
   margin-left: -1em;
   color: rgb(36, 77, 146);

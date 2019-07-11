@@ -1,5 +1,5 @@
 {
-  "name": "CDCC-web",
+  "name": "GCOX-web",
   "version": "1.0.0",
   "description": "A Vue.js project",
   "author": "admin <admin@qq.com>",
@@ -84,7 +84,9 @@
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.9.1",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.0",
+    "less": "^3.9.0",
+    "less-loader": "^4.0.5"
   },
   "engines": {
     "node": ">= 4.0.0",
