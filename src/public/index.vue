@@ -6,46 +6,7 @@
     <indexrecom ref="indexrecom"></indexrecom>
     <!--数据表格-->
     <indexdatatable ref="indexdatatable"></indexdatatable>
-
-    <div class="bottom">
-      <div class="bottom-center">
-        <div class="item">
-          <a :href="aboutUrl" target="_blank">{{$t('public.foot_about')}}</a>
-        </div><!--关于我们-->
-        <div class="item">
-          <a :href="serviceAgreementUrl" target="_blank">{{$t('public.foot_terms')}}</a>
-        </div><!--服务协议-->
-        <div class="item">
-          <a :href="privacyNoticeUrl" target="_blank">{{$t('public.foot_privacy')}}</a>
-        </div><!--隐私声明-->
-        <div class="item">
-          <a :href="rateStandardUrl" target="_blank">{{$t('public.foot_fees')}}</a>
-        </div><!--费率标准-->
-        <div class="item"></div>
-        <div class="item">{{$t('public.foot_contact')}}</div><!--联系我们-->
-        <div class="item">
-          <a class="contact-icons icon-facebook" href="javascript:;" target="_blank"></a>
-        </div>
-        <div class="item">
-          <a class="contact-icons icon-twitter" href="javascript:;" target="_blank"></a>
-        </div>
-        <div class="item">
-          <a class="contact-icons icon-telegram" href="javascript:;" target="_blank"></a>
-        </div>
-        <div class="item">
-          <a class="contact-icons icon-slack" href="javascript:;" target="_blank"></a>
-        </div>
-        <div class="item">
-          <a class="contact-icons icon-weixin hover" href="javascript:;"><span class="wxqr"><img src="../assets/images/wxqr.png"><i></i></span></a>
-        </div>
-      </div>
-    </div>
-
-    <section class="bk-wrap footer-main">
-      <section class="bk-main footer">
-        <p>© 2018-2019 www.cdcc.ink All Rights Reserved</p>
-      </section>
-    </section>
+    
   </div>
 </template>
 
@@ -68,30 +29,30 @@
       ...mapGetters(['getApiToken', 'getLang']),
       aboutUrl () {
         if (this.getLang === 'zh-CN' || this.getLang === 'cht') {
-          return 'https://cdcc.kf5.com/hc/kb/article/1225583/'
+          return 'https://gcox.kf5.com/hc/kb/article/1225583/'
         } else {
-          return 'https://cdcc.kf5.com/hc/kb/article/1225583/'
+          return 'https://gcox.kf5.com/hc/kb/article/1225583/'
         }
       },
       serviceAgreementUrl () {
         if (this.getLang === 'zh-CN' || this.getLang === 'cht') {
-          return 'https://cdcc.kf5.com/hc/kb/article/1225585/'
+          return 'https://gcox.kf5.com/hc/kb/article/1225585/'
         } else {
-          return 'https://cdcc.kf5.com/hc/kb/article/1225582/'
+          return 'https://gcox.kf5.com/hc/kb/article/1225582/'
         }
       },
       privacyNoticeUrl () {
         if (this.getLang === 'zh-CN' || this.getLang === 'cht') {
-          return 'https://cdcc.kf5.com/hc/kb/article/1225585/'
+          return 'https://gcox.kf5.com/hc/kb/article/1225585/'
         } else {
-          return 'https://cdcc.kf5.com/hc/kb/article/1225585/'
+          return 'https://gcox.kf5.com/hc/kb/article/1225585/'
         }
       },
       rateStandardUrl () {
         if (this.getLang === 'zh-CN' || this.getLang === 'cht') {
-          return 'https://cdcc.kf5.com/hc/kb/article/1225584/'
+          return 'https://gcox.kf5.com/hc/kb/article/1225584/'
         } else {
-          return 'https://cdcc.kf5.com/hc/kb/article/1225584/'
+          return 'https://gcox.kf5.com/hc/kb/article/1225584/'
         }
       }
     },

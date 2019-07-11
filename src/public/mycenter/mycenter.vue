@@ -41,8 +41,8 @@
             </p>
             <p class="sale">
               <span>
-                {{$t('account.user_center_pay_fees').format('CDCC', '50%')}}<!--使用CDCC支付交易手续费（50% 折扣）-->
-                <a class="icon-checkbox" href="javascript:;" :class="isUseCDCCPay ? 'icon-checkbox-checked' : 'icon-checkbox-unchecked'" @click="switchCoinState"></a>
+                {{$t('account.user_center_pay_fees').format('GCOX', '50%')}}<!--使用GCOX支付交易手续费（50% 折扣）-->
+                <a class="icon-checkbox" href="javascript:;" :class="isUseGCOXPay ? 'icon-checkbox-checked' : 'icon-checkbox-unchecked'" @click="switchCoinState"></a>
               </span>
             </p>
             <p class="limit">
@@ -136,7 +136,7 @@ export default {
         verifyState: 0,
         verifyTimes: 0
       },
-      isUseCDCCPay: false,
+      isUseGCOXPay: false,
       distributeHistory: [], // 分发记录
       distributeParam: {
         page: 1, // 当前页
@@ -160,7 +160,7 @@ export default {
       return this.userState.nickname
     },
     contactHtml () {
-      let alink = `<a href="${this.getLang === 'en' ? 'https://cdcc.kf5.com/hc/request/guest/?lang=en' : 'https://cdcc.kf5.com/hc/request/guest/'}" target="_blank">${this.$t('public0.public241')}</a>`
+      let alink = `<a href="${this.getLang === 'en' ? 'https://gcox.kf5.com/hc/request/guest/?lang=en' : 'https://gcox.kf5.com/hc/request/guest/'}" target="_blank">${this.$t('public0.public241')}</a>`
       return `（${this.$t('account.user_prompt5').format(alink)}）`
     }
   },
@@ -218,7 +218,7 @@ export default {
           verifyState: data.verifyState,
           verifyTimes: data.verifyTimes
         }
-        this.isUseCDCCPay = (data.coinState === 1)
+        this.isUseGCOXPay = (data.coinState === 1)
         this.vsloaded = true
       }, (msg) => {
         console.error(msg)
@@ -240,9 +240,9 @@ export default {
       }
     },
     switchCoinState () {
-      // 切换使用CDCC支付交易手续费（50% 折扣）
-      userUtils.switchCDCCChargeState((msg) => {
-        this.isUseCDCCPay = !this.isUseCDCCPay
+      // 切换使用GCOX支付交易手续费（50% 折扣）
+      userUtils.switchGCOXChargeState((msg) => {
+        this.isUseGCOXPay = !this.isUseGCOXPay
       }, (msg) => {
         console.error(msg)
       })

@@ -159,8 +159,8 @@ const getUserState = function (success, error) {
 }
 individual.getUserState = getUserState
 
-// 使用CDCC支付交易手续费
-const switchCDCCChargeState = function (success, error) {
+// 使用GCOX支付交易手续费
+const switchGCOXChargeState = function (success, error) {
   api.get(`${domain}api/v2/individual/coinState`, (res) => {
     if (res.rst === 1) {
       success && success(res.data)
@@ -169,7 +169,7 @@ const switchCDCCChargeState = function (success, error) {
     }
   }, error)
 }
-individual.switchCDCCChargeState = switchCDCCChargeState
+individual.switchGCOXChargeState = switchGCOXChargeState
 
 // 编辑昵称
 const editNickname = function (data, success, error) {

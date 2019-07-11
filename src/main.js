@@ -35,6 +35,12 @@ Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 let lang = window.localStorage.getItem('lang') || 'en'
+let tar = document.getElementsByTagName('title')
+if(lang==='en'){
+  tar[0].innerText = 'GCOX - Global Crypto Offering Exchange'
+} else {
+  tar[0].innerText = 'GCOX-比特币以太坊专业数字货币交易网站'
+}
 langApi.getLanguage(lang, (res) => {
   i18n.locale = lang
   i18n.setLocaleMessage(lang, res)

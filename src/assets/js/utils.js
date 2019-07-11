@@ -382,6 +382,19 @@ Vue.filter('numbean',function(n){
   return r>0?b.slice(0,r)+","+b.slice(r,len).match(/\d{3}/g).join(","):b.slice(r,len).match(/\d{3}/g).join(",");
 });
 
+// 注册一个全局自定义指令 `v-focus`
+Vue.directive('focus', {
+  inserted: function (el) {
+    el.focus()
+  }
+})
+// 注册一个全局自定义指令 `v-selected`
+Vue.directive('selected', {
+  inserted: function (el) {
+    el.select()
+  }
+})
+
 // 获取时间范围
 const getCheckedTimeRange = function (unit, quantity, callback) {
   let currentDate = new Date()
