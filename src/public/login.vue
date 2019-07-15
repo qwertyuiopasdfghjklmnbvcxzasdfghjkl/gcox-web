@@ -1,19 +1,19 @@
 <template>
     <div class="login">
       <div class="header ui-flex">
-        <div class="ui-flex-1">{{$t('login_register.login')}}<!-- 登录 --></div>
+        <div class="ui-flex-1 efont">{{$t('login_register.login')}}<!-- 登录 --></div>
         <router-link :to="{name:'register'}" class="register border-bg-box" tag="div">
-          <div class="text">{{$t('login_register.register')}}<!-- 注册 --></div>
+          <div class="text efont">{{$t('login_register.register')}}<!-- 注册 --></div>
           <div class="border-bg"></div>
         </router-link>
       </div>
       <div form autocomplete="off" onsubmit="return false">
         <div class="mt50 form-item">
-          <input type="text" name="username" v-model="formData.username" maxlength="60" v-validate="'required|email'" :placeholder="$t('account.user_center_account')" v-focus> <!--账号-->
+          <input type="text" name="username" :class="{efont:!formData.username}" v-model="formData.username" maxlength="60" v-validate="'required|email'" :placeholder="$t('account.user_center_account')" v-focus> <!--email-->
         </div>
         <div class="error-msg">{{ msgs['username'][errors.firstRule('username')]}}</div>
         <div class="form-item">
-          <input :type="showPass?'text':'password'" name="password" v-model="formData.password" maxlength="256" v-validate="'required'" :placeholder="$t('exchange.exchange_password')"> <!--密码-->
+          <input :type="showPass?'text':'password'" name="password" :class="{efont:!formData.password}" v-model="formData.password" maxlength="256" v-validate="'required'" :placeholder="$t('exchange.exchange_password')"> <!--密码-->
           <div class="show-pwd-box">
             <div class="pwd-isShow" @click="showPass=!showPass">
               <img src="../assets/img/show_password.png" alt="" style="opacity: 0.8;" v-if="showPass">
@@ -22,8 +22,12 @@
           </div>
         </div>
         <div class="error-msg">{{ msgs['password'][errors.firstRule('password')]}}</div>
+        <div class="form-item" v-if="needGoogleCode">
+          <input type="text" name="googleCode" :class="{efont:!formData.googleCode}" v-model="formData.googleCode" maxlength="6" v-validate="'required|length:6'" :placeholder="$t('account.user_center_Google_verification_code')"> <!--谷歌验证码-->
+        </div>
+        <div class="error-msg">{{errors.has('googleCode')?$t('login_register.inputGoogleAuthCode'):null}}</div>
         <div class="text-right"><router-link :to="{name:'findpwd'}" class="f-c-main f12">{{$t('login_register.forget_password')}}<!-- 忘记密码？ --></router-link></div>
-        <div class="text-right mt30"><button type="button" class="mint-btn default round" style="width: 140px;" :disabled="errors.any()" @click="login">{{$t('login_register.login')}}<!-- 登录 --></button></div>
+        <div class="text-right mt30"><button type="button" class="mint-btn default round efont" style="width: 140px;" :disabled="errors.any()" @click="login">{{$t('login_register.login')}}<!-- 登录 --></button></div>
       </div>
     </div>
 </template>
@@ -40,9 +44,12 @@ export default {
       locked: false,
       gtLocked: false,
       showPass:false,
+      needGoogleCode:false,
       formData: {
         username: '',
-        password: ''
+        password: '',
+        googleCode:'',
+        userType:8
       }
     }
   },
@@ -50,7 +57,7 @@ export default {
     msgs () {
       return {
         username: {required: this.$t('login_register.email_account'), email:this.$t('login_register.valid_email_account')}, // 请输入邮箱账号
-        password: {required: this.$t('login_register.password')} // 请输入密码
+        password: {required: this.$t('login_register.password')}, // 请输入密码
       }
     }
   },
@@ -86,22 +93,11 @@ export default {
                 myAPi.addLoginHistory()
                 return
               }
-              // 二次验证
-              this.$router.push({
-                name: 'twoverify',
-                params: {
-                  username: this.formData.username,
-                  type: res.type,
-                  countryCode: res.countryCode,
-                  mobile: res.mobile
-                }
-              })
             }, (msg, rst) => {
               this.locked = false
               Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${typeof msg === 'string' ? msg : msg[0]}`)})
               if (rst === 300) {
                 this.$router.push({name: 'sendemail', params: {email: this.formData.username}})
-                console.log(this.formData.username)
               }
             })
           }, () => {
@@ -121,7 +117,7 @@ export default {
   width: 670px;
   margin: 0 auto;
   padding-top: 60px;
-  margin-bottom: 60px;
+  padding-bottom: 60px;
   .header {
     height: 50px;
     padding: 8px 0;

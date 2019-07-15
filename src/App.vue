@@ -9,7 +9,7 @@
     <div v-if="isIE" class="compatible" v-show="browser">
       <div class="compatible-w">{{$t('public0.public239').format('GCOX')}}<!--建议您使用Chrome浏览器获取GCOX最佳体验。如使用360或QQ浏览器，可切换至极速模式。--><span @click="closeCompa">×</span></div>
     </div>
-    <div class="minHeight"><router-view/></div>
+    <div class="minHeight rp"><router-view/></div>
     <bottom v-show="!$route.meta.noBottom" />
   </div>
 </template>
@@ -201,8 +201,8 @@ export default {
 .compatible-w span{font-size: 24px;position: absolute;right: 2px;cursor: pointer;}
 
 .minHeight {
-  min-height: -webkit-calc(100vh - 435px);
-  min-height: calc(100vh - 435px)
+  min-height: -webkit-calc(100vh - 365px);
+  min-height: calc(100vh - 365px)
 }
 </style>
 

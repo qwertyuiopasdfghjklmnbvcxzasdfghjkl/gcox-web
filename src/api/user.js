@@ -17,7 +17,7 @@ user.getUUID = getUUID
 
 // 登录
 const login = function (formData, success, error) {
-  api.post(`${domain}api/v2/user/login`, formData, (res) => {
+  api.post(`${api.domain}api/v2/user/login`, formData, (res) => {
     if (res.rst === 1) {
       success && success(res.api_token, res)
     } else {
@@ -57,6 +57,18 @@ const register = function (formData, success, error) {
 }
 user.register = register
 
+// 发送激活邮件
+const sendActivateEmail = function (formData, success, error) {
+  api.post(`${domain}api/v1/gcox/user/resend`, formData, (res) => {
+    if (res.rst === 1) {
+      success && success(res.msg)
+    } else {
+      error && error(typeof res.msg === 'string' ? res.msg : res.msg[0])
+    }
+  }, error)
+}
+user.sendActivateEmail = sendActivateEmail
+
 // 修改登录密码
 const changePwd = function (data, success, error) {
   api.post(`${domain}api/v2/user/changePwd`, data, (res) => {
@@ -77,7 +89,7 @@ user.changePwd = changePwd
 
 // 忘记密码 - 发送邮件
 const forgetPwdSendEmail = function (data, success, error) {
-  api.post(`${domain}api/v2/user/resetPwdRequest`, data, (res) => {
+  api.post(`${domain}api/v1/gcox/user/resetPwd`, data, (res) => {
     if (res.rst === 1) {
       success && success()
     } else {
@@ -92,24 +104,6 @@ const forgetPwdSendEmail = function (data, success, error) {
   }, error)
 }
 user.forgetPwdSendEmail = forgetPwdSendEmail
-
-// 忘记密码 - 重置密码
-const forgetPwdChangePwd = function (data, success, error) {
-  api.post(`${domain}api/v2/user/resetPwd`, data, (res) => {
-    if (res.rst === 1) {
-      success && success()
-    } else {
-      let msg = ''
-      if (res.error) {
-        msg = typeof res.error === 'string' ? res.error : [0]
-      } else {
-        msg = typeof res.msg === 'string' ? res.msg : res.msg[0]
-      }
-      error && error(msg)
-    }
-  }, error)
-}
-user.forgetPwdChangePwd = forgetPwdChangePwd
 
 // 发送邮件 - 激活邮箱
 const reSendEmail = function (data, success, error) {

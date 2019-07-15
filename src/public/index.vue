@@ -1,11 +1,13 @@
 <template>
   <div class="container">
     <!--轮播-->
-    <indexslider></indexslider>
+    <indexslider/>
+    <!-- 通知 -->
+    <notice/>
     <!--推荐市场-->
-    <indexrecom ref="indexrecom"></indexrecom>
+    <indexrecom ref="indexrecom"/>
     <!--数据表格-->
-    <indexdatatable ref="indexdatatable"></indexdatatable>
+    <indexdatatable ref="indexdatatable"/>
     
   </div>
 </template>
@@ -14,6 +16,7 @@
   import { mapGetters } from 'vuex'
   import indexdatatable from '@/public/index/datatable'
   import indexslider from '@/public/index/indexslider'
+  import notice from '@/public/index/notice'
   import indexrecom from '@/public/index/indexrecom'
   import KLineWebSocket from '@/assets/js/websocket'
   let chartSettings = window.localStorage.getItem('chartSettings')
@@ -23,6 +26,7 @@
     components: {
       indexdatatable,
       indexslider,
+      notice,
       indexrecom
     },
     computed: {
@@ -67,24 +71,25 @@
         period: chartSettings ? chartSettings.charts.period : null,
         callback: (res) => {
           if (res.dataType === 'markets') {
-            // 市场信息
-            let datas = this.$refs.indexdatatable.products
-            let tempObj = {}
-            datas.forEach((item) => {
-              tempObj[item.market] = item.collection
-            })
-            res.data.forEach((item) => {
-              item.collection = tempObj[item.market]
-            })
-            this.$refs.indexdatatable.products = res.data
-          } else if (res.dataType === 'SymbolVolumes') { // 币种成交量
-            this.$refs.indexdatatable.symbolVolumes = res.data
+            this.$refs.indexdatatable.products = this.mergeMarkets(res.data)
           }
         },
         onClose: () => {
           this.closeMainLoading = true
         }
       })
+    },
+    methods:{
+      mergeMarkets(newData){
+        let oldData = this.$refs.indexdatatable.products, tempObj = {}
+        oldData.forEach((item) => {
+          tempObj[item.market] = item.iconBase64
+        })
+        newData.forEach((item) => {
+          item.iconBase64 = tempObj[item.market]
+        })
+        return newData
+      }
     },
     beforeDestroy () {
       this.socket && this.socket.close()
@@ -93,7 +98,7 @@
 </script>
 
 <style scoped>
-.container{width:100%;min-height:calc(100% - 60px);display:flex;flex-direction:column;}
+.container{background-color: #040607; color: #f1f1f2;}
 .volume{font-size: 12px;}
 .bk-wrap{position:relative;overflow:hidden;min-width:1190px;}
 .bk-main{position:relative;overflow:hidden;margin:0 auto;max-width:1360px;}

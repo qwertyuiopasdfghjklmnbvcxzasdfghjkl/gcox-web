@@ -1,36 +1,36 @@
 <template>
-  <div >
-    <div class="type_symbol">
-      <div class="type_symbol_wrap">
-        <ul>
-          <li v-for="(item, index) in products" :key="index">
-            <div class="currency">
-              {{item.currencySymbol}}/{{item.baseSymbol}} <i :class="[{infotip:true}, (getDirection(item.direction)===1 || getDirection(item.direction)===0)?'font-green':'font-red']" v-html="percent(item)"></i>
-            </div>
-            <div class="ticker-list">
-              <p class="price" :class="[(getDirection(item.direction)===1 || getDirection(item.direction)===0)?'font-green':'font-red']">{{toFixed(item.lastPrice, item.accuracy)}}</p>
-              <p class="value">≈<valuation :lastPrice="item.lastPrice" :baseSymbol="item.baseSymbol"/></p>
-              <p class="volume">Volume: {{toFixed(item.dealAmount, 2)}} {{item.baseSymbol}}</p>
-            </div>
-          </li>
-        </ul>
+  <ul class="w1200 mt20 recommend-markets ui-flex ui-flex-justify">
+    <li v-for="(item, index) in products">
+      <div class="ui-flex" tp>
+        <img class="icon" :src="item.iconBase64?`data:image/png;base64,${item.iconBase64}`:`${origin}${item.iconUrl}`">
+        <div class="ui-flex-1 name">{{item.currencySymbol}}/{{item.baseSymbol}}</div>
+        <div class="fs12" v-html="percent(item)"></div>
       </div>
-    </div>
-
-  </div>
+      <div class="price">{{toFixed(item.lastPrice, item.accuracy)}}</div>
+      <div class="line-box">
+        <v-chart :options="getBar(item.kline)"/>
+      </div>
+    </li>
+  </ul>
 </template>
 <script>
+  import Vue from 'vue'
   import marketApi from '@/api/market'
   import numUtils from '@/assets/js/numberUtils'
-  import valuation from '@/components/valuation'
+  import Config from '@/assets/js/config'
+  import ECharts from 'vue-echarts'
+  import 'echarts/lib/chart/line'
+  import getBar from '@/assets/js/bar'
   export default {
     components: {
-      valuation
+      'v-chart': ECharts
     },
     data () {
       return {
         fixedNumber: 8,
-        products: []
+        products: [],
+        origin: Config.origin,
+        getBar: getBar,
       }
     },
     created () {
@@ -55,7 +55,7 @@
           return '0.00%'
         } else if (item.openingPrice && item.lastPrice) {
           var percent = numUtils.mul(numUtils.BN(item.change24h).div(item.openingPrice), 100)
-          return `<font color="${percent < 0 ? '#990000' : '#009933'}">` + percent.toFixed(2) + '%</font>'
+          return `<font class="${percent < 0 ? 'rang-down' : 'rang-up'}">` + percent.toFixed(2) + '%</font>'
         } else {
           return '0.00%'
         }
@@ -63,26 +63,47 @@
     }
   }
 </script>
-<style scoped>
-  .container .font-white{color:#becbe8;}
-  .container .font-red{color:#f34246;}
-  .container .font-green{color:#56cf43;}
-  .container{width:100%;height:895px;}
-  .currency{color:#9ba6e6;font-size: 22px;}
-  .ticker-list {margin-top: 30px;}
-  .ticker-list .price {font-size: 24px;}
-  .ticker-list .value {font-size: 24px; margin-top: 10px; color: #9ba6e6;}
-  .ticker-list .volume {font-size: 20px; margin-top: 30px; color: #9ba6e6;}
-  .ticker-list em{font-size: 14px;color: #727272;}
-  .type_symbol{width: 100%;background-color:#0c151d;overflow: hidden;min-height:20px; border-top: 1px solid #fff;}
-  .type_symbol ul{display:flex;text-align:center;justify-content:center;align-items: center;flex-flow: wrap}
-  .type_symbol ul li{font-size: 14px; padding: 20px 10px 40px;width: 20%;text-align: left; border-right: 1px solid #fff;}
-  .type_symbol ul li:last-child{border-right: none;}
-  .infotip{float: right; font-size: 18px; padding: 9px 6px; border-radius: 3px;}
-  .infotip.font-green {background-color: rgba(243,66,70,.3)}
-  .infotip.font-red {background-color: rgba(86,207,67,.3)}
-  .volume{font-size: 12px;}
-  .type_symbol_wrap{min-width:1190px; max-width:1360px; margin: 0 auto;}
-  .type_symbol ul li div{line-height: 21px;}
-  .currency .icon-btc,.currency .icon-eth{vertical-align: middle;line-height: 21px;}
+<style lang="less" scoped>
+.recommend-markets {
+    height: 160px;
+    li {
+      width: 220px;
+      height: 155px;
+      border-radius: 3px;
+      border: 1px solid #2d2b37;
+      cursor: pointer;
+      position: relative;
+      background: #242328;
+      overflow: hidden;
+      transition: all .3s ease;
+      transform: translateZ(0);
+      [tp] {
+        padding: 10px;
+        line-height: 30px;
+      }
+      .icon {
+          width: 24px;
+          height: 30px;
+          object-fit: contain;
+          margin-right: 10px;
+      }
+      .name {height: 30px; line-height: 30px;}
+      .price {
+          padding-left: 10px;
+          line-height: 24px;
+          font-size: 18px;
+      }
+      .line-box {
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 220px;
+          height: 66px;
+      }
+  }
+}
+.echarts {
+  width: 100%;
+  height: 100%;
+}
 </style>

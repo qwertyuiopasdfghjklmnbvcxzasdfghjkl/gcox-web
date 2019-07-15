@@ -1,4 +1,4 @@
-let domain = process.env.NODE_ENV === 'development' ? 'dev.koall.io' : location.host.split(':')[0]
+let domain = process.env.NODE_ENV === 'development' ? 'gcox.dev.koall.io' : location.host.split(':')[0]
 // let domain = process.env.NODE_ENV === 'development' ? 'sit.koall.io' : location.host.split(':')[0]
 const config = {
   domain: domain,

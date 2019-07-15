@@ -3,16 +3,16 @@
     <div class="header-bg"></div>
     <div class="header">
         <router-link :to="{name:'home'}" class="icon_logo" ></router-link>
-        <router-link :to="{name:'market'}"><i class="market"></i> 市场</router-link>
-        <router-link :to="{name:'exchange'}"><i class="exchange"></i> 交易所</router-link>
+        <router-link :to="{name:'market'}"><i class="market"></i> {{$t('home.home_pair')}}<!-- 市场 --></router-link>
+        <router-link :to="{name:'exchange'}"><i class="exchange"></i> {{$t('exchange.exchange_name')}}<!-- 交易所 --></router-link>
         <router-link :to="{name:'acm'}"><i class="acm"></i> ACM</router-link>
         <template v-if="isLogin">
-          <router-link :to="{name:'account'}">账户</router-link>
+          <router-link :to="{name:'account'}">{{$t('account.user_center_help_account')}}<!-- 账户 --></router-link>
           <router-link :to="{name:'ucenter'}">{{getUserInfo.username}}</router-link>
         </template>
         <template v-else>
-          <router-link :to="{name:'login'}">登录</router-link>
-          <router-link :to="{name:'register'}">注册</router-link>
+          <router-link :to="{name:'login'}">{{$t('login_register.login')}}<!-- 登录 --></router-link>
+          <router-link :to="{name:'register'}">{{$t('login_register.register')}}<!-- 注册 --></router-link>
         </template>
         <a href="javascript:;" @click="setLanguage('en')" v-if="getLang==='zh-CN'">ENGLISH</a>
         <a href="javascript:;" @click="setLanguage('zh-CN')" v-if="getLang==='en'">简体中文</a>
@@ -115,7 +115,7 @@ export default {
         background-image:url('../assets/img/ACM.svg');
       }
     }
-    &.active, &:hover {
+    &.active, &:hover, &.router-link-exact-active {
       color: #00A0E9;
       i {
         &.market {
