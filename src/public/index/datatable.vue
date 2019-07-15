@@ -2,19 +2,19 @@
   <div class="coin-box">
     <div class="w1200">
       <ul class="tab">
-        <li :class="{active:current==='rise'}" @click="switchTab('rise')">涨幅榜</li>
-        <li :class="{active:current==='fall'}" @click="switchTab('fall')">跌幅榜</li>
-        <li :class="{active:current==='new'}" @click="switchTab('new')">新币榜</li>
+        <li :class="{active:current==='rise'}" @click="switchTab('rise')">{{$t('public0.public204')}}<!-- 涨幅榜 --></li>
+        <li :class="{active:current==='fall'}" @click="switchTab('fall')">{{$t('public0.public205')}}<!-- 跌幅榜 --></li>
+        <li :class="{active:current==='new'}" @click="switchTab('new')">{{$t('exchange.new_token_board')}}<!-- 新币榜 --></li>
       </ul>
       <table >
         <thead >
           <tr >
-            <th >交易对</th>
-            <th >最新价</th>
-            <th >最低价 (24h)</th>
-            <th >最高价 (24h)</th>
-            <th >成交量</th>
-            <th class="text-right">涨跌幅 (24h)</th>
+            <th >{{$t('exchange.trade_pair')}}<!-- 交易对 --></th>
+            <th >{{$t('exchange.exchange_last_price')}}<!-- 最新价 --></th>
+            <th >{{$t('exchange.home_low_24h')}}<!-- 最低价 --></th>
+            <th >{{$t('exchange.exchange_high')}}<!-- 最高价 --></th>
+            <th >{{$t('home.home_volume_24h')}}<!-- 成交量 --></th>
+            <th class="text-right">{{$t('exchange.up_and_down')}}<!-- 涨跌幅 --></th>
           </tr>
         </thead>
         <tbody >
@@ -35,15 +35,11 @@
   </div>
 </template>
 <script>
-  import {mapGetters, mapActions} from 'vuex'
+  import {mapActions} from 'vuex'
   import marketApi from '@/api/market'
   import numUtils from '@/assets/js/numberUtils'
-  import valuation from '@/components/valuation'
   import Config from '@/assets/js/config'
   export default {
-    components: {
-      valuation
-    },
     data () {
       return {
         fixedNumber: 8,
@@ -53,7 +49,6 @@
       }
     },
     computed: {
-      ...mapGetters(['getApiToken', 'getNetworkSignal']),
       riseList () {
         if (!this.products.length) {
           return []
@@ -94,7 +89,12 @@
         if (!this.products.length) {
           return []
         }
-        return []
+        let ndatas = this.products.sort((item1, item2) => {
+          let m1 = numUtils.BN(item1.createdAt)
+          let m2 = numUtils.BN(item2.createdAt)
+          return m1.gte(m2) ? 1 : -1
+        })
+        return ndatas.slice(0,10)
       }
     },
     watch: {
@@ -133,7 +133,7 @@
 </script>
 <style lang="less" scoped>
 .coin-box {
-  height: 600px;
+  min-height: 600px;
   padding: 30px 0;
   .tab {
     font-size: 18px;
