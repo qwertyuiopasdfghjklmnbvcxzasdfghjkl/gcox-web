@@ -1,15 +1,8 @@
 @charset "utf-8";
 /*====================== 初始化 ====================*/
-html,body{min-height:100%;min-width:100%; overflow-x: hidden;}
+html,body{min-height:100%;min-width: 1200px; overflow-x: hidden;}
 #app{width:100%;height:100%;}
 body { font-size:14px;font-family:PingFangSC-Regular,Microsoft YaHei,sans-serif; background-color:#1f1e24; box-sizing: border-box;}
-/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
-*::-webkit-scrollbar,div::-webkit-scrollbar { width: 5px; height: 5px; background-color: transparent; }
-/*定义滚动条轨道 内阴影+圆角*/
-*::-webkit-scrollbar-track,div::-webkit-scrollbar-track { -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.3); background-color: #1f1e24; }
-/*定义滑块 内阴影+圆角*/
-*::-webkit-scrollbar-thumb,div::-webkit-scrollbar-thumb { -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,.3); background-color: #00A0E9; }
-.hideScroll{overflow:hidden}
 body,div,ul,ol,li,p,span,i,strong,a,em,dl,dt,dd,h1,h2,h3,h4,tr,td,th{margin:0;padding:0;border:0;}
 em,i{ font-style:normal;}
 ul,ol{ list-style:none;}
@@ -61,9 +54,10 @@ div.hopscotch-bubble h3,div.hopscotch-bubble .hopscotch-content{color:#aeb7d0;}
 .table.border {border-top: 1px solid #ccc; border-left: 1px solid #ccc;}
 .table.border > div > div {border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;}
 
-.w1190 {width: 1190px;}
-.ui-flex {display: -ms-flexbox; display: flex;}
-.ui-flex-1 {-ms-flex: 1; flex: 1;}
+.w1200 {width: 1200px; margin-left: auto; margin-right: auto;}
+.ui-flex {display: flex;}
+.ui-flex-justify {justify-content: space-between;}
+.ui-flex-1 {flex: 1; min-width: 0;}
 .ellipsis {white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
 .mask-layer {position: fixed; left: 0; top: 70px; right: 0; bottom: 0; background-color: rgba(0,0,0,.6); z-index: 9999999;}
 @media screen and (max-width: 1600px) {
@@ -76,7 +70,9 @@ div.hopscotch-bubble h3,div.hopscotch-bubble .hopscotch-content{color:#aeb7d0;}
 	font-family:'ethnocentric';
 	src: url('./fonts/ethnocentric rg.ttf') format('truetype');
 }
-
+.efont{font-family: 'ethnocentric','Microsoft YaHei';}
+.rang-down {color: #f1304a;}
+.rang-up {color: #1bc863;}
 
 .rp {position: relative;}
 .ap {position: absolute;}
@@ -87,6 +83,8 @@ div.hopscotch-bubble h3,div.hopscotch-bubble .hopscotch-content{color:#aeb7d0;}
 .f-c-gray {color: #666;}
 .f-c-danger {color: #E44242;}
 .f-c-main {color: #00a0e9;}
+.f-c-white {color: #fff;}
+.f-c-green {color: #51CD7D;}
 
 .fs10 { font-size:10px;}
 .fs12 { font-size:12px; }
@@ -194,11 +192,12 @@ div.hopscotch-bubble h3,div.hopscotch-bubble .hopscotch-content{color:#aeb7d0;}
   position: relative;
   padding-left: 20px;
   padding-right: 20px;
-  background-color: #f6f8fa;
-  color: #656b79;
+  background-color: #fff;
+  color: #000;
   font-size: 16px;
   border-radius: 4px;
   height: 36px;
+  cursor: pointer;
 }
 .mint-btn:after {
   background-color: #000;
@@ -221,7 +220,7 @@ div.hopscotch-bubble h3,div.hopscotch-bubble .hopscotch-content{color:#aeb7d0;}
 }
 .mint-btn.primary {
   color: #fff;
-  background-color: #BA8D35;
+  background-color: #00a0e9;
 }
 .mint-btn.success {
   color: #fff;

@@ -5,11 +5,9 @@ import exchange from './exchange'
 import otc from './otc'
 import voteMining from './vote_mining'
 import login from '@/public/login'
-import loginEnjoy from '@/public/login_enjoy'
 import twoverify from '@/public/twoverify'
 import register from '@/public/register'
 import findpwd from '@/public/findpwd'
-import ResetPwd from '@/public/resetpwd'
 import Withdrawsuccess from '@/public/email/withdrawsuccess'
 import Linkinvalid from '@/public/email/linkinvalid'
 import mycenter from '@/public/mycenter'
@@ -18,6 +16,7 @@ import Activationsuccess from '@/public/email/activationsuccess'
 import maintenance from '@/public/maintenance'
 import Invite from '@/public/invite'
 import Download from '@/public/download'
+
 Vue.use(Router)
 
 export default new Router({
@@ -39,12 +38,6 @@ export default new Router({
       meta: {noEntry: true}
     },
     {
-      path: '/login-enjoy',
-      name: 'login-enjoy',
-      component: loginEnjoy,
-      meta: {noEntry: true}
-    },
-    {
       path: '/twoverify',
       name: 'twoverify',
       component: twoverify,
@@ -60,12 +53,6 @@ export default new Router({
       path: '/findpwd',
       name: 'findpwd',
       component: findpwd,
-      meta: {goHome: true, noEntry: true}
-    },
-    {
-      path: '/resetpwd',
-      name: 'resetpwd',
-      component: ResetPwd,
       meta: {goHome: true, noEntry: true}
     },
     {

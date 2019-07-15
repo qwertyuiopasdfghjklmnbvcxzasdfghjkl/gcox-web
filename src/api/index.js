@@ -7,7 +7,7 @@ import Vue from 'vue'
 const DOMAIN = process.env.NODE_ENV === 'development' ? `http://${config.domain}:80/` : '/'
 
 axios.defaults.baseURL = DOMAIN
-axios.defaults.timeout = 30000
+axios.defaults.timeout = 100000
 
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {

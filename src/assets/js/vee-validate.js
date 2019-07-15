@@ -13,10 +13,10 @@ Validator.extend('email', {
 
 Validator.extend('password', {
   getMessage: (field, args) => {
-    return 'public0.public123' // 请输入6~16位数字+字母组合的密码
+    return 'login_register.gcoxPWReg' // 密码至少8位，包括大、小写字母、数字及以下特殊字符 !@#$%^&*+=
   },
   validate: (value, args) => {
-    return /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/.test(value)
+    return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*+=]).{8,}$/.test(value)
   }
 })
 
