@@ -8,7 +8,7 @@
       </div>
       <div class="price">{{toFixed(item.lastPrice, item.accuracy)}}</div>
       <div class="line-box">
-        <v-chart :options="getBar(item.kline)"/>
+        <v-chart :options="getBar(item.kline||[])"/>
       </div>
     </li>
   </ul>
@@ -46,7 +46,7 @@
       getMarketCom () {
         // 获取推荐市场
         marketApi.marketListCom(1, (res) => {
-          this.products = res
+          this.products = Object.values(res)
         }, () => {
         })
       },

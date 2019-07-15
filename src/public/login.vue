@@ -48,8 +48,7 @@ export default {
       formData: {
         username: '',
         password: '',
-        googleCode:'',
-        userType:8
+        googleCode:''
       }
     }
   },
