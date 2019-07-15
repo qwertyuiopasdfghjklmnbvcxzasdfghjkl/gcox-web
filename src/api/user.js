@@ -17,7 +17,8 @@ user.getUUID = getUUID
 
 // 登录
 const login = function (formData, success, error) {
-  api.post(`${api.domain}api/v2/user/login`, formData, (res) => {
+  // api.post(`http://10.0.5.106:8185/api/v1/gcox/user/login`, formData, (res) => {
+  api.post(`${domain}api/v1/gcox/user/login`, formData, (res) => {
     if (res.rst === 1) {
       success && success(res.api_token, res)
     } else {

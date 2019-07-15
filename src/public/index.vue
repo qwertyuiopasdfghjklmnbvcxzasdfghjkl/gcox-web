@@ -72,6 +72,7 @@
         callback: (res) => {
           if (res.dataType === 'markets') {
             this.$refs.indexdatatable.products = this.mergeMarkets(res.data)
+            this.$refs.indexrecom.products = this.mergeRecomMarkets(res.data)
           }
         },
         onClose: () => {
@@ -89,6 +90,21 @@
           item.iconBase64 = tempObj[item.market]
         })
         return newData
+      },
+      mergeRecomMarkets(newData){
+        let oldData = this.$refs.indexrecom.products
+        oldData = oldData.map((item) => {
+          for(let rd of newData){
+            if(item.market===rd.market){
+              let iconBase64 = item.iconBase64
+              item = rd
+              item.iconBase64 = iconBase64
+              break
+            }
+          }
+          return item
+        })
+        return oldData
       }
     },
     beforeDestroy () {
