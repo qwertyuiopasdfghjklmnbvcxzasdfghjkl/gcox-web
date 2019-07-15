@@ -5,11 +5,12 @@
       <input class="fake-input" type="text" name="fakeusernameremembered">
       <input class="fake-input" type="password" name="fakepasswordremembered"/>
     </template>
-    <bheader v-if="$route.name !== 'homephone' && $route.name !== 'maintenance'"/>
+    <bheader/>
     <div v-if="isIE" class="compatible" v-show="browser">
-      <div class="compatible-w">{{$t('public0.public239').format('CDCC')}}<!--建议您使用Chrome浏览器获取CDCC最佳体验。如使用360或QQ浏览器，可切换至极速模式。--><span @click="closeCompa">×</span></div>
+      <div class="compatible-w">{{$t('public0.public239').format('GCOX')}}<!--建议您使用Chrome浏览器获取GCOX最佳体验。如使用360或QQ浏览器，可切换至极速模式。--><span @click="closeCompa">×</span></div>
     </div>
-    <router-view/>
+    <div class="minHeight rp"><router-view/></div>
+    <bottom v-show="!$route.meta.noBottom" />
   </div>
 </template>
 
@@ -20,13 +21,16 @@ import numUtils from '@/assets/js/numberUtils'
 import GlobalWebSocket from '@/assets/js/websocket'
 import OtcWebSocket from '@/assets/js/websocket-otc'
 import bheader from '@/components/header'
+import bottom from '@/components/bottom'
 import userApi from '@/api/user'
 import marketApi from '@/api/market'
+
 
 export default {
   name: 'app',
   components: {
-    bheader
+    bheader,
+    bottom
   },
   data () {
     return {
@@ -44,8 +48,14 @@ export default {
     }
   },
   watch: {
-    getLang () {
+    getLang (_n) {
       utils.gtValidate()
+      let tar = document.getElementsByTagName('title')
+      if(_n==='en'){
+        tar[0].innerText = 'GCOX - Global Crypto Offering Exchange'
+      } else {
+        tar[0].innerText = 'GCOX-比特币以太坊专业数字货币交易网站'
+      }
     },
     getApiToken (val) {
       if (val) {
@@ -189,5 +199,10 @@ export default {
 .compatible{height: 46px;line-height: 46px; background-color:#3d99d2;color: #fff; }
 .compatible-w{width: 1200px;margin: 0 auto;text-align: center;font-size: 16px;position: relative;}
 .compatible-w span{font-size: 24px;position: absolute;right: 2px;cursor: pointer;}
+
+.minHeight {
+  min-height: -webkit-calc(100vh - 365px);
+  min-height: calc(100vh - 365px)
+}
 </style>
 

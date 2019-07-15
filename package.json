@@ -1,5 +1,5 @@
 {
-  "name": "CDCC-web",
+  "name": "GCOX-web",
   "version": "1.0.0",
   "description": "A Vue.js project",
   "author": "admin <admin@qq.com>",
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
-    "echarts": "^4.0.4",
+    "echarts": "^4.2.1",
     "hopscotch": "^0.3.1",
     "html2canvas": "^1.0.0-alpha.12",
     "js-cookie": "^2.2.0",
@@ -25,6 +25,7 @@
     "vue": "^2.5.2",
     "vue-awesome-swiper": "^3.1.3",
     "vue-concise-slider": "2.4.8",
+    "vue-echarts": "^4.0.3",
     "vue-i18n": "^7.3.3",
     "vue-router": "^3.0.1",
     "vuejs-datepicker": "^1.2.0",
@@ -84,7 +85,9 @@
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.9.1",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.0",
+    "less": "^3.9.0",
+    "less-loader": "^4.0.5"
   },
   "engines": {
     "node": ">= 4.0.0",

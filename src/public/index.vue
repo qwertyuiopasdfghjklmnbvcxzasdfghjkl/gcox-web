@@ -1,51 +1,14 @@
 <template>
   <div class="container">
     <!--轮播-->
-    <indexslider></indexslider>
+    <indexslider/>
+    <!-- 通知 -->
+    <notice/>
     <!--推荐市场-->
-    <indexrecom ref="indexrecom"></indexrecom>
+    <indexrecom ref="indexrecom"/>
     <!--数据表格-->
-    <indexdatatable ref="indexdatatable"></indexdatatable>
-
-    <div class="bottom">
-      <div class="bottom-center">
-        <div class="item">
-          <a :href="aboutUrl" target="_blank">{{$t('public.foot_about')}}</a>
-        </div><!--关于我们-->
-        <div class="item">
-          <a :href="serviceAgreementUrl" target="_blank">{{$t('public.foot_terms')}}</a>
-        </div><!--服务协议-->
-        <div class="item">
-          <a :href="privacyNoticeUrl" target="_blank">{{$t('public.foot_privacy')}}</a>
-        </div><!--隐私声明-->
-        <div class="item">
-          <a :href="rateStandardUrl" target="_blank">{{$t('public.foot_fees')}}</a>
-        </div><!--费率标准-->
-        <div class="item"></div>
-        <div class="item">{{$t('public.foot_contact')}}</div><!--联系我们-->
-        <div class="item">
-          <a class="contact-icons icon-facebook" href="javascript:;" target="_blank"></a>
-        </div>
-        <div class="item">
-          <a class="contact-icons icon-twitter" href="javascript:;" target="_blank"></a>
-        </div>
-        <div class="item">
-          <a class="contact-icons icon-telegram" href="javascript:;" target="_blank"></a>
-        </div>
-        <div class="item">
-          <a class="contact-icons icon-slack" href="javascript:;" target="_blank"></a>
-        </div>
-        <div class="item">
-          <a class="contact-icons icon-weixin hover" href="javascript:;"><span class="wxqr"><img src="../assets/images/wxqr.png"><i></i></span></a>
-        </div>
-      </div>
-    </div>
-
-    <section class="bk-wrap footer-main">
-      <section class="bk-main footer">
-        <p>© 2018-2019 www.cdcc.ink All Rights Reserved</p>
-      </section>
-    </section>
+    <indexdatatable ref="indexdatatable"/>
+    
   </div>
 </template>
 
@@ -53,6 +16,7 @@
   import { mapGetters } from 'vuex'
   import indexdatatable from '@/public/index/datatable'
   import indexslider from '@/public/index/indexslider'
+  import notice from '@/public/index/notice'
   import indexrecom from '@/public/index/indexrecom'
   import KLineWebSocket from '@/assets/js/websocket'
   let chartSettings = window.localStorage.getItem('chartSettings')
@@ -62,36 +26,37 @@
     components: {
       indexdatatable,
       indexslider,
+      notice,
       indexrecom
     },
     computed: {
       ...mapGetters(['getApiToken', 'getLang']),
       aboutUrl () {
         if (this.getLang === 'zh-CN' || this.getLang === 'cht') {
-          return 'https://cdcc.kf5.com/hc/kb/article/1225583/'
+          return 'https://gcox.kf5.com/hc/kb/article/1225583/'
         } else {
-          return 'https://cdcc.kf5.com/hc/kb/article/1225583/'
+          return 'https://gcox.kf5.com/hc/kb/article/1225583/'
         }
       },
       serviceAgreementUrl () {
         if (this.getLang === 'zh-CN' || this.getLang === 'cht') {
-          return 'https://cdcc.kf5.com/hc/kb/article/1225585/'
+          return 'https://gcox.kf5.com/hc/kb/article/1225585/'
         } else {
-          return 'https://cdcc.kf5.com/hc/kb/article/1225582/'
+          return 'https://gcox.kf5.com/hc/kb/article/1225582/'
         }
       },
       privacyNoticeUrl () {
         if (this.getLang === 'zh-CN' || this.getLang === 'cht') {
-          return 'https://cdcc.kf5.com/hc/kb/article/1225585/'
+          return 'https://gcox.kf5.com/hc/kb/article/1225585/'
         } else {
-          return 'https://cdcc.kf5.com/hc/kb/article/1225585/'
+          return 'https://gcox.kf5.com/hc/kb/article/1225585/'
         }
       },
       rateStandardUrl () {
         if (this.getLang === 'zh-CN' || this.getLang === 'cht') {
-          return 'https://cdcc.kf5.com/hc/kb/article/1225584/'
+          return 'https://gcox.kf5.com/hc/kb/article/1225584/'
         } else {
-          return 'https://cdcc.kf5.com/hc/kb/article/1225584/'
+          return 'https://gcox.kf5.com/hc/kb/article/1225584/'
         }
       }
     },
@@ -106,24 +71,25 @@
         period: chartSettings ? chartSettings.charts.period : null,
         callback: (res) => {
           if (res.dataType === 'markets') {
-            // 市场信息
-            let datas = this.$refs.indexdatatable.products
-            let tempObj = {}
-            datas.forEach((item) => {
-              tempObj[item.market] = item.collection
-            })
-            res.data.forEach((item) => {
-              item.collection = tempObj[item.market]
-            })
-            this.$refs.indexdatatable.products = res.data
-          } else if (res.dataType === 'SymbolVolumes') { // 币种成交量
-            this.$refs.indexdatatable.symbolVolumes = res.data
+            this.$refs.indexdatatable.products = this.mergeMarkets(res.data)
           }
         },
         onClose: () => {
           this.closeMainLoading = true
         }
       })
+    },
+    methods:{
+      mergeMarkets(newData){
+        let oldData = this.$refs.indexdatatable.products, tempObj = {}
+        oldData.forEach((item) => {
+          tempObj[item.market] = item.iconBase64
+        })
+        newData.forEach((item) => {
+          item.iconBase64 = tempObj[item.market]
+        })
+        return newData
+      }
     },
     beforeDestroy () {
       this.socket && this.socket.close()
@@ -132,7 +98,7 @@
 </script>
 
 <style scoped>
-.container{width:100%;min-height:calc(100% - 60px);display:flex;flex-direction:column;}
+.container{background-color: #040607; color: #f1f1f2;}
 .volume{font-size: 12px;}
 .bk-wrap{position:relative;overflow:hidden;min-width:1190px;}
 .bk-main{position:relative;overflow:hidden;margin:0 auto;max-width:1360px;}

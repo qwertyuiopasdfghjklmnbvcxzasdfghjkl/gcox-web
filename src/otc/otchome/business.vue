@@ -7,7 +7,7 @@
                 <span v-for="coin in coins" :key="coin.symbol">
                     <a :class="{active: params.ad_type === 2 && params.symbol === coin.symbol}" href="javascript:;" @click="switchSymbol(2, coin.symbol)">
                       <i :class="[`icon-${coin.symbol.toLowerCase()}`]">
-                        <template v-if="coin.symbol.toLowerCase()==='cdcc'">
+                        <template v-if="coin.symbol.toLowerCase()==='gcox'">
                           <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
                         </template>
                       </i>{{coin.symbol}}
@@ -21,7 +21,7 @@
                 <span v-for="coin in coins" :key="coin.symbol">
                     <a :class="{active: params.ad_type === 1 && params.symbol === coin.symbol}" href="javascript:;" @click="switchSymbol(1, coin.symbol)">
                       <i :class="[`icon-${coin.symbol.toLowerCase()}`]">
-                        <template v-if="coin.symbol.toLowerCase()==='cdcc'">
+                        <template v-if="coin.symbol.toLowerCase()==='gcox'">
                           <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
                         </template>
                       </i>{{coin.symbol}}

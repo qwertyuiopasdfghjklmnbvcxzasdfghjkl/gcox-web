@@ -20,33 +20,33 @@
     					{{$t('vote_mining.mining_account')}}<!-- 挖矿账户 -->
     					<span class="tips">
     					  <i class="tips-icon">?</i>
-    					  <em class="tips-text">{{$t('vote_mining.mining_account_tip')}}<!--包含投票冻结状态和已获得的CDCC--></em>
+    					  <em class="tips-text">{{$t('vote_mining.mining_account_tip')}}<!--包含投票冻结状态和已获得的GCOX--></em>
     					</span>
-    					: {{(Number(vote.statistics.amount)+'').toMoney()}} CDCC
+    					: {{(Number(vote.statistics.amount)+'').toMoney()}} GCOX
     				</div>
     				<div>
     					{{$t('vote_mining.total_profit')}}<!-- 累计收益 -->
     					<span class="tips">
     					  <i class="tips-icon">?</i>
-    					  <em class="tips-text">{{$t('vote_mining.vote_profit_tips')}} CDCC<!--投票已经获得的CDCC--></em>
+    					  <em class="tips-text">{{$t('vote_mining.vote_profit_tips')}} GCOX<!--投票已经获得的GCOX--></em>
     					</span>
-    					: {{(Number(vote.statistics.totalProfit)+'').toMoney()}} CDCC
+    					: {{(Number(vote.statistics.totalProfit)+'').toMoney()}} GCOX
     				</div>
     				<div>
     					{{$t('vote_mining.estimate_profit')}}<!-- 预估收益 -->
     					<span class="tips">
     					  <i class="tips-icon">?</i>
-    					  <em class="tips-text">{{$t('vote_mining.estimate_profit_tips')}} CDCC<!--投票未来预估会获得的CDCC--></em>
+    					  <em class="tips-text">{{$t('vote_mining.estimate_profit_tips')}} GCOX<!--投票未来预估会获得的GCOX--></em>
     					</span>
-    					: {{(Number(vote.statistics.estimateProfit)+'').toMoney()}} CDCC
+    					: {{(Number(vote.statistics.estimateProfit)+'').toMoney()}} GCOX
     				</div>
     				
     			</div>
     			<div class="records">
     				<div class="item header">
     					<span>{{$t('vote_mining.vote_period')}}<!-- 投票期 --></span>
-    					<span>{{$t('vote_mining.vote_number')}}(CDCC)<!-- 投入票数(CDCC) --></span>
-    					<span>{{$t('vote_mining.estimate_profit')}}(CDCC)<!-- 预估收益(CDCC) --></span>
+    					<span>{{$t('vote_mining.vote_number')}}(GCOX)<!-- 投入票数(GCOX) --></span>
+    					<span>{{$t('vote_mining.estimate_profit')}}(GCOX)<!-- 预估收益(GCOX) --></span>
     					<span>{{$t('vote_mining.settlement_date')}}<!-- 结算日 --></span>
     				</div>
     				<div class="item" v-for="item in vote.data" :key="item.voteId">
@@ -69,25 +69,25 @@
     					{{$t('vote_mining.daily_profit')}}<!-- 每日收益 -->
     					<span class="tips">
     					  <i class="tips-icon">?</i>
-    					  <em class="tips-text">{{$t('vote_mining.daily_profit_tips')}} CDCC<!--每天挖礦可獲得的CDCC--></em>
+    					  <em class="tips-text">{{$t('vote_mining.daily_profit_tips')}} GCOX<!--每天挖礦可獲得的GCOX--></em>
     					</span>
-    					: {{(Number(mining.statistics.dailyProfit)+'').toMoney()}} CDCC
+    					: {{(Number(mining.statistics.dailyProfit)+'').toMoney()}} GCOX
     				</div>
     				<div>
     					{{$t('vote_mining.total_profit')}}<!-- 累计收益 -->
     					<span class="tips">
     					  <i class="tips-icon">?</i>
-    					  <em class="tips-text">{{$t('vote_mining.mining_profit_tips')}} CDCC<!--挖礦已經獲得的CDCC--></em>
+    					  <em class="tips-text">{{$t('vote_mining.mining_profit_tips')}} GCOX<!--挖礦已經獲得的GCOX--></em>
     					</span>
-    					: {{(Number(mining.statistics.totalProfit)+'').toMoney()}} CDCC
+    					: {{(Number(mining.statistics.totalProfit)+'').toMoney()}} GCOX
     				</div>
     				<div>
     					{{$t('vote_mining.estimate_profit')}}<!-- 预估收益 -->
     					<span class="tips">
     					  <i class="tips-icon">?</i>
-    					  <em class="tips-text">{{$t('vote_mining.mining_estimate_profit_tips')}} CDCC<!--挖礦未來預估會獲得的CDCC--></em>
+    					  <em class="tips-text">{{$t('vote_mining.mining_estimate_profit_tips')}} GCOX<!--挖礦未來預估會獲得的GCOX--></em>
     					</span>
-    					: {{(Number(mining.statistics.estimateProfit)+'').toMoney()}} CDCC
+    					: {{(Number(mining.statistics.estimateProfit)+'').toMoney()}} GCOX
     				</div>
     				
     			</div>
@@ -95,7 +95,7 @@
     				<div class="item header">
     					<span>{{$t('vote_mining.vote_period')}}<!-- 投票期 --></span>
     					<span>{{$t('vote_mining.vote_pens')}}<!-- 投票笔数 --></span>
-    					<span>{{$t('vote_mining.mining_profit')}}(CDCC)<!-- 挖矿收益(CDCC) --></span>
+    					<span>{{$t('vote_mining.mining_profit')}}(GCOX)<!-- 挖矿收益(GCOX) --></span>
     				</div>
     				<div class="item" v-for="(item,index) in mining.data" :key="index">
     					<span>{{item.voteTime}} {{$t('business.TICKET_PERIOD_1')}}</span>
@@ -111,28 +111,28 @@
     						{{$t('vote_mining.daily_profit')}}<!-- 每日收益 -->
     						<span class="tips">
     						  <i class="tips-icon">?</i>
-    						  <em class="tips-text">{{$t('vote_mining.community_daily_profit_tips')}} CDCC<!--每天社區可獲得的CDCC--></em>
+    						  <em class="tips-text">{{$t('vote_mining.community_daily_profit_tips')}} GCOX<!--每天社區可獲得的GCOX--></em>
     						</span>
     						: 
-    						<p>{{(Number(community.statistics.dailyProfit)+'').toMoney()}} CDCC</p>
+    						<p>{{(Number(community.statistics.dailyProfit)+'').toMoney()}} GCOX</p>
     					</div>
     					<div>
     						{{$t('vote_mining.total_profit')}}<!-- 累计收益 -->
     						<span class="tips">
     						  <i class="tips-icon">?</i>
-    						  <em class="tips-text">{{$t('vote_mining.community_profit_tips')}} CDCC<!--社區已經獲得的CDCC--></em>
+    						  <em class="tips-text">{{$t('vote_mining.community_profit_tips')}} GCOX<!--社區已經獲得的GCOX--></em>
     						</span>
     						: 
-    						<p>{{(Number(community.statistics.totalProfit)+'').toMoney()}} CDCC</p>
+    						<p>{{(Number(community.statistics.totalProfit)+'').toMoney()}} GCOX</p>
     					</div>
     					<div>
     						{{$t('vote_mining.estimate_profit')}}<!-- 预估收益 -->
     						<span class="tips">
     						  <i class="tips-icon">?</i>
-    						  <em class="tips-text">{{$t('vote_mining.community_estimate_profit_tips')}} CDCC<!--社區未來預估會獲得的CDCC--></em>
+    						  <em class="tips-text">{{$t('vote_mining.community_estimate_profit_tips')}} GCOX<!--社區未來預估會獲得的GCOX--></em>
     						</span>
     						: 
-    						<p>{{(Number(community.statistics.estimateProfit)+'').toMoney()}} CDCC</p>
+    						<p>{{(Number(community.statistics.estimateProfit)+'').toMoney()}} GCOX</p>
     					</div>
     				</div>
     				<div class="sepline"></div>
@@ -149,16 +149,16 @@
     						  <em class="tips-text">{{$t('vote_mining.community_member_profit_tips')}} 20%<!--社區成員收益總額的20%--></em>
     						</span>
     						: 
-    						<p>{{(Number(community.statistics.myProfit)+'').toMoney()}} CDCC</p>
+    						<p>{{(Number(community.statistics.myProfit)+'').toMoney()}} GCOX</p>
     					</div>
     					<div>
     						{{$t('vote_mining.community_member_profit')}}<!-- 社区成员收益总额 -->
     						<span class="tips">
     						  <i class="tips-icon">?</i>
-    						  <em class="tips-text">{{($t('vote_mining.community_member_total_profit_tips')).format('CDCC')}}<!--社區所有成員未來預估和已經獲得的CDCC總額--></em>
+    						  <em class="tips-text">{{($t('vote_mining.community_member_total_profit_tips')).format('GCOX')}}<!--社區所有成員未來預估和已經獲得的GCOX總額--></em>
     						</span>
     						: 
-    						<p>{{(Number(community.statistics.memberProfit)+'').toMoney()}} CDCC</p>
+    						<p>{{(Number(community.statistics.memberProfit)+'').toMoney()}} GCOX</p>
     					</div>
     				</div>
     			</div>

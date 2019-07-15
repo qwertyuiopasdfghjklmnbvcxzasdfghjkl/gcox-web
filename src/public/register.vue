@@ -1,58 +1,49 @@
 <template>
-    <div class="login">
-        <div class="login-container">
-            <div class="login-left">
-            </div>
-            <div class="login-right">
-                <div class="login-right-item item-register">
-                    <div class="item-registerType">
-                      <label :class="{checked:formData.registerType==1}">
-                        <span>
-                          <input type="radio" v-model="formData.registerType" value="1"/>
-                        </span>
-                        {{$t('login_register.register_by_cellphone')}}<!--手机注册-->
-                      </label>
-                      <label :class="{checked:formData.registerType==0}">
-                        <span>
-                          <input type="radio" v-model="formData.registerType" value="0"/>
-                        </span>
-                        {{$t('login_register.register_by_email')}}<!--邮箱注册-->
-                      </label>
-                    </div>
-                    <template v-if="formData.registerType==1">
-                      <div class="mobile">
-                        <select v-model="formData.countryCode">
-                          <option v-for="item in areaCodeList" :value="item.code">{{$t(item.key)}}&nbsp;{{item.code}}</option>
-                        </select>
-                        <inputbox name="mobile" :maxLength="255" v-model="formData.mobile" v-validate="'required|telphone'" :msgs="msgs.mobile" :errs="errors" :placeholder="$t('public0.public6')"/><!--手机号-->
-                      </div>
-                      <div class="smsCode">
-                        <inputbox name="smsCode" :maxLength="6" v-model="formData.smsCode" v-validate="'required|pInteger'" :msgs="msgs.smsCode" :errs="errors" :title="$t('account.user_center_SMS_code')" :placeholder="$t('login_register.verify_code')"/><!--短信验证码-->
-                        <a href="javascript:;" :class="{disabled:btnDisabled}" @click="sendSMSCode">{{$t('account.user_center_send_SMS')}}<!--发送验证码-->{{disabled ? `（${time}s）` : ''}}</a>
-                      </div>
-                    </template>
-                    <template v-if="formData.registerType==0">
-                      <inputbox name="email" :maxLength="255" v-model="formData.email" v-validate="'required|email'" :msgs="msgs.email" :errs="errors" :title="$t('otc_exchange.otc_exchange_Email')" :placeholder="$t('login_register.email')"/><!--邮箱-->
-                    </template>
-                    <inputbox id="CDCC-password" type="password" name="password" v-model="formData.password" v-validate="'required|password'" :msgs="msgs.password" :errs="errors" :title="$t('exchange.exchange_password')" :placeholder="$t('login_register.password')"/><!--密码-->
-                    <inputbox type="password" name="passwordConfirm" v-model="formData.passwordConfirm" v-validate="'required|passwordAgain'" :msgs="msgs.passwordConfirm" :errs="errors" :title="$t('login_register.confirm_password')" :placeholder="$t('login_register.password')"/><!--确认密码-->
-                    <inputbox class="ref" name="ref" :maxLength="255" v-model="formData.ref" :title="$t('public0.public244')" :placeholder="$t('public0.public237')"/><!--邀请码-->
-                    <div class="checkbox-group">
-                        <i :class="[checked?'icon-checkbox-checked':'icon-checkbox-unchecked']" @click="checked=!checked"></i>
-                        <span>
-                          <em @click="checked=!checked">{{$t('login_register.agree_Service')}}<!--我已阅读并同意--></em>
-                          <a :href="getAgreementUrl" target="_blank">{{$t('login_register.bitark_service').format('CDCC')}}<!--CDCC服务条款--></a>
-                        </span>
-                    </div>
-                    <div class="button-group">
-                        <buttonbox :class="{disabled:locked||gtLocked}" :text="$t('login_register.register')" @click="register"/><!--注册-->
-                        <div class="link">
-                            <a href="javascript:;" @click="loginDialog" v-html="$t('login_register.Already_registered_Login').format(`<font color='#3A76E7'>CDCC</font>`)"><!--已有CDCC账号，请登录--></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="register">
+      <div class="header ui-flex">
+        <div class="ui-flex-1 efont">{{$t('login_register.register')}}<!-- 注册 --></div>
+        <router-link :to="{name:'login'}" class="login border-bg-box" tag="div">
+          <div class="text efont">{{$t('login_register.login')}}<!-- 登录 --></div>
+          <div class="border-bg"></div>
+        </router-link>
+      </div>
+      <div form autocomplete="off" onsubmit="return false">
+        <div class="mt50 form-item">
+          <input type="text" name="username" :class="{efont:!formData.username}" v-model="formData.username" maxlength="60" v-validate="'required|email'" :placeholder="$t('otc_exchange.otc_exchange_Email')"> <!--email-->
         </div>
+        <div class="error-msg">{{ msgs['username'][errors.firstRule('username')]}}</div>
+        <div class="form-item">
+          <input uid="GCOX-password" :type="showPass?'text':'password'" name="password" :class="{efont:!formData.password}" v-model="formData.password" maxlength="256" v-validate="'required|password'" :placeholder="$t('exchange.exchange_password')"> <!--密码-->
+          <div class="show-pwd-box">
+            <div class="pwd-isShow" @click="showPass=!showPass">
+              <img src="../assets/img/show_password.png" alt="" style="opacity: 0.8;" v-if="showPass">
+              <img src="../assets/img/hide_password.png" alt="" style="opacity: 0.8;" v-else>
+            </div>
+          </div>
+        </div>
+        <div class="error-msg">{{ msgs['password'][errors.firstRule('password')]}}</div>
+        <div class="form-item">
+          <input :type="showPassConfig?'text':'password'" name="passwordConfirm" :class="{efont:!formData.passwordConfirm}" v-model="formData.passwordConfirm" maxlength="256" v-validate="'required|passwordAgain'" :placeholder="$t('login_register.confirm_password')"> <!--密码-->
+          <div class="show-pwd-box">
+            <div class="pwd-isShow" @click="showPassConfig=!showPassConfig">
+              <img src="../assets/img/show_password.png" alt="" style="opacity: 0.8;" v-if="showPassConfig">
+              <img src="../assets/img/hide_password.png" alt="" style="opacity: 0.8;" v-else>
+            </div>
+          </div>
+        </div>
+        <div class="error-msg">{{ msgs['passwordConfirm'][errors.firstRule('passwordConfirm')]}}</div>
+        <div class="form-item">
+          <input type="text" name="ref" :class="{efont:!formData.ref}" v-model="formData.ref" maxlength="256" :placeholder="$t('public0.public244')"> <!--邀请码-->
+        </div>
+        <div class="checkbox-group mt30">
+            <i :class="[checked?'icon-checkbox-checked':'icon-checkbox-unchecked']" @click="checked=!checked"></i>
+            <span>
+              <em @click="checked=!checked">{{$t('login_register.agree_Service')}}<!--我已阅读并同意--></em>
+              《<a :href="walletAgreement" target="_blank">钱包使用条款<!--钱包使用条款--></a>》、《<a :href="useAgreement" target="_blank">使用条款<!--使用条款--></a>》、《<a :href="privacyAgreement" target="_blank">隐私条款<!--隐私条款--></a>》
+            </span>
+        </div>
+        <div class="text-right mt60"><button type="button" class="mint-btn default round efont" style="width: 140px;" :disabled="!checked" @click="register">{{$t('login_register.register')}}<!-- 注册 --></button></div>
+      </div>
     </div>
 </template>
 
@@ -60,32 +51,24 @@
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import userApi from '@/api/user'
-import inputbox from '@/components/formel/inputbox_horizontal'
-import buttonbox from '@/components/formel/buttonbox'
 import utils from '@/assets/js/utils'
-import commonConfig from '@/assets/js/commonConfig'
+import Config from '@/assets/js/config'
 export default {
-  components: {
-    inputbox,
-    buttonbox
-  },
+  name:'register',
   data () {
     return {
       locked: false,
       gtLocked: false,
       checked: false,
-      disabled: false,
-      areaCodeList: commonConfig.areaCodeList,
+      showPass:false,
+      showPassConfig:false,
       formData: {
-        registerType: 1,
-        countryCode: commonConfig.defaultCode,
-        mobile: '',
-        smsCode: '',
+        email:'',
         username: '',
-        email: '',
         password: '',
         passwordConfirm: '',
-        ref: ''
+        ref: '',
+        redirectUrl:`${Config.origin}/#/login`
       },
       time: 60
     }
@@ -94,36 +77,34 @@ export default {
     ...mapGetters(['getLang']),
     msgs () {
       return {
-        mobile: {required: this.$t('public0.public6')}, // 请输入手机号
-        smsCode: {required: this.$t('login_register.verify_code'), pInteger: this.$t('error_code.NUMERIC')}, // 请输入验证码
-        email: {required: this.$t('login_register.email'), email: this.$t('exchange.exchange_Email_format_error')}, // 请输入邮箱||邮箱格式错误
-        password: {required: this.$t('login_register.password')}, // 请输入密码
-        passwordConfirm: {required: this.$t('login_register.password')} // 请输入密码
+        username: {required: this.$t('login_register.email'), email: this.$t('exchange.exchange_Email_format_error')}, // 请输入邮箱||邮箱格式错误
+        password: {required: this.$t('login_register.password'), password:this.$t('login_register.gcoxPWReg')}, // 密码至少8位，包括大、小写字母、数字及以下特殊字符 !@#$%^&*+=
+        passwordConfirm: {required: this.$t('login_register.password'), passwordAgain:this.$t('public0.public124')} // 请输入密码|密码不匹配，请重新输入
       }
     },
-    btnDisabled () {
-      if (this.formData.mobile === '') {
-        return true
-      } else if (this.errors.has('mobile')) {
-        return true
-      } else {
-        return this.disabled
-      }
-    },
-    getAgreementUrl () {
+    walletAgreement () {
       if (this.getLang === 'zh-CN' || this.getLang === 'cht') {
-        return 'https://cdcc.kf5.com/hc/kb/article/1225585/'
+        return '#'
       } else {
-        return 'https://cdcc.kf5.com/hc/kb/article/1225582/'
+        return '#'
       }
-    }
+    },
+    useAgreement () {
+      if (this.getLang === 'zh-CN' || this.getLang === 'cht') {
+        return '#'
+      } else {
+        return '#'
+      }
+    },
+    privacyAgreement () {
+      if (this.getLang === 'zh-CN' || this.getLang === 'cht') {
+        return '#'
+      } else {
+        return '#'
+      }
+    },
   },
   watch: {
-    'formData.registerType' () {
-      this.$nextTick(() => {
-        this.$validator.reset()
-      })
-    },
     $route () {
       this.formData.ref = utils.getUrlHashParams().ref
     }
@@ -134,25 +115,13 @@ export default {
   methods: {
     register () {
       let formData = {}
+      this.formData.email = this.formData.username
       for (let i in this.formData) {
         formData[i] = this.formData[i]
-      }
-      if (Number(formData.registerType) === 0) {
-        delete formData.countryCode
-        delete formData.mobile
-        delete formData.smsCode
-        formData.username = formData.email
-      } else {
-        formData.username = formData.mobile
-        delete formData.email
       }
       formData.lang = this.getLang === 'zh-CN' || this.getLang === 'cht' ? 'cn' : 'en'
       this.$validator.validateAll(formData).then((validResult) => {
         if (!validResult) {
-          return
-        }
-        if (!this.checked) {
-          Vue.$koallTipBox({icon: 'notification', message: this.$t('public0.public122')})
           return
         }
         if (this.locked) {
@@ -172,7 +141,7 @@ export default {
               this.locked = false
               Vue.$koallTipBox({icon: 'success', message: this.$t(`error_code.${msg}`)})
               setTimeout(() => {
-                this.$router.push({name: 'login'})
+                this.$router.push({name: 'sendemail', params:{email:this.formData.email}})
               }, 1500)
             }, (msg) => {
               this.locked = false
@@ -186,108 +155,91 @@ export default {
         })
       })
     },
-    loginDialog () {
-      this.$router.push({name: 'login'})
-    },
-    sendSMSCode () {
-      if (this.btnDisabled) {
-        return
-      }
-      this.disabled = true
-      userApi.sendSMSCode({
-        countryCode: this.formData.countryCode,
-        phoneNumber: this.formData.mobile
-      }, (res) => {
-        let timeOut = () => {
-          this.time--
-          if (this.time === 0) {
-            this.disabled = false
-            this.time = 60
-            return
-          }
-          setTimeout(timeOut, 1000)
-        }
-        setTimeout(timeOut, 1000)
-        Vue.$koallTipBox({icon: 'success', message: this.$t('error_code.SEND_CODE_SUCCESS')})
-      }, (msg) => {
-        this.disabled = false
-        Vue.$koallTipBox({icon: 'notification', message: msg})
-      })
-    }
   }
 }
 </script>
 
-<style scoped>
-.login{display: flex;justify-content: center;align-items: center;height: calc(100% - 70px);min-height: 800px;margin-left: auto;margin-right: auto; background: url('../assets/images/login_bg.jpg') no-repeat center; background-size: cover;}
-@media screen and (max-width: 1600px) {
-  .login {height: calc(100% - 60px);}
+<style lang="less" scoped>
+.register {
+  width: 670px;
+  margin: 0 auto;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  .header {
+    height: 50px;
+    padding: 8px 0;
+    line-height: 34px;
+    div:first-of-type {
+      font-size: 20px;
+      height: 60px;
+      line-height: 60px;
+      color: #fff;
+    }
+    .login {
+        position: relative;
+        padding-right: 15px;
+        .text {
+            line-height: 60px;
+            font-size: 14px;
+            color: #00A0E9;
+            margin-right: 15px;
+        }
+        .border-bg {
+            background: url('../assets/img/border-bg.png') no-repeat 100%;
+            cursor: pointer;
+            width: 50px;
+            height: 60px;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    }
+  }
+  .form-item {
+    position: relative;
+    border-bottom: 1px solid hsla(240,1%,60%,.45);
+    min-height: 30px;
+    padding-top: 0;
+    overflow: hidden;
+    input {
+      height: 30px;
+      line-height: 30px;
+      border: none;
+      width: 100%;
+      outline: none;
+      background-color: transparent;
+      color: #fff;
+    }
+  }
 }
-.login-container{width: 1096px;height: 600px;background-color: #fff;box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .2); border-radius: 15px;}
-.login-left{float: left;width: 50%;height: 100%;text-align: center;background: url(../assets/images/bg-login.png) no-repeat center center;}
-.login-left img{margin-top: 282px;}
-
-.login-right{position: relative;float: right;width: 50%;height: 100%;}
-.login-right-item{position: relative;height: 600px;padding:40px 60px; box-sizing: border-box;}
-.login-right-item .caption{height: 40px;font-size: 38px;line-height: 40px;color: #3A76E7;}
-.login-right-item .prompt{padding-bottom: 24px;overflow: auto;}
-.login-right-item .prompt i{float: left;width: 24px;height: 24px;margin-top: 12px;font-weight: bold;font-size: 16px;line-height: 24px;color: #fff;text-align: center;background-color: #FF4022;border-radius: 50%;}
-.login-right-item .prompt span{float: left;min-height: 24px;padding: 11px 0 8px 8px;font-size: 18px;line-height: 24px;color: #3A76E7;}
-
-.login-right-item /deep/ .inputbox{width: auto !important;min-height: auto !important;}
-.login-right-item /deep/ .title{height: 34px;line-height: 34px;font-size: 16px;color: #000;text-align: left;}
-.login-right-item /deep/ .inputdiv{position: relative;display: block;padding-bottom: 24px;}
-.login-right-item /deep/ .input{
-  width: 100% !important; box-sizing: border-box; height: 40px;margin: 0;font-size: 16px;line-height: normal;
-  color: #555;background-color: #F5F5F5; border: 1px solid #F5F5F5;outline: none; padding-left: 15px; padding-right: 15px; border-radius: 4px;
+.error-msg {
+    height: 30px;
+    margin-top: 5px;
+    line-height: 30px;
+    color: #f1304a;
+    font-size: 12px;
 }
-.login-right-item /deep/ .input:focus{background-color: #F5F5F5; border-color:#3A76E7!important;}
-.login-right-item /deep/ .input.error{background-color: #F5F5F5;border-color: #e53f3f;}
-.login-right-item /deep/ .errorinfo{position: absolute;bottom: 0;left: 0;width: auto;height: 24px;padding-top: 0;color: #e53f3f;font-style: normal;line-height: 24px;white-space: nowrap;}
-
-.login-right-item .captcha{overflow: auto;}
-.login-right-item .captcha /deep/ .inputbox{float: left;width: 280px !important;}
-.login-right-item .captcha img{float: right;margin-top: 34px;cursor: pointer;}
-
-.login-right-item .checkbox-group{overflow: auto;}
-.login-right-item .checkbox-group i{float: left;width: 14px;height: 14px;margin-top: 8px;color: #3A76E7;text-indent: 1px;cursor: pointer;}
-.login-right-item .checkbox-group i:hover{color: #2565c5;}
-.login-right-item .checkbox-group span{float: left;width: 406px;min-height: 30px;padding-left: 8px;line-height: 30px;}
-.login-right-item .checkbox-group span em{color: #999999;}
-.login-right-item .checkbox-group span a{color: #3A76E7;text-decoration: underline;}
-.login-right-item .checkbox-group span a:hover{color: #3A76E7;}
-
-.login-right-item .button-group{position: absolute;bottom: 35px;left: 60px;width: 428px;}
-.login-right-item .button-group /deep/ .button{
-  display: block;justify-content: center;align-items: center;width: 100% !important;height: 55px !important;padding: 0;margin-top: 0;
-  font-weight: bold;font-size: 18px;color: #fff;border: none;border-radius: 4px;cursor: pointer; background: -webkit-linear-gradient(left, #0589F6, #0240CF);  background: linear-gradient(left, #0589F6, #0240CF);
+.show-pwd-box {
+  position: absolute;
+  right: 5px;
+  bottom: 26px;
+  .pwd-isShow{
+    position: absolute;
+    right: 5px;
+    top: 6px;
+    img {
+      width: 20px;
+      cursor: pointer;
+    }
+  }
 }
-.login-right-item .button-group /deep/ .button.disabled{background: -webkit-linear-gradient(left, #999, #666);  background: linear-gradient(left, #999, #666);}
-.login-right-item .button-group .link{padding-top: 10px;overflow: auto; text-align: center;}
-.login-right-item .button-group .link a{height: 24px;line-height: 24px;color: #999;}
-.login-right-item .button-group .link a:hover{color: #999;}
 
-.login-right-item /deep/ input::-webkit-input-placeholder{font-size: 14px;color: #8a96b2;}
-.login-right-item /deep/ input::-moz-placeholder{font-size: 14px;color: #8a96b2;}
-.login-right-item /deep/ input:-moz-placeholder{font-size: 14px;color: #8a96b2;}
-.login-right-item /deep/ input:-ms-input-placeholder{font-size: 14px;color: #8a96b2;}
-
-.item-registerType{ margin: auto; display: flex; color: #0472E9; font-size: 18px; padding-bottom: 20px;}
-.item-registerType /deep/ label{cursor: pointer; border: 1px solid #0472E9;  flex: 1; height: 54px; box-sizing: border-box; text-align: center; line-height: 54px; overflow: hidden;}
-.item-registerType /deep/ label:first-child {border-top-left-radius: 6px; border-bottom-left-radius: 6px;}
-.item-registerType /deep/ label:last-child {border-top-right-radius: 6px; border-bottom-right-radius: 6px;}
-.item-registerType /deep/ label.checked{color:#fff; background-color: #0472E9;}
-.item-registerType /deep/ input{width:0;height:0;opacity:0;}
-
-.ref /deep/ .inputdiv{padding-bottom:10px;}
-.mobile{position:relative;}
-.mobile /deep/ select{
-  position: absolute;top: 0;left: 0;z-index: 1;width: 35%;height: 38px;padding-right: 20px;color: #000;
-  background-position: right 4px center; font-size: 16px;
-}
-.mobile /deep/ .inputdiv{position: relative; width: 60%; margin-left: 40%;}
-.smsCode{position: relative; }
-.smsCode /deep/ a{position: absolute;top: 5px;right: 5px; padding:5px; height: 22px;line-height: 22px;color: #0472E9; background-color: #F5F5F5;}
-.smsCode /deep/ a.disabled{color: #999;cursor: not-allowed;}
+.checkbox-group{overflow: auto; color: #888;}
+.checkbox-group i{float: left;width: 14px;height: 14px;margin-top: 8px;color: #888;text-indent: 1px;cursor: pointer;}
+.checkbox-group i:hover{color: #888;}
+.checkbox-group i.icon-checkbox-checked {color: #00A0E9;}
+.checkbox-group span{float: left;width: 630px;min-height: 30px;padding-left: 8px;line-height: 30px;}
+.checkbox-group span a{color: #00A0E9;text-decoration: underline;}
+.checkbox-group span a:hover{color: #00A0E9;}
 </style>
 

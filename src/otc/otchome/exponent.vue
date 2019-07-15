@@ -5,7 +5,7 @@
         <p class="type">
           <span>
             <i class="icon" :class="[`icon-${params.symbol.toLowerCase()}`]">
-              <template v-if="params.symbol.toLowerCase()==='cdcc'">
+              <template v-if="params.symbol.toLowerCase()==='gcox'">
                 <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
               </template>
             </i>
