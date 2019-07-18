@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="wrap">
     <!--轮播-->
     <indexslider/>
     <!-- 通知 -->
@@ -7,27 +7,36 @@
     <!--推荐市场-->
     <indexrecom ref="indexrecom"/>
     <!--数据表格-->
-    <indexdatatable ref="indexdatatable"/>
-    
+    <indexdatatable/>
+    <tipbox/>
+    <news/>
+    <download/>
+    <regbox/>
   </div>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
   import indexdatatable from '@/public/index/datatable'
   import indexslider from '@/public/index/indexslider'
   import notice from '@/public/index/notice'
   import indexrecom from '@/public/index/indexrecom'
+  import tipbox from '@/public/index/tipbox'
+  import news from '@/public/index/news'
+  import download from '@/public/index/download'
+  import regbox from '@/public/index/regbox'
   import KLineWebSocket from '@/assets/js/websocket'
-  let chartSettings = window.localStorage.getItem('chartSettings')
-  chartSettings && (chartSettings = JSON.parse(chartSettings))
   export default {
     name: 'app',
     components: {
       indexdatatable,
       indexslider,
       notice,
-      indexrecom
+      indexrecom,
+      tipbox,
+      news,
+      download,
+      regbox
     },
     computed: {
       ...mapGetters(['getApiToken', 'getLang']),
@@ -67,11 +76,10 @@
     },
     created () {
       this.socket = KLineWebSocket({
-        symbol: this.symbol,
-        period: chartSettings ? chartSettings.charts.period : null,
+        subscribe:['market'],
         callback: (res) => {
           if (res.dataType === 'markets') {
-            this.$refs.indexdatatable.products = this.mergeMarkets(res.data)
+            this.setMarketList(this.mergeMarkets(res.data))
             this.$refs.indexrecom.products = this.mergeRecomMarkets(res.data)
           }
         },
@@ -81,6 +89,7 @@
       })
     },
     methods:{
+      ...mapActions(['setMarketList']),
       mergeMarkets(newData){
         let oldData = this.$refs.indexdatatable.products, tempObj = {}
         oldData.forEach((item) => {
@@ -96,9 +105,7 @@
         oldData = oldData.map((item) => {
           for(let rd of newData){
             if(item.market===rd.market){
-              let iconBase64 = item.iconBase64
-              item = rd
-              item.iconBase64 = iconBase64
+              item = Object.assign(item,rd)
               break
             }
           }
@@ -114,7 +121,7 @@
 </script>
 
 <style scoped>
-.container{background-color: #040607; color: #f1f1f2;}
+.wrap{background-color: #040607; color: #f1f1f2;}
 .volume{font-size: 12px;}
 .bk-wrap{position:relative;overflow:hidden;min-width:1190px;}
 .bk-main{position:relative;overflow:hidden;margin:0 auto;max-width:1360px;}

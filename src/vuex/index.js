@@ -17,6 +17,7 @@ const fixed = 8
 export default new Vuex.Store({
   state: {
     userInfo: userInfo || {},
+    marketList: [], // 交易市场列表
     api_token: JsCookies.get('api_token'),
     lang: window.localStorage.getItem('lang') || 'en',
     marketConfig: null,
@@ -29,11 +30,18 @@ export default new Vuex.Store({
     entrustNewPrice: 0,
     networkSignal: 0,
     events: {},
-    btcValues: {}
+    btcValues: {},
+    sysParams:{} //System params
   },
   getters: {
+    getSysParams(state){
+      return state.sysParams
+    },
     getUserInfo (state) {
       return state.userInfo
+    },
+    getMarketList (state) {
+      return state.marketList
     },
     getApiToken (state) {
       return state.api_token
@@ -90,8 +98,14 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    updateSysParams (state, sysParams) {
+      state.sysParams = sysParams
+    },
     updateUserInfo (state, userInfo) {
       state.userInfo = userInfo
+    },
+    updateMarketList (state, marketList) {
+      state.marketList = marketList
     },
     updateApiToken (state, apiToken) {
       state.api_token = apiToken
@@ -155,11 +169,26 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    setSysParams (context, sysParams) {
+      context.commit('updateSysParams', sysParams)
+    },
     setUserInfo (context, userInfo) {
       if (userInfo) {
         window.localStorage.setItem('userInfo', JSON.stringify(userInfo))
       }
       context.commit('updateUserInfo', userInfo)
+    },
+    setMarketList (context, marketList) {
+      marketList = JSON.parse(JSON.stringify(marketList))
+      marketList.sort((item1, item2) => {
+        let m1 = `${item1.currencySymbol}/${item1.baseSymbol}`
+        let m2 = `${item2.currencySymbol}/${item2.baseSymbol}`
+        if (m1 === m2) {
+          return 0
+        }
+        return m1 < m2 ? -1 : 1
+      })
+      context.commit('updateMarketList', marketList)
     },
     setApiToken (context, apiToken) {
       if (apiToken) {

@@ -1,6 +1,6 @@
 <template>
   <ul class="w1200 mt20 recommend-markets ui-flex ui-flex-justify">
-    <li v-for="(item, index) in products">
+    <router-link v-for="(item, index) in products" :to="{name: 'exchange_index',params:{symbol:item.currencySymbol+'_'+item.baseSymbol}}" tag='li'>
       <div class="ui-flex" tp>
         <img class="icon" :src="item.iconBase64?`data:image/png;base64,${item.iconBase64}`:`${origin}${item.iconUrl}`">
         <div class="ui-flex-1 name">{{item.currencySymbol}}/{{item.baseSymbol}}</div>
@@ -10,7 +10,7 @@
       <div class="line-box">
         <v-chart :options="getBar(item.kline||[])"/>
       </div>
-    </li>
+    </router-link>
   </ul>
 </template>
 <script>
@@ -31,6 +31,7 @@
         products: [],
         origin: Config.origin,
         getBar: getBar,
+        timers:[]
       }
     },
     created () {
@@ -47,7 +48,28 @@
         // 获取推荐市场
         marketApi.marketListCom(1, (res) => {
           this.products = Object.values(res)
+          for(let item of this.products){
+            this.getKlineData(item.market)
+            this.timers.push(setInterval(()=>{
+              this.getKlineData(item.market)
+            },60000))
+          }
         }, () => {
+        })
+      },
+      getKlineData(symbol){
+        let data = {
+          symbol:symbol,
+          period:'1m',
+          size:60
+        }
+        marketApi.getKlineData(data, res=>{
+          for(let item of this.products){
+            if(item.market === symbol){
+              Vue.set(item,'kline',res)
+              break
+            }
+          }
         })
       },
       percent (item) {
@@ -59,6 +81,11 @@
         } else {
           return '0.00%'
         }
+      }
+    },
+    beforeDestroy () {
+      for(let n of this.timers){
+        clearInterval(n)
       }
     }
   }
