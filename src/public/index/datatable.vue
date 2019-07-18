@@ -11,31 +11,31 @@
           <tr >
             <th >{{$t('exchange.trade_pair')}}<!-- 交易对 --></th>
             <th >{{$t('exchange.exchange_last_price')}}<!-- 最新价 --></th>
-            <th >{{$t('exchange.home_low_24h')}}<!-- 最低价 --></th>
+            <th >{{$t('home.home_low_24h')}}<!-- 最低价 --></th>
             <th >{{$t('exchange.exchange_high')}}<!-- 最高价 --></th>
             <th >{{$t('home.home_volume_24h')}}<!-- 成交量 --></th>
             <th class="text-right">{{$t('exchange.up_and_down')}}<!-- 涨跌幅 --></th>
           </tr>
         </thead>
         <tbody >
-          <tr v-for="item in current==='rise'?riseList:(current==='fall'?fallList:newList)" :key="`${item.currencySymbol}${item.baseSymbol}`">
+          <router-link v-for="item in current==='rise'?riseList:(current==='fall'?fallList:newList)" :to="{name: 'exchange_index',params:{symbol:item.currencySymbol+'_'+item.baseSymbol}}" tag='tr'>
             <td class="icon" :style="`background-image: url(${item.iconBase64?'data:image/png;base64,'+item.iconBase64:origin+item.iconUrl});`">
               <span >{{item.currencySymbol}}/{{item.baseSymbol}}</span>
             </td>
             <td ><span >{{toFixed(item.lastPrice, item.accuracy)}}</span></td>
             <td ><span >{{toFixed(item.lowPrice24h, item.accuracy)}}</span></td>
             <td ><span >{{toFixed(item.highPrice24h, item.accuracy)}}</span></td>
-            <td ><span >{{toFixed(item.dealAmount, 2)}}</span></td>
+            <td ><span >{{toFixed(item.dealAmount, 2).toMoney()}}</span></td>
             <td class="text-right"><span v-html="percent(item)"></span>
             </td>
-            </tr>
-          </tbody>
-        </table>
+          </router-link>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
 <script>
-  import {mapActions} from 'vuex'
+  import {mapGetters, mapActions} from 'vuex'
   import marketApi from '@/api/market'
   import numUtils from '@/assets/js/numberUtils'
   import Config from '@/assets/js/config'
@@ -44,16 +44,16 @@
       return {
         fixedNumber: 8,
         current: 'rise',
-        origin: Config.origin,
-        products: []
+        origin: Config.origin
       }
     },
     computed: {
+      ...mapGetters(['getMarketList']),
       riseList () {
-        if (!this.products.length) {
+        if (!this.getMarketList.length) {
           return []
         }
-        let datas = this.products.filter((item) => {
+        let datas = this.getMarketList.filter((item) => {
           let m1 = numUtils.BN(item.openingPrice).equals(0) ? numUtils.BN(0) : numUtils.BN(item.change24h).div(item.openingPrice)
           return m1.gte(0)
         })
@@ -68,10 +68,10 @@
         return ndatas.slice(0,10)
       },
       fallList () {
-        if (!this.products.length) {
+        if (!this.getMarketList.length) {
           return []
         }
-        let datas = this.products.filter((item) => {
+        let datas = this.getMarketList.filter((item) => {
           let m1 = numUtils.BN(item.openingPrice).equals(0) ? numUtils.BN(0) : numUtils.BN(item.change24h).div(item.openingPrice)
           return m1.lt(0)
         })
@@ -86,10 +86,10 @@
         return ndatas.slice(0,10)
       },
       newList(){
-        if (!this.products.length) {
+        if (!this.getMarketList.length) {
           return []
         }
-        let ndatas = this.products.sort((item1, item2) => {
+        let ndatas = this.getMarketList.sort((item1, item2) => {
           let m1 = numUtils.BN(item1.createdAt)
           let m2 = numUtils.BN(item2.createdAt)
           return m1.gte(m2) ? 1 : -1
@@ -98,15 +98,15 @@
       }
     },
     watch: {
-      products () {
-        this.setBtcValues(this.products)
+      getMarketList () {
+        this.setBtcValues(this.getMarketList)
       }
     },
     created () {
-      this.getMarketList() // 初始化数据
+      this.queryMarketList() // 初始化数据
     },
     methods: {
-      ...mapActions(['setBtcValues']),
+      ...mapActions(['setBtcValues','setMarketList']),
       switchTab(current){
         this.current = current
       },
@@ -123,10 +123,12 @@
           return '0.00%'
         }
       },
-      getMarketList () { // 获取所有市场数据
-        marketApi.marketList((res) => {
-          this.products = res || []
-        })
+      queryMarketList () { // 获取所有市场数据
+        if(!this.getMarketList.length){
+          marketApi.marketList((res) => {
+            this.setMarketList(res || [])
+          })
+        }
       },
     },
   }
@@ -166,13 +168,18 @@
       font-weight: 400;
       padding: 0 5px;
     }
-    tbody>tr {cursor: pointer; }
+    tbody>tr {
+      cursor: pointer;
+      border-bottom: 1px solid #313239;
+      &:last-of-type {
+        border-bottom:none;
+      }
+    }
     tbody>tr:hover {background-color: #222125; }
     tbody>tr>td {
         height: 48px;
         line-height: 48px;
         color: #f1f1f2;
-        border-bottom: 1px solid #313239;
         padding: 0 5px;
     }
     tbody>tr>td.icon {

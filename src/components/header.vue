@@ -1,21 +1,47 @@
 <template>
   <div class="header-container">
     <div class="header-bg"></div>
-    <div class="header">
-        <router-link :to="{name:'home'}" class="icon_logo" ></router-link>
-        <router-link :to="{name:'market'}"><i class="market"></i> {{$t('home.home_pair')}}<!-- 市场 --></router-link>
-        <router-link :to="{name:'exchange'}"><i class="exchange"></i> {{$t('exchange.exchange_name')}}<!-- 交易所 --></router-link>
-        <router-link :to="{name:'acm'}"><i class="acm"></i> ACM</router-link>
+    <div class="header w1200 ui-flex ui-flex-justify">
+      <div class="ui-flex-1">
+        <router-link :to="{name:'home'}" class="icon_logo item" ></router-link>
+        <router-link :to="{name:'market'}" class="item"><i class="market"></i> {{$t('home.home_pair')}}<!-- 市场 --></router-link>
+        <router-link :to="{name:'exchange_index2'}" class="item" :class="{active:$route.name === 'exchange_index2' || $route.name === 'exchange_index'}"><i class="exchange"></i> {{$t('exchange.exchange_name')}}<!-- 交易所 --></router-link>
+        <router-link :to="{name:'acm'}" class="item"><i class="acm"></i> ACM</router-link>
+      </div>
+      <div class="right">
         <template v-if="isLogin">
-          <router-link :to="{name:'account'}">{{$t('account.user_center_help_account')}}<!-- 账户 --></router-link>
-          <router-link :to="{name:'ucenter'}">{{getUserInfo.username}}</router-link>
+          <router-link :to="{name:'account'}" class="item"><i class="account"></i> {{$t('account.user_center_help_account')}}<!-- 账户 --></router-link>
+          <router-link to="" class="item">
+            <span style="color: #fff;">{{displayUsername}}</span>
+            <div class="popover-nav" ref="nav1" @click="hidePopoverNav('nav1')">
+              <div class="popover-menu">
+                <router-link :to="{name:'mycenter_menu', params:{menu:'mycenter'}}" class="sub-item" tag="div">
+                  <i class="security"></i>
+                  <span>{{$t('login_register.ucenter')}}<!-- 个人信息中心 --></span>
+                </router-link>
+                <router-link :to="{name:'mycenter_menu', params:{menu:'authentication'}}" class="sub-item" tag="div">
+                  <i class="verification"></i>
+                  <span>{{$t('login_register.kyc_verification')}}<!-- KYC认证 --></span>
+                </router-link>
+                <router-link :to="{name:'mycenter_menu', params:{menu:'message'}}" class="sub-item" tag="div">
+                  <i class="message"></i>
+                  <span>{{$t('public0.public251')}}<!-- 系统消息 --></span>
+                </router-link>
+                <div class="sub-item" @click="logout">
+                  <i class="logout"></i>
+                  <span>{{$t('public0.navigation_logout')}}<!-- 退出 --></span>
+                </div>
+              </div>
+            </div>
+          </router-link>
         </template>
         <template v-else>
-          <router-link :to="{name:'login'}">{{$t('login_register.login')}}<!-- 登录 --></router-link>
-          <router-link :to="{name:'register'}">{{$t('login_register.register')}}<!-- 注册 --></router-link>
+          <router-link :to="{name:'login'}" class="item">{{$t('login_register.login')}}<!-- 登录 --></router-link>
+          <router-link :to="{name:'register'}" class="item">{{$t('login_register.register')}}<!-- 注册 --></router-link>
         </template>
-        <a href="javascript:;" @click="setLanguage('en')" v-if="getLang==='zh-CN'">ENGLISH</a>
-        <a href="javascript:;" @click="setLanguage('zh-CN')" v-if="getLang==='en'">简体中文</a>
+        <a class="item" href="javascript:;" @click="setLanguage('en')" v-if="getLang==='zh-CN'">ENGLISH</a>
+        <a class="item" href="javascript:;" @click="setLanguage('zh-CN')" v-if="getLang==='en'">简体中文</a>
+      </div>
     </div>
   </div>
 </template>
@@ -32,7 +58,14 @@ export default {
   },
   computed: {
     ...mapGetters(['isLogin', 'getUserInfo', 'getLang']),
-    
+    displayUsername(){
+      if(this.getUserInfo.username){
+        let temp = this.getUserInfo.username.split('@')
+        return temp[0].slice(0,Math.ceil(temp[0].length/2)) + '*'.repeat(Math.floor(temp[0].length/2)) + '@'+ temp[1]
+      } else {
+        return ''
+      }
+    }
   },
   watch: {
     
@@ -44,7 +77,7 @@ export default {
     
   },
   methods: {
-    ...mapActions(['setLang']),
+    ...mapActions(['setLang','setApiToken']),
     setLanguage (lang) {
       this.setLang(lang)
       if (!utils.isPlainEmpty(this.$i18n.getLocaleMessage(lang))) {
@@ -57,6 +90,15 @@ export default {
         this.$i18n.setLocaleMessage(lang, res)
       })
     },
+    logout() {
+      this.setApiToken(null)
+    },
+    hidePopoverNav(target){
+      this.$refs[target].style.display = 'none'
+      setTimeout(()=>{
+        this.$refs[target].removeAttribute("style")
+      },1000)
+    }
   }
 }
 </script>
@@ -79,14 +121,63 @@ export default {
   left: 0;
   right: 0;
   height: 70px;
-  width: 1190px;
   line-height: 70px;
-  margin-left: auto;
-  margin-right: auto;
-  display: flex;
-  justify-content: space-between;
   font-size: 12px;
-
+  .item {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    position:relative;
+    .popover-nav {
+      position: absolute;
+      top: 69px;
+      left:50%;
+      transform: translateX(-50%);
+      border-radius: 4px;
+      background: #fff;
+      min-width: 150px;
+      border: 1px solid #ebeef5;
+      z-index: 2000;
+      color: #606266;
+      text-align: justify;
+      font-size: 14px;
+      box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+      word-break: break-all;
+      display: none;
+      .popover-menu {
+        line-height: 40px;
+        .sub-item {
+          padding: 0 10px;
+          border-bottom: 1px solid rgba(21,23,32,.08);
+          cursor: pointer;
+          display: flex;
+          &:hover {background-color: #E5E5E5;}
+          i {
+            height: 40px;
+            width: 30px;
+            background: no-repeat 0;
+            background-size: 20px 20px;
+          }
+          .security {
+            background-image: url('../assets/img/icon-security.svg');
+          }
+          .verification {
+            background-image: url('../assets/img/icon-verification.svg');
+          }
+          .message {
+            background-image: url('../assets/img/icon-message.svg');
+          }
+          .logout {
+            background-image: url('../assets/img/icon-logout.svg');
+          }
+        }
+      }
+    }
+  }
+  .item:hover .popover-nav {display: block;}
+  .item + .item {
+    margin-left: 80px;
+  }
   .icon_logo {
     width: 120px;
     background-image:url('../assets/img/logo.svg');
@@ -95,8 +186,9 @@ export default {
     background-size: contain;
   }
   a {
-    font-family: 'ethnocentric','Microsoft YaHei';
+    font-family: 'ethnocentric';
     color: #fff;
+    div {font-family: PingFangSC-Regular,Microsoft YaHei,sans-serif;}
     i {
       display: inline-block;
       width: 20px;
@@ -114,6 +206,9 @@ export default {
       &.acm {
         background-image:url('../assets/img/ACM.svg');
       }
+      &.account {
+        background-image:url('../assets/img/ACCOUNT.svg');
+      }
     }
     &.active, &:hover, &.router-link-exact-active {
       color: #00A0E9;
@@ -126,7 +221,10 @@ export default {
         }
         &.acm {
         background-image:url('../assets/img/ACM-blue.svg');
-      }
+        }
+        &.account {
+          background-image:url('../assets/img/ACCOUNT-blue.svg');
+        }
       }
     }
   }

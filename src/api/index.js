@@ -12,8 +12,11 @@ axios.defaults.timeout = 100000
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
   var apiToken = JsCookies.get('api_token')
+  let lang = localStorage.getItem('lang') || 'en'
   apiToken && (config.headers.common['api_token'] = apiToken)
   config.headers.common['uuid'] = userApi.uuid
+  config.headers.common['lang'] = lang
+
   // 在发送请求之前做些什么
   return config
 }, function (error) {
@@ -27,7 +30,7 @@ axios.interceptors.response.use(function (response) {
     let error = {response: response}
     return Promise.reject(error)
   }
-  if (response.data && response.data.rst === 401) {
+  if ((response.data && response.data.rst === 401) || response.status===403) {
     console.error(response.config.url)
     console.log('用户不存在，退出登录')
     // 用户不存在，退出登录
