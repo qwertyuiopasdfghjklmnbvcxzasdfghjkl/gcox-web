@@ -60,6 +60,7 @@ export default {
     getApiToken (val) {
       if (val) {
         this.getUserInfoMethod()
+        this.getBtcPrice()
       }
       try {
         this.gws.changeLogin()
@@ -99,6 +100,8 @@ export default {
     }
   },
   created () {
+    this.getBtcPrice()
+    this.getSysparams()
     this.getBTCValuation()
     this.getUserInfoMethod()
     this.checkRouteChange(this.$route)
@@ -139,7 +142,28 @@ export default {
     this.ws && this.ws.close()
   },
   methods: {
-    ...mapActions(['setBTCValuation', 'setUSDCNY', 'setNetworkSignal', 'setUserInfo']),
+    ...mapActions(['setBTCValuation', 'setUSDCNY', 'setNetworkSignal', 'setUserInfo','setSysParams']),
+    getBtcPrice(){
+      if (!this.getApiToken) {
+        return
+      }
+      marketApi.getBtcPrice(res=>{
+        this.setUSDCNY({
+          USD: numUtils.BN(res.USD).toFixed(2),
+          CNY: numUtils.BN(res.CNY).toFixed(2)
+        })
+        this.setBTCValuation(numUtils.BN(res.btcAmount).toFixed(8)) // 当前转换人民币
+      })
+    },
+    getSysparams(){
+      marketApi.rateSysparams(res=>{
+        let params = {}
+        for(let item of res){
+          params[item.code] = item
+        }
+        this.setSysParams(params)
+      })
+    },
     getBTCValuation(){
       marketApi.BTCValuation(data=>{
         this.setUSDCNY({

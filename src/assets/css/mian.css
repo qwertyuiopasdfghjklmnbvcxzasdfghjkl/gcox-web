@@ -53,12 +53,30 @@ div.hopscotch-bubble h3,div.hopscotch-bubble .hopscotch-content{color:#aeb7d0;}
 .table > div > div img {vertical-align: middle;}
 .table.border {border-top: 1px solid #ccc; border-left: 1px solid #ccc;}
 .table.border > div > div {border-right: 1px solid #ccc; border-bottom: 1px solid #ccc;}
-
-.w1200 {width: 1200px; margin-left: auto; margin-right: auto;}
+@media screen and (min-width: 1660px){
+	.w1200 {padding-left: 210px; padding-right: 210px;}
+}
+@media screen and (max-width: 1659px) and (min-width: 1200px){
+	.w1200 {width: 1200px; margin-left: auto; margin-right: auto;}
+}
+.container {
+	background: url(../img/bg_common.png) no-repeat 50%;
+	color: #f1f1f2;
+	min-height: -webkit-calc(100vh - 365px);
+	min-height: calc(100vh - 365px);
+}
 .ui-flex {display: flex;}
 .ui-flex-justify {justify-content: space-between;}
+.ui-flex-center {justify-content:center;}
+.ui-flex-column {flex-direction: column;}
 .ui-flex-1 {flex: 1; min-width: 0;}
 .ellipsis {white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+.ellipsis-4 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+}
 .mask-layer {position: fixed; left: 0; top: 70px; right: 0; bottom: 0; background-color: rgba(0,0,0,.6); z-index: 9999999;}
 @media screen and (max-width: 1600px) {
   .mask-layer {

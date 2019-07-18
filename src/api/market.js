@@ -321,7 +321,7 @@ const getSymbolIntroduce = function (symbol, success, error) {
 }
 market.getSymbolIntroduce = getSymbolIntroduce
 
-// 首页手续费率
+// 获取系统参数
 const rateSysparams = function (success, error) {
   api.get(`${domain}api/v2/trade/sys_params`, (res) => {
     if (res.rst === 1) {
@@ -344,5 +344,29 @@ const BTCValuation = function (success, error) {
   }, error)
 }
 market.BTCValuation = BTCValuation
+
+// 查询BTC汇率价格
+const getBtcPrice = function (success, error) {
+  api.get(`${domain}api/v2/account2/btcPrice `, (res) => {
+    if (res.rst === 1) {
+      success && success(res)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+market.getBtcPrice = getBtcPrice
+
+// 查询市场Kline
+const getKlineData = function (data, success, error) {
+  api.get(`${domain}api/v3/kline`, data, (res) => {
+    if (res.rst === 1) {
+      success && success(res.data)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+market.getKlineData = getKlineData
 
 export default market

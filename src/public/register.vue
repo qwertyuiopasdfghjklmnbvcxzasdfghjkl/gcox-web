@@ -110,6 +110,7 @@ export default {
     }
   },
   created () {
+    this.formData.username = this.$route.query.email
     this.formData.ref = utils.getUrlHashParams().ref
   },
   methods: {
