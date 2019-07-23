@@ -13,7 +13,8 @@
         </div>
         <div class="error-msg">{{ msgs['username'][errors.firstRule('username')]}}</div>
         <div class="form-item">
-          <input uid="GCOX-password" :type="showPass?'text':'password'" name="password" :class="{efont:!formData.password}" v-model="formData.password" maxlength="256" v-validate="'required|password'" :placeholder="$t('exchange.exchange_password')"> <!--密码-->
+          <input uid="GCOX-password" :type="showPass?'text':'password'" name="password" :class="{efont:!formData.password}"
+                 v-model="formData.password" maxlength="256" v-validate="'required|password'" :placeholder="$t('exchange.exchange_password')"> <!--密码-->
           <div class="show-pwd-box">
             <div class="pwd-isShow" @click="showPass=!showPass">
               <img src="../assets/img/show_password.png" alt="" style="opacity: 0.8;" v-if="showPass">
@@ -23,7 +24,8 @@
         </div>
         <div class="error-msg">{{ msgs['password'][errors.firstRule('password')]}}</div>
         <div class="form-item">
-          <input :type="showPassConfig?'text':'password'" name="passwordConfirm" :class="{efont:!formData.passwordConfirm}" v-model="formData.passwordConfirm" maxlength="256" v-validate="'required|passwordAgain'" :placeholder="$t('login_register.confirm_password')"> <!--密码-->
+          <input :type="showPassConfig?'text':'password'" name="passwordConfirm" :class="{efont:!formData.passwordConfirm}"
+                 v-model="formData.passwordConfirm" maxlength="256" v-validate="'required|passwordAgain'" :placeholder="$t('login_register.confirm_password')"> <!--密码-->
           <div class="show-pwd-box">
             <div class="pwd-isShow" @click="showPassConfig=!showPassConfig">
               <img src="../assets/img/show_password.png" alt="" style="opacity: 0.8;" v-if="showPassConfig">

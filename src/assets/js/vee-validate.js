@@ -27,6 +27,40 @@ Validator.extend('passwordAgain', {
   }
 })
 
+Validator.extend('newPassword', {
+  getMessage: (field, args) => {
+    return 'login_register.gcoxPWReg' // 密码至少8位，包括大、小写字母、数字及以下特殊字符 !@#$%^&*+=
+  },
+  validate: (value, args) => {
+    return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*+=]).{8,}$/.test(value)
+  }
+})
+
+Validator.extend('googleCode', {
+  getMessage: (field, args) => {
+    return 'usercontent.user65' // 谷歌验证码 暂无条件
+  },
+  validate: (value, args) => {
+    return /^[0-9a-zA-Z]+$/.test(value)
+  }
+})
+
+Validator.extend('emailCode', {
+  getMessage: (field, args) => {
+    return 'usercontent.user66' // 邮件验证码 暂无条件
+  },
+  validate: (value, args) => {
+    return /^[0-9a-zA-Z]+$/.test(value)
+  }
+})
+
+Validator.extend('passwordConfirm', {
+  getMessage: (field, args) => 'public0.public124', // 密码不匹配，请重新输入
+  validate: (value, args) => {
+    return value === document.querySelector('input[uid="GCOX-newPassword"]').value
+  }
+})
+
 Validator.extend('IdCard', {
   getMessage: (field, args) => 'public0.public125', // 请输入有效的身份证号码
   validate: (value, args) => {

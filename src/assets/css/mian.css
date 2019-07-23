@@ -94,15 +94,17 @@ div.hopscotch-bubble h3,div.hopscotch-bubble .hopscotch-content{color:#aeb7d0;}
 
 .rp {position: relative;}
 .ap {position: absolute;}
+.text-left {text-align: left;}
 .text-center {text-align: center;}
 .text-right {text-align: right;}
 .lh15 {line-height: 1.5em;}
+.pointer {cursor: pointer;}
 
 .f-c-gray {color: #666;}
-.f-c-danger {color: #E44242;}
+.f-c-danger {color: #FF3E04;}
 .f-c-main {color: #00a0e9;}
 .f-c-white {color: #fff;}
-.f-c-green {color: #51CD7D;}
+.f-c-green {color: #01DD5A;}
 
 .fs10 { font-size:10px;}
 .fs12 { font-size:12px; }
@@ -265,6 +267,16 @@ div.hopscotch-bubble h3,div.hopscotch-bubble .hopscotch-content{color:#aeb7d0;}
   padding-right: 15px;
   border-radius: 2px;
   font-size: 12px;
+}
+.mint-btn.middle {
+  height: 28px;
+  padding-left: 18px;
+  padding-right: 18px;
+  border-radius: 3px;
+  font-size: 14px;
+}
+.mint-btn.middle.round {
+	border-radius: 28px;
 }
 .mint-btn.small.round {
 	border-radius: 25px;

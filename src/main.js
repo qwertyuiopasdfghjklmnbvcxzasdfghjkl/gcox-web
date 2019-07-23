@@ -10,6 +10,7 @@ import Vtip from '@/assets/js/vtip.min'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import '@/components/dialog'
 import '@/components/confirm'
+import '@/components/ajaxLoading'
 import '@/components/messageTipBox'
 import '@/assets/js/vee-validate'
 import '../node_modules/hopscotch/dist/css/hopscotch.min.css'
@@ -19,10 +20,13 @@ import '@/assets/css/mian.css'
 import 'swiper/dist/css/swiper.css'
 import langApi from '@/api/language'
 
+import gjh from './public/mycenter/gjh'
+
 Vue.use(VeeValidate)
 Vue.use(VueI18n)
 Vue.use(Vtip.directive)
 Vue.use(VueAwesomeSwiper)
+
 let i18n = window.$i18n = new VueI18n({
   locale: 'en',
   messages: {
@@ -43,8 +47,10 @@ if(lang==='en'){
 }
 langApi.getLanguage(lang, (res) => {
   i18n.locale = lang
+  res.usercontent = gjh.usercontent
+  console.log(res)
   i18n.setLocaleMessage(lang, res)
-  new Vue({
+  window.vm = new Vue({
     el: '#app',
     router,
     store,
@@ -53,7 +59,7 @@ langApi.getLanguage(lang, (res) => {
     components: { App }
   })
 }, (msg) => {
-  new Vue({
+  window.vm = new Vue({
     el: '#app',
     router,
     store,

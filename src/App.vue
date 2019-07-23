@@ -69,6 +69,10 @@ export default {
       }
       if (val) {
         // 登录跳转
+        if(window.noLoginRedirect){
+          window.noLoginRedirect = false
+          return
+        }
         let tempName = null
         if (this.fromRoute) {
           if (this.fromRoute.meta.goHome) {

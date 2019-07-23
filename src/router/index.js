@@ -12,7 +12,7 @@ import Linkinvalid from '@/public/email/linkinvalid'
 import mycenter from '@/public/mycenter'
 import Activation from '@/public/email/activation'
 import Activationsuccess from '@/public/email/activationsuccess'
-
+import account from '../public/account'
 
 Vue.use(Router)
 
@@ -75,6 +75,18 @@ export default new Router({
       path: '/mycenter/:menu',
       name: 'mycenter_menu',
       component: mycenter,
+      meta: {login: true}
+    },
+    {
+      path: '/account',
+      name: 'account',
+      component: account,
+      meta: {login: true}
+    },
+    {
+      path: '/account/:menu',
+      name: 'account_menu',
+      component: account,
       meta: {login: true}
     },
     {

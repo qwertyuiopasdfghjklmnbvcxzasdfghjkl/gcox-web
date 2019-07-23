@@ -3,7 +3,7 @@
     <div class="bottom">
       <div class="left">
         <div><img src="../assets/img/logo.svg" class="logo"></div>
-        <div class="mt30">你最爱的名人币交易所</div>
+        <div class="mt30">{{$t('about.slogen')}}<!-- 你最爱的名人币交易所 --></div>
         <div class="mt20 share">
           <a href="https://www.facebook.com/GCOX.Official/" target="_blank"><img src="../assets/img/facebook.svg"></a>
           <a href="https://www.linkedin.com/company/gcox-official/" target="_blank"><img src="../assets/img/linkedin.svg"></a>
