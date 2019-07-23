@@ -5,10 +5,53 @@
            <span class="rang-down pointer" :class="{active:tradeType==='sell'}" @click="tradeType='sell'">{{$t('exchange.exchange_sell')}}<!-- 卖出 --></span>
         </div>
         <div class="balance ui-flex ui-flex-justify">
-          <div><span class="pull-left">可用&nbsp;</span> <span class="pull-left">ETH</span> <span class="pull-left value">0</span></div>
+          <div><span>{{isBuy ? baseSymbol : currentSymbol}}</span> <span>{{$t('exchange.exchange_balance')}}<!--余额-->：</span> <span>{{toFixed(isBuy ? toBalance.availableBalance : fromBalance.availableBalance).toMoney()}}</span></div>
           <button type="button" class="normal pull-right">充值</button>
         </div>
-        <p class="exhange-rate"></p>
+        <p class="exhange-rate">{{$t('public.fee_rate')}}：{{rateData || 0.01}}%<!--手续费率--></p>
+        <form name="orderForm">
+          <div class="input-group">
+           <label>类型</label> 
+           <div class="el-select">
+              <input type="text" readonly="readonly" autocomplete="off" placeholder="">
+              <span class="input__suffix"><i class="icon-arrow-down2"></i></span>
+              <ul class="el-select-item">
+                <li :class="{selected:active==='limit'}" @click="switchTab('limit')">{{$t('exchange.exchange_limit')}}<!--限价委托--></li>
+                <li :class="{selected:active==='market'}" @click="switchTab('market')">{{$t('exchange.exchange_market')}}<!--市价委托--></li>
+              </ul>
+           </div>
+          </div> 
+          <div class="input-group ui-clear">
+           <label for="buyLimitPrice">价格</label> 
+           <label for="buyLimitPrice" class="code">BTC</label> 
+           <input id="buyLimitPrice" name="buyLimitPrice" maxlength="25" disabled="disabled" /> 
+           <p class="error-box gray-f"></p> 
+           <p class="error-box" style="display: none;"></p>
+          </div> 
+          <div class="input-group ui-clear">
+           <label for="buyQuantity">数量</label> 
+           <label for="buyQuantity" class="code">ETH</label> 
+           <input id="buyQuantity" name="buyQuantity" maxlength="25" disabled="disabled" /> 
+           <p class="error-box" style="display: none;"></p>
+          </div> 
+          <div class="button-group-wrapper">
+           <div class="button-group ui-clear">
+            <button type="button" disabled="disabled" class="pull-right">100% </button>
+            <button type="button" disabled="disabled" class="pull-right">75% </button>
+            <button type="button" disabled="disabled" class="pull-right">50% </button>
+            <button type="button" disabled="disabled" class="pull-right">25% </button>
+           </div>
+          </div> 
+          <!----> 
+          <!----> 
+          <div class="input-group ui-clear">
+           <label data-v-ab434934="">总计</label> 
+           <label for="buyAmount" class="code">BTC</label> 
+           <input disabled="disabled" name="buyAmount" maxlength="25" /> 
+           <p class="error-box" style="display: none;"></p>
+          </div> 
+          <button type="button" class="opertaion-btn">买入 ETH</button>
+         </form>
     </div>
 </template>
 
@@ -24,10 +67,6 @@ import arrows from './arrows'
 import valuation from '@/components/valuation'
 export default {
   props: {
-    active: {
-      type: String,
-      default: 'limit'
-    },
     fixedNumber: {
       type: Number
     },
@@ -63,6 +102,7 @@ export default {
   },
   data () {
     return {
+      active:'limit',
       tradeType:'buy',
       isShowPrice: false,
       isShowTotal: false,
@@ -84,7 +124,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getApiToken', 'getMarketConfig', 'getLast24h', 'getEntrustNewPrice']),
+    ...mapGetters(['getApiToken', 'getMarketConfig', 'getLast24h', 'getEntrustNewPrice','getSysParams']),
+    rateData(){
+      return this.getSysParams.transactionRate.value * 100
+    },
     symbol () {
       return `${this.currentSymbol}${this.baseSymbol}`
     },
@@ -203,6 +246,9 @@ export default {
   },
   methods: {
     ...mapActions(['addEvents', 'removeEvents']),
+    switchTab (tab) {
+      this.active = tab
+    },
     businessEvent (res) {
       if (res && res.type === 'price') {
         this.formData.price = res.value
@@ -526,8 +572,76 @@ export default {
   }
 }
 .exhange-rate {
-    line-height: 0;
+    line-height: 28px;
     height: 28px;
     color: #62677b;
+}
+.input-group {
+    color: #979799;
+    font-size: 14px;
+    height: 30px;
+    position: relative;
+    display: flex;
+    label {
+        height: 30px;
+        line-height: 30px;
+        display: block;
+        width: 66px;
+    }
+    .el-select {
+        position: relative;
+        flex: 1;
+        background: #2e2c3c;
+        input {
+          color: #d8d8da;
+          width: 100%;
+          height: 30px;
+          line-height: 30px;
+          box-sizing: border-box;
+          padding-right: 30px;
+          text-align: center;
+          background-color: transparent;
+          cursor: pointer;
+        }
+        .input__suffix {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            transition: all .3s;
+            height: 100%;
+            color: #c0c4cc;
+            text-align: center;
+            i {
+                font-size: 14px;
+                transition: transform .3s;
+                -ms-transform: rotate(180deg);
+                transform: rotate(180deg);
+                cursor: pointer;
+                line-height: 30px;
+            }
+        }
+        .el-select-item {
+          position: absolute;
+          left: 0;
+          top: 40px;
+          right: 0;
+          padding:4px 0;
+          background-color: #212028;
+          border-radius: 4px;
+          z-index: 1;
+          li {
+            line-height: 34px;
+            padding:0 20px;
+            cursor: pointer;
+            &.selected {
+              color: #00a0e9;
+            }
+            &:hover {
+              background-color: #292831;
+            }
+          }
+        }
+    }
 }
 </style>
