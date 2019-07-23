@@ -243,7 +243,6 @@
     background-color: #19181c;
     padding-bottom: 30px;
     color: #d8d8da;
-    margin-bottom: 50px;
     .history_nav{
       font-size: 14px;
       width: 100%;

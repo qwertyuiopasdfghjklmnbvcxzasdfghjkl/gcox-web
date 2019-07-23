@@ -5,7 +5,7 @@
         {{$t('trade_record.current_entrust')}}<!--当前委讬 --></li>
       <li :class="{'active': active === 'history'}" @click="switch_tab('history')">
         {{$t('trade_record.history_entrust')}}<!--历史委讬 --></li>
-      <li :class="{'active': active === 'curreny'}" @click="switch_tab('curreny')">
+      <li :class="{'active': active === 'curreny'}" @click="switch_tab('curreny')" v-if="this.show">
         {{$t('trade_record.exchange_record')}}<!--币币成交记录--></li>
       <!--<li :class="{'active': active === 'otccurreny'}" @click="switch_tab('otccurreny')">{{$t('trade_record.otc_record')}}&lt;!&ndash;OTC交易记录&ndash;&gt;</li>-->
       <!--<li :class="{'active': active === 'transfer'}" @click="switch_tab('transfer')">{{$t('trade_record.transfer_record')}}&lt;!&ndash;资金划转记录&ndash;&gt;</li>-->
@@ -23,6 +23,12 @@
   import transfer from '@/public/mycenter/records/transfer'
 
   export default {
+    props: {
+      show: {
+        type: Boolean,
+        default: true
+      }
+    },
     data () {
       return {
         active: 'now'

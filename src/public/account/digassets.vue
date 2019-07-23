@@ -8,7 +8,7 @@
           <span>{{String(getBTCValuation).toMoney()}} BTC</span>
           <!--≈ {{getCoinSign}} {{USDCNY}}-->
         </div>
-        <div class="balance_search">
+        <div class="balance_search" v-if="pandectShow">
 
           <div class="f-fr">
             <p>{{$t('usercontent.user68')}}</p>
@@ -28,20 +28,20 @@
               <input type="text" v-model="filterTitle" placeholder="BTC"/>
             </div>
             <!--<div class="limit">-->
-                            <!--<span @click="switchTab('historyrecord')">-->
-                              <!--{{$t('account.userViewTheHistory')}}&lt;!&ndash;历史记录&ndash;&gt;-->
-                            <!--</span>-->
+            <!--<span @click="switchTab('historyrecord')">-->
+            <!--{{$t('account.userViewTheHistory')}}&lt;!&ndash;历史记录&ndash;&gt;-->
+            <!--</span>-->
             <!--</div>-->
           </div>
         </div>
         <!--<div class="acount_tab">-->
-          <!--<div :class="{'active': active === 'main'}" @click="switchHeadTab('main')">{{$t('public.main_account')}}</div>-->
-          <!--<div :class="{'active': active === 'vote'}" @click="switchHeadTab('vote')">-->
-            <!--{{$t('public.vote_miner_account')}}-->
-          <!--</div>-->
-          <!--<span @click="tansferDialog">{{$t('vote_mining.funds_transfer')}}</span>-->
+        <!--<div :class="{'active': active === 'main'}" @click="switchHeadTab('main')">{{$t('public.main_account')}}</div>-->
+        <!--<div :class="{'active': active === 'vote'}" @click="switchHeadTab('vote')">-->
+        <!--{{$t('public.vote_miner_account')}}-->
         <!--</div>-->
-        <ul class="accountInfo-lists header">
+        <!--<span @click="tansferDialog">{{$t('vote_mining.funds_transfer')}}</span>-->
+        <!--</div>-->
+        <ul class="accountInfo-lists header" v-if="pandectShow">
           <li class="th">
             <div class="items">
               <div class="coin ng-binding" @click="sortAssets('symbol')">
@@ -52,11 +52,11 @@
                 </em>
               </div>
               <!--<div class="fullName ng-binding" @click="sortAssets('fullName')">-->
-                <!--{{$t('account.estimated_value_name')}}&lt;!&ndash;全称&ndash;&gt;-->
-                <!--<em v-if="sortActive==='fullName'">-->
-                  <!--<i class="icon-arrow-up" :class="{active:sort==='asc'}"></i>-->
-                  <!--<i class="icon-arrow-down" :class="{active:sort==='desc'}"></i>-->
-                <!--</em>-->
+              <!--{{$t('account.estimated_value_name')}}&lt;!&ndash;全称&ndash;&gt;-->
+              <!--<em v-if="sortActive==='fullName'">-->
+              <!--<i class="icon-arrow-up" :class="{active:sort==='asc'}"></i>-->
+              <!--<i class="icon-arrow-down" :class="{active:sort==='desc'}"></i>-->
+              <!--</em>-->
               <!--</div>-->
               <div class="f-right ng-binding" @click="sortAssets('total')">
                 {{$t('account.estimated_value_total')}}<!--总金额-->
@@ -73,11 +73,11 @@
                 </em>
               </div>
               <!--<div class="locked f-right ng-binding" @click="sortAssets('frozen')">-->
-                <!--{{$t('public0.public34')}}&lt;!&ndash;冻结金额&ndash;&gt;-->
-                <!--<em v-if="sortActive==='frozen'">-->
-                  <!--<i class="icon-arrow-up" :class="{active:sort==='desc'}"></i>-->
-                  <!--<i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>-->
-                <!--</em>-->
+              <!--{{$t('public0.public34')}}&lt;!&ndash;冻结金额&ndash;&gt;-->
+              <!--<em v-if="sortActive==='frozen'">-->
+              <!--<i class="icon-arrow-up" :class="{active:sort==='desc'}"></i>-->
+              <!--<i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>-->
+              <!--</em>-->
               <!--</div>-->
               <div class="opreat f-right ng-binding" v-if="accountType===1">
                 {{$t('otc_exchange.otc_exchange_operating')}}<!--操作-->
@@ -85,30 +85,33 @@
             </div>
           </li>
         </ul>
-        <ul class="accountInfo-lists">
-          <li v-for="(data, index) in filterDatas()" :key="data.accountId">
-            <div class="items">
-              <div class="coin ng-binding">{{data.symbol}}</div>
-              <!--<div class="fullName ng-binding">{{$t(`symbol.${data.symbol}`)}}</div>-->
-              <div class="f-right ng-binding">{{toFixed(data.totalBalance)}}</div>
-              <div class="useable f-right ng-binding">{{toFixed(data.availableBalance)}}</div>
-              <!--<div class="locked f-right ng-binding">{{toFixed(data.frozenBalance)}}</div>-->
-              <moreinfo class="action"
-                        :googleState="getUserInfo.googleAuthEnable"
-                        :verifyState="getUserInfo.kycState"
-                        :symbol="data.symbol"
-                        :item="data"
-                        @updateMyAssets="getList"/>
-              <!--<div class="action f-right" v-if="accountType===1">-->
-                <!--<span class="btn btn-deposit ng-binding ng-scope1"-->
-                      <!--:class="[data.show ? 'icon-less' : 'icon-add', {disabled: Number(data.rechargeFlag) !== 1 && Number(data.withdrawFlag) !== 1}]"-->
-                      <!--@click="Number(data.rechargeFlag) === 1 || Number(data.withdrawFlag) === 1 ? data.show = !data.show : false"-->
-                      <!--:title="$t('account.estimated_value_title')">&lt;!&ndash;充值与提现&ndash;&gt;</span>-->
-              <!--</div>-->
-            </div>
+        <div class="flex">
+          <ul class="accountInfo-lists">
+            <li v-for="(data, index) in filterDatas()" :key="data.accountId">
+              <div class="items">
+                <div class="coin ng-binding">{{data.symbol}}</div>
+                <!--<div class="fullName ng-binding">{{$t(`symbol.${data.symbol}`)}}</div>-->
+                <div class="f-right ng-binding" v-if="pandectShow">{{toFixed(data.totalBalance)}}</div>
+                <div class="useable f-right ng-binding">{{toFixed(data.availableBalance)}}</div>
+                <!--<div class="locked f-right ng-binding">{{toFixed(data.frozenBalance)}}</div>-->
+                <moreinfo class="action"
+                          :googleState="getUserInfo.googleAuthEnable"
+                          :verifyState="getUserInfo.kycState"
+                          :symbol="data.symbol"
+                          :item="data"
+                          @updateMyAssets="getList"/>
+              </div>
+            </li>
 
-          </li>
-        </ul>
+          </ul>
+
+          <div class="echart" v-if="!pandectShow">
+            <div>
+              <v-chart :options="polar"/>
+            </div>
+          </div>
+
+        </div>
       </div>
       <loading v-if="showLoaing"/>
     </div>
@@ -128,6 +131,7 @@
   import loading from '@/components/loading'
 
   export default {
+    props: ['pandect'],
     data () {
       return {
         sortActive: null,
@@ -140,7 +144,61 @@
         mobileState: 0,
         myAssets: [],
         active: 'main',
-        accountType: 1
+        accountType: 1,
+        pandectShow: true,
+
+        echart: null,
+        polar: {
+          tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)'
+          },
+          legend: {
+            show: true,
+            data: [],
+            width: '300px',
+            top: '300px',
+            left: 0,
+            textStyle: {
+              color: '#ffffff'
+            }
+          },
+          series: [
+            {
+              name: '数字资产',
+              type: 'pie',
+              radius: ['90px', '110px'],
+              avoidLabelOverlap: false,
+              label: {
+                normal: {
+                  show: false,
+                  position: 'center'
+                },
+                emphasis: {
+                  show: true,
+                  textStyle: {
+                    fontSize: '24',
+                    fontWeight: 'bold'
+                  }
+                }
+              },
+              labelLine: {
+                normal: {
+                  show: false
+                }
+              },
+              center: ['130px', '160px'],
+              data: [],
+              itemStyle: {
+                emphasis: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+              }
+            }
+          ]
+        }
       }
     },
     components: {
@@ -163,9 +221,28 @@
             this.filterTitle = oldVal
           })
         }
+      },
+      echart (data) {
+        console.log(data)
+        let name = []
+        let arr = []
+        data.filter(res => {
+          name.push(res.symbol)
+          let obj = {}
+          obj.name = res.symbol
+          obj.value = res.availableBalance
+          arr.push(obj)
+        })
+        this.polar.legend.data = name
+        this.polar.series[0].data = arr
+        console.log(name)
       }
     },
     created () {
+      if (this.pandect) {
+        this.hideZero = this.pandect.hiddenZore
+        this.pandectShow = false
+      }
       this.getList()
       this.getUserState()
     },
@@ -241,6 +318,7 @@
             }
           }
         })
+        this.echart = ndatas
         return ndatas
       },
       sortAssets (active) {
@@ -303,7 +381,6 @@
     color: #ffffff;
     padding: 0 18px 16px;
     font-size: 12px;
-    margin-bottom: 85px;
   }
 
   .digassets h3 {
@@ -317,7 +394,7 @@
     display: flex;
     align-items: baseline;
     border-bottom: 1px solid #312e45;
-    padding:10px 0 20px 0;
+    padding: 10px 0 20px 0;
 
     span {
       font-size: 20px;
@@ -325,7 +402,8 @@
     }
 
   }
-  button{
+
+  button {
     cursor: pointer;
     font-size: 12px;
     color: #f1f1f2;
@@ -338,7 +416,8 @@
     height: 30px;
     padding: 0 10px;
   }
-  button:hover{
+
+  button:hover {
     border: 1px solid #4d4a64;
     background-color: #4d4a64;
   }
@@ -405,13 +484,15 @@
     justify-content: space-between;
     align-items: center;
   }
-  .balance_search .f-fr p{
+
+  .balance_search .f-fr p {
     flex-shrink: 1;
     flex-grow: 1;
   }
 
-  .balance_search .f-fr .icon-checkbox{
+  .balance_search .f-fr .icon-checkbox {
   }
+
   .balance_search .f-fr .search_input {
     margin-left: 30px;
     line-height: 30px;
@@ -443,7 +524,7 @@
   }
 
   .accountInfo-lists {
-    padding: 0 8px 50px 8px;
+    padding: 0 8px 0px 8px;
   }
 
   .accountInfo-lists.header {
@@ -663,5 +744,21 @@
     color: #1571FF;
     cursor: pointer;
   }
+
+  .flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .accountInfo-lists {
+      flex: 1;
+    }
+
+    .echart {
+      width: 260px;
+      height: 300px;
+    }
+  }
+
 </style>
 
