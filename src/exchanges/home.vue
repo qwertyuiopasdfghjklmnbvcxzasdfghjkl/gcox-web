@@ -29,7 +29,9 @@
           <div class="business block no-margin">
             <business ref="business" :fixedNumber="fixedNumber" :Quantityaccu="Quantityaccu" :Amountaccu="Amountaccu" :baseSymbol="baseSymbol" :currentSymbol="currentSymbol" :fromWallet="fromWallet" :toWallet="toWallet" :marketList="marketList" />
           </div>
-          <div class="depth ui-flex-1 block no-margin"></div>
+          <div class="depth ui-flex-1 block no-margin">
+            <depth ref="depth" :currentSymbol="currentSymbol" :baseSymbol="baseSymbol" :fixedNumber="fixedNumber" :Quantityaccu="Quantityaccu" :Amountaccu="Amountaccu" :digit="digit"/>
+          </div>
         </div>
 
       </div>
@@ -40,6 +42,7 @@
 import left from '@/exchanges/market/left'
 import kline from '@/exchanges/market'
 import business from '@/exchanges/market/business'
+import depth from '@/exchanges/market/depth'
 import lastdeal from '@/exchanges/market/lastdeal'
 import entrust from '@/exchanges/market/entrust'
 import KLineWebSocket from '@/assets/js/websocket'
@@ -48,14 +51,13 @@ import numUtils from '@/assets/js/numberUtils'
 import { mapGetters, mapActions } from 'vuex'
 import config from '@/assets/js/config'
 import valuation from '@/components/valuation'
-let chartSettings = window.localStorage.getItem('chartSettings')
-chartSettings && (chartSettings = JSON.parse(chartSettings))
 
 export default {
   components: {
     left,
     kline,
     business,
+    depth,
     lastdeal,
     entrust,
     valuation,
@@ -127,7 +129,7 @@ export default {
     window.klineLocal = this
     this.socket = KLineWebSocket({
       symbol: this.symbol,
-      period: chartSettings ? chartSettings.charts.period : null,
+      period: null,
       callback: (res) => {
         if (res.symbol && res.symbol !== this.symbol) {
           console.log(`市场数据不匹配...`)
