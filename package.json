@@ -18,6 +18,7 @@
     "echarts": "^4.2.1",
     "hopscotch": "^0.3.1",
     "html2canvas": "^1.0.0-alpha.12",
+    "iscroll": "^5.2.0",
     "js-cookie": "^2.2.0",
     "uuid": "^3.2.1",
     "vee-validate": "2.0.9",
