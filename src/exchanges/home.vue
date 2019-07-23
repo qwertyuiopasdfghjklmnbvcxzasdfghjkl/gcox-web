@@ -25,6 +25,12 @@
           </table>
         </div>
         <kline ref="kline" :iconUrl="iconUrl" :klineData="klineData" :baseSymbol="baseSymbol" :currentSymbol="currentSymbol" :symbol="symbol" :fixedNumber="fixedNumber" />
+        <div class="ui-flex">
+          <div class="business block no-margin">
+            <business ref="business" :fixedNumber="fixedNumber" :Quantityaccu="Quantityaccu" :Amountaccu="Amountaccu" :baseSymbol="baseSymbol" :currentSymbol="currentSymbol" :fromWallet="fromWallet" :toWallet="toWallet" :marketList="marketList" />
+          </div>
+          <div class="depth ui-flex-1 block no-margin"></div>
+        </div>
 
       </div>
     </div>
@@ -33,10 +39,9 @@
 <script>
 import left from '@/exchanges/market/left'
 import kline from '@/exchanges/market'
-import depth from '@/exchanges/market/depth'
+import business from '@/exchanges/market/business'
 import lastdeal from '@/exchanges/market/lastdeal'
 import entrust from '@/exchanges/market/entrust'
-import businesspanel from '@/exchanges/market/businesspanel'
 import KLineWebSocket from '@/assets/js/websocket'
 import marketApi from '@/api/market'
 import numUtils from '@/assets/js/numberUtils'
@@ -50,11 +55,10 @@ export default {
   components: {
     left,
     kline,
-    depth,
+    business,
     lastdeal,
     entrust,
     valuation,
-    businesspanel
   },
   data () {
     return {
@@ -311,7 +315,15 @@ export default {
 .block {
     background: #19181c;
     margin-bottom: 4px;
+    font-size: 12px;
     padding: 0 10px;
+    .no-margin {
+        margin: 0;
+    }
+}
+.business {
+  width: 33%;
+  border-right: 4px solid #242328;
 }
 </style>
 

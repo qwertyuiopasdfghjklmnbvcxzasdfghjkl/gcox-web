@@ -12,7 +12,6 @@
         <div ref="depth" class="depth-container ui-flex-1"></div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -237,5 +236,6 @@ export default {
     margin-bottom: 4px;
     position: relative;
 }
+
 </style>
 

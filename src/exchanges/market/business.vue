@@ -1,92 +1,14 @@
 <template>
-    <div class="business">
-        <div class="b-content">
-            <div class="panel" :class="[tradeType]">
-                <div class="formel price-balance">
-                    {{isBuy ? baseSymbol : currentSymbol}}
-                    {{$t('exchange.exchange_balance')}}<!--余额-->：
-                    {{toFixed(isBuy ? toBalance.availableBalance : fromBalance.availableBalance).toMoney()}}
-                </div>
-                <div class="formel price">
-                    <label class="formel-label">{{$t('exchange.exchange_price')}}<!--价格--></label>
-                    <div class="formel-text">
-                        <numberbox ref="price" :style="baseStyle" v-if="!isMarket && fixedPrice!==0" :accuracy="fixedNumber" class="formel-textbox" type="text" v-model="fixedPrice" :readonly="true"/>
-                        <numberbox ref="price" :style="baseStyle" v-if="!isMarket && fixedPrice===0" :accuracy="fixedNumber" class="formel-textbox" type="text" v-model="formData.price"/>
-                        <input v-if="isMarket" class="formel-textbox" :value="$t('exchange.exchange_market_price')" type="text" readonly="readonly"/>
-                        <em class="tip-title" ref="tipBaseSymbol">{{baseSymbol}}</em>
-                        <arrows :disabled="isMarket || (!isMarket && fixedPrice!==0)" :fixedNumber="fixedNumber" v-model="formData.price"/>
-                        <em v-show="isShowPrice" class="error-tip icon-arrow-down">
-                          <i><valuation :lastPrice="formData.price" :baseSymbol="baseSymbol"/></i>
-                        </em>
-                    </div>
-                </div>
-                <div class="formel amount">
-                    <label class="formel-label">{{$t('exchange.exchange_amount')}}<!--数量--></label>
-                    <div class="formel-text">
-                        <numberbox :style="currentStyle" :accuracy="Quantityaccu" class="formel-textbox" type="text" v-model="formData.amount" />
-                        <em class="tip-title" ref="tipCurrentSymbol">{{currentSymbol}}</em>
-                        <arrows :fixedNumber="fixedNumber" v-model="formData.amount"/>
-                    </div>
-                </div>
-                <div class="formel price" v-show="!isMarket">
-                    <label class="formel-label">{{$t('exchange.exchange_total')}}<!--金额--></label>
-                    <div class="formel-text">
-                        <numberbox ref="total" :style="baseStyle" :accuracy="Amountaccu" class="formel-textbox" type="text" v-model="formData.total" />
-                        <em class="tip-title">{{baseSymbol}}</em>
-                        <arrows :fixedNumber="fixedNumber" v-model="formData.total"/>
-                        <em v-show="isShowTotal" class="error-tip icon-arrow-down">
-                          <i><valuation :lastPrice="formData.total" :baseSymbol="baseSymbol"/></i>
-                        </em>
-                    </div>
-                </div>
-                <div ref="percent" class="percent">
-                    <div ref="dragCircle" class="drag-circle" @mousedown="mouseDown" @mousemove="showPercentTip=true" @mouseout="showPercentTip=false">
-                      <em v-if="showPercentTip">
-                        <i class="icon-arrow-down">{{percent}}%</i>
-                      </em>
-                    </div>
-                    <div class="percent-light-line" :style="{width: curPercent + '%'}"></div>
-                    <div class="percent-line">
-                      <span class="percent-circle" :class="{'percent-circle-light':curPercent>=0}"></span>
-                      <span class="percent-circle" :class="{'percent-circle-light':curPercent>=25}"></span>
-                      <span class="percent-circle" :class="{'percent-circle-light':curPercent>=50}"></span>
-                      <span class="percent-circle" :class="{'percent-circle-light':curPercent>=75}"></span>
-                    </div>
-                    <template v-if="!moveCursor">
-                      <span class="percent-item percent-item-0" @click="percent=0" @mouseover="percentOver(0)" @mouseout="percentOut">
-                        <em><i class="icon-arrow-down">0%</i></em>
-                      </span>
-                      <span class="percent-item percent-item-1" @click="percent=25" @mouseover="percentOver(25)" @mouseout="percentOut">
-                        <em><i class="icon-arrow-down">25%</i></em>
-                      </span>
-                      <span class="percent-item percent-item-2" @click="percent=50" @mouseover="percentOver(50)" @mouseout="percentOut">
-                        <em><i class="icon-arrow-down">50%</i></em>
-                      </span>
-                      <span class="percent-item percent-item-3" @click="percent=75" @mouseover="percentOver(75)" @mouseout="percentOut">
-                        <em><i class="icon-arrow-down">75%</i></em>
-                      </span>
-                      <span class="percent-item percent-item-4" @click="percent=100" @mouseover="percentOver(100)" @mouseout="percentOut">
-                        <em><i class="icon-arrow-down">100%</i></em>
-                      </span>
-                    </template>
-                </div>
-                <div class="formel price" v-show="isMarket">
-                    <label class="formel-label"></label>
-                    <div class="formel-text">
-                    </div>
-                </div>
-                <div class="buttons">
-                    <span v-if="getApiToken" :class="{disabled:lockExtrust}" @click="buyOrSell()">
-                      {{$t(isBuy?'exchange.exchange_buy':'exchange.exchange_sell')}} {{currentSymbol}}
-                    </span>
-                    <div v-if="!getApiToken" class="not-login " :class="{sell:tradeType=='sell'}">
-                      <a @click="loginDialog">{{$t('public.navigation_login')}}</a>
-                      <font>or</font>
-                      <a @click="registerDialog">{{$t('public.navigation_register')}}</a>
-                    </div>
-                </div>
-            </div>
+    <div class="order-container">
+        <div class="title-container">
+           <span class="rang-up pointer" :class="{active:tradeType==='buy'}" @click="tradeType='buy'">{{$t('exchange.exchange_buy')}}<!-- 买入 --></span> 
+           <span class="rang-down pointer" :class="{active:tradeType==='sell'}" @click="tradeType='sell'">{{$t('exchange.exchange_sell')}}<!-- 卖出 --></span>
         </div>
+        <div class="balance ui-flex ui-flex-justify">
+          <div><span class="pull-left">可用&nbsp;</span> <span class="pull-left">ETH</span> <span class="pull-left value">0</span></div>
+          <button type="button" class="normal pull-right">充值</button>
+        </div>
+        <p class="exhange-rate"></p>
     </div>
 </template>
 
@@ -102,10 +24,6 @@ import arrows from './arrows'
 import valuation from '@/components/valuation'
 export default {
   props: {
-    tradeType: {
-      type: String,
-      default: 'buy'
-    },
     active: {
       type: String,
       default: 'limit'
@@ -145,6 +63,7 @@ export default {
   },
   data () {
     return {
+      tradeType:'buy',
       isShowPrice: false,
       isShowTotal: false,
       lockExtrust: false,
@@ -553,66 +472,62 @@ export default {
 }
 </script>
 
-<style scoped>
-.b-content{padding:5px;}
-.select{width:100%;height:24px;line-height:24px;border:1px solid #636e87;font-size:14px;color:#d6dff9;}
-.formel{width:100%;display:flex;position:relative;height:36px;margin-bottom:10px;}
-.price-balance{height:44px;line-height:44px;justify-content:flex-end;color:#333;font-size:16px;margin-bottom:0;}
-.formel-label{width:70px;line-height:36px;text-align:right;color:#333;overflow: hidden;text-overflow: ellipsis;padding-right:20px;}
-.formel-text{width:calc(100% - 90px);position:relative;color:#333;}
-.formel-textbox{width:calc(100% - 18px);height:34px;line-height:34px;border:1px solid #ccc;padding:0 8px;background:transparent;color:#333;font-size:16px;}
-.formel-textbox[readonly='readonly']{cursor:not-allowed; background-color: #eee;}
-.formel-textbox:focus{border-color:#3A76E7!important;}
-.tip-title{height:22px;line-height:22px;position:absolute;z-index:1;right:51px;top:calc(50% - 10px);padding:0 4px;background:transparent;}
-.percent{width:calc(100% - 104px);height:4px;display:flex;background:#eee;margin:18px 0 18px 97px;position:relative;}
-.percent-line{width:100%;height:100%;display:flex;}
-.percent-light-line{height:100%;background:#3A76E7;position:absolute;z-index:1;}
-.percent-circle{flex:1;position:relative;}
-.percent-circle::before,.percent-circle:last-child::after{
-  display:block;content:"";position:absolute;width:10px;height:10px;border-radius:50%;
-  background:#eee;top:-3px;left:-5px;z-index:4;
+<style lang="less" scoped>
+.order-container {
+    height: 440px;
+    overflow: hidden;
+    position: relative;
 }
-.percent-circle-light::before{background:#3A76E7;}
-.percent-circle:last-child::after{left:initial;right:-5px;}
-.percent-item,.drag-circle{width:14px;height:14px;position:absolute;background:#fff;border-radius:50%;top:-6px;left:-7px;z-index:10;cursor: pointer;display:flex;align-items:center;justify-content:center;}
-.percent-item::before,.drag-circle::before{display:block;content:"";width:10px;height:10px;border-radius:50%;background:#3A76E7;}
-.drag-circle /deep/ em{position:relative;}
-.drag-circle /deep/ em i{display:flex;width:42px;height:27px;line-height:27px;text-align:center;background:#2F3D45;color:#fff;font-size:12px;border-radius:4px;position:absolute;top:-45px;left:-26px;justify-content:center;}
-.drag-circle /deep/ em i::before{color:#2F3D45;position:absolute;bottom:-15px;left:calc(50% - 10px);font-size:20px;}
-.percent-item{z-index:5;opacity:0;transition:100ms;overflow:hidden;}
-.percent-item:hover{opacity:1;overflow:visible;}
-.percent-item-0{left:-7px;}
-.percent-item-1{left:calc(25% - 7px);}
-.percent-item-2{left:calc(50% - 7px);}
-.percent-item-3{left:calc(75% - 7px);}
-.percent-item-4{left:calc(100% - 7px);}
-.percent-item /deep/ em{position:relative;}
-.percent-item /deep/ em i{display:flex;width:42px;height:27px;line-height:27px;text-align:center;background:#2F3D45;color:#fff;font-size:12px;border-radius:4px;position:absolute;top:-45px;left:-26px;justify-content:center;}
-.percent-item /deep/ em i::before{color:#2F3D45;position:absolute;bottom:-15px;left:calc(50% - 10px);font-size:20px;}
-.sum{width:100%;height:25px;line-height:25px;}
-.buttons{width:100%;height:36px;display:flex;text-align:center;color:#fff;font-size:16px;font-weight:bold;}
-.buttons /deep/ span{flex:1;height:36px;line-height:36px;cursor:pointer;margin-left:90px; border-radius: 3px;}
-.panel.buy /deep/ .buttons span{background-color: #24C08A;}
-.panel.sell /deep/ .buttons span{background-color: #F1595C;}
-.panel.buy /deep/ .buttons span:hover{background-color: #13a271;}
-.panel.sell /deep/ .buttons span:hover{background-color: #d43f42;}
-.buttons /deep/ span.disabled{background-color:#999!important;;color:#FFF!important;cursor:not-allowed;}
-.buttons /deep/ div{width:calc(100% - 92px); margin-left:90px;display:flex;justify-content:center;align-items:center; background-color: #24C08A; border-radius: 3px;}
-.buttons /deep/ div.sell {background-color: #F1595C;}
-.buttons /deep/ div.redbtn {background-color: #F1595C;}
-.buttons /deep/ div a{font-size:18px;color:#fff;cursor: pointer;font-weight:normal;}
-.buttons /deep/ div font{padding:0 8px;font-size:16px;}
-.error-tip{position:absolute;z-index:999;top:-30px;left:50px;height:24px;line-height:24px;background:#3A76E7;padding:0 20px;font-size:12px;color: #fff;border-radius:4px;}
-.error-tip::before{left:calc(50% - 6px);bottom:-15px;position:absolute;color:#3A76E7;}
-.error-tip i{display:block;max-width:100px;overflow: hidden;white-space: nowrap;text-overflow:ellipsis;}
-@media screen and (max-width: 1600px) and (max-height: 900px) {
-  .tip-title{right:31px;}
-  .formel{height:30px;}
-  .price-balance{height:36px;line-height:36px;font-size:14px;}
-  .formel-textbox{height:28px;line-height:28px;font-size:14px;}
-  .buttons{font-size:14px;height:30px;}
-  .buttons /deep/ span{height:30px;line-height:30px;}
-  .buttons /deep/ div a{font-size:14px;}
-  .buttons /deep/ div font{font-size:12px;}
+.title-container {
+    font-size: 18px;
+    color: #f1f1f2;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height: 40px;
+    box-sizing:border-box;
+    span {
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        border-bottom: 2px solid transparent;
+        &+span {
+            margin-left: 40px;
+        }
+        &.active.rang-down {
+            border-bottom: 2px solid #f1304a;
+        }
+        &.active.rang-up {
+            border-bottom: 2px solid #1bc863;
+        }
+    }
+}
+.balance {
+  height: 36px;
+  color: #f1f1f2;
+  position: relative;
+  span {
+      display: inline-block;
+      height: 36px;
+      line-height: 36px;
+  }
+  button {
+    cursor: pointer;
+    font-size: 12px;
+    color: #f1f1f2;
+    background-color: #2e2c3c;
+    border: none;
+    width: 46px;
+    height: 24px;
+    position: relative;
+    top: 6px;
+    &:hover {
+      background-color: #4D4A64;
+    }
+  }
+}
+.exhange-rate {
+    line-height: 0;
+    height: 28px;
+    color: #62677b;
 }
 </style>
