@@ -37,13 +37,13 @@
     </div>
     <div class="error-msg">{{ msgs['googleCode'][errors.firstRule('googleCode')]}}</div>
 
-    <div class="form-item">
-      <p>{{$t('usercontent.user62')}}</p>
-      <input type="text" name="emailCode" :class="{efont:!formData.emailCode}"
-             v-model="formData.emailCode" maxlength="256" v-validate="'required|emailCode'"> <!--邮箱验证码-->
-      <div class="sendCode" @click="send()" v-html="sendText"></div>
-    </div>
-    <div class="error-msg">{{ msgs['emailCode'][errors.firstRule('emailCode')]}}</div>
+    <!--<div class="form-item">-->
+    <!--<p>{{$t('usercontent.user62')}}</p>-->
+    <!--<input type="text" name="emailCode" :class="{efont:!formData.emailCode}"-->
+    <!--v-model="formData.emailCode" maxlength="256" v-validate="'required|emailCode'"> &lt;!&ndash;邮箱验证码&ndash;&gt;-->
+    <!--<div class="sendCode" @click="send()" v-html="sendText"></div>-->
+    <!--</div>-->
+    <!--<div class="error-msg">{{ msgs['emailCode'][errors.firstRule('emailCode')]}}</div>-->
 
     <div class="btn-box">
       <button @click="submit()">{{$t('account.user_submit')}}</button>
@@ -67,11 +67,9 @@
         locked: true,
         sendText: this.$t('usercontent.user62'),
         formData: {
-
           newPassword: '',
           passwordConfirm: '',
           googleCode: '',
-          emailCode: '',
         }
       }
     },
@@ -83,14 +81,24 @@
           newPassword: {required: this.$t('usercontent.user53'), newPassword: this.$t('login_register.gcoxPWReg')}, // 密码至少8位，包括大、小写字母、数字及以下特殊字符 !@#$%^&*+=
           passwordConfirm: {required: this.$t('usercontent.user54'), passwordConfirm: this.$t('public0.public124')}, // 请输入密码|密码不匹配，请重新输入
           googleCode: {required: this.$t('usercontent.user65'), googleCode: this.$t('usercontent.user65')}, // 请输入密码|密码不匹配，请重新输入
-          emailCode: {required: this.$t('usercontent.user66'), emailCode: this.$t('usercontent.user66')} // 请输入密码|密码不匹配，请重新输入
+          // emailCode: {required: this.$t('usercontent.user66'), emailCode: this.$t('usercontent.user66')} // 请输入密码|密码不匹配，请重新输入
         }
       }
     },
     created () {
+      this.kycGoogle()
     },
     methods: {
       ...mapActions(['setApiToken']),
+      kycGoogle () {
+        if (this.getUserInfo.googleAuthEnable === 0) {
+          this.$router.push('/mycenter')
+          Vue.$koallTipBox({icon: 'notification', message: this.$t('usercontent.user35'), delay: 3000})
+        } else if (this.getUserInfo.kycState !== 2) {
+          this.$router.push('/mycenter')
+          Vue.$koallTipBox({icon: 'notification', message: this.$t('usercontent.user36'), delay: 3000})
+        }
+      },
       submit () {
         this.$validator.validateAll(this.formData).then(v => {
           if (v && this.locked) {
@@ -140,7 +148,8 @@
         })
         this.locked = true
       },
-      send(){}
+      send () {
+      }
     }
   }
 </script>
@@ -150,7 +159,8 @@
     color: #ffffff;
     background: rgba(27, 26, 31, 0.9);
     padding: 20px;
-    &>p{
+
+    & > p {
       padding-bottom: 10px;
     }
 
@@ -163,12 +173,12 @@
       min-height: 30px;
       overflow: hidden;
 
-      .sendCode{
+      .sendCode {
         position: absolute;
         right: 0;
         z-index: 9;
-        border:1px solid hsla(240, 1%, 60%, 0.45);
-        bottom:5px;
+        border: 1px solid hsla(240, 1%, 60%, 0.45);
+        bottom: 5px;
         padding: 4px 6px;
         color: #979799;
         cursor: pointer;

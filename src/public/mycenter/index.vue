@@ -52,7 +52,7 @@
     methods: {
       ...mapGetters(['getUserInfo', 'getLang']),
       switch_tab (tab) {
-        if (tab === 'assetpassword11') {
+        if (tab === 'assetpassword') {
           if (this.getUserInfo.googleAuthEnable === 0) {
 
             Vue.$koallTipBox({icon: 'notification', message: this.$t('usercontent.user35'), delay: 3000})
