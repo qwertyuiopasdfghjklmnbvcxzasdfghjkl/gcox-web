@@ -9,9 +9,8 @@
         <router-link :to="{name:'acm'}" class="item"><i class="acm"></i> ACM</router-link>
       </div>
       <div class="right">
-        <template v-if="isLogin">
-          <router-link :to="{name:'account'}" class="item"><i class="account"></i> {{$t('account.user_center_help_account')}}<!-- 账户 --></router-link>
-          <router-link to="" class="item">
+          <router-link v-show="isLogin" :to="{name:'account'}" class="item"><i class="account"></i> {{$t('account.user_center_help_account')}}<!-- 账户 --></router-link>
+          <router-link v-show="isLogin" to="" class="item">
             <span style="color: #fff;">{{displayUsername}}</span>
             <div class="popover-nav" ref="nav1" @click="hidePopoverNav('nav1')">
               <div class="popover-menu">
@@ -34,11 +33,8 @@
               </div>
             </div>
           </router-link>
-        </template>
-        <template v-else>
-          <router-link :to="{name:'login'}" class="item">{{$t('login_register.login')}}<!-- 登录 --></router-link>
-          <router-link :to="{name:'register'}" class="item">{{$t('login_register.register')}}<!-- 注册 --></router-link>
-        </template>
+          <a v-show="!isLogin" class="item pointer" @click="showQuickLogin">{{$t('login_register.login')}}<!-- 登录 --></a>
+          <router-link v-show="!isLogin" :to="{name:'register'}" class="item">{{$t('login_register.register')}}<!-- 注册 --></router-link>
         <a class="item" href="javascript:;" @click="setLanguage('en')" v-if="getLang==='zh-CN'">ENGLISH</a>
         <a class="item" href="javascript:;" @click="setLanguage('zh-CN')" v-if="getLang==='en'">简体中文</a>
       </div>
@@ -50,6 +46,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import langApi from '@/api/language'
 import utils from '@/assets/js/utils'
+import quickLogin from '@/components/quickLogin'
 export default {
   data () {
     return {
@@ -78,6 +75,9 @@ export default {
   },
   methods: {
     ...mapActions(['setLang','setApiToken']),
+    showQuickLogin(){
+      utils.setDialog(quickLogin, {})
+    },
     setLanguage (lang) {
       this.setLang(lang)
       if (!utils.isPlainEmpty(this.$i18n.getLocaleMessage(lang))) {

@@ -3,10 +3,10 @@
       <div class="ui-flex-1 ui-flex">
         <div class="item ui-flex-1 ellipsis" v-for="item in notice">
           <i class="item-icon"></i>
-          <a :href="getLink(item)" target="_blank">{{getTitle(item)}}</a>
+          <router-link :to="{name:'noticeDetail', params:{id:item.cmsInfoId}}">{{getTitle(item)}}</router-link>
         </div>
       </div>
-      <router-link :to="{name:'notice'}" tag="div" class="more">更多 >></router-link>
+      <router-link :to="{name:'notice'}" tag="div" class="more">{{$t('exchange.advanced_more')}} >><!-- 更多 --></router-link>
     </div>
 </template>
 
@@ -23,38 +23,26 @@ computed: {
     ...mapGetters(['getLang']),
 },
 created() {
-    this.getNoticeList()
+    this.getCmsList()
 },
 methods:{
-    getNoticeList(){
-      marketApi.noticeList(res=>{
-        this.notice = res.slice(0,3)
+    getCmsList(){
+      marketApi.getCmsList({firstLevel:1,secondLevel:1,page:1,size:3},res=>{
+        this.notice = res
       })
     },
     getTitle(item){
         let title = item.titleEn
         switch(this.getLang){
             case 'zh-CN':
-            title = item.title
+            title = item.titleCn
             break
             case 'cht':
             title = item.titleCht
             break
         }
         return title
-    },
-    getLink(item){
-        let link = item.linkEn
-        switch(this.getLang){
-            case 'zh-CN':
-            link = item.link
-            break
-            case 'cht':
-            link = item.linkCht
-            break
-        }
-        return link
-    },
+    }
 }
 }
 </script>
