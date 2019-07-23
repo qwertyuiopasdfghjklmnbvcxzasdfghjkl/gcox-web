@@ -71,7 +71,7 @@ user.sendActivateEmail = sendActivateEmail
 
 // 修改登录密码
 const changePwd = function (data, success, error) {
-  api.post(`${domain}api/v2/user/changePwd`, data, (res) => {
+  api.post(`${domain}api/v1/gcox/user/modifyPwd`, data, (res) => {
     if (res.rst === 1) {
       success && success(res.msg)
     } else {

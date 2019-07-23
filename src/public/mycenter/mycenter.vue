@@ -1,341 +1,268 @@
 <template>
-    <div class="mycenter">
-      <div class="top">
-        <h3>{{$t('account.userPersonalCenter')}}<!--我的个人中心--></h3>
-        <div class="info" :class="{active:!vsloaded}">
-          <div class="info-pic">
-            <div class="image">
-              <img :src="avatarUrl" @error="setDefaultAvatar($event)" />
-            </div>
-            <form ref="form" v-if="!isExistUserAvatar">
-              <input class="file" type="file" @change="uploadImage" name="source" title=" "/>
-              <span class="tips">{{$t('account.user_center_set_photo')}}<!--头像只能设置一次--></span>
-            </form>
-          </div>
-          <div class="info-message">
-            <p class="attestation">
-              <span class="email">{{$t('account.user_center_account')}}：<!--账号--></span>
-              <span class="name">{{getUserInfo.username}}<!--用户名--></span>
-              <span v-if="showVerifyState(0)" class="attestation-state entrance" @click="switchTab('authentication')">
-                {{$t('account.user_Real_name_verification')}}<!--实名认证-->
-              </span>
-              <span v-if="showVerifyState(1)" class="attestation-state wait">
-                {{$t('public0.public37')}}<!--待审核-->
-              </span>
-              <span v-if="showVerifyState(4)" class="attestation-state wait">
-                {{$t('public0.public151')}}<!--审核中-->
-              </span>
-              <span v-if="showVerifyState(2)" class="attestation-state success">
-                {{$t('public0.public38')}}<!--已认证-->
-              </span>
-              <span v-if="showVerifyState(3)" class="attestation-state fail">
-                {{$t('public0.public39')}}<!--未通过-->
-              </span>
-            </p>
-            <p class="nickname">
-              <span>{{$t('public0.public190')}}：<!--昵称--></span>
-              <span class="nickname-text">{{updateNickname}}</span>
-              <span class="nickname-modify" v-if="!isAlreadyModifyNickname" @click="nicknameDialog">
-                {{$t('public0.public40')}}<!--修改昵称-->
-              </span>
-            </p>
-            <p class="sale">
-              <span>
-                {{$t('account.user_center_pay_fees').format('GCOX', '50%')}}<!--使用GCOX支付交易手续费（50% 折扣）-->
-                <a class="icon-checkbox" href="javascript:;" :class="isUseGCOXPay ? 'icon-checkbox-checked' : 'icon-checkbox-unchecked'" @click="switchCoinState"></a>
-              </span>
-            </p>
-            <p class="limit">
-              {{$t('account.user_24_hours_cash_withdrawal')}}：<!--24小时提现额度-->
-              <span>{{getUserInfo.withdrawAmount || 0}}&nbsp;BTC</span>
-              <!--如需更大额度请联系我们-->
-              <label v-html="contactHtml"></label>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="distribution">
-        <h3>{{$t('account.user_center_distribution_h')}}<!--分发记录--></h3>
-        <ul class="header" v-if="!distributeLoading && distributeHistory.length > 0">
-          <li>
-            <span class="time">
-              {{$t('account.user_center_history_date')}}<!--时间-->
-            </span>
-            <span class="species">
-              {{$t('account.estimated_value_coin')}}<!--币种-->
-            </span>
-            <span class="number">
-              {{$t('account.user_center_history_amount')}}<!--数量-->
-            </span>
-            <span class="remark">
-              {{$t('account.user_center_history_note')}}<!--备注-->
-            </span>
-          </li>
-        </ul>
-        <ul v-if="!distributeLoading && distributeHistory.length > 0">
-          <li v-for="(data, index) in distributeHistory" :key="index">
-            <span class="time">{{new Date(Number(data.createdAt)).format()}}</span>
-            <span class="species">{{data.symbol }}</span>
-            <span class="number">{{data.quantity}}</span>
-            <span class="remark">{{data.remarks}}</span>
-          </li>
-        </ul>
-        <page v-if="!distributeLoading && distributeHistory.length > 0" :pageIndex="distributeParam.page" :pageSize="distributeParam.pageSize" :total="distributeTotal" @changePageIndex="distributePageChange"/>
-        <div v-if="!distributeLoading && distributeHistory.length === 0" class="nodata">
-          <div class="nodata-icon icon-no-order"></div>
-          <div class="nodata-text">{{$t('account.user_center_no_distribution')}}<!--暂无当前委托--></div>
-        </div>
-        <loading v-if="distributeLoading"/>
-      </div>
-      <div class="dist-record" v-if="false">
-        <h3>{{$t('account.user_registration_record')}}<!--登录记录--></h3>
-        <ul v-if="!loginHistoryLoading && loginHistory.length > 0">
-          <li>
-            <span class="time">{{$t('account.user_center_history_date')}}<!--时间--></span>
-            <span class="ip">{{$t('public0.public191')}}<!--IP地址--></span>
-            <span class="adress">{{$t('public0.public192')}}<!--所在地--></span>
-          </li>
-          <li v-for="(data, index) in loginHistory" :key="index">
-            <span class="time">{{new Date(Number(data.loginTime)).format()}}</span>
-            <span class="ip">{{data.ipAddress}}</span>
-            <span class="adress">{{data.loginLocation}}</span>
-          </li>
-        </ul>
-        <div v-if="!loginHistoryLoading && loginHistory.length === 0" class="nodata">
-          <div class="nodata-icon icon-no-order"></div>
-          <div class="nodata-text">{{$t('account.user_registration_no_record')}}<!--暂无登录记录--></div>
-        </div>
-        <loading v-if="loginHistoryLoading"/>
+  <div class="mycenter">
+    <div class="cont">
+      <p class="title">{{$t('usercontent.user01')}}</p>
+      <div class="box">
+        <p>{{$t('usercontent.user02')}}：{{getUserInfo.username}}</p>
       </div>
     </div>
+    <div class="cont mt15">
+      <p class="title">{{$t('usercontent.user03')}}</p>
+      <div class="box">
+        <p class="c-c">{{$t('usercontent.user04')}}</p>
+        <ul class="ul">
+          <li>
+            <i class="icon-name"></i>
+            <span>{{$t('usercontent.user05')}}</span>
+            <span>{{$t('usercontent.user06')}}</span>
+            <button @click="banding()">{{getUserInfo.googleAuthEnable === 0 ? $t('usercontent.user07'):
+              $t('usercontent.user34')}}
+            </button>
+          </li>
+          <li>
+            <i class="icon-lock"></i>
+            <span>{{$t('usercontent.user08')}}</span>
+            <span>{{$t('usercontent.user09')}}</span>
+            <button @click="rePassword()">{{$t('usercontent.user10')}}</button>
+          </li>
+          <li>
+            <i class="icon-card"></i>
+            <span>{{$t('usercontent.user11')}}</span>
+            <span>{{$t('usercontent.user12')}}</span>
+            <button @click="rePayPassword()">{{$t('usercontent.user10')}}</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="cont mt15">
+      <p class="title">{{$t('usercontent.user13')}}</p>
+      <table class="table">
+        <tr>
+          <td width="20%" height="34px"></td>
+          <td width="20%">{{$t('usercontent.user14')}}</td>
+          <td width="20%">{{$t('usercontent.user15')}}</td>
+          <td width="20%">{{$t('usercontent.user16')}}</td>
+          <td width="20%">API</td>
+        </tr>
+        <tr>
+          <td height="34px">
+            <p :class="{active: getUserInfo.kycState !== 2}">{{$t('usercontent.user17')}}
+              <span v-if="getUserInfo.kycState !== 2">{{$t('usercontent.user18')}}</span>
+            </p>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td height="34px">
+            <p :class="{active: getUserInfo.kycState === 2}">{{$t('usercontent.user19')}}
+              <span v-if="getUserInfo.kycState === 2">{{$t('usercontent.user18')}}</span>
+            </p>
+          </td>
+          <td>√</td>
+          <td>√</td>
+          <td>√</td>
+          <td>√</td>
+        </tr>
+      </table>
+    </div>
+  </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import { mapGetters } from 'vuex'
-import userUtils from '@/api/individual'
-import Config from '@/assets/js/config'
-import utils from '@/assets/js/utils'
-import loading from '@/components/loading'
-import page from '@/components/page'
-import nickName from '@/public/dialog/nickname'
-import avatar from '@/assets/images/touxiang.png'
-export default {
-  components: {
-    loading,
-    page
-  },
-  data () {
-    return {
-      vsloaded: false, // 认证信息加载完毕状态
-      avatarUrl: avatar,
-      userState: { // 用户状态信息
-        coinState: 0,
-        googleState: 0,
-        nickname: null,
-        verifyState: 0,
-        verifyTimes: 0
-      },
-      isUseGCOXPay: false,
-      distributeHistory: [], // 分发记录
-      distributeParam: {
-        page: 1, // 当前页
-        pageSize: 6 // 每页显示多少条
-      },
-      distributeTotal: 0, // 总数量
-      distributeLoading: true,
-      loginHistory: [], // 登录记录
-      loginHistoryLoading: true
-    }
-  },
-  computed: {
-    ...mapGetters(['getUserInfo', 'getLang']),
-    isExistUserAvatar () {
-      return this.avatarUrl !== avatar
+  import Vue from 'vue'
+  import {mapGetters} from 'vuex'
+  import userUtils from '@/api/individual'
+  import utils from '@/assets/js/utils'
+  import loading from '@/components/loading'
+  import page from '@/components/page'
+  import avatar from '@/assets/images/touxiang.png'
+  import Buttonbox from '../../components/formel/buttonbox'
+  import gooleTip from './mycenter/google-tip'
+  import googleVerify from './mycenter/google-verify'
+
+  export default {
+    components: {
+      loading,
     },
-    isAlreadyModifyNickname () {
-      return this.userState.nickname !== null
-    },
-    updateNickname () {
-      return this.userState.nickname
-    },
-    contactHtml () {
-      let alink = `<a href="${this.getLang === 'en' ? 'https://gcox.kf5.com/hc/request/guest/?lang=en' : 'https://gcox.kf5.com/hc/request/guest/'}" target="_blank">${this.$t('public0.public241')}</a>`
-      return `（${this.$t('account.user_prompt5').format(alink)}）`
-    }
-  },
-  watch: {
-    'distributeParam.page' () {
-      this.fnDistributeHistory()
-    }
-  },
-  created () {
-    this.fnDownloadHeader()
-    this.fnUserState()
-    this.fnDistributeHistory()
-    this.fnLoginHistory()
-  },
-  methods: {
-    setDefaultAvatar(e){ //图片加载失败用默认头像
-      let tar = e.currentTarget
-      tar.src = avatar
-    },
-    switchTab (tab) {
-      this.$emit('switchTab', tab)
-    },
-    fnDownloadHeader () {
-      // 下载当前用户头像
-      userUtils.downloadHeader((url) => {
-        this.avatarUrl = url
-      })
-    },
-    uploadImage (e) {
-      // 上传头像
-      var target = e.target
-      if (Config.imageType.test(target.files.item(0).name) === false) {
-        return Vue.$koallTipBox({icon: 'notification', message: this.$t('public0.public43')}) // 请上传JPG、PNG、JPEG、BMP格式的图片
+    data () {
+      return {
+        vsloaded: false, // 认证信息加载完毕状态
+        avatarUrl: avatar,
       }
-      let isTrue = utils.limitUploadImage(target, (msg) => {
-        Vue.$koallTipBox({icon: 'notification', message: this.$t(msg)}) // 图片不能超过1M
-      }, 1)
-      if (!isTrue) {
-        target.value = ''
-        return
-      }
-      this.avatarUrl = window.URL.createObjectURL(target.files.item(0))
-      var formData = new FormData(this.$refs.form)
-      userUtils.uploadHeader(formData, (msg) => {}, (msg) => {
-        Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
-      })
     },
-    fnUserState () {
-      // 获取当前用户状态信息
-      userUtils.getUserState((data) => {
-        this.userState = {
-          coinState: data.coinState,
-          googleState: data.googleState,
-          nickname: data.nickname,
-          verifyState: data.verifyState,
-          verifyTimes: data.verifyTimes
+    computed: {
+      ...mapGetters(['getUserInfo', 'getLang']),
+    },
+    watch: {},
+    created () {
+      this.examine()
+    },
+    methods: {
+      examine () {
+        if (this.getUserInfo.googleAuthEnable === 0) {
+          utils.setDialog(gooleTip, {
+            okCallback: () => {
+              setTimeout(() => {
+                this.googleVerify(1)
+              }, 50)
+            }
+          })
         }
-        this.isUseGCOXPay = (data.coinState === 1)
-        this.vsloaded = true
-      }, (msg) => {
-        console.error(msg)
-      })
-    },
-    showVerifyState (targetVerifyState) {
-      if (this.userState.verifyTimes <= 3) {
-        if (this.userState.verifyTimes === 3) {
-          if (this.userState.verifyState === 0) {
-            return targetVerifyState === 3
-          } else {
-            return targetVerifyState === this.userState.verifyState
+      },
+      googleVerify (i) {
+        utils.setDialog(googleVerify, {
+          state: i,
+          okCallback: (res) => {
+            let data = {
+              googleCode: res
+            }
+            if (i === 1) {
+              console.log(data)
+              userUtils.bindGoogleAuth(data, msg => {
+                Vue.$koallTipBox({icon: 'success', message: this.$t('error_code.' + msg), delay: 3000})
+              }, msg => {
+                Vue.$koallTipBox({icon: 'notification', message: this.$t('error_code.' + msg), delay: 3000})
+              })
+            } else {
+              userUtils.unbindGoogleAuth(data, res => {
+                Vue.$koallTipBox({icon: 'success', message: this.$t('error_code.' + res), delay: 3000})
+              }, msg => {
+                Vue.$koallTipBox({icon: 'notification', message: this.$t('error_code.' + msg), delay: 3000})
+              })
+            }
           }
+        })
+      },
+      banding () {
+        if (this.getUserInfo.googleAuthEnable === 0) {
+          this.googleVerify(1)
         } else {
-          return targetVerifyState === this.userState.verifyState
+          this.googleVerify(2)
         }
-      } else {
-        return targetVerifyState === 3
-      }
-    },
-    switchCoinState () {
-      // 切换使用GCOX支付交易手续费（50% 折扣）
-      userUtils.switchGCOXChargeState((msg) => {
-        this.isUseGCOXPay = !this.isUseGCOXPay
-      }, (msg) => {
-        console.error(msg)
-      })
-    },
-    nicknameDialog () {
-      // 修改呢称
-      utils.setDialog(nickName, {
-        nickname: this.nickname,
-        okCallback: (aNickName) => {
-          this.userState.nickname = aNickName
+      },
+      rePassword () {
+        this.$router.push({
+          name: 'mycenter_menu',
+          params: {
+            menu: 'resetpassword'
+          }
+        })
+      },
+      rePayPassword () {
+        if (this.getUserInfo.googleAuthEnable === 0) {
+          Vue.$koallTipBox({icon: 'notification', message: this.$t('usercontent.user35'), delay: 3000})
+          return
+        } else if (this.getUserInfo.kycState !== 2) {
+          Vue.$koallTipBox({icon: 'notification', message: this.$t('usercontent.user36'), delay: 3000})
+          return
+        } else {
+          this.$router.push({
+            name: 'mycenter_menu',
+            params: {
+              menu: 'assetpassword'
+            }
+          })
         }
-      })
-    },
-    fnDistributeHistory () {
-      this.distributeLoading = true
-      // 获取分发记录
-      userUtils.getDistributeHistory(this.distributeParam, (res) => {
-        this.distributeHistory = res.data
-        this.distributeTotal = res.total
-        this.distributeLoading = false
-      }, (msg) => {
-        console.error(msg)
-      })
-    },
-    distributePageChange (currentIndex) {
-      this.distributeParam.page = currentIndex
-    },
-    fnLoginHistory () {
-      this.loginHistoryLoading = true
-      // 获取最近登录记录
-      userUtils.getLoginHistory((data) => {
-        if (data && data.length) {
-          this.loginHistory = data.splice(0, 5)
-        }
-        this.loginHistoryLoading = false
-      }, (msg) => {
-        console.error(msg)
-      })
+      },
     }
   }
-}
 </script>
 
-<style scoped>
-.mycenter h3{height: 55px; padding-left: 20px; font-weight: normal;font-size: 18px;line-height: 55px;color: #333;text-indent: 8px;border-bottom: 1px solid #e7e7e7;}
-.mycenter .top{background-color: #FFF; border-radius: 4px; box-shadow: 0 1px 3px #e2e2e2;}
-.mycenter .top .info{display: flex;height: 150px;padding-top: 30px; position: relative;}
-.mycenter .top .info.active::after {content: ''; position: absolute; left: 0;top: 0; right: 0; bottom: 0; background-color: #fff; z-index: 1;}
-.mycenter .top .info .info-pic{position: relative;}
-.mycenter .top .info .info-pic form{display: flex;justify-content: center;position: absolute;top: 4px;left: 30px;width: 70px;height: 70px;}
-.mycenter .top .info .info-pic .file{width: 100%;height: 100%;border-radius: 50%;opacity: 0;cursor: pointer;}
-.mycenter .top .info .info-pic .tips{display: none;position: absolute;top: -30px;height: 24px;padding-left: 12px;padding-right: 12px;font-size: 12px;line-height: 24px;color: #181b2a;white-space: nowrap;background-color: #fff;border-radius: 4px;}
-.mycenter .top .info .info-pic .tips:before{content: "";position: absolute;bottom: -6px;left: 50%;width: 0;height: 0;margin-left: -6px;border-width: 6px 6px 0 6px;border-style: solid;border-color: #fff transparent transparent transparent;}
-.mycenter .top .info .info-pic .file:hover + .tips{display: block;}
-.mycenter .top .info .info-pic .image{width: 68px;height: 68px;margin-top: 4px;margin-left: 30px;border: 2px solid #348EFB;border-radius: 50%;overflow: hidden;}
-.mycenter .top .info .info-pic .image img{width: 100%;height: 100%;}
-.mycenter .top .info .info-message{margin-left: 30px;}
-.mycenter .top .info .info-message p{height: 26px;line-height: 26px;color: #333;}
-.mycenter .top .info .info-message span{color: #333;}
-.mycenter .top .info .info-message span.attestation-state{display: inline-block;height: 24px;padding-left: 8px;padding-right: 8px;margin-top: 1px;margin-left: 8px;line-height: 24px;color: #fff;vertical-align: top;border-radius: 4px;}
-.mycenter .top .info .info-message span.entrance{background: url(../../assets/images/btn-bg-blue.png) repeat-x left center;cursor: pointer;}
-.mycenter .top .info .info-message span.entrance:hover{background-image: url(../../assets/images/btn-bg-blue-highlight.png);}
-.mycenter .top .info .info-message span.wait{background-color: #3283FF;}
-.mycenter .top .info .info-message span.success{background-color: #24C08A;}
-.mycenter .top .info .info-message span.fail{background-color: #F34246;}
-.mycenter .top .info .info-message span.nickname-modify{color: #3283FF;cursor: pointer;}
-.mycenter .top .info .info-message span.nickname-modify:hover{color: #3283FF;}
-.mycenter .top .info .info-message span a{color: #3283FF;vertical-align: -1px;}
-.mycenter .top .info .info-message label /deep/ a{color: #3283FF;text-decoration: underline;}
-.mycenter .top .info .info-message span a:hover,
-.mycenter .top .info .info-message label /deep/ a:hover{color: #3283FF;}
+<style scoped lang="less">
+  .c-c {
+    color: #979799;
+  }
 
-.distribution{margin-top: 10px;background-color: #FFF; border-radius: 4px; box-shadow: 0 1px 3px #e2e2e2;}
-.distribution ul{padding-left: 20px;padding-right: 20px;}
-.distribution ul.header li span {color: #A1A1A1;}
-.distribution ul li{display: flex;justify-content: space-between;min-height: 40px;line-height: 40px;border-bottom: 1px solid #e7e7e7;}
-.distribution ul.header li{border-bottom:none;}
-.distribution ul li span{color: #333;}
-.distribution ul li span.time{width:160px;}
-.distribution ul li span.species{width: 100px;}
-.distribution ul li span.number{width: 160px;}
-.distribution ul li span.remark{width: 180px;}
+  .mycenter {
+    .cont {
+      color: #ffffff;
+      background: rgba(27, 26, 31, 0.8);
+      padding: 20px;
 
-.dist-record{margin-top: 10px;background-color: #FFF; border-radius: 4px; box-shadow: 0 1px 3px #e2e2e2;}
-.dist-record ul{padding-bottom: 30px;padding-left: 20px;padding-right: 20px;}
-.dist-record ul li{display: flex;justify-content: space-between;min-height: 40px;line-height: 40px;border-bottom: 1px solid #e7e7e7;}
-.dist-record ul li span{color: #333;}
-.dist-record ul li span.time{width: 160px;}
-.dist-record ul li span.ip{width: 120px;}
-.dist-record ul li span.adress{width: 280px;text-align: right;}
+      .title {
+        line-height: 30px;
+      }
 
-.nodata{text-align: center;}
-.nodata .nodata-icon{height: 80px;font-size: 40px;line-height: 80px;color: #8b94a9;}
-.nodata .nodata-text{height: 40px;line-height: 20px;color: #A1A1A1;}
+      .table {
+        margin-top: 10px;
+
+        td {
+          border: 1px solid #312e45;
+          font-size: 12px;
+
+          .active {
+            color: #00a0e9;
+          }
+        }
+      }
+
+      .box {
+        margin: 13px 0;
+
+        ul {
+          li {
+            display: flex;
+            height: 40px;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 6px 0;
+            font-size: 12px;
+
+            i {
+              margin-right: 20px;
+            }
+
+            span:nth-of-type(1) {
+              width: 260px;
+              flex-shrink: 0;
+            }
+
+            span:nth-of-type(2) {
+              width: 560px;
+              flex-shrink: 0;
+            }
+
+            i {
+              display: block;
+              width: 30px;
+              height: 30px;
+              background-size: 26px;
+            }
+
+            button {
+              width: 50px;
+              height: 30px;
+              line-height: 30px;
+              padding: 0 10px;
+              cursor: pointer;
+              font-size: 12px;
+              color: #f1f1f2;
+              background-color: #2e2c3c;
+              border: 1px solid #312e45;
+              text-align: center;
+              box-sizing: initial;
+            }
+          }
+        }
+      }
+    }
+
+    i {
+      &.icon-name {
+        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAANIilAAAAAllBMVEUAAADy8vP////////y8vPy8vP////y8vPy8vPy8vLy8vPz8/Tx8fPy8vPz8/P09PT////x8fT39/f29vby8vPx8fLy8vPx8fLy8vPy8vPy8vLy8vTz8/Pz8/Ty8vLy8vPy8vXy8vb39/jy8vPz8/Pz8/P////y8vPy8vPx8fPz8/Pz8/Py8vP09PT19fXx8fPz8/Px8fLSYGkvAAAAMXRSTlMA9hALnIAF+e2zrlzNY1QWA3AeG/vz597V0smIayrbqko5IsFnUAm8opR7PnVEMJKQzaWNOgAAAoFJREFUSMfNlte2qjAQQBNAugLSxYa9e+b/f+4aRYQwwdzzdPajyV6M04D8TXxF0X+h7a4DO6PwgM6tYqnKm/rIMqBFtHdUOXVqAkJ8ktBHcxCQDP1+9TaBHrJz72Mp9GJsxO4AvnLUBeVZgAR7BZURF2OtozFLoiG5AmmmnRrxec61n0WKy9GVk7n6Tm6EUa5RO9X7gl7v3nOloXbQ6ud2TxphfaImmGw26zUV5/MCGEXjwdwcjRryDJWpJyzTijQwv/xrizvZNWV8RN26qQ1udrgiorxzeu3tvyEuO4KuHrTkbX+H2/zCaDXQAZcn1XEGHLbEsJnVOe10/rh2ywQEKK8WQWKq2s87ALU3y+VQ61b79QAFuixe7hw0r+rxkwFtZkLZfAqu4ZCa0sRkHVtU7ECDIWlQGlzYeMIgZ90dGhY73dhpvii7iVfQ7qX2yGc//7DIVAtSO4NnDGoz8Bibi9R5j0WeP59W+ITMKFVZvyCTUTQzVQ+qT4+EKDT3X7HfuDY/VNeW8OFO3ozh9EhS3ejcxTqXaoTt5JB5DrsUWg+2TMYWxr4zaQyqseuXRwyuO4egveqy+pqDvg3clMW+qOYyaI/f5bNfY3hjfcYxgDOrxLmWPYotZ3JqpHt/D7blSmGZnvhklUTa1CkS2LCOq3kUom+1R7EZsfXs2TGA4W5bfy72kEWFL/fV2GeJMUSLys8E9vpc7f7mqz/hvqrOBghItcHp7nJvFI4NSDMgHY6yro19Nu7l3FwlCMpayg0Jiq5JxKwSEdNILlc417RPTUakFz0wRWo8UMk3lIJiqnH0iAxe4PJqdgmJNKGjTcwqWvcwXJH/RhnPZmOF/EX+AdHEWOvkEgUQAAAAAElFTkSuQmCC) no-repeat 0;
+      }
+
+      &.icon-lock {
+        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAANIilAAAAAh1BMVEUAAADy8vPy8vPy8vPy8vPy8vL09Pj////x8fP////y8vPy8vL29vby8vPy8vPy8vPz8/Tx8fPx8fLx8fLy8vPx8fTz8/Pz8/Pz8/Py8vT09PTz8/Py8vPy8vP09PT09PT09Pfy8vPy8vPy8vPy8vLy8vTx8fP09PT09PT4+Pj39/f////x8fKu+SJQAAAALHRSTlMAgJK418clDN4C6Ywd+LGaT/Tw75dwaWRAOi0r5XZYRBW/va2fnIRIMCEeBkHGQmUAAAF6SURBVEjHzdVnc8IwDAbgBGc4k5AFCXtD0f//fW1Wk4rc2fKVg/cb0j1ny2CjvSR2lJp8NuNmGtlEap0C+E1wsiirTgFlKr16acBTjFLO3mIYSXyTGteF0bgyg5uDve73gwlMsZ1DG57vqs+7nHeVucg63aa9R1d6eN3GHQHeQpN8WMzb4laAz+33+reaNtWz1HEFO/SrmUkd2QqqMFwO6/JKgKFOisuTpi6FJ7jsvQ2v0cwk/FUft66GtS3/qToEjBa3BRRhlM/EC5aAMAlbjFkPJOONvSDSmWNrx/I4tvHAQAgeO6PgDGGdgvWXY+N4NBSxuawaS1MFX9oL6FzomPU9RsWB3/f8gIhD9GoTMOrrRLxGbycBo3+6KREbTt9zDCKGqO9tgIrde9e6u2QMvGg6BVe6GFbVsBRvVXMxFHFZNUoKxgceUTC+WEwRQ3i9hjCGP+YB3FDwBmGLgi0NhclbpuH4iaxNfO1ZH+TsobE4RaYLkxXaP+Ub1PwXBYTI9/EAAAAASUVORK5CYII=) no-repeat 0;
+      }
+
+      &.icon-card {
+        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAANIilAAAAAY1BMVEUAAAD////x8fLx8fLx8fL39/fx8fPy8vP4+Pjy8vLz8/Py8vPy8vTx8fPy8vXy8vPy8vPy8vPy8vPy8vPy8vTz8/Tz8/Pz8/Px8fPx8fLy8vLy8vLx8fb09PTz8/P29vbx8fKAlMufAAAAIHRSTlMABfDgyR6DtiLcktRipE38sfqrwId4akDPyp6NODAqG6YIUbcAAACaSURBVEjH7dW7EoIwEIXhBYyYCxhAwLvn/Z/SIhlD5bCMhQP7Vaf5q2RmSYj/57wu5rLVSBNZB54TJT246hSfwdWmuAGXTvFxg3HGR2IhlbOlv30AWynxxmO7D1rAx3kBTJz597iioAZcnAZQcdpVxl4FDujjvAL3OPUPn+oFNk8fBbD8QA9gah6UGGY70NRout1c5e1JQqzaGwZWoH37Ij0eAAAAAElFTkSuQmCC) no-repeat 0;
+      }
+    }
+  }
 </style>
 

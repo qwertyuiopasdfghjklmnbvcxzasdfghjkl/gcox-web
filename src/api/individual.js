@@ -28,7 +28,7 @@ individual.getLoginHistory = getLoginHistory
 const createGoogleKey = function (success, error) {
   api.get(`${domain}api/v1/gcox/user/get2fa`, (res) => {
     if (res.rst === 1) {
-      success && success(res.data)
+      success && success(res)
     } else {
       error && error(res.msg)
     }
