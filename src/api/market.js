@@ -8,8 +8,8 @@ let domain = ''
 let market = {}
 
 // 获取币币交易公告
-const noticeList = function (success, error) {
-  api.get(`${domain}api/v3/kline/announcement`, (res) => {
+const getCmsList = function (data, success, error) {
+  api.post(`${domain}/api/v1/cms/list`, data, (res) => {
     if (res.rst === 1) {
       success && success(res.data)
     } else {
@@ -17,7 +17,7 @@ const noticeList = function (success, error) {
     }
   }, error)
 }
-market.noticeList = noticeList
+market.getCmsList = getCmsList
 
 // 市场列表 获取所有产品
 const marketList = function (success, error) {

@@ -29,5 +29,5 @@ export default {
 </script>
 
 <style scoped>
-.loading{padding-top: 28px;padding-bottom: 28px;line-height: 0;text-align: center;}
+.loading{padding-top: 28px;padding-bottom: 28px;line-height: 0;text-align: center; margin-left: auto; margin-right: auto;}
 </style>

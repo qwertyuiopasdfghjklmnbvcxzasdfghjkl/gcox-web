@@ -38,11 +38,8 @@
               </div>
             </div>
           </router-link>
-        </template>
-        <template v-else>
-          <router-link :to="{name:'login'}" class="item">{{$t('login_register.login')}}<!-- 登录 --></router-link>
-          <router-link :to="{name:'register'}" class="item">{{$t('login_register.register')}}<!-- 注册 --></router-link>
-        </template>
+          <a v-show="!isLogin" class="item pointer" @click="showQuickLogin">{{$t('login_register.login')}}<!-- 登录 --></a>
+          <router-link v-show="!isLogin" :to="{name:'register'}" class="item">{{$t('login_register.register')}}<!-- 注册 --></router-link>
         <a class="item" href="javascript:;" @click="setLanguage('en')" v-if="getLang==='zh-CN'">ENGLISH</a>
         <a class="item" href="javascript:;" @click="setLanguage('zh-CN')" v-if="getLang==='en'">简体中文</a>
       </div>
@@ -51,218 +48,190 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex'
-  import langApi from '@/api/language'
-  import utils from '@/assets/js/utils'
+import { mapGetters, mapActions } from 'vuex'
+import langApi from '@/api/language'
+import utils from '@/assets/js/utils'
+import quickLogin from '@/components/quickLogin'
+export default {
+  data () {
+    return {
 
-  export default {
-    data () {
-      return {}
-    },
-    computed: {
-      ...mapGetters(['isLogin', 'getUserInfo', 'getLang']),
-      displayUsername () {
-        if (this.getUserInfo.username) {
-          let temp = this.getUserInfo.username.split('@')
-          return temp[0].slice(0, Math.ceil(temp[0].length / 2)) + '*'.repeat(Math.floor(temp[0].length / 2)) + '@' + temp[1]
-        } else {
-          return ''
-        }
-      }
-    },
-    watch: {},
-    created () {
-
-    },
-    beforeDestroy () {
-
-    },
-    methods: {
-      ...mapActions(['setLang', 'setApiToken']),
-      setLanguage (lang) {
-        this.setLang(lang)
-        if (!utils.isPlainEmpty(this.$i18n.getLocaleMessage(lang))) {
-          this.$i18n.locale = lang
-          return
-        }
-        console.log('change langugae')
-        langApi.getLanguage(lang, (res) => {
-          this.$i18n.locale = lang
-          this.$i18n.setLocaleMessage(lang, res)
-        })
-      },
-      logout () {
-        this.setApiToken(null)
-      },
-      hidePopoverNav (target) {
-        this.$refs[target].style.display = 'none'
-        setTimeout(() => {
-          this.$refs[target].removeAttribute('style')
-        }, 1000)
+    }
+  },
+  computed: {
+    ...mapGetters(['isLogin', 'getUserInfo', 'getLang']),
+    displayUsername(){
+      if(this.getUserInfo.username){
+        let temp = this.getUserInfo.username.split('@')
+        return temp[0].slice(0,Math.ceil(temp[0].length/2)) + '*'.repeat(Math.floor(temp[0].length/2)) + '@'+ temp[1]
+      } else {
+        return ''
       }
     }
+  },
+  watch: {
+
+  },
+  created () {
+
+  },
+  beforeDestroy () {
+
+  },
+  methods: {
+    ...mapActions(['setLang','setApiToken']),
+    showQuickLogin(){
+      utils.setDialog(quickLogin, {})
+    },
+    setLanguage (lang) {
+      this.setLang(lang)
+      if (!utils.isPlainEmpty(this.$i18n.getLocaleMessage(lang))) {
+        this.$i18n.locale = lang
+        return
+      }
+      console.log('change langugae')
+      langApi.getLanguage(lang, (res) => {
+        this.$i18n.locale = lang
+        this.$i18n.setLocaleMessage(lang, res)
+      })
+    },
+    logout() {
+      this.setApiToken(null)
+    },
+    hidePopoverNav(target){
+      this.$refs[target].style.display = 'none'
+      setTimeout(()=>{
+        this.$refs[target].removeAttribute("style")
+      },1000)
+    }
   }
+}
 </script>
 
 <style lang="less" scoped>
-  .header-container {
-    height: 70px;
+.header-container {height: 70px; }
+.header-bg {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 70px;
+  background-color: #151517;
+}
+.header {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  line-height: 70px;
+  font-size: 12px;
+  .item {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    position:relative;
+    .popover-nav {
+      position: absolute;
+      top: 69px;
+      left:50%;
+      transform: translateX(-50%);
+      border-radius: 4px;
+      background: #fff;
+      min-width: 150px;
+      border: 1px solid #ebeef5;
+      z-index: 2000;
+      color: #606266;
+      text-align: justify;
+      font-size: 14px;
+      box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+      word-break: break-all;
+      display: none;
+      .popover-menu {
+        line-height: 40px;
+        .sub-item {
+          padding: 0 10px;
+          border-bottom: 1px solid rgba(21,23,32,.08);
+          cursor: pointer;
+          display: flex;
+          &:hover {background-color: #E5E5E5;}
+          i {
+            height: 40px;
+            width: 30px;
+            background: no-repeat 0;
+            background-size: 20px 20px;
+          }
+          .security {
+            background-image: url('../assets/img/icon-security.svg');
+          }
+          .verification {
+            background-image: url('../assets/img/icon-verification.svg');
+          }
+          .message {
+            background-image: url('../assets/img/icon-message.svg');
+          }
+          .logout {
+            background-image: url('../assets/img/icon-logout.svg');
+          }
+        }
+      }
+    }
   }
-
-  .header-bg {
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    right: 0;
-    top: 0;
-    height: 70px;
-    background-color: #151517;
+  .item:hover .popover-nav {display: block;}
+  .item + .item {
+    margin-left: 80px;
   }
-
-  .header {
-    position: fixed;
-    z-index: 1000;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 70px;
-    line-height: 70px;
-    font-size: 12px;
-
-    .item {
+  .icon_logo {
+    width: 120px;
+    background-image:url('../assets/img/logo.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+  a {
+    font-family: 'ethnocentric';
+    color: #fff;
+    div {font-family: PingFangSC-Regular,Microsoft YaHei,sans-serif;}
+    i {
       display: inline-block;
-      height: 100%;
+      width: 20px;
+      height: 20px;
       vertical-align: middle;
-      position: relative;
-
-      .popover-nav {
-        position: absolute;
-        top: 69px;
-        left: 50%;
-        transform: translateX(-50%);
-        border-radius: 4px;
-        background: #fff;
-        min-width: 150px;
-        border: 1px solid #ebeef5;
-        z-index: 2000;
-        color: #606266;
-        text-align: justify;
-        font-size: 14px;
-        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
-        word-break: break-all;
-        display: none;
-
-        .popover-menu {
-          line-height: 40px;
-
-          .sub-item {
-            padding: 0 10px;
-            border-bottom: 1px solid rgba(21, 23, 32, .08);
-            cursor: pointer;
-            display: flex;
-
-            &:hover {
-              background-color: #E5E5E5;
-            }
-
-            i {
-              height: 40px;
-              width: 30px;
-              background: no-repeat 0;
-              background-size: 20px 20px;
-            }
-
-            .security {
-              background-image: url('../assets/img/icon-security.svg');
-            }
-
-            .verification {
-              background-image: url('../assets/img/icon-verification.svg');
-            }
-
-            .message {
-              background-image: url('../assets/img/icon-message.svg');
-            }
-
-            .logout {
-              background-image: url('../assets/img/icon-logout.svg');
-            }
-          }
-        }
+      background-size:contain;
+      background-repeat:no-repeat;
+      background-position:center;
+      &.market {
+        background-image:url('../assets/img/MARKETS.png');
+      }
+      &.exchange {
+        background-image:url('../assets/img/EXCHANGE.png');
+      }
+      &.acm {
+        background-image:url('../assets/img/ACM.svg');
+      }
+      &.account {
+        background-image:url('../assets/img/ACCOUNT.svg');
       }
     }
-
-    .item:hover .popover-nav {
-      display: block;
-    }
-
-    .item + .item {
-      margin-left: 80px;
-    }
-
-    .icon_logo {
-      width: 120px;
-      background-image: url('../assets/img/logo.svg');
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: contain;
-    }
-
-    a {
-      font-family: 'ethnocentric';
-      color: #fff;
-
-      div {
-        font-family: PingFangSC-Regular, Microsoft YaHei, sans-serif;
-      }
-
+    &.active, &:hover, &.router-link-exact-active {
+      color: #00A0E9;
       i {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        vertical-align: middle;
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-
         &.market {
-          background-image: url('../assets/img/MARKETS.png');
+          background-image:url('../assets/img/MARKETS-blue.png');
         }
-
         &.exchange {
-          background-image: url('../assets/img/EXCHANGE.png');
+          background-image:url('../assets/img/EXCHANGE-blue.png');
         }
-
         &.acm {
-          background-image: url('../assets/img/ACM.svg');
+        background-image:url('../assets/img/ACM-blue.svg');
         }
-
         &.account {
-          background-image: url('../assets/img/ACCOUNT.svg');
-        }
-      }
-
-      &.active, &:hover, &.router-link-exact-active {
-        color: #00A0E9;
-
-        i {
-          &.market {
-            background-image: url('../assets/img/MARKETS-blue.png');
-          }
-
-          &.exchange {
-            background-image: url('../assets/img/EXCHANGE-blue.png');
-          }
-
-          &.acm {
-            background-image: url('../assets/img/ACM-blue.svg');
-          }
-
-          &.account {
-            background-image: url('../assets/img/ACCOUNT-blue.svg');
-          }
+          background-image:url('../assets/img/ACCOUNT-blue.svg');
         }
       }
     }
   }
+}
 </style>

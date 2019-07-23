@@ -1,5 +1,5 @@
 <template>
-  <div :id="id" ref="dialog" class="koall-dialog" :style="modelStyle">
+  <div :id="id" ref="dialog" class="koall-dialog" :style="modelStyle" @click.self="removeDialog">
   </div>
 </template>
 
@@ -11,6 +11,7 @@ export default {
       type: Boolean,
       default: true
     },
+
     component: null
   },
   computed: {

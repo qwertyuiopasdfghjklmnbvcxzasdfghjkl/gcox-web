@@ -3,40 +3,74 @@
     <div class="w1200">
       <p class="news-header efont">{{$t('about.news')}}<!-- 资讯 --></p>
       <div class="ui-flex">
-         <div class="ui-flex-1  ui-flex ui-flex-center item">
+         <router-link :to="{name:'newsDetail',params:{id:item.cmsInfoId}}" class="ui-flex-1  ui-flex ui-flex-center item"  v-for="item in news" tag="div">
           <div class="ui-flex-column">
-           <div class="item-title ellipsis"> 关于GCOX你需要了解的5件事 </div>
-           <div class="item-detail ellipsis-4"> “解密”GCOX，你需要知道的5大看点。 </div>
+           <div class="item-title ellipsis"> {{getTitle(item)}} </div>
+           <div class="item-detail ellipsis-4"> {{getSummary(item)}} </div>
            <div class="item-bottom ui-flex">
-            <div class="ui-flex-1"> 2019-6-21 </div>
+            <div class="ui-flex-1"> {{new Date(item.createdAt).format('yyyy-MM-dd')}} </div>
             <div>{{$t('exchange.advanced_more')}} &gt;&gt; <!-- 更多 --></div>
            </div>
           </div>
-         </div>
-         <div class="ui-flex-1  ui-flex ui-flex-center item">
-          <div class="ui-flex-column">
-           <div class="item-title ellipsis"> 关于GCOX你需要了解的5件事 </div>
-           <div class="item-detail ellipsis-4"> “解密”GCOX，你需要知道的5大看点。 </div>
-           <div class="item-bottom ui-flex">
-            <div class="ui-flex-1"> 2019-6-21 </div>
-            <div>{{$t('exchange.advanced_more')}} &gt;&gt; <!-- 更多 --></div>
-           </div>
-          </div>
-         </div>
-         <div class="ui-flex-1  ui-flex ui-flex-center item">
-          <div class="ui-flex-column">
-           <div class="item-title ellipsis"> 关于GCOX你需要了解的5件事 </div>
-           <div class="item-detail ellipsis-4"> “解密”GCOX，你需要知道的5大看点。 </div>
-           <div class="item-bottom ui-flex">
-            <div class="ui-flex-1"> 2019-6-21 </div>
-            <div>{{$t('exchange.advanced_more')}} &gt;&gt; <!-- 更多 --></div>
-           </div>
-          </div>
-         </div>
+         </router-link>
         </div>
       </div>
   </div>
 </template>
+
+<script>
+import { mapGetters} from 'vuex'
+import marketApi from '@/api/market'
+export default{
+data(){
+    return {
+        news:[]
+    }
+},
+computed: {
+    ...mapGetters(['getLang']),
+},
+created() {
+    this.getCmsList()
+},
+methods:{
+    getCmsList(){
+      marketApi.getCmsList({firstLevel:1,secondLevel:2,page:1,size:3},res=>{
+        this.news = res
+      })
+    },
+    getTitle(item){
+        let title = item.titleEn
+        switch(this.getLang){
+            case 'zh-CN':
+            title = item.titleCn
+            break
+            case 'cht':
+            title = item.titleCht
+            break
+        }
+        return title
+    },
+    getSummary(item){
+        let summary = item.bodyEn
+        switch(this.getLang){
+            case 'zh-CN':
+            summary = item.bodyCn
+            break
+            case 'cht':
+            summary = item.bodyCht
+            break
+        }
+        let _dom = document.createElement('div')
+        _dom.innerHTML = summary
+        summary = _dom.innerText
+        summary = summary.length>90?summary.slice(0,90)+'...':summary
+        return summary
+    }
+}
+}
+</script>
+
 <style lang="less" scoped>
 .news{
   padding: 20px 0 70px;

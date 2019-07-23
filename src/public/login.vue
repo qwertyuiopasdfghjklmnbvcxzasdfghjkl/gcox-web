@@ -25,7 +25,7 @@
         <div class="form-item" v-if="needGoogleCode">
           <input type="text" name="googleCode" :class="{efont:!formData.googleCode}" v-model="formData.googleCode" maxlength="6" v-validate="'required|length:6'" :placeholder="$t('account.user_center_Google_verification_code')"> <!--谷歌验证码-->
         </div>
-        <div class="error-msg">{{errors.has('googleCode')?$t('login_register.inputGoogleAuthCode'):null}}</div>
+        <div class="error-msg" v-if="needGoogleCode">{{errors.has('googleCode')?$t('login_register.inputGoogleAuthCode'):null}}</div>
         <div class="text-right"><router-link :to="{name:'findpwd'}" class="f-c-main f12">{{$t('login_register.forget_password')}}<!-- 忘记密码？ --></router-link></div>
         <div class="text-right mt30"><button type="button" class="mint-btn default round efont" style="width: 140px;" :disabled="errors.any()" @click="login">{{$t('login_register.login')}}<!-- 登录 --></button></div>
       </div>
