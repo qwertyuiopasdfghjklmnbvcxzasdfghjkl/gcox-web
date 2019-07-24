@@ -1,25 +1,30 @@
 <template>
-  <div class="lastdeal">
-    <div class="title">{{$t('exchange.exchange_trade_history')}}<!--最新成交--></div>
-    <ul class="list-header">
-        <li class="list-header-item">
-            <span class="list-col time">{{$t('exchange.exchange_date')}}<!--时间--></span>
-            <span class="list-col price">{{$t('exchange.exchange_price')}}<!--价格-->({{toCoin}})</span>
-            <span class="list-col volume">{{$t('exchange.exchange_amount')}}<!--数量-->({{fromCoin}})</span>
-        </li>
-    </ul>
-    <div class="container">
-      <ul class="list">
-          <li class="list-item" v-for="(item, index) in datas" :key="index" @click="clickChangeValue(item)">
-              <span class="list-col time">{{formatDate(item.createdAt)}}</span>
-              <span class="list-col price" :class="[Number(item.direction)===1 ? 'ask' : 'bid']">{{toFixed(item.price)}}</span>
-              <span class="list-col volume">{{toFixed(item.amount, Quantityaccu)}}</span>
-          </li>
-          <li class="list-loading" v-if="showLoading">
-            <loading :size="24"/>
-          </li>
-      </ul>
+  <div class="block lastdeal">
+    <div class="title-container">
+     <span>{{$t('exchange.exchange_trade_history')}}<!--最新成交--></span> 
+     <span class="fs16">{{currentSymbol}}/{{baseSymbol}}</span>
     </div>
+    <table class="orders-books">
+     <thead>
+      <tr>
+       <th class="text-left">{{$t('exchange.exchange_date')}}<!--时间--></th> 
+       <th class="text-left">{{$t('exchange.buy_or_sell')}}<!-- 买卖 --></th> 
+       <th class="text-right">{{$t('exchange.exchange_price')}}<!--价格-->({{toCoin}})</th> 
+       <th class="text-right">{{$t('exchange.exchange_amount')}}<!--数量-->({{fromCoin}})</th>
+      </tr>
+     </thead> 
+     <tbody>
+      <tr v-for="(item, index) in datas" :key="index" @click="clickChangeValue(item)">
+       <td class="text-left">{{formatDate(item.createdAt)}}</td> 
+       <td class="text-left" :class="[Number(item.direction)===1 ? 'rang-down' : 'rang-up']">{{Number(item.direction)===1 ? $t('exchange.exchange_sell') : $t('exchange.exchange_buy')}}</td> 
+       <td class="text-right">{{toFixed(item.price)}}</td> 
+       <td class="text-right">{{toFixed(item.amount, Quantityaccu)}}</td>
+      </tr>
+      <tr v-if="showLoading">
+        <td><loading :size="24"/></td>
+      </tr>
+     </tbody>
+    </table>
   </div>
 </template>
 
@@ -101,7 +106,7 @@ export default {
     ...mapActions(['setEntrustNewPrice', 'addEvents', 'removeEvents', 'tiggerEvents']),
     lastdealEvent (res) {
       if (res && res.type === 'updateData') {
-        this.datas = res.data
+        this.datas = res.data && res.data.slice(0,12)
       }
     },
     clickChangeValue (item) {
@@ -133,48 +138,39 @@ export default {
 }
 </script>
 
-<style scoped>
-.lastdeal{height:334px;padding:10px;background-color:#FFF;margin-top:10px;}
-.title{height:24px;line-height:24px;font-size:16px;margin-bottom:10px;color:#333;text-indent:10px;}
-.container{height:calc(100% - 54px);overflow:hidden;}
-.list{height:100%;margin-right:-17px;overflow-x:hidden;overflow-y:scroll;}
-.list::-webkit-scrollbar{width:17px;}
-.list-header-item,
-.list-item{height:20px;line-height:20px;display:flex;font-size:12px;}
-.list-header-item{color:#A1A1A1;}
-.list-item{color:#4A4A4A;cursor:default;}
-.price.bid{color:#F34246;}
-.price.ask{color:#23CD09;}
-.list-item:hover{font-weight:bold;color:#333;}
-.list-col{flex: 1 1 auto;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;}
-.time{text-align:left;padding:0 10px 0 10px;width:110px;}
-.price{width:110px;padding-right:10px;text-align:center;}
-.volume{text-align:right;width:100px;}
-@media screen and (max-width: 1600px) {
-  .lastdeal{height:274px;margin-top:4px;}
-  .title{font-size:14px;}
-  .time{width:107px;}
-  .price{width:107px;}
-  .volume{width:96px;}
+<style lang="less" scoped>
+.block {
+    background: #19181c;
+    margin-bottom: 4px;
+    padding: 0 10px;
+    font-size: 12px;
+    color: #f1f1f2;
 }
-@media screen and (max-width: 1500px) {
-  .time{width:104px;}
-  .price{width:104px;}
-  .volume{width:92px;}
+.lastdeal{height: 360px; box-sizing: border-box; overflow: hidden;}
+.title-container {
+    font-size: 18px;
+    color: #f1f1f2;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height: 40px;
+    box-sizing: border-box;
+    span {
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        border-bottom: 2px solid transparent;
+        &+span {
+            margin-left: 40px;
+        }
+    }
 }
-@media screen and (max-width: 1400px) {
-  .time{width:101px;}
-  .price{width:101px;}
-  .volume{width:88px;}
-}
-@media screen and (max-width: 1300px) {
-  .time{width:98px;}
-  .price{width:98px;}
-  .volume{width:84px;}
-}
-@media screen and (max-width: 1200px) {
-  .time{width:74px;}
-  .price{width:80px;}
-  .volume{width:80px;}
+.orders-books {
+  width: 100%;
+  th {
+      font-weight: 400;
+      color: #979799;
+      padding: 4px 0;
+  }
+  td { line-height: 24px;}
 }
 </style>

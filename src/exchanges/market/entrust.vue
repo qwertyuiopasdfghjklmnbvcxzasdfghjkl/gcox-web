@@ -1,159 +1,69 @@
 <template>
-  <div class="entrust" :class="{unfold:isShow}">
-    <div class="title">
-        <em class="menu-arrow" :class="{unfold:isShow}" @click="switchTab('current', isShow)">
-          <i :class="[!isShow?'icon-arrow-up3':'icon-arrow-down2']"></i>
-        </em>
-        <span class="menu-title" :class="{'menu-selected':isShow && active==='current'}" @click="switchTab('current')">
+  <div class="block market-watch-height entrust-container">
+    <div class="title-container clearfix">
+        <span class="pointer" :class="{'active':active==='current'}" @click="switchTab('current')">
           {{$t('trade_record.current_entrust')}}<!--当前委托-->
         </span>
-        <span class="menu-title" :class="{'menu-selected':isShow && active==='history'}" @click="switchTab('history')">
+        <span class="pointer ml40" :class="{'active':active==='history'}" @click="switchTab('history')">
           {{$t('trade_record.history_entrust')}}<!--历史委托-->
         </span>
-        <span class="menu-title" :class="{'menu-selected':isShow && active==='myassets'}" @click="switchTab('myassets')">
-          {{$t('exchange.advanced_funds')}}<!--资产管理-->
-        </span>
-        <span class="menu-allrepeal" :class="{'disabled':cdatas.length===0}" v-if="isShow && active==='current'">
-          <a href="javascript:;" @click="cancelOrder('all')">{{$t('trade_record.trade_record_repeal')}}<!--全部撤销--></a>
-          <i class="icon-repeal"></i>
-        </span>
+        <div class="pull-right">
+          <div class="ui-radio">
+           <input type="checkbox" id="viewAll" class="ui-radio-input" v-model="checked"  /> 
+           <label class="ui-radio-icon" for="viewAll"></label>
+           <label class="ml10 pointer" for="viewAll">{{$t('exchange.view_all_entrust')}}</label>
+          </div>
+          <router-link to="/account/transaction" class="inline fs12 ml20 pointer" tag="div">查看全部 ></router-link>
+        </div>
     </div>
-    <div v-show="isShow">
-      <div class="panel panel-current" v-if="active==='current'">
-          <ul class="list-header">
-              <li class="list-header-item">
-                  <span class="list-col col-time">
-                    <div>{{$t('exchange.exchange_date')}}<!--时间--></div>
-                  </span>
-                  <span class="list-col col-market">
-                    <div>{{$t('exchange.exchange_pair')}}<!--市场--></div>
-                  </span>
-                  <span class="list-col col-type">
-                    <div>{{$t('exchange.exchange_direction')}}<!--方向--></div>
-                  </span>
-                  <span class="list-col col-price">
-                    <div>{{$t('exchange.exchange_price')}}<!--价格--></div>
-                  </span>
-                  <span class="list-col col-tvolume">
-                    <div>{{$t('exchange.exchange_Transaction_volume')}}<!--成交量--></div>
-                  </span>
-                  <span class="list-col col-total">
-                    <div>{{$t('exchange.exchange_problem')}}<!--总量--></div>
-                  </span>
-                  <span class="list-col col-tsum">
-                    <div>{{$t('exchange.exchange_Transaction_amount')}}<!--成交金额--></div>
-                  </span>
-                  <span class="list-col col-operate">
-                    <div>{{$t('otc_exchange.otc_exchange_operating')}}<!--操作--></div>
-                  </span>
-              </li>
-          </ul>
-          <ul class="list"><!--当前委托数据-->
-              <li class="list-item" v-for="(item, index) in cdatas" :key="index">
-                  <span class="list-col col-time">
-                    <div>{{new Date(Number(item.createdAt)).format()}}</div><!--时间-->
-                  </span>
-                  <span class="list-col col-market">
-                    <div>{{currentSymbol}}/{{baseSymbol}}</div><!--市场-->
-                  </span>
-                  <span class="list-col col-type" :class="[Number(item.direction)===1?'ask':'bid']">
-                    <div>{{getType(item.direction)}}</div><!--方向-->
-                  </span>
-                  <span class="list-col col-price">
-                    <div>{{getPrice(item.price)}}</div><!--价格-->
-                  </span>
-                  <span class="list-col col-tvolume">
-                    <div>{{toFixed(item.finishedAmount)}}({{getFinishedPercent(item)}}%)</div><!--成交量-->
-                  </span>
-                  <span class="list-col col-total">
-                    <div>{{toFixed(item.totalAmount)}}</div><!--总量-->
-                  </span>
-                  <span class="list-col col-tsum">
-                    <div>{{toFixed(item.dealCurrency)}}</div><!--成交金额-->
-                  </span>
-                  <span class="list-col col-operate">
-                    <div><a class="cancel" @click="cancelOrder(item.orderBookId, index)">{{$t('exchange.exchange_revoked')}}<!--撤销--></a></div><!--操作-->
-                  </span>
-              </li>
-              <li class="list-loading" v-if="cshowLoading">
-                <loading :size="24"/>
-              </li>
-          </ul>
-      </div>
-      <div class="panel panel-history" v-if="active==='history'">
-          <ul class="list-header">
-              <li class="list-header-item">
-                  <span class="list-col col-etime">
-                    <div>{{$t('exchange.exchange_entrust_time')}}<!--委托时间--></div>
-                    <div class="tips">
-                      <i class="tips-icon">?</i>
-                      <em class="tips-text">{{$t('exchange.exchange_display_today')}}<!--仅展示当前交易日--></em>
-                    </div>
-                  </span>
-                  <span class="list-col col-market">
-                    <div>{{$t('exchange.exchange_pair')}}<!--市场--></div>
-                  </span>
-                  <span class="list-col col-type">
-                    <div>{{$t('exchange.exchange_direction')}}<!--方向--></div>
-                  </span>
-                  <span class="list-col col-price">
-                    <div>{{$t('exchange.exchange_price')}}<!--价格--></div>
-                  </span>
-                  <span class="list-col col-aprice">
-                    <div>{{$t('exchange.exchange_Transaction_price')}}<!--成交均价--></div>
-                  </span>
-                  <span class="list-col col-tquantity">
-                    <div>{{$t('exchange.exchange_Transaction_volume')}}<!--成交量--></div>
-                  </span>
-                  <span class="list-col col-total">
-                    <div>{{$t('exchange.exchange_problem')}}<!--总量--></div>
-                  </span>
-                  <span class="list-col col-tsum">
-                    <div>{{$t('exchange.exchange_Transaction_amount')}}<!--成交金额--></div>
-                  </span>
-                  <span class="list-col col-state">
-                    <div>{{$t('exchange.exchange_status')}}<!--状态--></div>
-                  </span>
-              </li>
-          </ul>
-          <ul class="list">
-              <li class="list-item" v-for="item in hdatas" :key="item.orderBookId">
-                  <span class="list-col col-etime">
-                    <div>{{new Date(Number(item.createdAt)).format()}}</div><!--委托时间-->
-                  </span>
-                  <span class="list-col col-market">
-                    <div>{{currentSymbol}}/{{baseSymbol}}</div><!--市场-->
-                  </span>
-                  <span class="list-col col-type" :class="[Number(item.direction)===1?'ask':'bid']">
-                    <div>{{getType(item.direction)}}</div><!--方向-->
-                  </span>
-                  <span class="list-col col-price">
-                    <div>{{getPrice(item.price)}}</div><!--价格-->
-                  </span>
-                  <span class="list-col col-aprice">
-                    <div>{{toFixed(item.averagePrice)}}</div><!--成交均价-->
-                  </span>
-                  <span class="list-col col-tquantity">
-                    <div>{{toFixed(item.finishedAmount)}}({{getFinishedPercent(item)}}%)</div><!--成交量-->
-                  </span>
-                  <span class="list-col col-total">
-                    <div>{{toFixed(item.totalAmount)}}</div><!--总量-->
-                  </span>
-                  <span class="list-col col-tsum">
-                    <div>{{toFixed(item.dealCurrency)}}</div><!--成交金额-->
-                  </span>
-                  <span class="list-col col-state">
-                    <div>{{getStatue(item)}}</div><!--状态-->
-                  </span>
-              </li>
-              <li class="list-loading" v-if="hshowLoading">
-                <loading :size="24"/>
-              </li>
-          </ul>
-      </div>
-      <div class="panel panel-myassets" v-show="active==='myassets'">
-        <balance ref="balance" :valuationCout="valuationCout" :newRmbCount="newRmbCount" :currentSymbol="currentSymbol" :baseSymbol="baseSymbol" :fixedNumber="fixedNumber" :toFixed="toFixed"/>
-      </div>
+    
+    <ul class="orders-books header">
+      <li class="ui-flex">
+        <span class="ui-flex-2">{{$t('exchange.exchange_date')}}<!--时间--></span>
+        <span class="ui-flex-2">{{$t('business.TYPE')}}<!-- 类型 --></span>
+        <span class="ui-flex-2">{{$t('exchange.buy_or_sell')}}<!-- 买卖 --></span>
+        <span class="ui-flex-2">{{$t('exchange.trade_pair')}}<!-- 交易对 --></span>
+        <span class="ui-flex-3 text-right">{{$t('exchange.entrust_price')}}<!-- 委托价格 -->/<br />{{$t('exchange.exchange_Transaction_price')}}<!-- 成交均价 --></span>
+        <span class="ui-flex-3 text-right">{{$t('exchange.entrust_number')}}<!-- 委托数量 -->/<br />{{$t('exchange.advanced_filled')}}<!-- 成交数量 --></span>
+        <span class="ui-flex-3 text-right">{{$t('exchange.entrust_total')}}<!-- 委托总量 --></span>
+        <span class="ui-flex-2 text-right" v-if="false">{{$t('exchange.advanced_fee')}}<!-- 手续费 --></span>
+        <span class="ui-flex-2 text-center">
+          <template v-if="active==='current'">{{$t('otc_exchange.otc_exchange_operating')}}<!-- 操作 --></template>
+          <template v-else>{{$t('exchange.exchange_status')}}<!--状态--></template>
+        </span>
+      </li>
+    </ul>
+
+    <div id="currentOrdersScroll" v-show="active==='current'">
+      <ul class="orders-books">
+        <li class="ui-flex" v-for="(item,index) in cdatas" :key="item.orderBookId">
+          <span class="ui-flex-2">{{new Date(Number(item.createdAt)).format()}}</span>
+          <span class="ui-flex-2">{{Number(item.price)===-1?$t('exchange.exchange_market_price'):$t('otc_exchange.otc_exchange_limited_price')}}</span>
+          <span class="ui-flex-2" :class="[Number(item.direction)===1 ? 'rang-down' : 'rang-up']">{{getType(item.direction)}}</span>
+          <span class="ui-flex-2">{{currentSymbol}}/{{baseSymbol}}</span>
+          <span class="ui-flex-3 text-right">{{getPrice(item.price)}}/<br />{{item.averagePrice}}</span>
+          <span class="ui-flex-3 text-right">{{toFixed(item.totalAmount)}}/<br />{{toFixed(item.finishedAmount)}} ({{getFinishedPercent(item)}}%)</span>
+          <span class="ui-flex-3 text-right">{{toFixed(item.totalAmount)}}</span>
+          <!-- <span class="ui-flex-2 text-right">0</span> -->
+          <span class="ui-flex-2 text-center f-c-main pointer" @click="cancelOrder(item.orderBookId, index)">{{$t('exchange.exchange_revoked')}}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div id="historyOrdersScroll" v-show="active==='history'">
+      <ul class="orders-books">
+        <li class="ui-flex" v-for="(item,index) in hdatas" :key="item.orderBookId">
+          <span class="ui-flex-2">{{new Date(Number(item.createdAt)).format()}}</span>
+          <span class="ui-flex-2">{{Number(item.price)===-1?$t('exchange.exchange_market_price'):$t('otc_exchange.otc_exchange_limited_price')}}</span>
+          <span class="ui-flex-2" :class="[Number(item.direction)===1 ? 'rang-down' : 'rang-up']">{{getType(item.direction)}}</span>
+          <span class="ui-flex-2">{{currentSymbol}}/{{baseSymbol}}</span>
+          <span class="ui-flex-3 text-right">{{getPrice(item.price)}}/<br />{{item.averagePrice}}</span>
+          <span class="ui-flex-3 text-right">{{toFixed(item.totalAmount)}}/<br />{{toFixed(item.finishedAmount)}} ({{getFinishedPercent(item)}}%)</span>
+          <span class="ui-flex-3 text-right">{{toFixed(item.totalAmount)}}</span>
+          <!-- <span class="ui-flex-2 text-right">0</span> -->
+          <span class="ui-flex-2 text-center" v-html="getStatue(item)"></span>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -165,6 +75,7 @@ import market from '@/api/market'
 import numUtils from '@/assets/js/numberUtils'
 import loading from '@/components/loading'
 import balance from '@/exchanges/market/balance'
+import IScroll from 'iscroll'
 export default {
   props: {
     valuationCout: null,
@@ -204,13 +115,27 @@ export default {
       cshowLoading: true,
       hdatas: [],
       marketId: 0, // 市场id
-      hshowLoading: true
+      hshowLoading: true,
+      checked: true,
+      currentOrdersScroll:null,
+      historyOrdersScroll:null
     }
   },
   computed: {
     ...mapGetters(['getApiToken'])
   },
   watch: {
+    active(_new){
+      if(this.active==='history'){
+        if(!this.historyOrdersScroll){
+          setTimeout(this.initHistoryOrdersScroll,0)
+        } else {
+          setTimeout(()=>{this.historyOrdersScroll.refresh()},0)
+        }
+      } else {
+        setTimeout(()=>{this.currentOrdersScroll.refresh()},0)
+      }
+    },
     getApiToken () {
       this.changeLogin()
     },
@@ -242,11 +167,28 @@ export default {
     })
     this.changeLogin()
   },
+  mounted(){
+    this.initCurrentOrdersScroll()
+  },
   beforeDestroy () {
     this.removeEvents('extrustEvent')
   },
   methods: {
     ...mapActions(['setEntrustPrices', 'addEvents', 'removeEvents', 'tiggerEvents']),
+    initCurrentOrdersScroll(){
+      this.currentOrdersScroll = new IScroll('#currentOrdersScroll',{
+        mouseWheel: true,
+        scrollbars: 'custom',
+        click:true
+      })
+    },
+    initHistoryOrdersScroll(){
+      this.historyOrdersScroll = new IScroll('#historyOrdersScroll',{
+        mouseWheel: true,
+        scrollbars: 'custom',
+        click:true
+      })
+    },
     extrustEvent (res) {
       // 已退出登录后，返回的数据不在处理。
       if (!this.getApiToken) {
@@ -255,9 +197,11 @@ export default {
       if (res && res.type === 'current') {
         // 当前委托
         this.cdatas = res.data
+        setTimeout(()=>{this.currentOrdersScroll && this.currentOrdersScroll.refresh()},0)
       } else if (res && res.type === 'history') {
         // 历史委托
         this.hdatas = res.data
+        setTimeout(()=>{this.historyOrdersScroll && this.historyOrdersScroll.refresh()},0)
       }
     },
     switchTab (tab, isShow) {
@@ -303,9 +247,9 @@ export default {
     },
     getType (type) {
       if (numUtils.BN(type).equals(numUtils.BN(1))) {
-        return this.$t('exchange.exchange_buys') // 买
+        return this.$t('exchange.exchange_buy') // 买
       } else if (numUtils.BN(type).equals(numUtils.BN(2))) {
-        return this.$t('exchange.exchange_sells') // 卖
+        return this.$t('exchange.exchange_sell') // 卖
       }
     },
     getPrice (price) {
@@ -320,11 +264,11 @@ export default {
         if (numUtils.BN(item.finishedAmount).gt(0)) {
           return this.$t('exchange.exchange_partial_transaction') // 部分成交
         }
-        return this.$t('exchange.exchange_cancelled') // 已撤销
+        return `<span class="rang-down">${this.$t('exchange.exchange_cancelled')}</span>` // 已撤销
       } else if (state === 2) {
         return this.$t('exchange.exchange_partial_transaction') // 部分成交
       } else if (state === 3 || state === 4) {
-        return this.$t('exchange.exchange_complete_transaction') // 完全成交
+        return `<span class="rang-up">${this.$t('exchange.exchange_complete_transaction')}</span>` // 完全成交
       } else {
         return '--'
       }
@@ -362,74 +306,85 @@ export default {
 }
 </script>
 
-<style scoped>
-.entrust{background-color: #fff;}
-.entrust.unfold{height: 200px;}
-.title{position: relative;overflow: auto;}
-.entrust.unfold .title{background:#FFF; border: 1px solid #e7e7e7;}
-.menu-arrow{position: absolute;top: 50%;left: 17px;width: 16px;height: 16px;margin-top: -8px;overflow: hidden;cursor: pointer;}
-.menu-arrow i{position: absolute;left: 0;font-size: 16px;color: #3A76E7;}
-.menu-arrow:hover i,
-.menu-arrow.unfold i{color: #3A76E7;}
-.entrust.unfold .menu-arrow:hover i,
-.entrust.unfold .menu-arrow.unfold i{color:#3A76E7;}
-.menu-title{
-  float: left;min-width: 76px;height: 38px;padding: 0 40px;margin-left: 2px;font-size: 16px;
-  line-height: 38px;color: #666;text-align: center;cursor: pointer; border-bottom: 2px solid transparent;
+<style lang="less" scoped>
+.market-watch-height {height: 360px;}
+.title-container {
+    font-size: 18px;
+    color: #f1f1f2;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height: 40px;
+    box-sizing:border-box;
+    >span {
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        border-bottom: 2px solid transparent;
+        color: #979799;
+        &.active {
+          color: #00a0e9;
+          border-bottom: 2px solid #00a0e9;
+        }
+    }
 }
-.menu-title:first-of-type{margin-left:40px;}
-.menu-title:hover,
-.menu-title.menu-selected{color: #3A76E7!important; }
-.menu-title.menu-selected {border-color: #3A76E7;}
-.menu-allrepeal{display: flex;align-items: center;float: right;height: 24px;margin-top: 8px;margin-right: 10px;cursor: pointer;}
-.menu-allrepeal a{color:#FFDE00;}
-.menu-allrepeal i{padding-left: 8px;margin-top: 1px;font-size: 14px;color: #FFDE00;}
-.menu-allrepeal:hover a,
-.menu-allrepeal:hover i{color: #FFDE00;}
-.menu-allrepeal.disabled a,
-.menu-allrepeal.disabled i{color: #a1a8bb;cursor: not-allowed;}
-.menu-allrepeal.disabled:hover a,
-.menu-allrepeal.disabled:hover i{color: #a1a8bb;}
-
-.panel{padding: 0 10px;}
-.list-header{margin-top: 10px;}
-.list{height: 120px;overflow-x: hidden;overflow-y: auto;}
-.list-header-item,
-.list-item{display: flex;}
-.list-header-item{color: #A1A1A1;}
-.list-item{color: #333;}
-.list-item:hover{background-color: #e7e7e7;}
-.list-col{flex: 1 1 auto;}
-.col-time,
-.col-etime{width: 170px;}
-.col-market{width: 140px;}
-.col-type{width: 100px;}
-.col-price,
-.col-aprice,
-.col-tvolume,
-.col-total,
-.col-tsum{width: 130px;}
-.col-operate{width: 80px;}
-.col-tquantity{width: 180px;}
-.col-state{width: 70px;}
-.col-type.bid{color: #F34246;}
-.col-type.ask{color: #23CD09}
-
-.list-col div:first-of-type{float: left;max-width: calc(100% - 10px);height: 20px;font-size: 12px;line-height: 20px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;}
-.col-operate div:first-of-type,
-.col-state div:first-of-type{float: right;}
-.col-operate div:first-of-type .cancel{color: #3A76E7;cursor: pointer;}
-.list-header-item .col-etime div:first-of-type{max-width: calc(100% - 28px);}
-.list-header-item .col-etime .tips{display: flex;justify-content: center;position: relative;float: left;width: 12px;height: 12px;margin: 4px 10px 0 6px;}
-.list-header-item .col-etime .tips-icon{width: 12px;height: 12px;font-weight: bold;font-size: 12px;line-height: 12px;color: #181b2a;text-align: center;background-color: #fff;border-radius: 50%;cursor: help;}
-.list-header-item .col-etime .tips-text{display: none;position: absolute;top: -30px;height: 24px;padding-left: 12px;padding-right: 12px;font-size: 12px;line-height: 24px;color: #181b2a;white-space: nowrap;background-color: #fff;border-radius: 4px;}
-.list-header-item .col-etime .tips-text:before{content: "";position: absolute;bottom: -6px;left: 50%;width: 0;height: 0;margin-left: -6px;border-width: 6px 6px 0 6px;border-style: solid;border-color: #fff transparent transparent transparent;}
-.list-header-item .col-etime .tips-icon:hover + .tips-text{display: block;}
-@media screen and (max-width: 1600px) and (max-height: 900px) {
-  .entrust.unfold{height: 180px;}
-  .menu-title{height: 28px;margin-left: 30px;font-size: 14px;line-height: 28px;}
-  .menu-allrepeal{margin-top: 3px;}
-  .list{height: 110px;}
-  .col-market{display: none;}
+.ui-radio {
+    display: inline-block;
+    overflow: hidden;
+    padding: 5px;
+    height: 30px;
+    line-height: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    vertical-align: middle;
+    .ui-radio-input {
+        display: none;
+    }
+    .ui-radio-icon {
+        border: 1px solid #4a4a4a;
+        width: 16px;
+        height: 16px;
+        position: relative;
+        display: inline-block;
+        &:after {
+            position: absolute;
+            background-color: #00a0e9;
+            left: 50%;
+            top: 50%;
+            width: 8px;
+            height: 8px;
+            content: "";
+            margin-left: -4px;
+            margin-top: -4px;
+            transform: scale(0);
+            transition: all .2s ease;
+        }
+    }
+    .ui-radio-input:checked+.ui-radio-icon:after {
+        transform: scale(1);
+    }
+    label {display: inline-block; vertical-align: middle;}
 }
+.orders-books {
+  font-size: 12px;
+  li{
+    width: 100%;
+    span {padding: 4px 0;}
+    span+span {padding: 4px;}
+  }
+  &.header span {
+    color: #979799;
+  }
+}
+#currentOrdersScroll, #historyOrdersScroll {
+  position:relative;
+  height: 270px;
+  overflow: hidden;
+  /deep/ .iScrollVerticalScrollbar{
+    position: absolute; z-index: 9999; width: 5px; bottom: 2px; top: 2px; right: 1px; overflow: hidden; pointer-events: none;
+    .iScrollIndicator {
+      box-sizing: border-box; position: absolute; background: rgba(151,151,153,.2); border-radius: 3px; width: 100%;
+    }
+  }
+}
+
 </style>
