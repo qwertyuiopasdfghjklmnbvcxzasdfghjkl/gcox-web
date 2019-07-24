@@ -1,57 +1,49 @@
 <template>
-  <div class="depth">
-        <div class="top">
-            <div class="top-layout">
-                <em class="top-stats-dots bid-color" :class="{active:active==='bid'}" @click="active='bid'"></em>
-                <em class="top-stats-dots ask-color" :class="{active:active==='ask'}" @click="active='ask'"></em>
-                <em class="top-stats-dots askbid-color" :class="{active:active==='askbid'}" @click="active='askbid'"></em>
-            </div>
-            <div class="top-right">
-                <span>{{$t('exchange.exchange_Deep_merger')}}<!--深度合并--></span>
-                <select class="top-select" v-model="mergeValue">
-                    <option v-for="n in getDigit" :key="n + fixedNumber - getDigit" :value="n + fixedNumber - getDigit">{{n + fixedNumber - getDigit}}{{$t('exchange.exchange_decimals')}}<!--位小数--></option>
-                </select>
-            </div>
-        </div>
-        <ul class="list">
-            <li class="list-header list-item">
-                <span class="list-col price" style="white-space:nowrap;">{{$t('exchange.exchange_price')}}<!--价格-->({{toCoin}})</span>
-                <span class="list-col amount">{{$t('exchange.exchange_amount')}}<!--数量-->({{fromCoin}})</span>
-                <span class="list-col sum">{{$t('exchange.exchange_Transaction_amount')}}<!--成交金额-->({{toCoin}})</span>
-            </li>
-        </ul>
-        <div ref="parentListAsk" class="list-ask" v-if="active !== 'bid'" :style="askStyle">
-            <ul ref="listAsk" class="list" :class="{'list-overflow': active === 'ask'}">
-                <li class="list-item ask" v-for="n in askLength" :key="n">
-                    <span class="list-col price price-ask ask-color">--</span>
-                    <span class="list-col amount">--</span>
-                    <span class="list-col sum">--</span>
-                </li>
-                <li class="list-item ask" :class="{'icon-arrow-right2':checkEntrustPrice(item)}" :style="listItemStyle(item, 'ask')" v-for="item in filterAsks" :key="item.orderBookId">
-                    <span @click="clickChangeValue(toFixed(item.price), 'price')" class="list-col price price-ask ask-color">{{toFixed(item.price,mergeValue)}}</span>
-                    <span @click="clickChangeValue(toFixed(item.price), 'price')" class="list-col amount" :title="getAmountTitle(item.avaliableAmount)">{{toFixed(item.avaliableAmount, Quantityaccu)}}</span>
-                    <span @click="clickChangeValue(item, 'total')" class="list-col sum">{{muldepth(item.price, item.avaliableAmount)}}</span>
-                </li>
-            </ul>
-        </div>
-        <div class="lastprice" :class="{'lastprice-aob':active==='ask','lastprice-ask':getLast24h.direction===2,'lastprice-bid':(getLast24h.direction===1||getLast24h.direction===0)}">
-            {{toFixed(this.getLast24h.close)}} {{curArrow}}
-            <em class="network-signal" :class="['signal-' + getNetworkSignal]" :title="getNetworkTitle"></em>
-        </div>
-        <div ref="parentListBid" class="list-bid" v-if="active !== 'ask'" :style="bidStyle">
-            <ul class="list" :class="{'list-overflow': active === 'bid'}">
-                <li class="list-item bid" :class="{'icon-arrow-right2':checkEntrustPrice(item)}" :style="listItemStyle(item, 'bid')" v-for="item in filterBids" :key="item.orderBookId" @click="clickChangeValue(item)">
-                    <span @click="clickChangeValue(toFixed(item.price), 'price')" class="list-col price price-bid bid-color">{{toFixed(item.price, mergeValue)}}</span>
-                    <span @click="clickChangeValue(toFixed(item.price), 'price')" class="list-col amount" :title="getAmountTitle(item.avaliableAmount)">{{toFixed(item.avaliableAmount, Quantityaccu)}}</span>
-                    <span @click="clickChangeValue(item, 'total')" class="list-col sum">{{muldepth(item.price, item.avaliableAmount)}}</span>
-                </li>
-                <li class="list-item bid" v-for="n in bidLength" :key="n">
-                    <span class="list-col price price-bid bid-color">--</span>
-                    <span class="list-col amount">--</span>
-                    <span class="list-col sum">--</span>
-                </li>
-            </ul>
-        </div>
+  <div class="block depth">
+    <div class="title-container clearfix">
+       <span class="pull-left">订单簿</span> 
+       <span class="small pull-left">最新价</span> 
+       <span class="small pull-left"><span>0.021236 BTC</span></span> 
+       <span class="small pull-right arrow-down" @click="showDigit=!showDigit"><em>{{mergeValue}}{{$t('exchange.exchange_decimals')}}<!--位小数--></em> 
+        <ul v-show="showDigit">
+         <li v-for="n in getDigit" :key="n + fixedNumber - getDigit" @click="mergeValue=(n + fixedNumber - getDigit)">{{n + fixedNumber - getDigit}}{{$t('exchange.exchange_decimals')}}<!--位小数--></li>
+        </ul></span> 
+       <span class="small pull-right">深度:</span>
+    </div>
+    <div class="order-book clearfix">
+      <ul class="header buy">
+        <li class="ui-flex">
+          <span class="green with-35">买入</span> 
+          <span class="text-center ui-flex-1">累计(BTC)</span> 
+          <span class="text-center ui-flex-1">数量</span> 
+          <span class="text-right ui-flex-1">价格(BTC)</span>
+        </li>
+      </ul>
+      <ul class="buy">
+        <li class="ui-flex bar pointer" :style="listItemStyle(item, 'bid')" v-for="item in filterBids" :key="item.orderBookId" @click="clickChangeValue(item)">
+          <span class="rang-up with-35">1</span> 
+          <span class="text-center ui-flex-1">0.000042</span> 
+          <span class="text-center ui-flex-1">0.002</span> 
+          <span class="text-right ui-flex-1">0.02116600</span>
+        </li>
+      </ul>
+      <ul class="header sell">
+        <li class="ui-flex">
+          <span class="ui-flex-1">价格(BTC)</span> 
+          <span class="text-center ui-flex-1">数量</span> 
+          <span class="text-center ui-flex-1">累计(BTC)</span> 
+          <span class="text-right red with-35">卖出</span>
+        </li>
+      </ul>
+      <ul class="sell">
+        <li class="ui-flex bar pointer" :style="listItemStyle(item, 'ask')" v-for="item in filterAsks" :key="item.orderBookId" @click="clickChangeValue(item)">
+          <span class="rang-up with-35">1</span> 
+          <span class="text-center ui-flex-1">0.000042</span> 
+          <span class="text-center ui-flex-1">0.002</span> 
+          <span class="text-right ui-flex-1">0.02116600</span>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -90,7 +82,8 @@ export default {
       mergeValue: 8,
       price: '0',
       active: 'askbid',
-      direction: null
+      direction: null,
+      showDigit:false
     }
   },
   computed: {
@@ -314,107 +307,96 @@ export default {
 }
 </script>
 
-<style scoped>
-.depth{flex:1;display:flex;flex-flow:column;min-height:0;padding:10px 10px 10px 0;background-color:#FFF;}
-.top{display:flex;justify-content:space-between;min-height:24px;height:24px;margin-bottom:10px;}
-.top-layout{display:flex;justify-content:space-between;width:90px;margin-left:20px;}
-.top-stats-dots{width:22px;height:22px;cursor:pointer;}
-.top-stats-dots.ask-color{background: url('../../assets/images/icon-sale.png') no-repeat center;}
-.top-stats-dots.bid-color{background: url('../../assets/images/icon-buy.png') no-repeat center;}
-.top-stats-dots.askbid-color{background: url('../../assets/images/icon-buy&sale.png') no-repeat center;}
-
-
-.top-right{color:#3A76E7;display:flex;}
-.top-right /deep/ span{display:inline-block;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-right:14px;}
-.top-select{height:18px;line-height:18px;color:#3A76E7;cursor: pointer; background-image: url('../../assets/images/arrow-down-blue.png');}
-
-.list-bid,.list-ask{width:100%;height:calc((100% - 104px) / 2);overflow-x:visible;overflow-y:hidden;display:flex;flex-flow:column;}
-.list-ask{justify-content:flex-end;}
-.list{width:calc(100% - 10px);padding-left:10px;}
-.list-overflow{overflow:auto;max-height:100%;}
-.list-item{
-  display:flex;height:20px;line-height:20px;font-size:12px;color:#333333;cursor:pointer;
-  background-size:0 98%;background-repeat:no-repeat;background-position:center right;
+<style lang="less" scoped>
+.block {
+    background: #19181c;
+    margin-bottom: 4px;
+    padding: 0 10px;
+    font-size: 12px;
+    color: #f1f1f2;
 }
-.list-header{color:#A1A1A1!important;}
-.list-item.bid:hover,.list-item.ask:hover{font-weight:bold;}
-.list-item .ask-color{color:#4A4A4A;}
-.list-item .bid-color{color:#4A4A4A;}
-.list-item:hover .ask-color{color:#313131;}
-.list-item:hover .bid-color{color:#313131;}
-.list-item.bid:hover /deep/ .amount,.list-item.ask:hover /deep/ .amount{color:#333333;}
-.list-item.bid:hover /deep/ .sum,.list-item.ask:hover /deep/ .sum{color:#333333;}
-.list-item.ask{background-image:url(../../assets/images/depth-bid-bg.png);}
-.list-item.bid{background-image:url(../../assets/images/depth-ask-bg.png);}
-.list-col{flex: 1 1 auto;}
-.price,.price-bid,.price-ask,.amount,.sum{white-space:nowrap;text-overflow:ellipsis;overflow:hidden;}
-.price{width:110px;padding:0 10px;}
-.amount{width:110px;padding-right:10px;text-align:center;}
-.sum{width:100px;text-align:right;}
-/*.sum{text-align:right;}*/
-.lastprice{
-  position:relative;width:calc(100% + 10px);height:30px;margin:10px 0 10px 10px;font-weight:bold;font-size:18px;line-height:30px;
-  color:#FFFFFF;text-align:center;background-color:#fff;margin-left:0px;
+.title-container {
+    font-size: 18px;
+    color: #f1f1f2;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    height: 40px;
+    box-sizing: border-box;
+    >span {
+      display: inline-block;
+      height: 30px;
+      line-height: 30px;
+      border-bottom: 2px solid transparent;
+      &+span {
+          margin-left: 40px;
+      }
+      &.small {
+          font-size: 12px;
+          margin-left: 20px;
+          &+.small {
+              margin-left: 10px;
+          }
+          &.arrow-down {
+              display: inline-block;
+              width: 60px;
+              cursor: pointer;
+              background: url('../../assets/img/arrow-down.png') no-repeat 94% 50%;
+              background-size: 12px;
+              padding: 0 20px 0 5px;
+              position: relative;
+              background-color: #242328;
+              >ul {
+                  width: 100%;
+                  position: absolute;
+                  left: 0;
+                  z-index: 100;
+                  background: #242328;
+                  padding-left: 5px;
+                  box-sizing:border-box;
+                  li:hover {
+                    color: #00a0e9;
+                  }
+              }
+          }
+      }
+      
+  }
 }
-.lastprice-ask{color:#F34246;}
-.lastprice-bid{color:#23CD09;}
-.lastprice-aob{margin-bottom:0px;}
-.lastprice-cny{display:none;font-weight:normal;font-size:16px;}
-/*网络信号*/
-.network-signal{border-right:4px solid #23CD09;height:20px;display:flex;flex:initial;position:absolute;right:10px;top:calc(50% - 10px);align-items:flex-end;cursor: pointer;}
-.network-signal::before,.network-signal::after{content:"";display:flex;width:4px;height:8px;background-color:#03c087;margin-right:2px;}
-.network-signal::after{height:14px;margin-right:2px;}
-/*信号中*/
-.signal-1{border-right-color:#717788;}
-.signal-1::after,.signal-1::before{background-color:#ffc81f;}
-/*信号弱*/
-.signal-2{border-right-color:#717788;}
-.signal-2::after{background-color:#717788;}
-.signal-2::before{background-color:#de6941;}
-/*无信号*/
-.signal-3{border-right-color:#717788;}
-.signal-3::after,.signal-3::before{background-color:#717788;}
-.icon-arrow-right2{position:relative;}
-.icon-arrow-right2::before{position:absolute;left:-10px;z-index:1;color:#fff;}
-.ask.icon-arrow-right2::before{color:#ffd21e;}
-.bid.icon-arrow-right2::before{color:#ffd21e;}
-@media screen and (min-width: 1800px) {
-  .top-select{width:104px;}
-}
-@media screen and (max-width: 1600px) {
-  .price{width:107px;}
-  .amount{width:107px;}
-  .sum{width:96px;}
-}
-@media screen and (max-width: 1500px) {
-  .price{width:104px;}
-  .amount{width:104px;}
-  .sum{width:92px;}
-}
-@media screen and (max-width: 1400px) {
-  .price{width:101px;}
-  .amount{width:101px;}
-  .sum{width:88px;}
-  .top-right span{margin-right: 7px;}
-}
-@media screen and (max-width: 1300px) {
-  .top-layout{width:80px;}
-  .price{width:98px;}
-  .amount{width:98px;}
-  .sum{width:84px;}
-}
-@media screen and (max-width: 1200px) {
-  .top-stats-dots{width:16px;height:16px;}
-  .top-stats-dots.ask-color::after,
-  .top-stats-dots.bid-color::after,
-  .top-stats-dots.askbid-color::after{width:14px;height:14px;}
-  .top-stats-dots.askbid-color::before{margin-bottom:-16px;border-width:8px;}
-  .askbid-color::before{border-width:8px;}
-  .top-right{margin-right:0;}
-  .top-layout{width:60px;}
-  .top-select{width:80px;}
-  .price{width:74px;}
-  .amount{width:80px;}
-  .sum{width:80px;}
+.order-book {
+    background: #19181c;
+    font-size: 12px;
+    ul {
+        float: left;
+        width: 50%;
+        overflow: hidden;
+        box-sizing: border-box;
+        &:not(.header) li {line-height: 25px;}
+        .with-35 {
+            width: 35px;
+        }
+    }
+    ul.buy {
+        border-right: 2px solid #19181c;
+        li.bar {
+            background: url('../../assets/img/green_bar.png') no-repeat right center;
+        }
+    }
+    ul.sell {
+        border-left: 2px solid #19181c;
+        li.bar {
+            background: url('../../assets/img/red_bar.png') no-repeat left center;
+        }
+    }
+    ul.header span {
+        font-weight: 400;
+        color: #979799;
+        padding: 10px 4px;
+        &.green {color: #1bc863;}
+        &.red {color: #f1304a;}
+    }
+    ul li {
+      position: relative;
+      span {padding: 4px; position: relative; z-index: 10;}
+    }
 }
 </style>

@@ -58,7 +58,7 @@ export default {
       locked: false,
       gtLocked: false,
       showPass:false,
-      needGoogleCode:true,
+      needGoogleCode:false,
       formData: {
         username: '',
         password: '',
