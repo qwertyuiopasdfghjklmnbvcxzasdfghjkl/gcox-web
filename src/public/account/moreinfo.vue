@@ -157,7 +157,6 @@
       if (this.symbol === 'EOS' && !this.EOS_MEMO) {
         this.getEosAddress()
       }
-      console.log(this.item)
     },
     methods: {
       ...mapGetters(['getUserInfo', 'getLang']),

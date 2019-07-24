@@ -13,7 +13,7 @@
           <div class="f-fr">
             <p>{{$t('usercontent.user68')}}</p>
             <div>
-              <button>{{$t('usercontent.user69')}} <!--地址管理--></button>
+              <button @click="address()">{{$t('usercontent.user69')}} <!--地址管理--></button>
             </div>
             <div class="icon-checkbox f-fl" @click.stop="hideZero=!hideZero">
               <em :class="[hideZero?'icon-checkbox-checked':'icon-checkbox-unchecked']"></em>
@@ -102,7 +102,6 @@
                           @updateMyAssets="getList"/>
               </div>
             </li>
-
           </ul>
 
           <div class="echart" v-if="!pandectShow">
@@ -356,6 +355,9 @@
       },
       toFixed (value, fixed) {
         return numUtils.BN(value || 0).toFixed(fixed === undefined ? 8 : fixed).toMoney()
+      },
+      address(){
+        this.$router.push('/account/addressManage')
       }
     }
   }

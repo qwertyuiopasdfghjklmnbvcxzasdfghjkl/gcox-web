@@ -16,6 +16,7 @@
   import history from './historyrecord'
   import transaction from './transaction'
   import adresscava from './adresscava'
+  import addressManage from './addressManage'
 
   export default {
     name: 'index',
@@ -30,7 +31,8 @@
       digassets,
       history,
       transaction,
-      adresscava
+      adresscava,
+      addressManage
     },
     watch: {
       '$route' (to, from) {
