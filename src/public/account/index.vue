@@ -15,6 +15,7 @@
   import digassets from './digassets'
   import history from './historyrecord'
   import transaction from './transaction'
+  import adresscava from './adresscava'
 
   export default {
     name: 'index',
@@ -28,11 +29,13 @@
       pandect,
       digassets,
       history,
-      transaction
+      transaction,
+      adresscava
     },
     watch: {
       '$route' (to, from) {
         this.active = this.$route.params.menu || 'pandect'
+        console.log(this.$route.params.with)
       }
     },
     methods: {
