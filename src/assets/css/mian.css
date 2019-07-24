@@ -70,6 +70,8 @@ div.hopscotch-bubble h3,div.hopscotch-bubble .hopscotch-content{color:#aeb7d0;}
 .ui-flex-center {justify-content:center;}
 .ui-flex-column {flex-direction: column;}
 .ui-flex-1 {flex: 1; min-width: 0;}
+.ui-flex-2 {flex: 2; min-width: 0;}
+.ui-flex-3 {flex: 3; min-width: 0;}
 .ellipsis {white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
 .ellipsis-4 {
     overflow: hidden;
@@ -88,6 +90,7 @@ div.hopscotch-bubble h3,div.hopscotch-bubble .hopscotch-content{color:#aeb7d0;}
 	font-family:'ethnocentric';
 	src: url('./fonts/ethnocentric rg.ttf') format('truetype');
 }
+.inline {display: inline-block; vertical-align: middle;}
 .efont{font-family: 'ethnocentric','Microsoft YaHei';}
 .rang-down {color: #f1304a;}
 .rang-up {color: #1bc863;}
