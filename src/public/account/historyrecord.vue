@@ -20,7 +20,7 @@
         <li>
           <span class="time">{{$t('account.user_center_history_receiveTime')}}<!--到账时间--></span>
           <span class="currency">{{$t('account.user_center_history_coin')}}<!--币种--></span>
-          <span class="id">{{$t('account.user_center_history_tradeID')}}<!--交易ID--></span>
+          <!--<span class="id">{{$t('account.user_center_history_tradeID')}}&lt;!&ndash;交易ID&ndash;&gt;</span>-->
           <span class="address">{{$t('account.user_center_history_address')}}<!--转入地址--></span>
           <span class="progress">{{$t('account.user_center_history_progress')}}<!--区块进度--></span>
           <span class="quantity">{{$t('account.user_center_history_amount')}}<!--数量--></span>
@@ -31,7 +31,7 @@
         <li v-for="(item, index) in rechargeHistory" :key="index">
           <span class="time">{{item.competedAt ? new Date(Number(item.competedAt)).format() : '--'}}</span>
           <span class="currency">{{item.symbol}}</span>
-          <span class="id" :title="item.txId">{{item.txId}}</span>
+          <!--<span class="id" :title="item.txId">{{item.txId}}</span>-->
           <span class="address" :title="item.fromAddress">{{item.fromAddress}}</span>
           <span class="progress">{{Math.min(item.confirmation < 0 ? 1 : item.confirmation, item.blockConfirm)}}/{{item.blockConfirm}}</span>
           <span class="quantity">{{toFixed(item.amount)}}</span>
@@ -240,7 +240,7 @@
 <style scoped lang="less">
   .history-record{
     padding: 14px 18px 60px;
-    background-color: #19181c;
+    background-color: rgba(27, 26, 31, 0.9);
     padding-bottom: 30px;
     color: #d8d8da;
     .history_nav{
@@ -268,6 +268,7 @@
     /*background-color: #FFF;*/
     /*border-radius: 4px;*/
     /*box-shadow: 0 1px 3px #e2e2e2;*/
+    margin-top: 20px;
   }
 
   .recharge h3, .withdrawal h3 {
@@ -303,7 +304,7 @@
   }
 
   .recharge ul.header {
-    background: #F5F5F5;
+    /*background: #F5F5F5;*/
   }
 
   .recharge ul li {
@@ -311,15 +312,14 @@
     justify-content: space-between;
     min-height: 40px;
     line-height: 40px;
-    border-bottom: 1px solid #F0F0F0;
   }
 
   .recharge ul.header li {
     border-bottom: none;
   }
 
-  .recharge ul li span {
-    color: #666;
+  .recharge ul.header li span {
+    color: #979799;
   }
 
   .recharge ul li span.id {

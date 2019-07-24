@@ -482,7 +482,7 @@
   }
 
   .delegate /deep/ .filtrate .hide a, .delegate /deep/ .filtrate .hide:hover a {
-    color: #333;
+    color: #979799;
   }
 
   .delegate /deep/ .filtrate .disabled a,
@@ -508,16 +508,16 @@
   }
 
   .delegate /deep/ .record ul {
-    padding-left: 20px;
-    padding-right: 20px;
+    /*padding-left: 20px;*/
+    /*padding-right: 20px;*/
   }
 
   .delegate /deep/ .record ul.header {
-    background: #F5F5F5;
+    /*background: #F5F5F5;*/
   }
 
   .delegate /deep/ .record ul li {
-    border-bottom: 1px solid #eee;
+    /*border-bottom: 1px solid #eee;*/
   }
 
   .delegate /deep/ .record ul.header li {
@@ -529,11 +529,14 @@
     height: 40px;
     line-height: 40px;
     font-size: 12px;
-    color: #555;
+    /*color: #555;*/
     white-space: nowrap;
     text-overflow: ellipsis;
     vertical-align: top;
     overflow: hidden;
+  }
+  .delegate .record ul.header li span {
+    color: #979799
   }
 
   .delegate /deep/ .entrust-current ul li span.time {
@@ -613,7 +616,10 @@
   }
 
   .delegate /deep/ .record ul li.list span.operation a {
-    color: #8DB9FF;
+    background: #2E2C3C;
+    padding: 4px 14px;
+    cursor: pointer;
+    color: #e7e7e7;
   }
 
   .delegate /deep/ .record ul li.list span.operation a:hover {

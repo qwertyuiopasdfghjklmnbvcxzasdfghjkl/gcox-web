@@ -363,11 +363,9 @@
   }
 
   .curreny /deep/ .record ul.header {
-    background: #F5F5F5;
   }
 
   .curreny /deep/ .record ul li {
-    border-bottom: 1px solid #eee;
   }
 
   .curreny /deep/ .record ul.header li {
@@ -379,11 +377,14 @@
     height: 40px;
     line-height: 40px;
     font-size: 12px;
-    color: #555;
+    color: #ffffff;
     white-space: nowrap;
     text-overflow: ellipsis;
     vertical-align: top;
     overflow: hidden;
+  }
+  .curreny /deep/ .record ul.header li span{
+    color:#979799
   }
 
   .curreny /deep/ .record ul li span.time {
