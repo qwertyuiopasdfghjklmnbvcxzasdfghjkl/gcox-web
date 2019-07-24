@@ -223,7 +223,6 @@
         }
       },
       echart (data) {
-        console.log(data)
         let name = []
         let arr = []
         data.filter(res => {
@@ -235,7 +234,6 @@
         })
         this.polar.legend.data = name
         this.polar.series[0].data = arr
-        console.log(name)
       }
     },
     created () {
@@ -245,6 +243,7 @@
       }
       this.getList()
       this.getUserState()
+      console.log(this.getUserInfo())
     },
     methods: {
       ...mapGetters(['getUserInfo', 'getLang']),

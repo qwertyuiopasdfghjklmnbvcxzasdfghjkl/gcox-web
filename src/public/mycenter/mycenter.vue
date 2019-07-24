@@ -82,6 +82,7 @@
   import Buttonbox from '../../components/formel/buttonbox'
   import gooleTip from './mycenter/google-tip'
   import googleVerify from './mycenter/google-verify'
+  import userApi from '@/api/user'
 
   export default {
     components: {
@@ -99,6 +100,7 @@
     watch: {},
     created () {
       this.examine()
+      console.log(this.getUserInfo)
     },
     methods: {
       examine () {
@@ -122,12 +124,22 @@
             if (i === 1) {
               console.log(data)
               userUtils.bindGoogleAuth(data, msg => {
+                userApi.getUserInfo((userInfo) => {
+                  if (this.getApiToken) {
+                    this.setUserInfo(userInfo)
+                  }
+                })
                 Vue.$koallTipBox({icon: 'success', message: this.$t('error_code.' + msg), delay: 3000})
               }, msg => {
                 Vue.$koallTipBox({icon: 'notification', message: this.$t('error_code.' + msg), delay: 3000})
               })
             } else {
               userUtils.unbindGoogleAuth(data, res => {
+                userApi.getUserInfo((userInfo) => {
+                  if (this.getApiToken) {
+                    this.setUserInfo(userInfo)
+                  }
+                })
                 Vue.$koallTipBox({icon: 'success', message: this.$t('error_code.' + res), delay: 3000})
               }, msg => {
                 Vue.$koallTipBox({icon: 'notification', message: this.$t('error_code.' + msg), delay: 3000})
