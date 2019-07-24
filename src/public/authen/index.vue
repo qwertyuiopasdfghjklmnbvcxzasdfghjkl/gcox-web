@@ -3,19 +3,19 @@
   <div class="authentication">
     <div class="cont">
       <img :src="imgSrc[getUserInfo.kycState]"/>
-      <div v-if="getUserInfo.kycState === 0">
-        <p>{{$t('usercontent.user48')}}</p>
-        <span @click="submitKYC()" v-html="$t('usercontent.user49')"></span>
-      </div>
-      <div v-if="getUserInfo.kycState === 1">
+      <div v-if="getUserInfo.kycState === -1">
         <p class="f-c-green">{{$t('usercontent.user46')}}</p>
         <span>{{$t('usercontent.user47')}}</span>
       </div>
-      <div v-if="getUserInfo.kycState === 2">
+      <div v-if="getUserInfo.kycState === 0">
+        <p>{{$t('usercontent.user85')}}</p>
+        <span @click="submitKYC()" v-html="$t('usercontent.user48')"></span>
+      </div>
+      <div v-if="getUserInfo.kycState === 1">
         <p class="f-c-green">{{$t('usercontent.user42')}}</p>
         <span>{{$t('usercontent.user43')}}</span>
       </div>
-      <div v-if="getUserInfo.kycState === 3">
+      <div v-if="getUserInfo.kycState === -2 || getUserInfo.kycState === -3">
         <p class="f-c-danger">{{$t('usercontent.user44')}}</p>
         <span @click="submitKYC()" v-html="$t('usercontent.user43')"></span>
       </div>
@@ -31,10 +31,14 @@
   export default {
     data () {
       return {
-        imgSrc: [require('../../assets/img/userContent/authentication01.png'),
-          require('../../assets/img/userContent/authentication02.png'),
-          require('../../assets/img/userContent/authentication03.png'),
-          require('../../assets/img/userContent/authentication04.png')]
+        // 0未通过，1已通过，-1审核中，-2错误，-3拒绝
+        imgSrc: {
+          '0': require('../../assets/img/userContent/authentication01.png'),
+          '1': require('../../assets/img/userContent/authentication03.png'),
+          '-1': require('../../assets/img/userContent/authentication02.png'),
+          '-2': require('../../assets/img/userContent/authentication04.png'),
+          '-3': require('../../assets/img/userContent/authentication04.png'),
+        }
       }
     },
     computed: {
@@ -59,6 +63,9 @@
     .cont {
       text-align: center;
       padding: 50px;
+      p{
+        line-height: 32px;
+      }
     }
   }
 </style>
