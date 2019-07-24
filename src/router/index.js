@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Index from '@/public'
 import exchange from './exchange'
 import otc from './otc'
+import cms from './cms'
 import login from '@/public/login'
 import register from '@/public/register'
 import findpwd from '@/public/findpwd'
@@ -100,5 +101,5 @@ export default new Router({
         name: 'home'
       }
     }
-  ].concat(exchange, otc)
+  ].concat(exchange, otc, cms)
 })

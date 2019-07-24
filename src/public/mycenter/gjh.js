@@ -79,6 +79,12 @@ let gjh = {
     "user76": "180天",
     "user77": "待审核",
     "user78": "成功",
+    "user79": "公告",
+    "user80": "资讯",
+    "user81": "关于我们",
+    "user82": "交易",
+    "user83": "帮助中心",
+    "user84": "条款说明",
   }
 }
 export default gjh

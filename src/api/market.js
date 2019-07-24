@@ -11,13 +11,25 @@ let market = {}
 const getCmsList = function (data, success, error) {
   api.post(`${domain}/api/v1/cms/list`, data, (res) => {
     if (res.rst === 1) {
-      success && success(res.data)
+      success && success(res.data, res.total)
     } else {
       error && error(res.msg)
     }
   }, error)
 }
 market.getCmsList = getCmsList
+
+// 获取cms详情
+const getCmsDetail = function (data, success, error) {
+  api.get(`${domain}/api/v1/cms/detail/${data}`, (res) => {
+    if (res.rst === 1) {
+      success && success(res.data)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+market.getCmsDetail = getCmsDetail
 
 // 市场列表 获取所有产品
 const marketList = function (success, error) {
