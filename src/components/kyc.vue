@@ -12,9 +12,7 @@
   let domain = ''
   export default {
     name: 'kyc',
-    data () {
-      return {redirect_url: ''}
-    },
+    props:["redirect_url"],
     created () {
       window.onJumioResult = data => {
         if (data.payload.value === 'success' || data.payload.value === 'error') {
@@ -38,15 +36,6 @@
         }
       }
 
-      api.get(`${domain}api/v1/gcox/user/initiate-kyc`, (res) => {
-        if (res.rst === 1) {
-          this.redirect_url = res.data.redirect_url
-        } else {
-          Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${res.msg}`)})
-        }
-      }, (msg) => {
-        Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
-      })
     }
   }
 </script>
