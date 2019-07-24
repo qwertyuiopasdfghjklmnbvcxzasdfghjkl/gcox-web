@@ -1,46 +1,46 @@
 <template>
   <div class="block depth">
     <div class="title-container clearfix">
-       <span class="pull-left">订单簿</span> 
-       <span class="small pull-left">最新价</span> 
-       <span class="small pull-left"><span>0.021236 BTC</span></span> 
+       <span class="pull-left">{{$t('exchange.order_book')}}<!-- 订单簿 --></span> 
+       <span class="small pull-left">{{$t('exchange.exchange_last_price')}}<!-- 最新价 --></span> 
+       <span class="small pull-left"><span>{{toFixed(this.getLast24h.close)}} {{toCoin}}</span></span> 
        <span class="small pull-right arrow-down" @click="showDigit=!showDigit"><em>{{mergeValue}}{{$t('exchange.exchange_decimals')}}<!--位小数--></em> 
         <ul v-show="showDigit">
          <li v-for="n in getDigit" :key="n + fixedNumber - getDigit" @click="mergeValue=(n + fixedNumber - getDigit)">{{n + fixedNumber - getDigit}}{{$t('exchange.exchange_decimals')}}<!--位小数--></li>
         </ul></span> 
-       <span class="small pull-right">深度:</span>
+       <span class="small pull-right">{{$t('exchange.exchange_Deep_merger')}}:<!--深度合并--></span>
     </div>
     <div class="order-book clearfix">
       <ul class="header buy">
         <li class="ui-flex">
-          <span class="green with-35">买入</span> 
-          <span class="text-center ui-flex-1">累计(BTC)</span> 
-          <span class="text-center ui-flex-1">数量</span> 
-          <span class="text-right ui-flex-1">价格(BTC)</span>
+          <span class="green with-35">{{$t('exchange.exchange_buy')}}<!-- 买入 --></span> 
+          <span class="text-center ui-flex-1">{{$t('exchange.exchange_Transaction_amount')}}({{toCoin}})<!--成交金额--></span> 
+          <span class="text-center ui-flex-1">{{$t('exchange.exchange_amount')}} ({{fromCoin}})<!--数量--></span> 
+          <span class="text-right ui-flex-1">{{$t('exchange.exchange_price')}}({{toCoin}})<!--价格--></span>
         </li>
       </ul>
       <ul class="buy">
-        <li class="ui-flex bar pointer" :style="listItemStyle(item, 'bid')" v-for="item in filterBids" :key="item.orderBookId" @click="clickChangeValue(item)">
-          <span class="rang-up with-35">1</span> 
-          <span class="text-center ui-flex-1">0.000042</span> 
-          <span class="text-center ui-flex-1">0.002</span> 
-          <span class="text-right ui-flex-1">0.02116600</span>
+        <li class="ui-flex bar pointer" :style="listItemStyle(item, 'bid')" v-for="(item,index) in filterBids" :key="item.orderBookId" @click="clickChangeValue(item)">
+          <span class="rang-up with-35">{{index+1}}</span> 
+          <span class="text-center ui-flex-1" @click="clickChangeValue(item, 'total')">{{muldepth(item.price, item.avaliableAmount)}}</span> 
+          <span class="text-center ui-flex-1" @click="clickChangeValue(toFixed(item.price), 'price')">{{toFixed(item.avaliableAmount, Quantityaccu)}}</span> 
+          <span class="text-right ui-flex-1" @click="clickChangeValue(toFixed(item.price), 'price')">{{toFixed(item.price,mergeValue)}}</span>
         </li>
       </ul>
       <ul class="header sell">
         <li class="ui-flex">
-          <span class="ui-flex-1">价格(BTC)</span> 
-          <span class="text-center ui-flex-1">数量</span> 
-          <span class="text-center ui-flex-1">累计(BTC)</span> 
-          <span class="text-right red with-35">卖出</span>
+          <span class="ui-flex-1">{{$t('exchange.exchange_price')}}({{toCoin}})<!--价格--></span> 
+          <span class="text-center ui-flex-1">{{$t('exchange.exchange_amount')}} ({{fromCoin}})<!--数量--></span> 
+          <span class="text-center ui-flex-1">{{$t('exchange.exchange_Transaction_amount')}}({{toCoin}})<!--成交金额--></span> 
+          <span class="text-right red with-35">{{$t('exchange.exchange_sell')}}<!-- 卖出 --></span>
         </li>
       </ul>
       <ul class="sell">
-        <li class="ui-flex bar pointer" :style="listItemStyle(item, 'ask')" v-for="item in filterAsks" :key="item.orderBookId" @click="clickChangeValue(item)">
-          <span class="rang-up with-35">1</span> 
-          <span class="text-center ui-flex-1">0.000042</span> 
-          <span class="text-center ui-flex-1">0.002</span> 
-          <span class="text-right ui-flex-1">0.02116600</span>
+        <li class="ui-flex bar pointer" :style="listItemStyle(item, 'ask')" v-for="(item,index) in filterAsks" :key="item.orderBookId" @click="clickChangeValue(item)">
+          <span class="rang-up with-35" @click="clickChangeValue(toFixed(item.price), 'price')">{{toFixed(item.price,mergeValue)}}</span> 
+          <span class="text-center ui-flex-1" @click="clickChangeValue(toFixed(item.price), 'price')">{{toFixed(item.avaliableAmount, Quantityaccu)}}</span> 
+          <span class="text-center ui-flex-1" @click="clickChangeValue(item, 'total')">{{muldepth(item.price, item.avaliableAmount)}}</span> 
+          <span class="text-right ui-flex-1">{{index+1}}</span>
         </li>
       </ul>
     </div>
@@ -78,10 +78,8 @@ export default {
     return {
       asks: [],
       bids: [],
-      mergeLen: 0,
       mergeValue: 8,
       price: '0',
-      active: 'askbid',
       direction: null,
       showDigit:false
     }
@@ -96,12 +94,6 @@ export default {
     },
     toCoin () {
       return this.baseSymbol
-    },
-    bidStyle () {
-      return this.active === 'bid' ? {height: 'calc(100% - 94px)'} : {}
-    },
-    askStyle () {
-      return this.active === 'ask' ? {height: 'calc(100% - 94px)'} : {}
     },
     filterAsks () {
       let asks = this.mergeDatas(this.asks)
@@ -127,12 +119,6 @@ export default {
     bidMax () {
       return this.getMaxAmount(this.filterBids)
     },
-    askLength () {
-      return Math.max(this.mergeLen - this.filterAsks.length, 0)
-    },
-    bidLength () {
-      return Math.max(this.mergeLen - this.filterBids.length, 0)
-    },
     keysEntrust () {
       let keys = {}
       this.getEntrustPrices.forEach((item) => {
@@ -143,33 +129,11 @@ export default {
       })
       return keys
     },
-    curArrow () {
-      if (Number(this.getLast24h.direction) === 2) {
-        return '↓'
-      } else if (Number(this.getLast24h.direction) === 1) {
-        return '↑'
-      } else {
-        return null
-      }
-    },
     symbol () {
       return `${this.currentSymbol}${this.baseSymbol}`
     },
-    getNetworkTitle () {
-      if (!this.getNetworkSignal) {
-        return this.$t('public.market_status_running')
-      } else {
-        return this.$t('public.market_status_delay')
-      }
-    }
   },
   watch: {
-    filterAsks () {
-      this.resize()
-    },
-    active () {
-      this.resize()
-    },
     symbol () {
       this.getDepthList()
     }
@@ -182,11 +146,9 @@ export default {
       })
     })
     this.getDepthList()
-    window.addEventListener('resize', this.resize, false)
   },
   beforeDestroy () {
     this.removeEvents('depthEvent')
-    window.removeEventListener('resize', this.resize, false)
   },
   methods: {
     ...mapActions(['setEntrustNewPrice', 'addEvents', 'removeEvents', 'tiggerEvents']),
@@ -264,12 +226,6 @@ export default {
       let direction = String(item.direction)
       let key = price + '_' + direction
       return this.keysEntrust[key]
-    },
-    resize () {
-      this.$nextTick(() => {
-        let h = this.active === 'ask' ? this.$refs.parentListAsk.clientHeight : this.$refs.parentListBid.clientHeight
-        this.mergeLen = Math.floor(h / 20)
-      })
     },
     clickChangeValue (item, type) {
       if (type !== 'total') {
@@ -363,6 +319,8 @@ export default {
   }
 }
 .order-book {
+    height: 450px;
+    overflow: hidden;
     background: #19181c;
     font-size: 12px;
     ul {
