@@ -24,7 +24,8 @@
 </template>
 
 <script>
-  import userUtils from '@/api/individual'
+  import utils from '@/assets/js/utils'
+  import kyc from '@/components/kyc'
   import {mapGetters} from 'vuex'
 
   export default {
@@ -43,6 +44,7 @@
     },
     methods: {
       submitKYC () {
+        utils.setDialog(kyc)
       }
     }
   }
