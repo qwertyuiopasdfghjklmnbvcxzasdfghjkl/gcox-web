@@ -39,6 +39,7 @@
   </div>
 </template>
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import left from '@/exchanges/market/left'
 import kline from '@/exchanges/market'
 import business from '@/exchanges/market/business'
@@ -48,7 +49,6 @@ import entrust from '@/exchanges/market/entrust'
 import KLineWebSocket from '@/assets/js/websocket'
 import marketApi from '@/api/market'
 import numUtils from '@/assets/js/numberUtils'
-import { mapGetters, mapActions } from 'vuex'
 import config from '@/assets/js/config'
 import valuation from '@/components/valuation'
 
