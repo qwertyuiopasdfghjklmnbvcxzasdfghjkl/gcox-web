@@ -6,14 +6,14 @@
         </div>
         <div class="balance ui-flex ui-flex-justify">
           <div><span>{{isBuy ? baseSymbol : currentSymbol}}</span> <span>{{$t('exchange.exchange_balance')}}<!--余额-->：</span> <span>{{toFixed(isBuy ? toBalance.availableBalance : fromBalance.availableBalance).toMoney()}}</span></div>
-          <button type="button" class="normal pull-right">充值</button>
+          <router-link :to="{name:'account_menu'}" class="normal pull-right" tag="button">{{$t('account.estimated_value_deposit')}}<!-- 充值 --></router-link>
         </div>
         <p class="exhange-rate">{{$t('public.fee_rate')}}：{{rateData || 0.01}}%<!--手续费率--></p>
-        <form name="orderForm">
-          <div class="input-group">
-           <label>类型</label> 
-           <div class="el-select">
-              <input type="text" readonly="readonly" autocomplete="off" placeholder="">
+        <form name="orderForm" class="mt10">
+          <div class="input-group no-margin">
+           <label>{{$t('business.TYPE')}}<!-- 类型 --></label> 
+           <div class="el-select" :class="{active:showTypeSelector}" @click="toggleEntrustType">
+              <input type="text" readonly="readonly" autocomplete="off" placeholder="" :value="active==='limit'?$t('exchange.exchange_limit'):$t('exchange.exchange_market')">
               <span class="input__suffix"><i class="icon-arrow-down2"></i></span>
               <ul class="el-select-item">
                 <li :class="{selected:active==='limit'}" @click="switchTab('limit')">{{$t('exchange.exchange_limit')}}<!--限价委托--></li>
@@ -21,36 +21,33 @@
               </ul>
            </div>
           </div> 
-          <div class="input-group ui-clear">
-           <label for="buyLimitPrice">价格</label> 
-           <label for="buyLimitPrice" class="code">BTC</label> 
-           <input id="buyLimitPrice" name="buyLimitPrice" maxlength="25" disabled="disabled" /> 
-           <p class="error-box gray-f"></p> 
-           <p class="error-box" style="display: none;"></p>
+          <div class="input-group">
+           <label for="Price">{{$t('exchange.exchange_price')}}<!--价格--></label> 
+           <label for="Price" class="code">{{baseSymbol}}</label> 
+           <numberbox ref="price" id="Price" v-if="!isMarket && fixedPrice!==0" :accuracy="fixedNumber" type="text" v-model="fixedPrice" :readonly="true"/>
+           <numberbox ref="price" id="Price" v-if="!isMarket && fixedPrice===0" :accuracy="fixedNumber" type="text" v-model="formData.price"/>
+           <input v-if="isMarket" id="Price" :value="$t('exchange.exchange_market_price')" type="text" readonly="readonly"/>
           </div> 
-          <div class="input-group ui-clear">
-           <label for="buyQuantity">数量</label> 
-           <label for="buyQuantity" class="code">ETH</label> 
-           <input id="buyQuantity" name="buyQuantity" maxlength="25" disabled="disabled" /> 
-           <p class="error-box" style="display: none;"></p>
+          <div class="input-group">
+           <label for="Quantity">{{$t('exchange.exchange_amount')}}<!--数量--></label> 
+           <label for="Quantity" class="code">{{currentSymbol}}</label> 
+           <numberbox id="Quantity" :accuracy="Quantityaccu" type="text" v-model="formData.amount" />
           </div> 
           <div class="button-group-wrapper">
-           <div class="button-group ui-clear">
-            <button type="button" disabled="disabled" class="pull-right">100% </button>
-            <button type="button" disabled="disabled" class="pull-right">75% </button>
-            <button type="button" disabled="disabled" class="pull-right">50% </button>
-            <button type="button" disabled="disabled" class="pull-right">25% </button>
+           <div class="button-group ui-flex">
+            <button type="button" class="ui-flex-1" :class="{active:percent===25}" @click="percent=25">25% </button>
+            <button type="button" class="ui-flex-1" :class="{active:percent===50}" @click="percent=50">50% </button>
+            <button type="button" class="ui-flex-1" :class="{active:percent===75}" @click="percent=75">75% </button>
+            <button type="button" class="ui-flex-1" :class="{active:percent===100}" @click="percent=100">100% </button>
            </div>
           </div> 
-          <!----> 
-          <!----> 
-          <div class="input-group ui-clear">
-           <label data-v-ab434934="">总计</label> 
-           <label for="buyAmount" class="code">BTC</label> 
-           <input disabled="disabled" name="buyAmount" maxlength="25" /> 
-           <p class="error-box" style="display: none;"></p>
+          <div class="input-group" v-show="!isMarket">
+           <label>{{$t('exchange.exchange_total')}}<!--金额--></label> 
+           <label for="Amount" class="code">{{baseSymbol}}</label> 
+           <numberbox ref="total" id="Amount" :accuracy="Amountaccu" type="text" v-model="formData.total" />
           </div> 
-          <button type="button" class="opertaion-btn">买入 ETH</button>
+          <button type="button" class="opertaion-btn" :class="{sell:!isBuy, disabled:lockExtrust}" @click="buyOrSell" v-if="getApiToken">{{$t(isBuy?'exchange.exchange_buy':'exchange.exchange_sell')}} {{currentSymbol}}</button>
+          <button type="button" class="opertaion-btn" :class="{sell:!isBuy}" @click="showQuickLogin" v-else>{{$t(isBuy?'exchange.exchange_buy':'exchange.exchange_sell')}} {{currentSymbol}}</button>
          </form>
     </div>
 </template>
@@ -63,8 +60,8 @@ import numUtils from '@/assets/js/numberUtils'
 import regUtils from '@/assets/js/regex'
 import utils from '@/assets/js/utils'
 import numberbox from '@/components/formel/numberbox'
-import arrows from './arrows'
-import valuation from '@/components/valuation'
+import quickLogin from '@/components/quickLogin'
+
 export default {
   props: {
     fixedNumber: {
@@ -97,36 +94,29 @@ export default {
   },
   components: {
     numberbox,
-    valuation,
-    arrows
+    quickLogin,
   },
   data () {
     return {
+      showTypeSelector:false,
       active:'limit',
       tradeType:'buy',
-      isShowPrice: false,
-      isShowTotal: false,
       lockExtrust: false,
       changeInput: '',
       errorObj: {},
       percent: 0,
-      showPercentTip: false,
-      hoverPercent: 0,
-      moveCursor: false,
       updateValue: true,
       formData: {
         price: 0,
         amount: '',
         total: ''
-      },
-      tipBaseSymbolWidth: 34,
-      tipCurrentSymbolWidth: 34
+      }
     }
   },
   computed: {
     ...mapGetters(['getApiToken', 'getMarketConfig', 'getLast24h', 'getEntrustNewPrice','getSysParams']),
     rateData(){
-      return this.getSysParams.transactionRate.value * 100
+      return this.getSysParams.transactionRate && this.getSysParams.transactionRate.value * 100
     },
     symbol () {
       return `${this.currentSymbol}${this.baseSymbol}`
@@ -150,24 +140,6 @@ export default {
       } else {
         return {}
       }
-    },
-    marketPrice () {
-      return this.$t('exchange.exchange_market_price') // 市价
-    },
-    baseStyle () {
-      return {
-        'padding-right': `${this.tipBaseSymbolWidth + 35}px`,
-        width: `calc(100% - ${this.tipBaseSymbolWidth + 45}px)`
-      }
-    },
-    currentStyle () {
-      return {
-        'padding-right': `${this.tipCurrentSymbolWidth + 35}px`,
-        width: `calc(100% - ${this.tipCurrentSymbolWidth + 45}px)`
-      }
-    },
-    curPercent () {
-      return Math.max(this.hoverPercent, this.percent)
     },
     fixedPrice(){
       let fixedPrice = 0, fixedBuyOrSellPrice = 0
@@ -208,25 +180,13 @@ export default {
     },
     symbol () {
       this.updateValue = true
-      this.$nextTick(() => {
-        this.tipBaseSymbolWidth = this.$refs.tipBaseSymbol.clientWidth + parseInt(this.$refs.tipBaseSymbol.style.right.replace('px', ''))
-        this.tipCurrentSymbolWidth = this.$refs.tipCurrentSymbol.clientWidth + parseInt(this.$refs.tipCurrentSymbol.style.right.replace('px', ''))
-      })
     },
     percent (newVal) {
       this.switchPercent(newVal)
-      this.$nextTick(() => {
-        this.$refs.dragCircle.style.left = `calc(${newVal}% - 7px)`
-      })
     },
     getEntrustNewPrice () {
       this.formData.price = this.toFixed(this.getEntrustNewPrice)
     },
-    isMarket (newVal) {
-      if (!newVal) {
-        this.bindEvent()
-      }
-    }
   },
   created () {
     this.$nextTick(() => {
@@ -235,19 +195,20 @@ export default {
         fun: this.businessEvent
       })
     })
-    this.bindEvent()
-    this.$nextTick(() => {
-      this.tipBaseSymbolWidth = this.$refs.tipBaseSymbol.clientWidth
-      this.tipCurrentSymbolWidth = this.$refs.tipCurrentSymbol.clientWidth
-    })
   },
   beforeDestroy () {
     this.removeEvents('businessEvent')
   },
   methods: {
     ...mapActions(['addEvents', 'removeEvents']),
+    showQuickLogin(){
+      utils.setDialog(quickLogin, {})
+    },
     switchTab (tab) {
       this.active = tab
+    },
+    toggleEntrustType(){
+      this.showTypeSelector = !this.showTypeSelector
     },
     businessEvent (res) {
       if (res && res.type === 'price') {
@@ -257,24 +218,6 @@ export default {
       } else if (res && res.type === 'total') {
         this.formData.total = res.value
       }
-    },
-    bindEvent () {
-      this.$nextTick(() => {
-        let price = this.$refs.price.$el
-        price.addEventListener('focus', () => {
-          this.isShowPrice = true
-        }, false)
-        price.addEventListener('blur', () => {
-          this.isShowPrice = false
-        }, false)
-        let total = this.$refs.total.$el
-        total.addEventListener('focus', () => {
-          this.isShowTotal = true
-        }, false)
-        total.addEventListener('blur', () => {
-          this.isShowTotal = false
-        }, false)
-      })
     },
     changeValue (newVal, oldVal, type) {
       if (numUtils.BN(newVal).equals(numUtils.BN(oldVal))) {
@@ -477,50 +420,13 @@ export default {
     toFixed (value, fixed) {
       return numUtils.BN(value || 0).toFixed(fixed === undefined ? this.fixedNumber : fixed, 1)
     },
-    loginDialog () {
-      this.$router.push({name: 'login'})
-    },
-    registerDialog () {
-      this.$router.push({name: 'register'})
-    },
-    percentOver (p) {
-      this.hoverPercent = p
-    },
-    percentOut () {
-      this.hoverPercent = 0
-    },
-    mouseDown (e) { // 拖动
-      let left = this.$refs.dragCircle.offsetLeft
-      let startX = e.pageX
-      let self = this
-      let width = this.$refs.percent.clientWidth
-      this.moveCursor = true
-      function mm (ev) {
-        ev.preventDefault()
-        let cw = Math.min(Math.max(0, left + ev.pageX - startX), width)
-        self.percent = Math.floor(cw / width * 100)
-        self.$refs.dragCircle.style.left = `calc(${self.percent}% - 7px)`
-        self.showPercentTip = true
-        document.body.style.cursor = 'pointer'
-      }
-      function mp (ev) {
-        ev.preventDefault()
-        self.moveCursor = false
-        self.showPercentTip = false
-        document.body.style.cursor = null
-        document.removeEventListener('mousemove', mm, false)
-        document.removeEventListener('mouseup', mp, false)
-      }
-      document.addEventListener('mousemove', mm, false)
-      document.addEventListener('mouseup', mp, false)
-    }
   }
 }
 </script>
 
 <style lang="less" scoped>
 .order-container {
-    height: 440px;
+    height: 450px;
     overflow: hidden;
     position: relative;
 }
@@ -579,14 +485,23 @@ export default {
 .input-group {
     color: #979799;
     font-size: 14px;
+    margin-top: 28px;
     height: 30px;
     position: relative;
     display: flex;
+    &.no-margin {margin-top: 0;}
     label {
         height: 30px;
         line-height: 30px;
         display: block;
         width: 66px;
+        &.code {
+            width: 50px;
+            text-align: right;
+            position: absolute;
+            right: 0;
+            padding-right: 10px;
+        }
     }
     .el-select {
         position: relative;
@@ -612,11 +527,10 @@ export default {
             height: 100%;
             color: #c0c4cc;
             text-align: center;
+            transition: transform .3s;
+            transform: rotate(180deg);
             i {
                 font-size: 14px;
-                transition: transform .3s;
-                -ms-transform: rotate(180deg);
-                transform: rotate(180deg);
                 cursor: pointer;
                 line-height: 30px;
             }
@@ -630,6 +544,7 @@ export default {
           background-color: #212028;
           border-radius: 4px;
           z-index: 1;
+          display: none;
           li {
             line-height: 34px;
             padding:0 20px;
@@ -642,6 +557,69 @@ export default {
             }
           }
         }
+        &.active .el-select-item {display: block;}
+        &.active .input__suffix {transform: rotate(0deg);}
+    }
+    > input {
+        background: transparent;
+        border: 1px solid #8a8a90;
+        outline: none;
+        color: #f1f1f2;
+        height: 30px;
+        line-height: 30px;
+        float: left;
+        display: block;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        padding-left: 10px;
+        padding-right: 50px;
+    }
+    > input[readonly], input[disabled] {
+      cursor: not-allowed;
+      background-color: #212025;
+      border: 1px solid #28272c;
+    }
+}
+.button-group-wrapper {
+    padding-left: 66px;
+    .button-group {
+        padding: 28px 0 0;
+        button {
+            box-sizing: border-box;
+            cursor: pointer;
+            width: 25%;
+            height: 24px;
+            line-height: 24px;
+            border: 1px solid #3c3a48;
+            background: transparent;
+            color: #686b7b;
+            &[disabled] {
+                cursor: not-allowed;
+            }
+            &+button {
+                border-left: none;
+            }
+            &.active {
+                color: #f1f1f2;
+                background: #2e2c3c;
+            }
+        }
+    }
+}
+.opertaion-btn {
+    margin-top: 30px;
+    color: #f1f1f2;
+    width: 100%;
+    display: block;
+    font-size: 16px;
+    height: 40px;
+    line-height: 40px;
+    background: #1bc863;
+    border: none;
+    cursor: pointer;
+    &.sell {
+        background: #f1304a;
+        color: #f1f1f2;
     }
 }
 </style>
