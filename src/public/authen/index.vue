@@ -27,7 +27,8 @@
   import utils from '@/assets/js/utils'
   import kyc from '@/components/kyc'
   import {mapGetters} from 'vuex'
-
+  import api from '@/api'
+  let domain = ''
   export default {
     data () {
       return {
@@ -48,7 +49,17 @@
     },
     methods: {
       submitKYC () {
-        utils.setDialog(kyc)
+
+        api.get(`${domain}api/v1/gcox/user/initiate-kyc`, (res) => {
+          if (res.rst === 1) {
+            utils.setDialog(kyc,{redirect_url:res.data.redirect_url})
+          } else {
+            Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${res.msg}`)})
+          }
+        }, (msg) => {
+          Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
+        })
+
       }
     }
   }

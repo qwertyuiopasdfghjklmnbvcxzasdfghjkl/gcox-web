@@ -33,6 +33,14 @@
             <depth ref="depth" :currentSymbol="currentSymbol" :baseSymbol="baseSymbol" :fixedNumber="fixedNumber" :Quantityaccu="Quantityaccu" :Amountaccu="Amountaccu" :digit="digit"/>
           </div>
         </div>
+        <div class="ui-flex">
+          <div class="entrust">
+            <entrust ref="entrust" :valuationCout="valuationCout" :newRmbCount="newRmbCount" :currentSymbol="currentSymbol" :baseSymbol="baseSymbol" :fixedNumber="fixedNumber" :symbol="symbol" :toFixed="toFixed" :mul="mul" :changeEntrustData="changeEntrustData"/>
+          </div>
+          <div class="lastdeal ui-flex-1">
+            <lastdeal ref="lastdeal" :currentSymbol="currentSymbol" :baseSymbol="baseSymbol" :fixedNumber="fixedNumber" :Quantityaccu="Quantityaccu" :symbol="symbol" />
+          </div>
+        </div>
 
       </div>
     </div>
@@ -197,6 +205,7 @@ export default {
             }
           })
         } else if (res.dataType === 'LastUserOrderBook') {
+          console.log('res.data==',res.data)
           // 当前委托
           this.tiggerEvents({
             name: 'extrustEvent',
@@ -272,10 +281,8 @@ export default {
     },
     changeSymbol (baseSymbol, currentSymbol) {
       this.klineData = []
-      // this.$refs.businesspanel.$refs.business_buy.formData.amount = ''
-      // this.$refs.businesspanel.$refs.business_sell.formData.amount = ''
-      // this.$refs.businesspanel.$refs.business_buy.percent = '0'
-      // this.$refs.businesspanel.$refs.business_sell.percent = '0'
+      this.$refs.business.formData.amount = ''
+      this.$refs.business.percent = '0'
       this.$router.push({name: 'exchange_index', params: {symbol: `${currentSymbol}_${baseSymbol}`}})
     },
   },
@@ -323,9 +330,7 @@ export default {
         margin: 0;
     }
 }
-.business {
-  width: 33%;
-  border-right: 4px solid #242328;
-}
+.business {width: 33%; border-right: 4px solid #242328; }
+.entrust {width: 66%; border-right: 4px solid #242328;}
 </style>
 
