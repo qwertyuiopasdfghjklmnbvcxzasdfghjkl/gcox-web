@@ -91,6 +91,12 @@ export default new Router({
       meta: {login: true}
     },
     {
+      path: '/account/:menu/:id',
+      name: 'account_with',
+      component: account,
+      meta: {login: true}
+    },
+    {
       path: '/market',
       name: 'market',
       component: Market

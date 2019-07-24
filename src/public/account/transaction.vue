@@ -50,7 +50,7 @@
 <style scoped>
   .transaction {
     padding: 14px 18px 60px;
-    background-color: #19181c;
+    background-color: rgba(27, 26, 31, 0.9);
     padding-bottom: 30px;
     color: #d8d8da;
     margin-bottom: 50px;

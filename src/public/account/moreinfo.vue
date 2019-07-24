@@ -103,9 +103,9 @@
 <script>
   import userUtils from '@/api/wallet'
   import utils from '@/assets/js/utils'
-  import adressCava from '../mycenter/adresscava'
-  import memoCava from '../mycenter/memocava'
-  import withdrawInfo from '../mycenter/withdrawInfo'
+  import adressCava from './adresscava'
+  import memoCava from './memocava'
+  import withdrawInfo from './withdrawInfo'
   import Vue from 'vue'
   import {mapGetters} from 'vuex'
 
@@ -120,14 +120,6 @@
   }
   export default {
     props: {
-      googleState: {
-        type: Number,
-        default: 0
-      },
-      verifyState: {
-        type: Number,
-        default: 0
-      },
       mobileState: {
         type: Number,
         default: 0
@@ -151,7 +143,6 @@
       }
     },
     computed: {
-      ...mapGetters(['getUserInfo']),
       blockQuantity () {
         if (this.item.blockConfirm) {
           return this.item.blockConfirm
@@ -168,6 +159,7 @@
       }
     },
     methods: {
+      ...mapGetters(['getUserInfo', 'getLang']),
       getEosAddress () {
         userUtils.getEosAddress(data => {
           this.EOS_MEMO = data
@@ -202,24 +194,24 @@
         })
       },
       withdrawDalog () {
-        if (this.verifyState !== 2) {
-          Vue.$confirmDialog({
-            id: 'KYC_AUTH_FIRST',
-            showCancel: false,
-            content: this.$t(`error_code.KYC_AUTH_FIRST`), // 请先完成实名认证
-            okCallback: () => {
-              this.$router.push({name: 'mycenter_menu', params: {menu: 'mycenter'}})
-            }
-          })
-          return
-        }
-        if (this.googleState !== 1) {
+        // if (this.verifyState !== 2) {
+        //   Vue.$confirmDialog({
+        //     id: 'KYC_AUTH_FIRST',
+        //     showCancel: false,
+        //     content: this.$t(`error_code.KYC_AUTH_FIRST`), // 请先完成实名认证
+        //     okCallback: () => {
+        //       this.$router.push({name: 'mycenter_menu', params: {menu: 'mycenter'}})
+        //     }
+        //   })
+        //   return
+        // }
+        if (this.getUserInfo().googleAuthEnable !== 1) {
           Vue.$confirmDialog({
             id: 'GOOGLEAUTH_OR_SMSAUTH_FIRST',
             showCancel: false,
             content: this.$t('error_code.GOOGLE_CELLPHONE_AUTH_FIRST'), // 请先进行谷歌验证或短信验证
             okCallback: () => {
-              this.$router.push({name: 'mycenter_menu', params: {menu: 'safety'}})
+              this.$router.push({name: 'mycenter_menu', params: {menu: 'mycenter'}})
             }
           })
           return
