@@ -79,7 +79,9 @@
     methods: {
       ...mapActions(['setLang', 'setApiToken']),
       showQuickLogin () {
-        utils.setDialog(quickLogin, {})
+        utils.setDialog(quickLogin, {
+          backClose:true
+        })
       },
       setLanguage (lang) {
         this.setLang(lang)
