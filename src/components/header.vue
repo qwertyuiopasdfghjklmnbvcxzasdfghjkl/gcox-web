@@ -28,7 +28,7 @@
                 </router-link>
                 <div class="sub-item" @click="logout">
                   <i class="logout"></i>
-                  <span>{{$t('public0.navigation_logout')}}<!-- 退出 --></span>
+                  <span>{{$t('public.navigation_logout')}}<!-- 退出 --></span>
                 </div>
               </div>
             </div>

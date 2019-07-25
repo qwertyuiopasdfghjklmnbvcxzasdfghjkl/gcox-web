@@ -36,7 +36,7 @@
 
     <div id="currentOrdersScroll" v-show="active==='current'">
       <ul class="orders-books">
-        <li class="ui-flex" v-for="(item,index) in cdatas" :key="item.orderBookId">
+        <li class="ui-flex" v-for="(item,index) in filterCdatas" :key="item.orderBookId">
           <span class="ui-flex-2">{{new Date(Number(item.createdAt)).format()}}</span>
           <span class="ui-flex-2">{{Number(item.price)===-1?$t('exchange.exchange_market_price'):$t('otc_exchange.otc_exchange_limited_price')}}</span>
           <span class="ui-flex-2" :class="[Number(item.direction)===1 ? 'rang-down' : 'rang-up']">{{getType(item.direction)}}</span>
@@ -52,7 +52,7 @@
 
     <div id="historyOrdersScroll" v-show="active==='history'">
       <ul class="orders-books">
-        <li class="ui-flex" v-for="(item,index) in hdatas" :key="item.orderBookId">
+        <li class="ui-flex" v-for="(item,index) in filterHdatas" :key="item.orderBookId">
           <span class="ui-flex-2">{{new Date(Number(item.createdAt)).format()}}</span>
           <span class="ui-flex-2">{{Number(item.price)===-1?$t('exchange.exchange_market_price'):$t('otc_exchange.otc_exchange_limited_price')}}</span>
           <span class="ui-flex-2" :class="[Number(item.direction)===1 ? 'rang-down' : 'rang-up']">{{getType(item.direction)}}</span>
@@ -122,7 +122,21 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getApiToken'])
+    ...mapGetters(['getApiToken']),
+    filterCdatas(){
+      let data = this.cdatas
+      if(!this.checked){
+        data = data.filter((item) => {return this.symbol !== item.market})
+      }
+      return data
+    },
+    filterHdatas(){
+      let data = this.hdatas
+      if(!this.checked){
+        data = data.filter((item) => {return this.symbol !== item.market})
+      }
+      return data
+    }
   },
   watch: {
     active(_new){
@@ -136,10 +150,14 @@ export default {
         setTimeout(()=>{this.currentOrdersScroll.refresh()},0)
       }
     },
-    getApiToken () {
-      this.changeLogin()
+    checked(){
+      if(this.active==='history'){
+        setTimeout(()=>{this.historyOrdersScroll.refresh()},0)
+      } else {
+        setTimeout(()=>{this.currentOrdersScroll.refresh()},0)
+      }
     },
-    symbol () {
+    getApiToken () {
       this.changeLogin()
     },
     changeEntrustData (obj) {
@@ -216,24 +234,16 @@ export default {
         // 根据symbol获取当前委托
         this.cshowLoading = true
         let tempSymbol = this.symbol
-        market.getCurrentEntrustBySymbol(0, this.symbol, (res) => {
+        market.getCurrentEntrustBySymbol(0, '', (res) => {
           this.cshowLoading = false
-          if (tempSymbol !== this.symbol) {
-            console.log(`extrust-current-symbol不匹配${tempSymbol}-${this.symbol}`)
-            return
-          }
           this.cdatas = res
         }, () => {
           this.cshowLoading = false
         })
         // 历史成交
         this.hshowLoading = true
-        market.getHistoryDeal(1, this.symbol, (res) => {
+        market.getHistoryDeal(1, '', (res) => {
           this.hshowLoading = false
-          if (tempSymbol !== this.symbol) {
-            console.log(`extrust-history-symbol不匹配${tempSymbol}-${this.symbol}`)
-            return
-          }
           this.hdatas = res
         }, () => {
           this.hshowLoading = false
