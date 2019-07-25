@@ -2,7 +2,7 @@
   <div :id="id"
        ref="dialog"
        class="koall-dialog"
-       :style="modelStyle" @click.self="removeDialog">
+       :style="modelStyle" @click.self="setBackClose">
   </div>
 </template>
 
@@ -10,6 +10,10 @@
   export default {
     props: {
       id: null,
+      backClose:{
+        type:Boolean,
+        default: false
+      },
       model: {
         type: Boolean,
         default: true
@@ -38,6 +42,11 @@
         let dialog = this.$refs.dialog
         this.$destroy()
         document.body.removeChild(dialog)
+      },
+      setBackClose(){
+        if(this.backClose){
+          this.removeDialog()
+        }
       }
     }
   }

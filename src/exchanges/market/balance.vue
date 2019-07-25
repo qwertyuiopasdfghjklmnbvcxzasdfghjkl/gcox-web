@@ -1,5 +1,5 @@
 <template>
-    <div class="balance">
+    <div class="balance" v-if="false">
         <div class="balance-content" v-if="!showLoading">
             <div class="title">
                 {{$t('exchange.exchange_valuation')}}<!--当前总估值-->：{{BTCValuation}} BTC / {{getCoinSign}}{{String(USDCNY).toMoney()}}

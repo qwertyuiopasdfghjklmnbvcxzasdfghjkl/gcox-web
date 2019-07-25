@@ -17,7 +17,7 @@
         </div>
     </div>
     
-    <ul class="orders-books header">
+    <ul class="orders-books header" v-if="getApiToken">
       <li class="ui-flex">
         <span class="ui-flex-2">{{$t('exchange.exchange_date')}}<!--时间--></span>
         <span class="ui-flex-2">{{$t('business.TYPE')}}<!-- 类型 --></span>
@@ -36,7 +36,7 @@
 
     <div id="currentOrdersScroll" v-show="active==='current'">
       <ul class="orders-books">
-        <li class="ui-flex" v-for="(item,index) in cdatas" :key="item.orderBookId">
+        <li class="ui-flex" v-for="(item,index) in filterCdatas" :key="item.orderBookId">
           <span class="ui-flex-2">{{new Date(Number(item.createdAt)).format()}}</span>
           <span class="ui-flex-2">{{Number(item.price)===-1?$t('exchange.exchange_market_price'):$t('otc_exchange.otc_exchange_limited_price')}}</span>
           <span class="ui-flex-2" :class="[Number(item.direction)===1 ? 'rang-down' : 'rang-up']">{{getType(item.direction)}}</span>
@@ -52,7 +52,7 @@
 
     <div id="historyOrdersScroll" v-show="active==='history'">
       <ul class="orders-books">
-        <li class="ui-flex" v-for="(item,index) in hdatas" :key="item.orderBookId">
+        <li class="ui-flex" v-for="(item,index) in filterHdatas" :key="item.orderBookId">
           <span class="ui-flex-2">{{new Date(Number(item.createdAt)).format()}}</span>
           <span class="ui-flex-2">{{Number(item.price)===-1?$t('exchange.exchange_market_price'):$t('otc_exchange.otc_exchange_limited_price')}}</span>
           <span class="ui-flex-2" :class="[Number(item.direction)===1 ? 'rang-down' : 'rang-up']">{{getType(item.direction)}}</span>
@@ -65,6 +65,11 @@
         </li>
       </ul>
     </div>
+    <div class="text-center not-login" v-if="!getApiToken">
+     <img src="../../assets/img/login_bg.png" /> 
+     <p><span >{{$t('message.msg_please')}}<!-- 请先 --></span> <span class="pointer f-c-main ml5" @click="showQuickLogin">{{$t('login_register.login')}}<!-- 登录 --></span> <router-link :to="{name:'register'}" class="pointer f-c-main ml5" tag="span">{{$t('login_register.register')}}<!-- 注册 --></router-link></p>
+    </div>
+    <balance ref="balance" :valuationCout="valuationCout" :newRmbCount="newRmbCount" :currentSymbol="currentSymbol" :baseSymbol="baseSymbol" :fixedNumber="fixedNumber" :toFixed="toFixed"/>
   </div>
 </template>
 
@@ -73,9 +78,10 @@ import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 import market from '@/api/market'
 import numUtils from '@/assets/js/numberUtils'
-import loading from '@/components/loading'
-import balance from '@/exchanges/market/balance'
 import IScroll from 'iscroll'
+import quickLogin from '@/components/quickLogin'
+import utils from '@/assets/js/utils'
+import balance from '@/exchanges/market/balance'
 export default {
   props: {
     valuationCout: null,
@@ -103,8 +109,7 @@ export default {
     }
   },
   components: {
-    balance,
-    loading
+    balance
   },
   data () {
     return {
@@ -122,7 +127,21 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getApiToken'])
+    ...mapGetters(['getApiToken']),
+    filterCdatas(){
+      let data = this.cdatas
+      if(!this.checked){
+        data = data.filter((item) => {return this.symbol !== item.market})
+      }
+      return data
+    },
+    filterHdatas(){
+      let data = this.hdatas
+      if(!this.checked){
+        data = data.filter((item) => {return this.symbol !== item.market})
+      }
+      return data
+    }
   },
   watch: {
     active(_new){
@@ -136,10 +155,14 @@ export default {
         setTimeout(()=>{this.currentOrdersScroll.refresh()},0)
       }
     },
-    getApiToken () {
-      this.changeLogin()
+    checked(){
+      if(this.active==='history'){
+        setTimeout(()=>{this.historyOrdersScroll.refresh()},0)
+      } else {
+        setTimeout(()=>{this.currentOrdersScroll.refresh()},0)
+      }
     },
-    symbol () {
+    getApiToken () {
       this.changeLogin()
     },
     changeEntrustData (obj) {
@@ -175,6 +198,9 @@ export default {
   },
   methods: {
     ...mapActions(['setEntrustPrices', 'addEvents', 'removeEvents', 'tiggerEvents']),
+    showQuickLogin () {
+      utils.setDialog(quickLogin, {backClose:true})
+    },
     initCurrentOrdersScroll(){
       this.currentOrdersScroll = new IScroll('#currentOrdersScroll',{
         mouseWheel: true,
@@ -216,24 +242,16 @@ export default {
         // 根据symbol获取当前委托
         this.cshowLoading = true
         let tempSymbol = this.symbol
-        market.getCurrentEntrustBySymbol(0, this.symbol, (res) => {
+        market.getCurrentEntrustBySymbol(0, '', (res) => {
           this.cshowLoading = false
-          if (tempSymbol !== this.symbol) {
-            console.log(`extrust-current-symbol不匹配${tempSymbol}-${this.symbol}`)
-            return
-          }
           this.cdatas = res
         }, () => {
           this.cshowLoading = false
         })
         // 历史成交
         this.hshowLoading = true
-        market.getHistoryDeal(1, this.symbol, (res) => {
+        market.getHistoryDeal(1, '', (res) => {
           this.hshowLoading = false
-          if (tempSymbol !== this.symbol) {
-            console.log(`extrust-history-symbol不匹配${tempSymbol}-${this.symbol}`)
-            return
-          }
           this.hdatas = res
         }, () => {
           this.hshowLoading = false
@@ -307,7 +325,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.market-watch-height {height: 360px;}
+.market-watch-height {height: 360px; position: relative;}
 .title-container {
     font-size: 18px;
     color: #f1f1f2;
@@ -386,5 +404,14 @@ export default {
     }
   }
 }
-
+.not-login {
+    position: absolute;
+    top: 80px;
+    width: 100%;
+    >img {
+        display: inline-block;
+        margin-top: 50px;
+        width: 150px;
+    }
+}
 </style>

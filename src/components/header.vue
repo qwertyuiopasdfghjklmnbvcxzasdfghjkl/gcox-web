@@ -32,7 +32,7 @@
                 </router-link>
                 <div class="sub-item" @click="logout">
                   <i class="logout"></i>
-                  <span>{{$t('public0.navigation_logout')}}<!-- 退出 --></span>
+                  <span>{{$t('public.navigation_logout')}}<!-- 退出 --></span>
                 </div>
               </div>
             </div>
@@ -79,7 +79,9 @@
     methods: {
       ...mapActions(['setLang', 'setApiToken']),
       showQuickLogin () {
-        utils.setDialog(quickLogin, {})
+        utils.setDialog(quickLogin, {
+          backClose:true
+        })
       },
       setLanguage (lang) {
         this.setLang(lang)
@@ -228,11 +230,11 @@
         background-position: center;
 
         &.market {
-          background-image: url('../assets/img/MARKETS.png');
+          background-image: url('../assets/img/MARKETS.svg');
         }
 
         &.exchange {
-          background-image: url('../assets/img/EXCHANGE.png');
+          background-image: url('../assets/img/EXCHANGE.svg');
         }
 
         &.acm {
@@ -249,11 +251,11 @@
 
         i {
           &.market {
-            background-image: url('../assets/img/MARKETS-blue.png');
+            background-image: url('../assets/img/MARKETS-blue.svg');
           }
 
           &.exchange {
-            background-image: url('../assets/img/EXCHANGE-blue.png');
+            background-image: url('../assets/img/EXCHANGE-blue.svg');
           }
 
           &.acm {

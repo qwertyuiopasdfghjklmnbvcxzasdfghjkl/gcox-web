@@ -3,7 +3,7 @@
     <div class="w1200">
       <p class="news-header efont">{{$t('about.news')}}<!-- 资讯 --></p>
       <div class="ui-flex">
-         <router-link :to="{name:'newsDetail',params:{id:item.cmsInfoId}}" class="ui-flex-1  ui-flex ui-flex-center item"  v-for="item in news" tag="div">
+         <router-link :to="{name:'detail',params:{id:item.cmsInfoId, type:'news'}}" class="ui-flex-1  ui-flex ui-flex-center item"  v-for="item in news" tag="div">
           <div class="ui-flex-column">
            <div class="item-title ellipsis"> {{getTitle(item)}} </div>
            <div class="item-detail ellipsis-4"> {{getSummary(item)}} </div>

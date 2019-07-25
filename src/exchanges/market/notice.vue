@@ -3,7 +3,7 @@
 		<div class="title-container">{{$t('public.notice')}}<!-- 公告 --></div>
 		<ul class="new">
 			<li v-for="item in notice">
-				<router-link :to="{name:'noticeDetail', params:{id:item.cmsInfoId}}">
+				<router-link :to="{name:'detail', params:{id:item.cmsInfoId, type:'notice'}}">
 					<span>{{getTitle(item)}}</span>
 					<em>{{new Date(item.createdAt).format('yyyy-MM-dd')}}</em>
 				</router-link>
