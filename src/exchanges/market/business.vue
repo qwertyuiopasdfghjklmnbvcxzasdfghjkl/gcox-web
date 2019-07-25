@@ -468,7 +468,8 @@ export default {
     color: #f1f1f2;
     background-color: #2e2c3c;
     border: none;
-    width: 46px;
+    padding-left:15px;
+    padding-right:15px;
     height: 24px;
     position: relative;
     top: 6px;

@@ -101,7 +101,7 @@
       hidePopoverNav (target) {
         this.$refs[target].style.display = 'none'
         setTimeout(() => {
-          this.$refs[target].removeAttribute('style')
+          this.$refs[target] && this.$refs[target].removeAttribute('style')
         }, 1000)
       }
     }
