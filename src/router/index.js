@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Index from '@/public'
 import exchange from './exchange'
 import otc from './otc'
+import cms from './cms'
 import login from '@/public/login'
 import register from '@/public/register'
 import findpwd from '@/public/findpwd'
@@ -12,7 +13,7 @@ import Linkinvalid from '@/public/email/linkinvalid'
 import mycenter from '@/public/mycenter'
 import Activation from '@/public/email/activation'
 import Activationsuccess from '@/public/email/activationsuccess'
-
+import account from '../public/account'
 
 Vue.use(Router)
 
@@ -78,6 +79,18 @@ export default new Router({
       meta: {login: true}
     },
     {
+      path: '/account',
+      name: 'account',
+      component: account,
+      meta: {login: true}
+    },
+    {
+      path: '/account/:menu',
+      name: 'account_menu',
+      component: account,
+      meta: {login: true}
+    },
+    {
       path: '/market',
       name: 'market',
       component: Market
@@ -88,5 +101,5 @@ export default new Router({
         name: 'home'
       }
     }
-  ].concat(exchange, otc)
+  ].concat(exchange, otc, cms)
 })

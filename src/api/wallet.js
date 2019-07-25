@@ -78,4 +78,52 @@ const getEosAddress = function (success, error) {
 }
 wallet.getEosAddress = getEosAddress
 
+// 获取所有币种
+const getAllSymbol = function (data, success, error) {
+  api.post(`${domain}api/v2/account/symbol/list`, data, (res) => {
+    if (res.rst === 1) {
+      success && success(res.data)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+wallet.getAllSymbol = getAllSymbol
+
+// 提现地址列表
+const addressList = function (data, success, error) {
+  api.post(`${domain}api/v1/withdraw/address/list`, data, (res) => {
+    if (res.rst === 1) {
+      success && success(res.data)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+wallet.addressList = addressList
+
+// 新增提现地址
+const addAddress = function (data, success, error) {
+  api.post(`${domain}api/v1/withdraw/address/add`, data, (res) => {
+    if (res.rst === 1) {
+      success && success(res)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+wallet.addAddress = addAddress
+
+// 删除提现地址
+const deleteAddress = function (withdrawId, success, error) {
+  api.delete(`${domain}api/v1/withdraw/address/delete/${withdrawId}`, (res) => {
+    if (res.rst === 1) {
+      success && success(res)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+wallet.deleteAddress = deleteAddress
+
 export default wallet

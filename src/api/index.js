@@ -18,39 +18,52 @@ axios.interceptors.request.use(function (config) {
   config.headers.common['lang'] = lang
 
   // 在发送请求之前做些什么
+  // Vue.$ajaxLoading()
   return config
 }, function (error) {
   // 对请求错误做些什么
   return Promise.reject(error)
 })
 
+function requireLogin(response) {
+  console.error(response.config.url)
+  console.log('用户不存在，退出登录')
+  // 用户不存在，退出登录
+  window.localStorage.removeItem('userInfo')
+  JsCookies.remove('api_token')
+  Vue.$confirmDialog({
+    id: 'please_login_again',
+    showCancel: false,
+    content: window.$i18n.t(`error_code.LOGIN_AGAIN`), // 请重新登录
+    okCallback: () => {
+      window.location.hash = 'login'
+      window.location.reload()
+    }
+  })
+}
+
 // 添加响应拦截器
 axios.interceptors.response.use(function (response) {
+  // Vue.$ajaxLoading().close()
   if (typeof response.data === 'string') {
     let error = {response: response}
     return Promise.reject(error)
   }
-  if ((response.data && response.data.rst === 401) || response.status===403) {
-    console.error(response.config.url)
-    console.log('用户不存在，退出登录')
-    // 用户不存在，退出登录
-    window.localStorage.removeItem('userInfo')
-    JsCookies.remove('api_token')
-    Vue.$confirmDialog({
-      id: 'please_login_again',
-      showCancel: false,
-      content: window.$i18n.t(`error_code.LOGIN_AGAIN`), // 请重新登录
-      okCallback: () => {
-        window.location.hash = 'login'
-        window.location.reload()
-      }
-    })
+  if ((response.data && response.data.rst === 401) || response.status === 403) {
+    requireLogin(response);
     return null
   }
   // 对响应数据做点什么
   return response
 }, function (error) {
   // 对响应错误做点什么
+  let response = error.response;
+  if (response.status === 403) {
+    requireLogin(response);
+  }
+  if (response.status === 500 && typeof response.data === "string" && response.data.toLowerCase.indexOf("token") >= 0) {
+    requireLogin(response);
+  }
   return Promise.reject(error)
 })
 
@@ -66,7 +79,9 @@ const get = function (url, data, success, error) {
   axios.get(url, {
     params: data
   }).then((res) => {
-    if (!res) { return }
+    if (!res) {
+      return
+    }
     success && success(res.data)
   }).catch((res) => {
     console.warn(res)
@@ -82,7 +97,9 @@ const post = function (url, data, success, error) {
     data = {}
   }
   axios.post(url, data).then((res) => {
-    if (!res) { return }
+    if (!res) {
+      return
+    }
     success && success(res.data)
   }).catch((res) => {
     console.warn(res)
@@ -100,7 +117,9 @@ const del = function (url, data, success, error) {
   axios.delete(url, {
     data: data
   }).then((res) => {
-    if (!res) { return }
+    if (!res) {
+      return
+    }
     success && success(res.data)
   }).catch((res) => {
     console.warn(res)
@@ -116,7 +135,9 @@ const put = function (url, data, success, error) {
     data = {}
   }
   axios.put(url, data).then((res) => {
-    if (!res) { return }
+    if (!res) {
+      return
+    }
     success && success(res.data)
   }).catch((res) => {
     console.warn(res)
@@ -132,7 +153,9 @@ const postForm = function (url, data, success, error) {
     data = {}
   }
   axios.post(url, data).then((res) => {
-    if (!res) { return }
+    if (!res) {
+      return
+    }
     success && success(res.data)
   }).catch((res) => {
     console.warn(res)
