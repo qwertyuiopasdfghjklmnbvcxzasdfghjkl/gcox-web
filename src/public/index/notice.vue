@@ -3,7 +3,7 @@
       <div class="ui-flex-1 ui-flex">
         <div class="item ui-flex-1 ellipsis" v-for="item in notice">
           <i class="item-icon"></i>
-          <router-link :to="{name:'noticeDetail', params:{id:item.cmsInfoId}}">{{getTitle(item)}}</router-link>
+          <router-link :to="{name:'detail', params:{id:item.cmsInfoId, type:'notice'}}">{{getTitle(item)}}</router-link>
         </div>
       </div>
       <router-link :to="{name:'notice'}" tag="div" class="more">{{$t('exchange.advanced_more')}} >><!-- 更多 --></router-link>
