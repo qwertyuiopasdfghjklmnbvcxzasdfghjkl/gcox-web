@@ -10,8 +10,8 @@
                      :class="{active:$route.name === 'exchange_index2' || $route.name === 'exchange_index'}"><i
           class="exchange"></i> {{$t('exchange.exchange_name')}}<!-- 交易所 --></router-link>
         <router-link :to="{name:'acm'}" class="item"><i class="acm"></i> ACM</router-link>
-        <router-link v-if="isLogin" :to="{name:'account'}" class="item"><i class="account"></i>
-          {{$t('usercontent.user56')}}<!-- 知产管理 --></router-link>
+        <a href="javascript:;" v-if="!isLogin" class="item" @click="showQuickLogin"><i class="account"></i> {{$t('usercontent.user56')}}<!-- 知产管理 --></a>
+        <router-link v-if="isLogin" :to="{name:'account'}" class="item"><i class="account"></i> {{$t('usercontent.user56')}}<!-- 知产管理 --></router-link>
       </div>
       <div class="right">
           <router-link to="" class="item" v-if="isLogin">
