@@ -56,7 +56,7 @@ div.hopscotch-bubble h3,div.hopscotch-bubble .hopscotch-content{color:#aeb7d0;}
 @media screen and (min-width: 1660px){
 	.w1200 {padding-left: 210px; padding-right: 210px;}
 }
-@media screen and (max-width: 1659px) and (min-width: 1200px){
+@media screen and (max-width: 1659px){
 	.w1200 {width: 1200px; margin-left: auto; margin-right: auto;}
 }
 .container {
@@ -91,7 +91,7 @@ div.hopscotch-bubble h3,div.hopscotch-bubble .hopscotch-content{color:#aeb7d0;}
 	src: url('./fonts/ethnocentric rg.ttf') format('truetype');
 }
 .inline {display: inline-block; vertical-align: middle;}
-.efont{font-family: 'ethnocentric','Microsoft YaHei';}
+.efont{font-family: ethnocentric,PingFangSC-Regular,Microsoft YaHei,sans-serif;}
 .rang-down {color: #f1304a;}
 .rang-up {color: #1bc863;}
 

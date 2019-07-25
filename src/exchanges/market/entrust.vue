@@ -17,7 +17,7 @@
         </div>
     </div>
     
-    <ul class="orders-books header">
+    <ul class="orders-books header" v-if="getApiToken">
       <li class="ui-flex">
         <span class="ui-flex-2">{{$t('exchange.exchange_date')}}<!--时间--></span>
         <span class="ui-flex-2">{{$t('business.TYPE')}}<!-- 类型 --></span>
@@ -65,6 +65,11 @@
         </li>
       </ul>
     </div>
+    <div class="text-center not-login">
+     <img src="../../assets/img/login_bg.png" /> 
+     <p><span >{{$t('message.msg_please')}}<!-- 请先 --></span> <span class="pointer f-c-main ml5" @click="showQuickLogin">{{$t('login_register.login')}}<!-- 登录 --></span> <router-link :to="{name:'register'}" class="pointer f-c-main ml5" tag="span">{{$t('login_register.register')}}<!-- 注册 --></router-link></p>
+    </div>
+    <balance ref="balance" :valuationCout="valuationCout" :newRmbCount="newRmbCount" :currentSymbol="currentSymbol" :baseSymbol="baseSymbol" :fixedNumber="fixedNumber" :toFixed="toFixed"/>
   </div>
 </template>
 
@@ -73,9 +78,10 @@ import Vue from 'vue'
 import { mapGetters, mapActions } from 'vuex'
 import market from '@/api/market'
 import numUtils from '@/assets/js/numberUtils'
-import loading from '@/components/loading'
-import balance from '@/exchanges/market/balance'
 import IScroll from 'iscroll'
+import quickLogin from '@/components/quickLogin'
+import utils from '@/assets/js/utils'
+import balance from '@/exchanges/market/balance'
 export default {
   props: {
     valuationCout: null,
@@ -103,8 +109,7 @@ export default {
     }
   },
   components: {
-    balance,
-    loading
+    balance
   },
   data () {
     return {
@@ -193,6 +198,9 @@ export default {
   },
   methods: {
     ...mapActions(['setEntrustPrices', 'addEvents', 'removeEvents', 'tiggerEvents']),
+    showQuickLogin () {
+      utils.setDialog(quickLogin, {})
+    },
     initCurrentOrdersScroll(){
       this.currentOrdersScroll = new IScroll('#currentOrdersScroll',{
         mouseWheel: true,
@@ -317,7 +325,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.market-watch-height {height: 360px;}
+.market-watch-height {height: 360px; position: relative;}
 .title-container {
     font-size: 18px;
     color: #f1f1f2;
@@ -396,5 +404,14 @@ export default {
     }
   }
 }
-
+.not-login {
+    position: absolute;
+    top: 80px;
+    width: 100%;
+    >img {
+        display: inline-block;
+        margin-top: 50px;
+        width: 150px;
+    }
+}
 </style>
