@@ -40,10 +40,10 @@
       
       <ul class="sell">
         <li class="ui-flex bar pointer" :style="listItemStyle(item, 'ask')" v-for="(item,index) in filterAsks" :key="item.orderBookId" @click="clickChangeValue(item)">
-          <span class="rang-up with-35" @click="clickChangeValue(toFixed(item.price), 'price')">{{toFixed(item.price,mergeValue)}}</span> 
+          <span class="ui-flex-1" @click="clickChangeValue(toFixed(item.price), 'price')">{{toFixed(item.price,mergeValue)}}</span> 
           <span class="text-center ui-flex-1" @click="clickChangeValue(toFixed(item.price), 'price')">{{toFixed(item.avaliableAmount, Quantityaccu)}}</span> 
           <span class="text-center ui-flex-1" @click="clickChangeValue(item, 'total')">{{muldepth(item.price, item.avaliableAmount)}}</span> 
-          <span class="text-right ui-flex-1">{{index+1}}</span>
+          <span class="text-right rang-down with-35">{{index+1}}</span>
         </li>
       </ul>
     </div>
@@ -297,7 +297,7 @@ export default {
           }
           &.arrow-down {
               display: inline-block;
-              width: 60px;
+              width: 70px;
               cursor: pointer;
               background: url('../../assets/img/arrow-down.png') no-repeat 94% 50%;
               background-size: 12px;
