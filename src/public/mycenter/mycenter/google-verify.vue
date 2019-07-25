@@ -29,6 +29,7 @@
   import Vue from 'vue'
   import userApi from '@/api/individual'
   import utils from '@/assets/js/utils'
+  import {mapGetters} from 'vuex'
 
   export default {
     name: 'goole-verify',
@@ -43,12 +44,14 @@
       if (this.state === 1) {
         this.getGoogleKey()
       }
+      console.log(this.getUserInfo().username)
     },
     methods: {
+      ...mapGetters(['getUserInfo']),
       getGoogleKey () {
         userApi.createGoogleKey(res => {
           this.bindGoogleKey = res.msg
-          var qrCode = `otpauth://totp/?secret=${res.msg}`
+          var qrCode = `otpauth://totp/${window.location.host}:${this.getUserInfo().username}?secret=${res.msg}&digits=6&issuer=${window.location.host}&period=30`
           utils.qrcode(this.$refs.qrcode, {
             width: 150,
             height: 150,
