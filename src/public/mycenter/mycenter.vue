@@ -3,7 +3,7 @@
     <div class="cont">
       <p class="title">{{$t('usercontent.user01')}}</p>
       <div class="box">
-        <p>{{$t('usercontent.user02')}}：{{getUserInfo.username}}</p>
+        <p>{{$t('usercontent.user02')}}：{{userInfo.username}}</p>
       </div>
     </div>
     <div class="cont mt15">
@@ -15,7 +15,7 @@
             <i class="icon-name"></i>
             <span>{{$t('usercontent.user05')}}</span>
             <span>{{$t('usercontent.user06')}}</span>
-            <button @click="banding()">{{getUserInfo.googleAuthEnable === 0 ? $t('usercontent.user07'):
+            <button @click="banding()">{{userInfo.googleAuthEnable === 0 ? $t('usercontent.user07'):
               $t('usercontent.user34')}}
             </button>
           </li>
@@ -46,8 +46,8 @@
         </tr>
         <tr>
           <td height="34px">
-            <p :class="{active: getUserInfo.kycState !== 2}">{{$t('usercontent.user17')}}
-              <span v-if="getUserInfo.kycState !== 2">{{$t('usercontent.user18')}}</span>
+            <p :class="{active: userInfo.kycState !== 2}">{{$t('usercontent.user17')}}
+              <span v-if="userInfo.kycState !== 2">{{$t('usercontent.user18')}}</span>
             </p>
           </td>
           <td></td>
@@ -57,8 +57,8 @@
         </tr>
         <tr>
           <td height="34px">
-            <p :class="{active: getUserInfo.kycState === 2}">{{$t('usercontent.user19')}}
-              <span v-if="getUserInfo.kycState === 2">{{$t('usercontent.user18')}}</span>
+            <p :class="{active: userInfo.kycState === 2}">{{$t('usercontent.user19')}}
+              <span v-if="userInfo.kycState === 2">{{$t('usercontent.user18')}}</span>
             </p>
           </td>
           <td>√</td>
@@ -68,6 +68,7 @@
         </tr>
       </table>
     </div>
+    <loading class="loading" v-if="showLoading"></loading>
   </div>
 </template>
 
@@ -77,9 +78,7 @@
   import userUtils from '@/api/individual'
   import utils from '@/assets/js/utils'
   import loading from '@/components/loading'
-  import page from '@/components/page'
   import avatar from '@/assets/images/touxiang.png'
-  import Buttonbox from '../../components/formel/buttonbox'
   import gooleTip from './mycenter/google-tip'
   import googleVerify from './mycenter/google-verify'
   import userApi from '@/api/user'
@@ -92,19 +91,29 @@
       return {
         vsloaded: false, // 认证信息加载完毕状态
         avatarUrl: avatar,
+        userInfo: null,
+        showLoading: false
       }
     },
     computed: {
       ...mapGetters(['getUserInfo', 'getLang']),
     },
-    watch: {},
+    watch: {
+      ...mapGetters(['getUserInfo', 'getLang']),
+      getUserInfo () {
+        this.userInfo = this.getUserInfo
+      }
+    },
     created () {
-      this.examine()
       console.log(this.getUserInfo)
+      this.userInfo = this.getUserInfo
+      setTimeout(() => {
+        this.examine()
+      }, 500)
     },
     methods: {
       examine () {
-        if (this.getUserInfo.googleAuthEnable === 0) {
+        if (this.userInfo.googleAuthEnable === 0) {
           utils.setDialog(gooleTip, {
             okCallback: () => {
               setTimeout(() => {
@@ -121,27 +130,29 @@
             let data = {
               googleCode: res
             }
+            this.showLoading = true
             if (i === 1) {
-              console.log(data)
               userUtils.bindGoogleAuth(data, msg => {
                 userApi.getUserInfo((userInfo) => {
-                  if (this.getApiToken) {
-                    this.setUserInfo(userInfo)
-                  }
+                  this.showLoading = false
+                  this.userInfo = userInfo
+                  this.setUserInfo(userInfo)
                 })
                 Vue.$koallTipBox({icon: 'success', message: this.$t('error_code.' + msg), delay: 3000})
               }, msg => {
+                this.showLoading = false
                 Vue.$koallTipBox({icon: 'notification', message: this.$t('error_code.' + msg), delay: 3000})
               })
             } else {
               userUtils.unbindGoogleAuth(data, res => {
                 userApi.getUserInfo((userInfo) => {
-                  if (this.getApiToken) {
-                    this.setUserInfo(userInfo)
-                  }
+                  this.showLoading = false
+                  this.userInfo = userInfo
+                  this.setUserInfo(userInfo)
                 })
                 Vue.$koallTipBox({icon: 'success', message: this.$t('error_code.' + res), delay: 3000})
               }, msg => {
+                this.showLoading = false
                 Vue.$koallTipBox({icon: 'notification', message: this.$t('error_code.' + msg), delay: 3000})
               })
             }
@@ -149,7 +160,7 @@
         })
       },
       banding () {
-        if (this.getUserInfo.googleAuthEnable === 0) {
+        if (this.userInfo.googleAuthEnable === 0) {
           this.googleVerify(1)
         } else {
           this.googleVerify(2)
@@ -164,10 +175,10 @@
         })
       },
       rePayPassword () {
-        if (this.getUserInfo.googleAuthEnable === 0) {
+        if (this.userInfo.googleAuthEnable === 0) {
           Vue.$koallTipBox({icon: 'notification', message: this.$t('usercontent.user35'), delay: 3000})
           return
-        } else if (this.getUserInfo.kycState !== 2) {
+        } else if (this.userInfo.kycState !== 2) {
           Vue.$koallTipBox({icon: 'notification', message: this.$t('usercontent.user36'), delay: 3000})
           return
         } else {
@@ -186,6 +197,14 @@
 <style scoped lang="less">
   .c-c {
     color: #979799;
+  }
+
+  .loading {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    margin-left: -25px;
+    z-index: 99;
   }
 
   .mycenter {
