@@ -1,73 +1,75 @@
 <template>
 	<div class="container w1200">
-		<div class="market-box">
-			<ul class="tab">
-				<li :class="{active:current==='favor'}" @click="switchTab('favor')">{{$t('home.home_favorites')}}<!-- 自选 --></li>
-				<li :class="{active:current==='all'}" @click="switchTab('all')">{{$t('exchange.all_market')}}<!-- 全部行情 --></li>
-				<li :class="{active:current==='rise'}" @click="switchTab('rise')">{{$t('public0.public204')}}<!-- 涨幅榜 --></li>
-				<li :class="{active:current==='fall'}" @click="switchTab('fall')">{{$t('public0.public205')}}<!-- 跌幅榜 --></li>
-				<li :class="{active:current==='new'}" @click="switchTab('new')">{{$t('exchange.new_token_board')}}<!-- 新币榜 --></li>
-			</ul>
-			<div class="market-wrap">
-				<div class="symbolPairs" v-show="current==='all'">
-					<span class="efont" v-for="item in symbolList" :class="{active:item===baseSymbol}" @click="switchBaseSymbolTab(item)">{{item}}</span>
+		<div class="market-container">
+			<div class="market-box">
+				<ul class="tab">
+					<li :class="{active:current==='favor'}" @click="switchTab('favor')">{{$t('home.home_favorites')}}<!-- 自选 --></li>
+					<li :class="{active:current==='all'}" @click="switchTab('all')">{{$t('exchange.all_market')}}<!-- 全部行情 --></li>
+					<li :class="{active:current==='rise'}" @click="switchTab('rise')">{{$t('public0.public204')}}<!-- 涨幅榜 --></li>
+					<li :class="{active:current==='fall'}" @click="switchTab('fall')">{{$t('public0.public205')}}<!-- 跌幅榜 --></li>
+					<li :class="{active:current==='new'}" @click="switchTab('new')">{{$t('exchange.new_token_board')}}<!-- 新币榜 --></li>
+				</ul>
+				<div class="market-wrap">
+					<div class="symbolPairs" v-show="current==='all'">
+						<span class="efont" v-for="item in symbolList" :class="{active:item===baseSymbol}" @click="switchBaseSymbolTab(item)">{{item}}</span>
+					</div>
+					<table>
+						<thead>
+						  <tr >
+						    <th width="16%" @click="sortMarket('market')">{{$t('exchange.trade_pair')}}<!-- 交易对 -->
+						    	<span class="caret-wrapper" :class="{active:sortActive==='market'}">
+						    		<i class="sort-caret ascending" :class="{active:sort==='asc'}"></i>
+						    		<i class="sort-caret descending" :class="{active:sort==='desc'}"></i>
+						    	</span>
+						    </th>
+						    <th width="18%" @click="sortMarket('lastPrice')">{{$t('exchange.exchange_last_price')}}<!-- 最新价 -->
+						    	<span class="caret-wrapper" :class="{active:sortActive==='lastPrice'}">
+						    		<i class="sort-caret ascending" :class="{active:sort==='asc'}"></i>
+						    		<i class="sort-caret descending" :class="{active:sort==='desc'}"></i>
+						    	</span>
+						    </th>
+						    <th width="18%" @click="sortMarket('lowPrice24h')">{{$t('home.home_low_24h')}}<!-- 最低价 -->
+						    	<span class="caret-wrapper" :class="{active:sortActive==='lowPrice24h'}">
+						    		<i class="sort-caret ascending" :class="{active:sort==='asc'}"></i>
+						    		<i class="sort-caret descending" :class="{active:sort==='desc'}"></i>
+						    	</span>
+						    </th>
+						    <th width="18%" @click="sortMarket('highPrice24h')">{{$t('exchange.exchange_high')}}<!-- 最高价 -->
+						    	<span class="caret-wrapper" :class="{active:sortActive==='highPrice24h'}">
+						    		<i class="sort-caret ascending" :class="{active:sort==='asc'}"></i>
+						    		<i class="sort-caret descending" :class="{active:sort==='desc'}"></i>
+						    	</span>
+						    </th>
+						    <th width="18%" @click="sortMarket('dealAmount')">{{$t('home.home_volume_24h')}}<!-- 成交量 -->
+						    	<span class="caret-wrapper" :class="{active:sortActive==='dealAmount'}">
+						    		<i class="sort-caret ascending" :class="{active:sort==='asc'}"></i>
+						    		<i class="sort-caret descending" :class="{active:sort==='desc'}"></i>
+						    	</span>
+						    </th>
+						    <th width="12%" @click="sortMarket('change24h')" class="text-right">{{$t('exchange.up_and_down')}}<!-- 涨跌幅 -->
+						    	<span class="caret-wrapper" :class="{active:sortActive==='change24h'}">
+						    		<i class="sort-caret ascending" :class="{active:sort==='asc'}"></i>
+						    		<i class="sort-caret descending" :class="{active:sort==='desc'}"></i>
+						    	</span>
+						    </th>
+						  </tr>
+						</thead>
+						<tbody>
+							<router-link v-for="item in curProducts" :to="{name: 'exchange_index',params:{symbol:item.currencySymbol+'_'+item.baseSymbol}}" tag='tr'>
+								<td class="icon">
+									<span @click.stop="addOrDelFavor(item)"><img src="../assets/img/star_blue.png" v-if="item.collection || (!getApiToken && favorSymbol.includes(item.market))"><img src="../assets/img/star_gray.png" v-else></span>
+									<span>{{item.currencySymbol}}</span>
+									<span class="f-c-gray">/ {{item.baseSymbol}}</span>
+								</td>
+								<td><span>{{toFixed(item.lastPrice, item.accuracy)}}</span></td>
+								<td><span>{{toFixed(item.lowPrice24h, item.accuracy)}}</span></td>
+								<td><span >{{toFixed(item.highPrice24h, item.accuracy)}}</span></td>
+								<td><span >{{toFixed(item.dealAmount, 2).toMoney()}}</span></td>
+	            				<td><span v-html="percent(item)"></span></td>
+							</router-link>
+						</tbody>
+					</table>
 				</div>
-				<table>
-					<thead>
-					  <tr >
-					    <th width="16%" @click="sortMarket('market')">{{$t('exchange.trade_pair')}}<!-- 交易对 -->
-					    	<span class="caret-wrapper" :class="{active:sortActive==='market'}">
-					    		<i class="sort-caret ascending" :class="{active:sort==='asc'}"></i>
-					    		<i class="sort-caret descending" :class="{active:sort==='desc'}"></i>
-					    	</span>
-					    </th>
-					    <th width="18%" @click="sortMarket('lastPrice')">{{$t('exchange.exchange_last_price')}}<!-- 最新价 -->
-					    	<span class="caret-wrapper" :class="{active:sortActive==='lastPrice'}">
-					    		<i class="sort-caret ascending" :class="{active:sort==='asc'}"></i>
-					    		<i class="sort-caret descending" :class="{active:sort==='desc'}"></i>
-					    	</span>
-					    </th>
-					    <th width="18%" @click="sortMarket('lowPrice24h')">{{$t('home.home_low_24h')}}<!-- 最低价 -->
-					    	<span class="caret-wrapper" :class="{active:sortActive==='lowPrice24h'}">
-					    		<i class="sort-caret ascending" :class="{active:sort==='asc'}"></i>
-					    		<i class="sort-caret descending" :class="{active:sort==='desc'}"></i>
-					    	</span>
-					    </th>
-					    <th width="18%" @click="sortMarket('highPrice24h')">{{$t('exchange.exchange_high')}}<!-- 最高价 -->
-					    	<span class="caret-wrapper" :class="{active:sortActive==='highPrice24h'}">
-					    		<i class="sort-caret ascending" :class="{active:sort==='asc'}"></i>
-					    		<i class="sort-caret descending" :class="{active:sort==='desc'}"></i>
-					    	</span>
-					    </th>
-					    <th width="18%" @click="sortMarket('dealAmount')">{{$t('home.home_volume_24h')}}<!-- 成交量 -->
-					    	<span class="caret-wrapper" :class="{active:sortActive==='dealAmount'}">
-					    		<i class="sort-caret ascending" :class="{active:sort==='asc'}"></i>
-					    		<i class="sort-caret descending" :class="{active:sort==='desc'}"></i>
-					    	</span>
-					    </th>
-					    <th width="12%" @click="sortMarket('change24h')" class="text-right">{{$t('exchange.up_and_down')}}<!-- 涨跌幅 -->
-					    	<span class="caret-wrapper" :class="{active:sortActive==='change24h'}">
-					    		<i class="sort-caret ascending" :class="{active:sort==='asc'}"></i>
-					    		<i class="sort-caret descending" :class="{active:sort==='desc'}"></i>
-					    	</span>
-					    </th>
-					  </tr>
-					</thead>
-					<tbody>
-						<router-link v-for="item in curProducts" :to="{name: 'exchange_index',params:{symbol:item.currencySymbol+'_'+item.baseSymbol}}" tag='tr'>
-							<td class="icon">
-								<span @click.stop="addOrDelFavor(item)"><img src="../assets/img/star_blue.png" v-if="item.collection || (!getApiToken && favorSymbol.includes(item.market))"><img src="../assets/img/star_gray.png" v-else></span>
-								<span>{{item.currencySymbol}}</span>
-								<span class="f-c-gray">/ {{item.baseSymbol}}</span>
-							</td>
-							<td><span>{{toFixed(item.lastPrice, item.accuracy)}}</span></td>
-							<td><span>{{toFixed(item.lowPrice24h, item.accuracy)}}</span></td>
-							<td><span >{{toFixed(item.highPrice24h, item.accuracy)}}</span></td>
-							<td><span >{{toFixed(item.dealAmount, 2).toMoney()}}</span></td>
-            				<td><span v-html="percent(item)"></span></td>
-						</router-link>
-					</tbody>
-				</table>
 			</div>
 		</div>
 	</div>
@@ -256,7 +258,7 @@ export default {
 </script>
 
 <style lang="less" scoped="">
-.container {
+.market-container {
 	padding: 50px 0 30px;
 }
 .market-box {

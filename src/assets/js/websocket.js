@@ -29,7 +29,7 @@ import Config from './config'
       return
     }
     if (webSocket && webSocket.readyState === webSocket.OPEN) {
-      let params = {"event":"addChannel","channel":"kline","api_token":apiToken,"period":period === 'line' ? '1m' : period,"symbol":symbol,"isZip":false,"subscribe":subscribe}
+      let params = {"event":"addChannel","channel":"kline","api_token":apiToken,"is_mobile":true,"period":period === 'line' ? '1m' : period,"symbol":symbol,"isZip":false,"subscribe":subscribe}
       webSocket.send(JSON.stringify(params))
     }
   }
