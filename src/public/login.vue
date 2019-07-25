@@ -95,8 +95,10 @@ export default {
             }, (msg, rst) => {
               this.locked = false
               Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${typeof msg === 'string' ? msg : msg[0]}`)})
-              if (rst === 300) {
+              if (msg === 'verify_email_required') {
                 this.$router.push({name: 'sendemail', params: {email: this.formData.username}})
+              } else if (msg === 'invalid_totp') {
+                this.needGoogleCode = true
               }
             })
           }, () => {

@@ -13,7 +13,7 @@
            <label class="ui-radio-icon" for="viewAll"></label>
            <label class="ml10 pointer" for="viewAll">{{$t('exchange.view_all_entrust')}}</label>
           </div>
-          <router-link to="/account/transaction" class="inline fs12 ml20 pointer" tag="div">查看全部 ></router-link>
+          <router-link to="/account/transaction" class="inline fs12 ml20 pointer" tag="div">{{$t('exchange.basic_more')}}<!-- 查看全部 --> ></router-link>
         </div>
     </div>
     
