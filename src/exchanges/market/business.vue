@@ -202,7 +202,7 @@ export default {
   methods: {
     ...mapActions(['addEvents', 'removeEvents']),
     showQuickLogin(){
-      utils.setDialog(quickLogin, {})
+      utils.setDialog(quickLogin, {backClose:true})
     },
     switchTab (tab) {
       this.active = tab

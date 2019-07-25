@@ -65,7 +65,7 @@
         </li>
       </ul>
     </div>
-    <div class="text-center not-login">
+    <div class="text-center not-login" v-if="!getApiToken">
      <img src="../../assets/img/login_bg.png" /> 
      <p><span >{{$t('message.msg_please')}}<!-- 请先 --></span> <span class="pointer f-c-main ml5" @click="showQuickLogin">{{$t('login_register.login')}}<!-- 登录 --></span> <router-link :to="{name:'register'}" class="pointer f-c-main ml5" tag="span">{{$t('login_register.register')}}<!-- 注册 --></router-link></p>
     </div>
@@ -199,7 +199,7 @@ export default {
   methods: {
     ...mapActions(['setEntrustPrices', 'addEvents', 'removeEvents', 'tiggerEvents']),
     showQuickLogin () {
-      utils.setDialog(quickLogin, {})
+      utils.setDialog(quickLogin, {backClose:true})
     },
     initCurrentOrdersScroll(){
       this.currentOrdersScroll = new IScroll('#currentOrdersScroll',{
