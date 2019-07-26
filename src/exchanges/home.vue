@@ -16,7 +16,7 @@
            </thead> 
            <tbody> 
             <tr> 
-             <td class="text-left" :class="[getLast24h.isDown?'rang-down':'rang-up']"> {{getLast24h.isDown?'-':'+'}}{{getLast24h.percent}}% </td> 
+             <td class="text-left" :class="[getLast24h.isDown?'rang-down':'rang-up']"> {{getLast24h.isDown?'':'+'}}{{getLast24h.percent}}% </td> 
              <td class="rang-up text-left"> {{toFixed(getLast24h.high, fixedNumber)}} </td> 
              <td class="rang-down text-left"> {{toFixed(getLast24h.bottom, fixedNumber)}} </td> 
              <td class="text-left"> {{toFixed(getLast24h.vol, 2)}} {{baseSymbol}} </td> 
