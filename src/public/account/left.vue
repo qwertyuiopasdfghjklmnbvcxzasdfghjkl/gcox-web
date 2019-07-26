@@ -5,7 +5,8 @@
         <span>{{$t('usercontent.user57')}}</span>
         <!--账户一览-->
       </li>
-      <li :class="{'active': active === 'digassets'||active ==='withdrawInfo'||active ==='addressManage'}"
+      <li :class="{'active': active === 'digassets'||
+      active ==='withdrawInfo'||active ==='addressManage'||active ==='adresscava'}"
           @click="switch_tab('digassets')">
         <span>{{$t('usercontent.user58')}}</span>
         <!--我的资产-->

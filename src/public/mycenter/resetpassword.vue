@@ -90,7 +90,7 @@
             let data = {}
             data.password = this.formData.password
             data.passwordNew = this.formData.newPassword
-            if (this.getUserInfo.googleAuthEnable === 1) {
+            if (this.getUserInfo().googleAuthEnable === 1) {
               utils.setDialog(googleVerify, {
                 state: 2,
                 okCallback: (res) => {
