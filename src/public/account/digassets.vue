@@ -98,8 +98,7 @@
                           :googleState="getUserInfo.googleAuthEnable"
                           :verifyState="getUserInfo.kycState"
                           :symbol="data.symbol"
-                          :item="data"
-                          @updateMyAssets="getList"/>
+                          :item="data"/>
               </div>
             </li>
           </ul>
@@ -242,7 +241,6 @@
       }
       this.getList()
       this.getUserState()
-      console.log(this.getUserInfo())
     },
     methods: {
       ...mapGetters(['getUserInfo', 'getLang']),

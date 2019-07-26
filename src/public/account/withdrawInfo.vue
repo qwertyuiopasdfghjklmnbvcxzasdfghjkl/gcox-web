@@ -2,12 +2,17 @@
   <div ref="withdrawBox" class="withdrawBox" @click="showDropdown=false">
     <div class="koall-verify-all">
       <div class="koall-verify-title">
-        <span @click="closeDailog" class="icon-close"></span>
-        <p>
-          {{symbol}} {{$t('account.estimated_value_withdrawal')}}<!--提现-->
+        <router-link :to="'/account/digassets'">{{$t('usercontent.user58')}}<!--我的资产--></router-link>
+        >
+        <span>{{$t('account.estimated_value_withdrawal')}}<!--提现--></span>
+      </div>
+      <div>
+        <p class="tbsm">
+          <span>{{$t('usercontent.description')}}</span>
+          <span>{{$t('usercontent.description-text')}}</span>
         </p>
       </div>
-      <div class="f-fl">
+      <div class="input-box">
         <div class="filed">
           <em>
             {{$t('account.user_Pick_up_address').format(symbol)}}<!--提现地址--> ：<i class="asterisk">&nbsp;*</i>
@@ -40,23 +45,24 @@
           <em class="error" v-if="errors.has('alias') || errors.has('toAddress')">{{$t('public0.public45')}}
             <!--请输入新地址--></em>
         </div>
-        <div class="filed memo" v-if="symbol==='EOS'">
-          <em>
-            {{$t('account.user_center_history_note')}}<!--提现备注--> ：
-          </em>
-          <input type="text" maxlength="1000" v-model="memo" :placeholder="'Memo,'+$t('public0.public237')"/>
-        </div>
+        <!--<div class="filed memo" v-if="symbol==='EOS'">-->
+          <!--<em>-->
+            <!--{{$t('account.user_center_history_note')}}&lt;!&ndash;提现备注&ndash;&gt; ：-->
+          <!--</em>-->
+          <!--<input type="text" maxlength="1000" v-model="memo" :placeholder="'Memo,'+$t('public0.public237')"/>-->
+        <!--</div>-->
         <div class="filed">
           <div class="filed-number">
             <em>{{$t('account.user_Draw_the_number')}}<!--提现数量--> ：<i class="asterisk">&nbsp;*</i></em>
-            <span>
-                          {{$t('account.estimated_value_available')}}<!--可用余额-->：{{available}} {{symbol}}
-                      </span>
+
           </div>
           <div class="number" :class="{error:errors.has('amount')}">
             <numberbox v-validate="'required|isLessMin|isMoreMax'" :accuracy="8" data-vv-name="amount" class="numberAll"
                        type="text" v-model="amount"/>
             <a href="javascript:;" @click="allWithdraw">{{$t('account.user_All_cash')}}<!--全部提现--></a>
+            <span>
+              {{$t('account.estimated_value_available')}}<!--可用余额-->：{{available}} {{symbol}}
+            </span>
           </div>
           <em class="error" v-if="errors.has('amount')">{{getErrors('amount')}}</em>
         </div>
@@ -72,13 +78,13 @@
           <input type="button" class="BNB-subbtn" :value="$t('account.user_submit')" @click="walletWithdraw"/><!--提交-->
         </div>
       </div>
-      <div class="f-fr">
-        <ul class="tips">
-          <li>{{$t('account.user_minimum_number_of_cash').format(`：${minWithdraw} ${symbol}`)}}<!--最小提现数量为{0}。--></li>
-          <li>{{$t('account.user_prompt7')}}<!--请勿直接提现至众筹或ICO地址.我们不会处理未来代币的发放.--></li>
-          <li>{{$t('public0.public229')}}<!--您可以在充值提现历史记录页面跟踪状态。--></li>
-        </ul>
-      </div>
+      <!--<div class="f-fr">-->
+      <!--<ul class="tips">-->
+      <!--<li>{{$t('account.user_minimum_number_of_cash').format(`：${minWithdraw} ${symbol}`)}}&lt;!&ndash;最小提现数量为{0}。&ndash;&gt;</li>-->
+      <!--<li>{{$t('account.user_prompt7')}}&lt;!&ndash;请勿直接提现至众筹或ICO地址.我们不会处理未来代币的发放.&ndash;&gt;</li>-->
+      <!--<li>{{$t('public0.public229')}}&lt;!&ndash;您可以在充值提现历史记录页面跟踪状态。&ndash;&gt;</li>-->
+      <!--</ul>-->
+      <!--</div>-->
     </div>
   </div>
 </template>
@@ -95,30 +101,18 @@
   import smswithdraw from '@/public/dialog/smswithdraw'
 
   export default {
-    props: {
-      symbol: {
-        type: String
-      },
-      symbolType: {
-        type: Number
-      },
-      fromAccount: {
-        type: String
-      },
-      available: {
-        type: String
-      },
-      fromAddress: {
-        type: String
-      },
-      procedure: null,
-      minWithdraw: null
-    },
     components: {
       numberbox
     },
     data () {
       return {
+        symbol: null,
+        symbolType: null,
+        fromAccount: null,
+        available: null,
+        fromAddress: null,
+        procedure: null,
+        minWithdraw: null,
         mobileState: null,
         fixedNumber: 8,
         datas: {},
@@ -171,6 +165,25 @@
       }
     },
     created () {
+      let item = this.$route.params.item
+      if (!item || item === 'undefined') {
+        console.log('error')
+        this.$router.push({
+          name: 'account_menu',
+          params: {
+            menu: 'pandect'
+          }
+        })
+      } else {
+        this.symbol = item.symbol
+        this.symbolType = item.symbolType
+        this.fromAccount = item.fromAccount
+        this.available = item.available
+        this.fromAddress = item.fromAddress
+        this.procedure = item.procedure
+        this.minWithdraw = item.minWithdraw
+      }
+      console.log(item)
       this.getUserState()
       Validator.extend('isLessMin', {
         getMessage: (field, args) => this.$t('account.user_minimum_number_of_cash').format(`${this.minWithdraw}`),
@@ -308,7 +321,7 @@
     }
   }
 </script>
-<style scoped>
+<style scoped lang="less">
   div.error, input.error {
     border-color: #e53f3f !important;
   }
@@ -324,21 +337,24 @@
   }
 
   .withdrawBox {
-    width: 802px;
-    background-color: #fff;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    padding: 14px 18px 90px;
+    background-color: #19181c;
+    color: #f1f1f2;
     overflow: hidden;
-    box-shadow: 0 2px 8px #5d5d5d;
     position: relative;
+  }
+
+  .tbsm {
+    background-color: #242328;
+    margin-top: 25px;
+    padding: 10px;
+    line-height: 30px;
+    display: flex;
   }
 
   .withdrawBox .filed {
     margin-bottom: 20px;
     position: relative;
-    margin-left: 22px;
-    height: 40px;
-    height: auto;
   }
 
   .withdrawBox .filed .joint {
@@ -412,20 +428,18 @@
     position: relative;
     color: #999;
     font-size: 0;
-    width: 500px;
     height: 30px;
-    background-color: #FFF;
-    border: 1px solid #ccc;
+    border-bottom: 1px solid hsla(0, 0%, 100%, .12);
   }
 
   .withdrawBox .filed.memo {
-    display: flex;
     padding-top: 10px;
     margin-bottom: 5px;
   }
 
   .withdrawBox .filed.memo em {
     width: 50px;
+    display: block;
     height: 28px;
     line-height: 28px;
   }
@@ -433,7 +447,8 @@
   .withdrawBox .filed.memo input {
     flex: 1;
     height: 28px;
-    border: 1px solid #ccc;
+    width: 100%;
+    border-bottom: 1px solid hsla(0, 0%, 100%, .12);
   }
 
   .withAdress span.dowml {
@@ -466,12 +481,11 @@
   }
 
   .withAdress input {
-    color: #333;
-    width: 452px;
-    padding-left: 12px;
+    width: 529px;
     padding-right: 6px;
     background-color: transparent;
     height: 30px;
+    color: #ffffff;
   }
 
   .withAdress ul {
@@ -547,15 +561,13 @@
   .number {
     position: relative;
     box-sizing: border-box;
-    width: 502px;
     height: 30px;
     padding: 0 12px;
-    border: 1px solid #54616c;
+    border-bottom: 1px solid hsla(0, 0%, 100%, .12);
     color: #aeb7d0;
     margin-top: 0px;
     text-align: right;
     line-height: 30px;
-    background: #FFF;
   }
 
   .number a {
@@ -622,18 +634,18 @@
   }
 
   .koall-verify-title span {
-    position: absolute;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 14px;
+    color: #979799;
+  }
+
+  .koall-verify-title a {
+    font-size: 14px;
     color: #fff;
-    top: 17px;
-    right: 15px;
-    opacity: 0.8;
-    cursor: pointer;
   }
 
   .koall-verify-title span:hover {
-    opacity: 1;
+
   }
 
   .koall-verify-all {
@@ -665,5 +677,11 @@
 
   input:-ms-input-placeholder { /* Internet Explorer 10+ */
     color: #818fae;
+  }
+
+  .input-box {
+    padding-top: 20px;
+    width: 570px;
+    margin: 0 auto;
   }
 </style>

@@ -17,6 +17,7 @@
   import transaction from './transaction'
   import adresscava from './adresscava'
   import addressManage from './addressManage'
+  import withdrawInfo from './withdrawInfo'
 
   export default {
     name: 'index',
@@ -32,12 +33,12 @@
       history,
       transaction,
       adresscava,
-      addressManage
+      addressManage,
+      withdrawInfo
     },
     watch: {
       '$route' (to, from) {
         this.active = this.$route.params.menu || 'pandect'
-        console.log(this.$route.params.with)
       }
     },
     methods: {
