@@ -36,6 +36,15 @@ Validator.extend('newPassword', {
   }
 })
 
+Validator.extend('payPassword', {
+  getMessage: (field, args) => {
+    return 'login_register.gcoxPWReg' // 密码至少8位，包括大、小写字母、数字及以下特殊字符 !@#$%^&*+=
+  },
+  validate: (value, args) => {
+    return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*+=]).{8,}$/.test(value)
+  }
+})
+
 Validator.extend('googleCode', {
   getMessage: (field, args) => {
     return 'usercontent.user65' // 谷歌验证码 暂无条件
@@ -51,6 +60,24 @@ Validator.extend('emailCode', {
   },
   validate: (value, args) => {
     return /^[0-9a-zA-Z]+$/.test(value)
+  }
+})
+
+Validator.extend('address', {
+  getMessage: (field, args) => {
+    return ' ' // 提币地址 暂无条件
+  },
+  validate: (value, args) => {
+    return /^[0-9a-zA-Z]+$/.test(value)
+  }
+})
+
+Validator.extend('memo', {
+  getMessage: (field, args) => {
+    return ' ' // 标签 暂无条件
+  },
+  validate: (value, args) => {
+    return value
   }
 })
 

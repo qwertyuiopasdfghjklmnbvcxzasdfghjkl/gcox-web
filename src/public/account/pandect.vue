@@ -33,7 +33,7 @@
     data () {
       return {
         pandect: {
-          hiddenZore: true,
+          hiddenZore: false,
           showTraList: false
         }
       }

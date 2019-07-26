@@ -1,5 +1,6 @@
 <template>
   <div class="cont">
+
     <p class="title"  v-if="state === 1">{{$t('usercontent.user24')}}</p>
     <div class="ear" v-if="state === 1">
       <div class="qrcode">
