@@ -28,12 +28,14 @@ import 'echarts/lib/component/legend'
 import 'echarts/lib/component/title.js'
 
 import gjh from './public/mycenter/gjh'
+import loading from '@/components/loading'
 
 Vue.use(VeeValidate)
 Vue.use(VueI18n)
 Vue.use(Vtip.directive)
 Vue.use(VueAwesomeSwiper)
 Vue.component('v-chart', ECharts)
+Vue.component('loading', loading)
 
 let i18n = window.$i18n = new VueI18n({
   locale: 'en',
