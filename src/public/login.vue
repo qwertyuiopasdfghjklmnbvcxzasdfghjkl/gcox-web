@@ -29,6 +29,9 @@
         <div class="text-right"><router-link :to="{name:'findpwd'}" class="f-c-main f12">{{$t('login_register.forget_password')}}<!-- 忘记密码？ --></router-link></div>
         <div class="text-right mt30"><button type="button" class="mint-btn default round efont" style="width: 140px;" :disabled="errors.any()" @click="login">{{$t('login_register.login')}}<!-- 登录 --></button></div>
       </div>
+      <div class="mask-layer ui-flex ui-flex-center ui-flex-column" v-show="locked">
+        <loading/>
+      </div>
     </div>
 </template>
 
@@ -38,7 +41,11 @@ import { mapActions } from 'vuex'
 import userApi from '@/api/user'
 import myAPi from '@/api/individual'
 import utils from '@/assets/js/utils'
+import loading from '@/components/loading'
 export default {
+  components:{
+    loading
+  },
   data () {
     return {
       locked: false,
