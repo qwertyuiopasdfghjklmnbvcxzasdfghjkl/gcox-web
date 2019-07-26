@@ -227,7 +227,7 @@
         //   })
         //   return
         // }
-        utils.setDialog(withdrawInfo, {
+        let data = {
           symbol: this.item.symbol,
           symbolType: this.item.symbolType,
           available: this.item.availableBalance,
@@ -235,10 +235,26 @@
           procedure: this.item.procedureFee,
           minWithdraw: this.item.minWithdraw,
           fromAccount: this.item.accountId,
-          okCallback: () => {
-            this.$emit('updateMyAssets')
+        }
+        this.$router.push({
+          name: 'account_menu',
+          params: {
+            menu: 'withdrawInfo',
+            item: data
           }
         })
+        // utils.setDialog(withdrawInfo, {
+        //   symbol: this.item.symbol,
+        //   symbolType: this.item.symbolType,
+        //   available: this.item.availableBalance,
+        //   fromAddress: this.getAddress,
+        //   procedure: this.item.procedureFee,
+        //   minWithdraw: this.item.minWithdraw,
+        //   fromAccount: this.item.accountId,
+        //   okCallback: () => {
+        //     this.$emit('updateMyAssets')
+        //   }
+        // })
       },
       scanEWM () {
         utils.setDialog(adressCava, {

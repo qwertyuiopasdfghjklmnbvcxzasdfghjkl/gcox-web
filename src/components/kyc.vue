@@ -8,11 +8,13 @@
 <script>
   import api from '@/api'
   import Vue from 'vue'
+  import userApi from '@/api/individual'
+  import {mapActions} from 'vuex'
 
   let domain = ''
   export default {
     name: 'kyc',
-    props:["redirect_url"],
+    props: ['redirect_url'],
     created () {
       window.onJumioResult = data => {
         if (data.payload.value === 'success' || data.payload.value === 'error') {
@@ -23,6 +25,9 @@
             errorCode: data.payload.metainfo.code
           }
           api.post(`${domain}api/v1/gcox/user/update-kyc-submit-status`, postData, res => {
+            userApi.getUserInfo((userInfo) => {
+              this.setUserInfo(userInfo)
+            })
             this.$emit('removeDialog')
             if (res.rst) {
               Vue.$koallTipBox({icon: 'notification', message: this.$t(`submitted`)})
@@ -35,7 +40,9 @@
           })
         }
       }
-
+    },
+    methods: {
+      ...mapActions(['setUserInfo']),
     }
   }
 </script>

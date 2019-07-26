@@ -206,5 +206,13 @@
         }
       }
     }
+    .btn{
+      cursor: pointer;
+      font-size: 12px;
+      color: #f1f1f2;
+      background-color: #2e2c3c;
+      border: 1px solid #312e45;
+      padding: 2px 10px;
+    }
   }
 </style>
