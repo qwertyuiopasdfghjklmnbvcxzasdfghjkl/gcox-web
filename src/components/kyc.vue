@@ -15,14 +15,14 @@
   export default {
     name: 'kyc',
     props: ['redirect_url'],
-    created () {
+    created() {
       window.onJumioResult = data => {
         if (data.payload.value === 'success' || data.payload.value === 'error') {
           let postData = {
             idScanStatus: data.payload.value.toUpperCase(),
             merchantIdScanReference: data.customerInternalReference,
             jumioIdScanReference: data.transactionReference,
-            errorCode: data.payload.metainfo.code
+            errorCode: data.payload.value === 'error' ? data.payload.metainfo.code : ""
           }
           api.post(`${domain}api/v1/gcox/user/update-kyc-submit-status`, postData, res => {
             userApi.getUserInfo((userInfo) => {
