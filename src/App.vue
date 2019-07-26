@@ -74,6 +74,7 @@ export default {
           return
         }
         let tempName = null
+        debugger
         if (this.fromRoute) {
           if (this.fromRoute.meta.goHome) {
             tempName = 'home'
