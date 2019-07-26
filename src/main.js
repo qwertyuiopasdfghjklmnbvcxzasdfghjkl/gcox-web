@@ -29,11 +29,14 @@ import 'echarts/lib/component/title.js'
 
 import gjh from './public/mycenter/gjh'
 
+import VueClipboard from 'vue-clipboard2'
+
 Vue.use(VeeValidate)
 Vue.use(VueI18n)
 Vue.use(Vtip.directive)
 Vue.use(VueAwesomeSwiper)
 Vue.component('v-chart', ECharts)
+Vue.use(VueClipboard)
 
 let i18n = window.$i18n = new VueI18n({
   locale: 'en',

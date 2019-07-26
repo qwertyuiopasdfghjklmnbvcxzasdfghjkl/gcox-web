@@ -94,7 +94,7 @@
         if (this.getUserInfo.googleAuthEnable === 0) {
           this.$router.push('/mycenter')
           Vue.$koallTipBox({icon: 'notification', message: this.$t('usercontent.user35'), delay: 3000})
-        } else if (this.getUserInfo.kycState !== 2) {
+        } else if (this.getUserInfo.kycState !== 1) {
           this.$router.push('/mycenter')
           Vue.$koallTipBox({icon: 'notification', message: this.$t('usercontent.user36'), delay: 3000})
         }

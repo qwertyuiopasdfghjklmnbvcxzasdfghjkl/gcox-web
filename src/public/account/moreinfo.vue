@@ -105,7 +105,6 @@
   import utils from '@/assets/js/utils'
   import adressCava from './adresscava'
   import memoCava from './memocava'
-  import withdrawInfo from './withdrawInfo'
   import Vue from 'vue'
   import {mapGetters} from 'vuex'
 
@@ -129,6 +128,9 @@
       },
       symbol: {
         type: String
+      },
+      allData: {
+        type: Array
       }
     },
     components: {
@@ -240,7 +242,8 @@
           name: 'account_menu',
           params: {
             menu: 'withdrawInfo',
-            item: data
+            item: data,
+            allData: this.allData
           }
         })
         // utils.setDialog(withdrawInfo, {
@@ -257,10 +260,18 @@
         // })
       },
       scanEWM () {
-        utils.setDialog(adressCava, {
-          addr: this.getAddress,
-          symbol: this.item.symbol
+        this.$router.push({
+          name: 'account_menu',
+          params: {
+            menu: 'adresscava',
+            item: this.item,
+            allData: this.allData
+          }
         })
+        // utils.setDialog(adressCava, {
+        //   addr: this.getAddress,
+        //   symbol: this.item.symbol
+        // })
       },
       buy(){
         this.$router.push('/exchange/'+this.symbol)
