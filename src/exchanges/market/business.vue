@@ -8,8 +8,8 @@
           <div><span>{{isBuy ? baseSymbol : currentSymbol}}</span> <span>{{$t('exchange.exchange_balance')}}<!--余额-->：</span> <span>{{toFixed(isBuy ? toBalance.availableBalance : fromBalance.availableBalance).toMoney()}}</span></div>
           <router-link :to="{name:'account_menu'}" class="normal pull-right" tag="button">{{$t('account.estimated_value_deposit')}}<!-- 充值 --></router-link>
         </div>
-        <p class="exhange-rate">{{$t('public.fee_rate')}}：{{rateData || 0.01}}%<!--手续费率--></p>
-        <form name="orderForm" class="mt10">
+        <p class="exhange-rate" v-if="false">{{$t('public.fee_rate')}}：{{rateData || 0.01}}%<!--手续费率--></p>
+        <form name="orderForm" class="mt30">
           <div class="input-group no-margin">
            <label>{{$t('business.TYPE')}}<!-- 类型 --></label> 
            <div class="el-select" :class="{active:showTypeSelector}" @click="toggleEntrustType">
@@ -468,7 +468,8 @@ export default {
     color: #f1f1f2;
     background-color: #2e2c3c;
     border: none;
-    width: 46px;
+    padding-left:15px;
+    padding-right:15px;
     height: 24px;
     position: relative;
     top: 6px;

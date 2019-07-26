@@ -78,7 +78,7 @@ export default {
           if (this.fromRoute.meta.goHome) {
             tempName = 'home'
           } else {
-            tempName = this.fromRoute.name === 'login' ? 'home' : this.fromRoute.name
+            tempName = (this.fromRoute.name === 'login' || this.$route.name === 'login') ? 'home' : this.fromRoute.name
           }
         } else {
           tempName = 'home'

@@ -7,6 +7,7 @@ import cms from './cms'
 import login from '@/public/login'
 import register from '@/public/register'
 import findpwd from '@/public/findpwd'
+import acm from '@/public/acm'
 import Market from '@/public/market'
 import Withdrawsuccess from '@/public/email/withdrawsuccess'
 import Linkinvalid from '@/public/email/linkinvalid'
@@ -23,6 +24,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Index
+    },
+    {
+      path: '/acm',
+      name: 'acm',
+      component: acm
     },
     {
       path: '/login',
