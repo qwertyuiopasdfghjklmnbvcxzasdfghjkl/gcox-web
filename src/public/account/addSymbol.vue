@@ -4,33 +4,36 @@
     <div class="inp">
       <label>
         <p>{{$t('usercontent.user88')}}</p>
-        <input v-model="address" @blur="blur('address','addressError')"/>
-        <p v-if="addressError" class="error">{{$t('usercontent.user33')}}</p>
+        <input v-model="address" data-vv-name="address" v-validate="'required'"/>
+        <p v-if="errors.has('address')" class="error">{{$t('usercontent.user99')}}</p>
       </label>
       <label>
         <p>{{$t('usercontent.user89')}}</p>
-        <input v-model="memo" @blur="blur('memo','memoError')" maxlength="50"/>
-        <p v-if="memoError" class="error">{{$t('usercontent.user98')}}</p>
+        <input v-model="memo" data-vv-name="memo" v-validate="'required'" maxlength="50"/>
+        <p v-if="errors.has('memo')" class="error">{{$t('usercontent.user98')}}</p>
       </label>
       <label>
         <p>{{$t('usercontent.user61')}}</p>
-        <input v-model="googleCode" @blur="blur('googleCode','googleCodeError')"/>
-        <p v-if="googleCodeError" class="error">{{$t('usercontent.user99')}}</p>
+        <input v-model="googleCode" data-vv-name="googleCode" v-validate="'required'"/>
+        <p v-if="errors.has('googleCode')" class="error">{{$t('usercontent.user33')}}</p>
       </label>
     </div>
     <div class="btn">
       <button @click="close()">{{$t('usercontent.user31')}}</button>
       <button @click="add()" class="active">{{$t('usercontent.user32')}}</button>
     </div>
+    <loading v-if="showLoading" class="load"></loading>
   </div>
 </template>
 
 <script>
   import Vue from 'vue'
   import wallrtApi from '../../api/wallet'
+  import Loading from '../../components/ajaxLoading/loading'
 
   export default {
     name: 'addSymbol',
+    components: {Loading},
     props: ['symbol'],
     data () {
       return {
@@ -40,6 +43,8 @@
         addressError: false,
         memoError: false,
         googleCodeError: false,
+        showLoading: false,
+        lock: true
       }
     },
     methods: {
@@ -50,18 +55,30 @@
         this.$emit('removeDialog')
       },
       add () {
-        let data = {
-          symbol: this.symbol,
+        let validData = {
           address: this.address,
           memo: this.memo,
           googleCode: this.googleCode
         }
-        wallrtApi.addAddress(data, res => {
-          this.$emit('okCallback')
-          this.close()
-          Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${res.msg}`)})
-        }, msg => {
-          Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
+        this.$validator.validateAll(validData).then((validResult) => {
+          if (validResult) {
+            this.showLoading = true
+            let data = {
+              symbol: this.symbol,
+              address: this.address,
+              memo: this.memo,
+              googleCode: this.googleCode
+            }
+            wallrtApi.addAddress(data, res => {
+              this.showLoading = false
+              this.$emit('okCallback', data)
+              this.close()
+              Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${res.msg}`)})
+            }, msg => {
+              this.showLoading = false
+              Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
+            })
+          }
         })
       }
     }
@@ -131,5 +148,13 @@
         }
       }
     }
+  }
+
+  .load {
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    margin-left: -25px;
+    z-index: 9999;
   }
 </style>

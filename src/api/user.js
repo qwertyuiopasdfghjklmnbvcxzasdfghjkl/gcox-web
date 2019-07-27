@@ -204,4 +204,16 @@ const getRsaPublicKey = function (success, error) {
 }
 user.getRsaPublicKey = getRsaPublicKey
 
+// 资金密码
+const payPW = function (data, success, error) {
+  api.post(`${domain}api/v1/gcox/user/setTransactionPassword`,data, (res) => {
+    if (res.rst === 1) {
+      success && success(res)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+user.payPW = payPW
+
 export default user

@@ -98,8 +98,8 @@
                           :googleState="getUserInfo.googleAuthEnable"
                           :verifyState="getUserInfo.kycState"
                           :symbol="data.symbol"
-                          :item="data"
-                          @updateMyAssets="getList"/>
+                          :allData="filterDatas()"
+                          :item="data"/>
               </div>
             </li>
           </ul>
@@ -126,7 +126,6 @@
   import userApi from '@/api/individual'
   import moreinfo from '@/public/account/moreinfo'
   import TansferDialog from '@/vote_mining/dialog/transfer'
-  import voteMiningApi from '@/api/voteMining'
   import loading from '@/components/loading'
 
   export default {
@@ -145,7 +144,6 @@
         active: 'main',
         accountType: 1,
         pandectShow: true,
-
         echart: null,
         polar: {
           tooltip: {
@@ -156,7 +154,7 @@
             show: true,
             data: [],
             width: '300px',
-            top: '300px',
+            top: '260px',
             left: 0,
             textStyle: {
               color: '#ffffff'
@@ -186,7 +184,7 @@
                   show: false
                 }
               },
-              center: ['130px', '160px'],
+              center: ['130px', '130px'],
               data: [],
               itemStyle: {
                 emphasis: {
@@ -242,7 +240,6 @@
       }
       this.getList()
       this.getUserState()
-      console.log(this.getUserInfo())
     },
     methods: {
       ...mapGetters(['getUserInfo', 'getLang']),
@@ -356,7 +353,15 @@
       toFixed (value, fixed) {
         return numUtils.BN(value || 0).toFixed(fixed === undefined ? 8 : fixed).toMoney()
       },
-      address(){
+      address () {
+        if (this.getUserInfo().googleAuthEnable !== 1) {
+          Vue.$koallTipBox({icon: 'notification', message: this.$t('usercontent.user35')})
+          return
+        }
+        if (this.getUserInfo().kycState !== 1) {
+          Vue.$koallTipBox({icon: 'notification', message: this.$t('usercontent.user36')})
+          return
+        }
         this.$router.push('/account/addressManage')
       }
     }
