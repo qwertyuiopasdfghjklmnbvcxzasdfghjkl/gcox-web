@@ -80,42 +80,50 @@ export default {
         if (this.locked) {
           return
         }
-        this.gtLocked = true
-        utils.gtValidate((gtParams) => {
-          this.locked = true
-          let formData = {}
-          for (let i in this.formData) {
-            formData[i] = this.formData[i]
-          }
-          for (let i in gtParams) {
-            formData[i] = gtParams[i]
-          }
-          userApi.getRsaPublicKey((rsaPublicKey) => {
-            formData.password = utils.encryptPwd(rsaPublicKey, formData.password)
-            formData.rsaPublicKey = rsaPublicKey
-            userApi.login(formData, (apiToken, res) => {
-              if (apiToken) {
-                this.setApiToken(apiToken)
-                myAPi.addLoginHistory()
-                return
-              }
-            }, (msg, rst) => {
-              this.locked = false
-              Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${typeof msg === 'string' ? msg : msg[0]}`)})
-              if (msg === 'verify_email_required') {
-                this.$router.push({name: 'sendemail', params: {email: this.formData.username}})
-              } else if (msg === 'invalid_totp') {
-                this.needGoogleCode = true
-              }
-            })
+        let formData = {}
+        for (let i in this.formData) {
+          formData[i] = this.formData[i]
+        }
+        if(!this.needGoogleCode){
+          this.gtLocked = true
+          utils.gtValidate((gtParams) => {
+            for (let i in gtParams) {
+              formData[i] = gtParams[i]
+            }
+            this.loginAC(formData)
           }, () => {
-            this.locked = false
+            this.gtLocked = false
           })
-        }, () => {
-          this.gtLocked = false
-        })
+        } else {
+          this.loginAC(formData)
+        }
+        
       })
     },
+    loginAC(formData){
+      userApi.getRsaPublicKey((rsaPublicKey) => {
+        this.locked = true
+        formData.password = utils.encryptPwd(rsaPublicKey, formData.password)
+        formData.rsaPublicKey = rsaPublicKey
+        userApi.login(formData, (apiToken, res) => {
+          if (apiToken) {
+            this.setApiToken(apiToken)
+            myAPi.addLoginHistory()
+            return
+          }
+        }, (msg, rst) => {
+          this.locked = false
+          Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${typeof msg === 'string' ? msg : msg[0]}`)})
+          if (msg === 'verify_email_required') {
+            this.$router.push({name: 'sendemail', params: {email: this.formData.username}})
+          } else if (msg === 'invalid_totp') {
+            this.needGoogleCode = true
+          }
+        })
+      }, () => {
+        this.locked = false
+      })
+    }
   }
 }
 </script>
