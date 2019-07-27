@@ -46,6 +46,9 @@
         </div>
         <div class="text-right mt60"><button type="button" class="mint-btn default round efont" style="width: 140px;" :disabled="!checked" @click="register">{{$t('login_register.register')}}<!-- 注册 --></button></div>
       </div>
+      <div class="mask-layer ui-flex ui-flex-center ui-flex-column" v-show="locked">
+        <loading/>
+      </div>
     </div>
 </template>
 

@@ -99,10 +99,12 @@
         this.setApiToken(null)
       },
       hidePopoverNav (target) {
-        this.$refs[target].style.display = 'none'
-        setTimeout(() => {
-          this.$refs[target] && this.$refs[target].removeAttribute('style')
-        }, 1000)
+        if(this.$refs[target]){
+          this.$refs[target].style.display = 'none'
+          setTimeout(() => {
+            this.$refs[target].removeAttribute('style')
+          }, 1000)
+        }
       }
     }
   }
