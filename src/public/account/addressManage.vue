@@ -69,8 +69,17 @@
     created () {
       this.getAllSymbol()
       this.getAddressList()
+      if (this.getUserInfo().googleAuthEnable !== 1) {
+        Vue.$koallTipBox({icon: 'notification', message: this.$t('usercontent.user35')})
+        this.$router.push('/account/digassets')
+      }
+      if (this.getUserInfo().kycState !== 1) {
+        Vue.$koallTipBox({icon: 'notification', message: this.$t('usercontent.user36')})
+        this.$router.push('/account/digassets')
+      }
     },
     methods: {
+      ...mapGetters(['getUserInfo']),
       getAllSymbol () {
         walletApi.myAssets({}, res => {
           console.log(res)
@@ -205,6 +214,14 @@
           }
         }
       }
+    }
+    .btn{
+      cursor: pointer;
+      font-size: 12px;
+      color: #f1f1f2;
+      background-color: #2e2c3c;
+      border: 1px solid #312e45;
+      padding: 2px 10px;
     }
   }
 </style>

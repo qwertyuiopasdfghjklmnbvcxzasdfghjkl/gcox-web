@@ -89,12 +89,12 @@
       this.kycGoogle()
     },
     methods: {
-      ...mapActions(['setApiToken']),
+      ...mapActions(['getUserInfo', 'setApiToken']),
       kycGoogle () {
-        if (this.getUserInfo.googleAuthEnable === 0) {
+        if (this.getUserInfo().googleAuthEnable === 0) {
           this.$router.push('/mycenter')
           Vue.$koallTipBox({icon: 'notification', message: this.$t('usercontent.user35'), delay: 3000})
-        } else if (this.getUserInfo.kycState !== 2) {
+        } else if (this.getUserInfo().kycState !== 1) {
           this.$router.push('/mycenter')
           Vue.$koallTipBox({icon: 'notification', message: this.$t('usercontent.user36'), delay: 3000})
         }
@@ -104,38 +104,20 @@
           if (v && this.locked) {
             this.locked = false
             let data = {}
-            data.password = this.formData.password
-            data.passwordNew = this.formData.newPassword
-            if (this.getUserInfo.googleAuthEnable === 1) {
-              utils.setDialog(googleVerify, {
-                state: 2,
-                okCallback: (res) => {
-                  data.googleCode = res
-                  this.changePassword(data)
-                }
-              })
-            } else {
-              this.changePassword(data)
-            }
+            data.transactionPassword = this.formData.newPassword
+            data.totp = this.formData.googleCode
+            this.changePassword(data)
           }
         })
       },
       changePassword (formData) {
-        userApi.getRsaPublicKey(rsaPublicKey => {
-          formData.password = utils.encryptPwd(rsaPublicKey, formData.password)
-          formData.passwordNew = utils.encryptPwd(rsaPublicKey, formData.passwordNew)
-          formData.rsaPublicKey = rsaPublicKey
-          userApi.changePwd(formData, msg => {
-            this.locked = true
-            this.setApiToken(null)
-            Vue.$koallTipBox({
-              icon: 'success',
-              message: this.$t(`error_code.${typeof msg === 'string' ? msg : msg[0]}`)
-            })
-            this.$router.push({name: 'login'})
-          }, msg => {
-            this.tip(msg)
+        userApi.payPW(formData, res => {
+          this.locked = true
+          Vue.$koallTipBox({
+            icon: 'success',
+            message: this.$t(`error_code.${res.msg}`)
           })
+          this.$router.push('/mycenter/mycenter')
         }, msg => {
           this.tip(msg)
         })
@@ -147,8 +129,6 @@
           delay: 3000
         })
         this.locked = true
-      },
-      send () {
       }
     }
   }

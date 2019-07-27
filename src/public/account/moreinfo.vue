@@ -105,7 +105,6 @@
   import utils from '@/assets/js/utils'
   import adressCava from './adresscava'
   import memoCava from './memocava'
-  import withdrawInfo from './withdrawInfo'
   import Vue from 'vue'
   import {mapGetters} from 'vuex'
 
@@ -129,6 +128,9 @@
       },
       symbol: {
         type: String
+      },
+      allData: {
+        type: Array
       }
     },
     components: {
@@ -227,7 +229,7 @@
         //   })
         //   return
         // }
-        utils.setDialog(withdrawInfo, {
+        let data = {
           symbol: this.item.symbol,
           symbolType: this.item.symbolType,
           available: this.item.availableBalance,
@@ -235,16 +237,41 @@
           procedure: this.item.procedureFee,
           minWithdraw: this.item.minWithdraw,
           fromAccount: this.item.accountId,
-          okCallback: () => {
-            this.$emit('updateMyAssets')
+        }
+        this.$router.push({
+          name: 'account_menu',
+          params: {
+            menu: 'withdrawInfo',
+            item: data,
+            allData: this.allData
           }
         })
+        // utils.setDialog(withdrawInfo, {
+        //   symbol: this.item.symbol,
+        //   symbolType: this.item.symbolType,
+        //   available: this.item.availableBalance,
+        //   fromAddress: this.getAddress,
+        //   procedure: this.item.procedureFee,
+        //   minWithdraw: this.item.minWithdraw,
+        //   fromAccount: this.item.accountId,
+        //   okCallback: () => {
+        //     this.$emit('updateMyAssets')
+        //   }
+        // })
       },
       scanEWM () {
-        utils.setDialog(adressCava, {
-          addr: this.getAddress,
-          symbol: this.item.symbol
+        this.$router.push({
+          name: 'account_menu',
+          params: {
+            menu: 'adresscava',
+            item: this.item,
+            allData: this.allData
+          }
         })
+        // utils.setDialog(adressCava, {
+        //   addr: this.getAddress,
+        //   symbol: this.item.symbol
+        // })
       },
       buy(){
         this.$router.push('/exchange/'+this.symbol)

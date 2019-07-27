@@ -17,17 +17,19 @@
       </div>
       <div v-if="getUserInfo.kycState === -2 || getUserInfo.kycState === -3">
         <p class="f-c-danger">{{$t('usercontent.user44')}}</p>
-        <span @click="submitKYC()" v-html="$t('usercontent.user43')"></span>
+        <span @click="submitKYC()" v-html="$t('usercontent.user45')"></span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import Vue from 'vue'
   import utils from '@/assets/js/utils'
   import kyc from '@/components/kyc'
   import {mapGetters} from 'vuex'
   import api from '@/api'
+
   let domain = ''
   export default {
     data () {
@@ -49,17 +51,15 @@
     },
     methods: {
       submitKYC () {
-
         api.get(`${domain}api/v1/gcox/user/initiate-kyc`, (res) => {
           if (res.rst === 1) {
-            utils.setDialog(kyc,{redirect_url:res.data.redirect_url})
+            utils.setDialog(kyc, {redirect_url: res.data.redirect_url})
           } else {
             Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${res.msg}`)})
           }
         }, (msg) => {
           Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
         })
-
       }
     }
   }
@@ -74,7 +74,8 @@
     .cont {
       text-align: center;
       padding: 50px;
-      p{
+
+      p {
         line-height: 32px;
       }
     }

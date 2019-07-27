@@ -21,28 +21,28 @@
           <div dt="" class="title">
             <router-link :to="{name: 'about'}">{{$t('usercontent.user92')}}</router-link><!--关于我们--></div>
           <div dd="" v-for="item in about">
-            <router-link :to="{name: 'detail',params:{id: item.cmsInfoId}}">{{item.bodyCn}}</router-link>
+            <router-link :to="{name: 'detail',params:{id: item.cmsInfoId}}">{{item.titleCn}}</router-link>
           </div>
         </div>
         <div>
           <div dt="" class="title">
             <router-link :to="{name: 'deal'}">{{$t('usercontent.user93')}}</router-link><!--交易--></div>
           <div dd="" v-for="item in deal">
-            <router-link :to="{name: 'detail',params:{id: item.cmsInfoId}}">{{item.bodyCn}}</router-link>
+            <router-link :to="{name: 'detail',params:{id: item.cmsInfoId}}">{{item.titleCn}}</router-link>
           </div>
         </div>
         <div>
           <div dt="" class="title">
             <router-link :to="{name: 'help'}">{{$t('usercontent.user94')}}</router-link><!--帮助中心--></div>
           <div dd="" v-for="item in help">
-            <router-link :to="{name: 'detail',params:{id: item.cmsInfoId}}">{{item.bodyCn}}</router-link>
+            <router-link :to="{name: 'detail',params:{id: item.cmsInfoId}}">{{item.titleCn}}</router-link>
           </div>
         </div>
         <div>
           <div dt="" class="title">
             <router-link :to="{name: 'clause'}">{{$t('usercontent.user95')}}</router-link><!--条款说明--></div>
           <div dd="" v-for="item in clause">
-            <router-link :to="{name: 'detail',params:{id: item.cmsInfoId}}">{{item.bodyCn}}</router-link>
+            <router-link :to="{name: 'detail',params:{id: item.cmsInfoId}}">{{item.titleCn}}</router-link>
           </div>
           <div dd=""><a target="_blank" href="https://gcoxgroup.com/privacy_policy.html" class="link-url">隐私政策</a></div>
           <div dd=""><a target="_blank" href="https://gcoxgroup.com/wallet_tnc.html" class="link-url">钱包使用条款</a></div>

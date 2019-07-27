@@ -82,7 +82,7 @@
     created () {
     },
     methods: {
-      ...mapActions(['setApiToken']),
+      ...mapActions(['setApiToken','getUserInfo']),
       submit () {
         this.$validator.validateAll(this.formData).then(v => {
           if (v && this.locked) {
@@ -90,7 +90,7 @@
             let data = {}
             data.password = this.formData.password
             data.passwordNew = this.formData.newPassword
-            if (this.getUserInfo.googleAuthEnable === 1) {
+            if (this.getUserInfo().googleAuthEnable === 1) {
               utils.setDialog(googleVerify, {
                 state: 2,
                 okCallback: (res) => {
