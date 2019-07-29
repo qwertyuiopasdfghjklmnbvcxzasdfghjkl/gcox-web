@@ -1,5 +1,8 @@
 <template>
   <div class="cont">
+    <div class="close">
+      <span @click="closeDialog" class="icon-close"></span>
+    </div>
     <iframe :src="redirect_url"
             width="930" height="750" allow="camera"></iframe>
   </div>
@@ -43,12 +46,29 @@
     },
     methods: {
       ...mapActions(['setUserInfo']),
+      closeDialog () {
+        this.$emit('removeDialog')
+      }
     }
   }
 </script>
 
-<style scoped>
+<style scoped lang="less">
   .cont {
     background: #ffffff;
+
+    .close {
+      position: relative;
+      background: #ffffff;
+      height: 40px;
+      width: 100%;
+
+      .icon-close {
+        position: absolute;
+        right: 10px;
+        z-index: 99;
+      }
+
+    }
   }
 </style>
