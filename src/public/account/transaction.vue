@@ -12,8 +12,8 @@
     </ul>
     <delegate v-show="active==='now' || active==='history'" :show="active"/>
     <curreny v-show="active==='curreny'"/>
-    <otccurreny v-show="active==='otccurreny'"/>
-    <transfer v-show="active==='transfer'"/>
+    <!--<otccurreny v-show="active==='otccurreny'"/>-->
+    <!--<transfer v-show="active==='transfer'"/>-->
   </div>
 </template>
 <script>

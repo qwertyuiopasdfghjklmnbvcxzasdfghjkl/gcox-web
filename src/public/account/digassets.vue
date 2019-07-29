@@ -72,6 +72,13 @@
                   <i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>
                 </em>
               </div>
+              <div class="useable f-right ng-binding">
+                {{$t('usercontent.measure')}}<!--以BTC衡量-->
+                <!--<em v-if="sortActive==='available'">-->
+                  <!--<i class="icon-arrow-up" :class="{active:sort==='desc'}"></i>-->
+                  <!--<i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>-->
+                <!--</em>-->
+              </div>
               <!--<div class="locked f-right ng-binding" @click="sortAssets('frozen')">-->
               <!--{{$t('public0.public34')}}&lt;!&ndash;冻结金额&ndash;&gt;-->
               <!--<em v-if="sortActive==='frozen'">-->
@@ -93,7 +100,7 @@
                 <!--<div class="fullName ng-binding">{{$t(`symbol.${data.symbol}`)}}</div>-->
                 <div class="f-right ng-binding" v-if="pandectShow">{{toFixed(data.totalBalance)}}</div>
                 <div class="useable f-right ng-binding">{{toFixed(data.availableBalance)}}</div>
-                <!--<div class="locked f-right ng-binding">{{toFixed(data.frozenBalance)}}</div>-->
+                <div class="locked f-right ng-binding" v-if="pandectShow">{{toFixed(data.frozenBalance)}}</div>
                 <moreinfo class="action"
                           :googleState="getUserInfo.googleAuthEnable"
                           :verifyState="getUserInfo.kycState"
@@ -239,7 +246,6 @@
         this.pandectShow = false
       }
       this.getList()
-      this.getUserState()
     },
     methods: {
       ...mapGetters(['getUserInfo', 'getLang']),
@@ -249,16 +255,6 @@
           okCallback: () => {
             this.getList()
           }
-        })
-      },
-      getUserState () {
-        // 获取当前用户状态信息
-        userApi.getUserState((data) => {
-          // this.googleState = data.googleState
-          // this.verifyState = data.verifyState
-          // this.mobileState = data.mobileAuthState
-        }, (msg) => {
-          console.error(msg)
         })
       },
       filterDatas () {
@@ -603,7 +599,7 @@
     white-space: normal;
     word-break: break-all;
     padding: 0 4px;
-    width: 200px;
+    width: 170px;
   }
 
   .accountInfo-lists.header li {
