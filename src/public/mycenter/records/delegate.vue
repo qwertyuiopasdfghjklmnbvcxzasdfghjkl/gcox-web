@@ -568,7 +568,7 @@
   }
 
   .delegate /deep/ .entrust-current ul li span.operation {
-    width: 60px;
+    /*width: 60px;*/
   }
 
   .delegate /deep/ .entrust-history ul li span.entrustTime {
