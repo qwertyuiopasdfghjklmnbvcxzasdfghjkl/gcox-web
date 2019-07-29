@@ -74,7 +74,7 @@
 
 <script>
   import Vue from 'vue'
-  import {mapGetters} from 'vuex'
+  import {mapGetters, mapActions} from 'vuex'
   import userUtils from '@/api/individual'
   import utils from '@/assets/js/utils'
   import loading from '@/components/loading'
@@ -112,6 +112,7 @@
       }, 500)
     },
     methods: {
+      ...mapActions(['setUserInfo']),
       examine () {
         if (this.userInfo.googleAuthEnable === 0) {
           utils.setDialog(gooleTip, {
