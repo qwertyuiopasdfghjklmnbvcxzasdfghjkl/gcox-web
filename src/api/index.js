@@ -36,7 +36,7 @@ function requireLogin(response) {
     showCancel: false,
     content: window.$i18n.t(`error_code.LOGIN_AGAIN`), // 请重新登录
     okCallback: () => {
-      window.location.hash = 'login'
+      window.vm.$router.push({name:'login'})
       window.location.reload()
     }
   })

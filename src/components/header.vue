@@ -39,7 +39,7 @@
           </router-link>
           <a v-show="!isLogin" class="item pointer" @click="showQuickLogin">{{$t('login_register.login')}}
             <!-- 登录 --></a>
-          <router-link v-show="!isLogin" :to="{name:'register'}" class="item">{{$t('login_register.register')}}
+          <router-link v-show="!isLogin" :to="{name:'register'}" class="item f-c-blue">{{$t('login_register.register')}}
             <!-- 注册 --></router-link>
           <a class="item" href="javascript:;" @click="setLanguage('en')" v-if="getLang==='zh-CN'">ENGLISH</a>
           <a class="item" href="javascript:;" @click="setLanguage('zh-CN')" v-if="getLang==='en'">简体中文</a>
@@ -99,10 +99,12 @@
         this.setApiToken(null)
       },
       hidePopoverNav (target) {
-        this.$refs[target].style.display = 'none'
-        setTimeout(() => {
-          this.$refs[target] && this.$refs[target].removeAttribute('style')
-        }, 1000)
+        if(this.$refs[target]){
+          this.$refs[target].style.display = 'none'
+          setTimeout(() => {
+            this.$refs[target].removeAttribute('style')
+          }, 1000)
+        }
       }
     }
   }
