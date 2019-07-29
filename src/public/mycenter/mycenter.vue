@@ -46,8 +46,8 @@
         </tr>
         <tr>
           <td height="34px">
-            <p :class="{active: userInfo.kycState !== 2}">{{$t('usercontent.user17')}}
-              <span v-if="userInfo.kycState !== 2">{{$t('usercontent.user18')}}</span>
+            <p :class="{active: userInfo.kycState !== 1}">{{$t('usercontent.user17')}}
+              <span v-if="userInfo.kycState !== 1">{{$t('usercontent.user18')}}</span>
             </p>
           </td>
           <td></td>
@@ -57,8 +57,8 @@
         </tr>
         <tr>
           <td height="34px">
-            <p :class="{active: userInfo.kycState === 2}">{{$t('usercontent.user19')}}
-              <span v-if="userInfo.kycState === 2">{{$t('usercontent.user18')}}</span>
+            <p :class="{active: userInfo.kycState === 1}">{{$t('usercontent.user19')}}
+              <span v-if="userInfo.kycState === 1">{{$t('usercontent.user18')}}</span>
             </p>
           </td>
           <td>√</td>
@@ -178,7 +178,7 @@
         if (this.userInfo.googleAuthEnable === 0) {
           Vue.$koallTipBox({icon: 'notification', message: this.$t('usercontent.user35'), delay: 3000})
           return
-        } else if (this.userInfo.kycState !== 2) {
+        } else if (this.userInfo.kycState !== 1) {
           Vue.$koallTipBox({icon: 'notification', message: this.$t('usercontent.user36'), delay: 3000})
           return
         } else {

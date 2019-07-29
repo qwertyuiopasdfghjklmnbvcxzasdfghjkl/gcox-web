@@ -118,6 +118,12 @@ let gjh = {
     "qrcode":"展示二维码",
     "copy-success":"复制成功",
     "copy-error":"复制失败",
+    "foot-policy":"隐私政策",
+    "wallet-rule":"钱包使用条款",
+    "use-rule":"使用条款",
+
+    //
+    "measure":"以BTC衡量"
   }
 }
 export default gjh
