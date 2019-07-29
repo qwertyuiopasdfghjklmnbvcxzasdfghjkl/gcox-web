@@ -111,7 +111,7 @@
       del (id) {
         walletApi.deleteAddress(id, res => {
           this.getAddressList()
-          Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${res.msg}`)})
+          Vue.$koallTipBox({icon: 'success', message: this.$t(`error_code.${res.msg}`)})
         }, msg => {
           Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
         })
@@ -208,9 +208,21 @@
         dt, dd {
           display: flex;
           justify-content: space-between;
-
+          padding: 6px 2px;
           span {
             color: #979799;
+            &:nth-child(1){
+              width: 300px;
+            }
+            &:nth-child(2){
+              width: 36px;
+            }
+            &:nth-child(3){
+              width: 60px;
+            }
+            &:nth-child(4){
+              width: 100px;
+            }
           }
         }
       }
