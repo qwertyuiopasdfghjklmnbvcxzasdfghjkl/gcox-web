@@ -310,7 +310,7 @@
             password: this.payPassword,
             googleCode: this.googleCode,
             lang: window.localStorage.getItem('lang') === 'zh-CN' ? 'cn' : 'en',
-            withdrawFast: true,
+            withdrawFast: false,
             type: 0
           }
           userUtils.walletWithdraw(formData, (res) => {
