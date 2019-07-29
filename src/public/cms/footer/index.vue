@@ -3,25 +3,25 @@
     <ul class="ul-nav">
       <li>
         <!--（1：公告、2：资讯、3：关于我们、4：交易、5：帮助中心、6：条款说明）-->
-        <router-link :to="{name: 'about'}">
+        <router-link :to="{name: 'about'}" :class="{'router-link-active':type === 'about'}">
           <i></i>
           <span>{{$t('usercontent.user81')}}</span>
         </router-link>
       </li>
       <li>
-        <router-link :to="{name: 'deal'}">
+        <router-link :to="{name: 'deal'}" :class="{'router-link-active':type === 'deal'}">
           <i></i>
           <span>{{$t('usercontent.user82')}}</span>
         </router-link>
       </li>
       <li>
-        <router-link :to="{name: 'help'}">
+        <router-link :to="{name: 'help'}" :class="{'router-link-active':type === 'help'}">
           <i></i>
           <span>{{$t('usercontent.user83')}}</span>
         </router-link>
       </li>
       <li>
-        <router-link :to="{name: 'clause'}">
+        <router-link :to="{name: 'clause'}" :class="{'router-link-active':type === 'clause'}">
           <i></i>
           <span>{{$t('usercontent.user84')}}</span>
         </router-link>
@@ -35,38 +35,57 @@
 
 <script>
   export default {
-    name: 'index'
+    name: 'index',
+    data () {
+      return {
+        type: null
+      }
+    },
+    watch: {
+      '$route' () {
+        console.log(this.$route.params.type)
+        this.type = this.$route.params.type
+      }
+    },
+    created () {
+      console.log(this.$route.params.type)
+      this.type = this.$route.params.type
+    }
   }
 </script>
 
 <style scoped lang="less">
-  .content{
+  .content {
     width: 1200px;
     margin: 0 auto;
     margin-top: 60px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    .ul-nav{
+
+    .ul-nav {
       width: 180px;
       /*flex: 1;*/
       background: #19181c;
-      a{
+
+      a {
         display: block;
         font-size: 14px;
         line-height: 42px;
         overflow: hidden;
         padding-left: 16px;
         position: relative;
-        span{
+
+        span {
           display: block;
           width: 100%;
           height: 100%;
           float: left;
-          border-bottom: 2px solid hsla(240,4%,89%,.1);
+          border-bottom: 2px solid hsla(240, 4%, 89%, .1);
           color: #f1f1f2;
         }
-        i{
+
+        i {
           background: transparent;
           display: block;
           width: 8px;
@@ -75,18 +94,21 @@
           left: 0;
           top: 18px;
         }
-        &.router-link-active{
-          span{
+
+        &.router-link-active {
+          span {
             color: #00a0e9;
             border-bottom: 2px solid #00a0e9;
           }
-          i{
+
+          i {
             background: #00a0e9;
           }
         }
       }
     }
-    .right-cont{
+
+    .right-cont {
       width: 1010px;
       /*flex: 1;*/
     }

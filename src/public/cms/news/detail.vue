@@ -6,6 +6,7 @@
 
 <script>
   import market from '../../../api/market'
+  import {mapGetters} from 'vuex'
 
   export default {
     name: 'detail',
@@ -14,6 +15,9 @@
         data: null,
         id: null
       }
+    },
+    computed: {
+      ...mapGetters(['getLang'])
     },
     watch: {
       '$route' (e) {
@@ -28,7 +32,11 @@
       getDetail () {
         market.getCmsDetail(this.id, res => {
           console.log(res)
-          this.data = res.bodyCn
+          if (this.getLang === 'zh-CN') {
+            this.data = res.bodyCn
+          } else {
+            this.data = res.bodyEn
+          }
         })
       }
     }
