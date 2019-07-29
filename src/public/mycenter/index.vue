@@ -53,12 +53,20 @@
       ...mapGetters(['getUserInfo', 'getLang']),
       switch_tab (tab) {
         if (tab === 'assetpassword') {
-          if (this.getUserInfo.googleAuthEnable === 0) {
+          console.log(this.getUserInfo())
+          if (this.getUserInfo().googleAuthEnable === 0) {
 
             Vue.$koallTipBox({icon: 'notification', message: this.$t('usercontent.user35'), delay: 3000})
-          } else if (this.getUserInfo.kycState !== 1) {
+          } else if (this.getUserInfo().kycState !== 1) {
 
             Vue.$koallTipBox({icon: 'notification', message: this.$t('usercontent.user36'), delay: 3000})
+          } else {
+            this.$router.push({
+              name: 'mycenter_menu',
+              params: {
+                menu: tab
+              }
+            })
           }
         } else {
           this.$router.push({

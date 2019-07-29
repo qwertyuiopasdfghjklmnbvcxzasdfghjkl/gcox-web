@@ -56,17 +56,23 @@
 <style scoped lang="less">
   .cont {
     background: #ffffff;
-
+    border-radius:4px;
     .close {
       position: relative;
       background: #ffffff;
       height: 40px;
       width: 100%;
-
+      border-radius: 4px 4px 0 0;
+      overflow: hidden;
       .icon-close {
         position: absolute;
         right: 10px;
         z-index: 99;
+        height:40px;
+        width: 40px;
+        text-align: center;
+        line-height: 40px;
+        cursor: pointer;
       }
 
     }
