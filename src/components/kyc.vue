@@ -8,7 +8,7 @@
 <script>
   import api from '@/api'
   import Vue from 'vue'
-  import userApi from '@/api/individual'
+  import userApi from '@/api/user'
   import {mapActions} from 'vuex'
 
   let domain = ''
