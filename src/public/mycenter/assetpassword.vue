@@ -89,7 +89,6 @@
       this.kycGoogle()
     },
     methods: {
-      ...mapActions(['getUserInfo', 'setApiToken']),
       kycGoogle () {
         if (this.getUserInfo.googleAuthEnable === 0) {
           this.$router.push('/mycenter')

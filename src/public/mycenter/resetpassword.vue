@@ -82,7 +82,7 @@
     created () {
     },
     methods: {
-      ...mapActions(['setApiToken','getUserInfo']),
+      ...mapActions(['setApiToken']),
       submit () {
         this.$validator.validateAll(this.formData).then(v => {
           if (v && this.locked) {
