@@ -3,8 +3,8 @@
     <p class="navigation">{{$t('usercontent.user81')}}</p>
     <ul class="list-main">
       <li v-for="item in list">
-        <router-link :to="{name: 'detail',params:{id: item.cmsInfoId}}">
-          <p>{{item.titleCn}}</p>
+        <router-link :to="{name: 'footDetail',params:{id: item.cmsInfoId,type:'about'}}">
+          <p>{{getLang==='zh-CN'?item.titleCn:item.titleEn}}</p>
           <span>{{new Date(item.updatedAt).format()}}</span>
         </router-link>
       </li>
@@ -19,7 +19,7 @@
   import market from '../../../api/market'
   import page from '@/components/page'
   import loading from '@/components/loading'
-
+  import {mapGetters} from 'vuex'
   export default {
     components: {
       page,
@@ -33,6 +33,9 @@
         total: null,
         loading: false
       }
+    },
+    computed: {
+      ...mapGetters(['getLang'])
     },
     created () {
       this.getList()

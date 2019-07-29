@@ -2,15 +2,15 @@
   <div class="content">
     <ul class="ul-nav">
       <li>
-        <router-link :to="{name: 'new'}">
+        <router-link :to="{name: 'new'}" :class="{'router-link-active':type === 'new'}">
           <i></i>
-          <span>{{$t('usercontent.user79')}}</span>
+          <span>{{$t('usercontent.user80')}}</span>
         </router-link>
       </li>
       <li>
-        <router-link :to="{name: 'notice'}">
+        <router-link :to="{name: 'notice'}" :class="{'router-link-active':type === 'notice'}">
           <i></i>
-          <span>{{$t('usercontent.user80')}}</span>
+          <span>{{$t('usercontent.user79')}}</span>
         </router-link>
       </li>
     </ul>
@@ -30,7 +30,19 @@
       }
     },
     data () {
-      return {}
+      return {
+        type: null
+      }
+    },
+    watch: {
+      '$route' () {
+        console.log(this.$route.params.type)
+        this.type = this.$route.params.type
+      }
+    },
+    created () {
+      console.log(this.$route.params.type)
+      this.type = this.$route.params.type
     }
   }
 </script>
