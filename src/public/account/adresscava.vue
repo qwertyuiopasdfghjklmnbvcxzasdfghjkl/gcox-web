@@ -44,6 +44,7 @@
 <script>
   import utils from '@/assets/js/utils'
   import Vue from 'vue'
+  import userUtils from '@/api/wallet'
 
   export default {
     data () {
@@ -64,15 +65,10 @@
       }
     },
     created () {
-      let item = this.$route.params.item
-      if (!item) {
-        this.$router.push('/account/digassets')
-      }
-      this.allData = this.$route.params.allData
-      this.addr = item.address
-      this.symbol = item.symbol
-
-      console.log(item, this.addr, this.symbol)
+      let symbol = this.$route.params.symbol
+      this.symbol = symbol || 'ETH'
+      this.getListAccount()
+      console.log(this.addr, this.symbol)
       this.$nextTick(() => {
         utils.qrcode(this.$refs.qrcode, {
           text: this.addr,
@@ -92,6 +88,17 @@
       },
       onError () {
         Vue.$koallTipBox({icon: 'notification', message: this.$t(`usercontent.copy-error`)})
+      },
+      getListAccount () {
+        userUtils.myAssets({}, res => {
+          this.allData = res
+          this.allData.filter(next => {
+            if (next.symbol === this.symbol) {
+              this.addr = next.address
+            }
+          })
+          console.log(res)
+        })
       }
     }
   }

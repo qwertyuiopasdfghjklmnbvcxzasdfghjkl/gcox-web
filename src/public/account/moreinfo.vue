@@ -264,14 +264,9 @@
           name: 'account_menu',
           params: {
             menu: 'adresscava',
-            item: this.item,
-            allData: this.allData
+            symbol: this.symbol
           }
         })
-        // utils.setDialog(adressCava, {
-        //   addr: this.getAddress,
-        //   symbol: this.item.symbol
-        // })
       },
       buy(){
         this.$router.push('/exchange/'+this.symbol)
@@ -338,7 +333,7 @@
     line-height: 28px;
     margin-right: 10px;
     height: 30px;
-    padding: 0 30px;
+    width: 80px;
   }
   .depositBox .filed span.icon_recharge.buy{
     margin-right: 0;
@@ -361,7 +356,7 @@
     line-height: 28px;
     margin-right: 10px;
     height: 30px;
-    padding: 0 30px;
+    width: 80px;
   }
 
   .depositBox .filed span.icon_withdraw:hover {
