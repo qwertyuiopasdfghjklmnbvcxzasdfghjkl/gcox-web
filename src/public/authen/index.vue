@@ -9,7 +9,7 @@
       </div>
       <div v-if="getUserInfo.kycState === 0">
         <p>{{$t('usercontent.user85')}}</p>
-        <span @click="submitKYC()" v-html="$t('usercontent.user48')"></span>
+        <span @click="submitKYC()" style="cursor: pointer" v-html="$t('usercontent.user48')"></span>
       </div>
       <div v-if="getUserInfo.kycState === 1">
         <p class="f-c-green">{{$t('usercontent.user42')}}</p>
@@ -17,7 +17,7 @@
       </div>
       <div v-if="getUserInfo.kycState === -2 || getUserInfo.kycState === -3">
         <p class="f-c-danger">{{$t('usercontent.user44')}}</p>
-        <span @click="submitKYC()" v-html="$t('usercontent.user45')"></span>
+        <span @click="submitKYC()"  style="cursor: pointer"  v-html="$t('usercontent.user45')"></span>
       </div>
     </div>
   </div>
