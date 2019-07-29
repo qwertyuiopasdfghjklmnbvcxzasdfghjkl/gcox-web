@@ -37,7 +37,7 @@
             <span class="dowml" @click.stop="showDropdown=!showDropdown"></span>
             <em class="error" v-if="errors.has('selToAddress')">{{this.$t('public0.public44')}}<!--请选择地址或使用新地址--></em>
             <ul v-show="showDropdown">
-              <li v-if="datas" class="user-addr" @click.prevent="userSelAddress(datas)">{{datas.alias}} -
+              <li v-if="datas" class="user-addr" @click.prevent="userSelAddress(datas)">{{datas.memo}} -
                 {{datas.address}}
               </li>
               <li v-else>{{$t('usercontent.no-address')}}</li>
