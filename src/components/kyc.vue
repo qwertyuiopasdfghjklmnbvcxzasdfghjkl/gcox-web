@@ -31,11 +31,6 @@
             userApi.getUserInfo((userInfo) => {
               this.setUserInfo(userInfo)
             })
-            if (res.rst) {
-              Vue.$koallTipBox({icon: 'notification', message: this.$t(`submitted`)})
-            } else {
-              Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${res.msg}`)})
-            }
           }, res => {
             Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${res.msg}`)})
           })
