@@ -17,7 +17,7 @@
            <p><span>查看您的ACM钱包及ACM账户余额，请移步 </span> <a href="https://acm.gcox.com/login" target="_blank" class="f-c-main">acm.gcox.com</a> <span>或点击</span> <a href="https://acm.gcox.com/login" target="_blank" class="f-c-orange">这里</a>。 </p>
           </div> 
           <div class="mb20">
-           <p>在GCOX交易所上线之际，我们隆重推出ACM空投锁仓计划，参与即可获得奖励！查看更多细节，请点击 <router-link :to="{name:'detail', params:{id:'123123', type:'notice'}}" class="f-c-orange pointer" tag="span">这里</router-link>。</p>
+           <p>在GCOX交易所上线之际，我们隆重推出ACM空投锁仓计划，参与即可获得奖励！查看更多细节，请点击 <router-link :to="{name:'detail', params:{id:'187601218401468416', type:'notice'}}" class="f-c-orange pointer" tag="span">这里</router-link>。</p>
           </div> 
           <div class="fs20 mb20">
            <a href="https://acm.gcox.com/login" target="_blank" class="default bold">立即加入ACM空投锁仓计划</a>
@@ -59,11 +59,11 @@
           </div> 
           <div class="mb20">
             <p>In celebration of the launch of our GCOX Exchange, we are pleased to share</p>
-           <p>with you how you may receive <router-link :to="{name:'detail', params:{id:'123123', type:'notice'}}" class="f-c-orange pointer" tag="span">ATTRACTIVE BONUS TOKENS </router-link>。via our ACM</p>
+           <p>with you how you may receive <router-link :to="{name:'detail', params:{id:'187601218401468416', type:'notice'}}" class="f-c-orange pointer" tag="span">ATTRACTIVE BONUS TOKENS </router-link>。via our ACM</p>
            <p>Community Elite Programme!</p>
           </div> 
           <div class="mb20">
-            <p>To find more details, please <router-link :to="{name:'detail', params:{id:'123123', type:'notice'}}" class="f-c-orange pointer" tag="span">click here.</router-link></p>
+            <p>To find more details, please <router-link :to="{name:'detail', params:{id:'187601218401468416', type:'notice'}}" class="f-c-orange pointer" tag="span">click here.</router-link></p>
           </div>
           <div class="fs20 mb20">
            <a href="https://acm.gcox.com/login" target="_blank" class="default bold">JOIN OUR ACM COMMUNITY ELITE PROGRAMME NOW!</a>
