@@ -27,7 +27,6 @@ import 'echarts/lib/component/polar'
 import 'echarts/lib/component/legend'
 import 'echarts/lib/component/title.js'
 
-import gjh from './public/mycenter/gjh'
 import loading from '@/components/loading'
 
 import VueClipboard from 'vue-clipboard2'
@@ -53,15 +52,14 @@ Vue.config.productionTip = false
 /* eslint-disable no-new */
 let lang = window.localStorage.getItem('lang') || 'en'
 let tar = document.getElementsByTagName('title')
-if(lang==='en'){
+if (lang === 'en') {
   tar[0].innerText = 'GCOX - Global Crypto Offering Exchange'
 } else {
   tar[0].innerText = 'GCOX-比特币以太坊专业数字货币交易网站'
 }
 langApi.getLanguage(lang, (res) => {
   i18n.locale = lang
-  res.usercontent = gjh.usercontent
-  console.log(res)
+  // res.usercontent = gjh.usercontent
   i18n.setLocaleMessage(lang, res)
   window.vm = new Vue({
     el: '#app',
@@ -69,7 +67,7 @@ langApi.getLanguage(lang, (res) => {
     store,
     i18n,
     template: '<App/>',
-    components: { App }
+    components: {App}
   })
 }, (msg) => {
   window.vm = new Vue({
@@ -78,7 +76,7 @@ langApi.getLanguage(lang, (res) => {
     store,
     i18n,
     template: '<App/>',
-    components: { App }
+    components: {App}
   })
   console.error(msg)
 })
