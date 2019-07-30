@@ -1,7 +1,7 @@
 <template>
     <div class="order-container">
         <div class="title-container">
-           <span class="rang-up pointer" :class="{active:tradeType==='buy'}" @click="tradeType='buy'">{{$t('exchange.exchange_buy')}}<!-- 买入 --></span> 
+           <span class="rang-up pointer" :class="{active:tradeType==='buy'}" @click="tradeType='buy'">{{$t('exchange.exchange_buy')}}<!-- 买入 --></span>
            <span class="rang-down pointer" :class="{active:tradeType==='sell'}" @click="tradeType='sell'">{{$t('exchange.exchange_sell')}}<!-- 卖出 --></span>
         </div>
         <div class="balance ui-flex ui-flex-justify">
@@ -11,7 +11,7 @@
         <p class="exhange-rate" v-if="false">{{$t('public.fee_rate')}}：{{rateData || 0.01}}%<!--手续费率--></p>
         <form name="orderForm" class="mt30">
           <div class="input-group no-margin">
-           <label>{{$t('business.TYPE')}}<!-- 类型 --></label> 
+           <label>{{$t('business.TYPE')}}<!-- 类型 --></label>
            <div class="el-select" :class="{active:showTypeSelector}" @click="toggleEntrustType">
               <input type="text" readonly="readonly" autocomplete="off" placeholder="" :value="active==='limit'?$t('exchange.exchange_limit'):$t('exchange.exchange_market')">
               <span class="input__suffix"><i class="icon-arrow-down2"></i></span>
@@ -20,19 +20,19 @@
                 <li :class="{selected:active==='market'}" @click="switchTab('market')">{{$t('exchange.exchange_market')}}<!--市价委托--></li>
               </ul>
            </div>
-          </div> 
+          </div>
           <div class="input-group">
-           <label for="Price">{{$t('exchange.exchange_price')}}<!--价格--></label> 
-           <label for="Price" class="code">{{baseSymbol}}</label> 
+           <label for="Price">{{$t('exchange.exchange_price')}}<!--价格--></label>
+           <label for="Price" class="code">{{baseSymbol}}</label>
            <numberbox ref="price" id="Price" v-if="!isMarket && fixedPrice!==0" :accuracy="fixedNumber" type="text" v-model="fixedPrice" :readonly="true"/>
            <numberbox ref="price" id="Price" v-if="!isMarket && fixedPrice===0" :accuracy="fixedNumber" type="text" v-model="formData.price"/>
            <input v-if="isMarket" id="Price" :value="$t('exchange.exchange_market_price')" type="text" readonly="readonly"/>
-          </div> 
+          </div>
           <div class="input-group">
-           <label for="Quantity">{{$t('exchange.exchange_amount')}}<!--数量--></label> 
-           <label for="Quantity" class="code">{{currentSymbol}}</label> 
+           <label for="Quantity">{{$t('exchange.exchange_amount')}}<!--数量--></label>
+           <label for="Quantity" class="code">{{currentSymbol}}</label>
            <numberbox id="Quantity" :accuracy="Quantityaccu" type="text" v-model="formData.amount" />
-          </div> 
+          </div>
           <div class="button-group-wrapper">
            <div class="button-group ui-flex">
             <button type="button" class="ui-flex-1" :class="{active:percent===25}" @click="percent=25">25% </button>
@@ -40,12 +40,12 @@
             <button type="button" class="ui-flex-1" :class="{active:percent===75}" @click="percent=75">75% </button>
             <button type="button" class="ui-flex-1" :class="{active:percent===100}" @click="percent=100">100% </button>
            </div>
-          </div> 
+          </div>
           <div class="input-group" v-show="!isMarket">
-           <label>{{$t('exchange.exchange_total')}}<!--金额--></label> 
-           <label for="Amount" class="code">{{baseSymbol}}</label> 
+           <label>{{$t('exchange.exchange_total')}}<!--金额--></label>
+           <label for="Amount" class="code">{{baseSymbol}}</label>
            <numberbox ref="total" id="Amount" :accuracy="Amountaccu" type="text" v-model="formData.total" />
-          </div> 
+          </div>
           <button type="button" class="opertaion-btn" :class="{sell:!isBuy, disabled:lockExtrust}" @click="buyOrSell" v-if="getApiToken">{{$t(isBuy?'exchange.exchange_buy':'exchange.exchange_sell')}} {{currentSymbol}}</button>
           <button type="button" class="opertaion-btn" :class="{sell:!isBuy}" @click="showQuickLogin" v-else>{{$t(isBuy?'exchange.exchange_buy':'exchange.exchange_sell')}} {{currentSymbol}}</button>
          </form>

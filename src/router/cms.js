@@ -67,7 +67,7 @@ const cms = [
       },
       {
         path: 'detail/:id',
-        name: 'detail',
+        name: 'footDetail',
         component: detail
       }
     ]

@@ -1,19 +1,27 @@
 <template>
   <div class="cont">
+    <h4 class="title" v-html="title"></h4>
+    <small class="small" v-html="small"></small>
     <div v-html="data"></div>
   </div>
 </template>
 
 <script>
   import market from '../../../api/market'
+  import {mapGetters} from 'vuex'
 
   export default {
     name: 'detail',
     data () {
       return {
         data: null,
+        title: null,
+        small: null,
         id: null
       }
+    },
+    computed: {
+      ...mapGetters(['getLang'])
     },
     watch: {
       '$route' (e) {
@@ -28,22 +36,41 @@
       getDetail () {
         market.getCmsDetail(this.id, res => {
           console.log(res)
-          this.data = res.bodyCn
+          if (this.getLang === 'zh-CN') {
+            this.data = res.bodyCn
+            this.title = res.titleCn
+            this.small = new Date(res.updatedAt).format()
+          } else {
+            this.data = res.bodyEn
+            this.title = res.titleEn
+            this.small = new Date(res.updatedAt).format()
+          }
         })
       }
     }
   }
 </script>
 
-<style scoped>
+<style scoped lang="less">
   .cont {
     background-color: #19181c;
-    width: 100%;
+    width: 950px;
     min-height: 300px;
     overflow: hidden;
     color: #ffffff;
-    padding: 20px;
+    padding: 30px;
     margin-bottom: 50px;
-    padding-bottom: 30px;
+    padding-bottom: 50px;
+    &>.title{
+      font-size: 18px;
+      text-align: center;
+      line-height: 34px;
+      color: #ffffff;
+    }
+    &>.small{
+      text-align: center;
+      display: block;
+      padding: 10px;
+    }
   }
 </style>

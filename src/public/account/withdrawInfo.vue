@@ -22,7 +22,8 @@
             <ul v-show="showSymbol">
               <li v-for="item in allData"
                   @click.prevent="changeW(item)"
-                  :class="{active: item.symbol === symbol}">{{item.symbol}}</li>
+                  :class="{active: item.symbol === symbol}">{{item.symbol}}
+              </li>
             </ul>
           </div>
         </div>
@@ -36,7 +37,7 @@
             <span class="dowml" @click.stop="showDropdown=!showDropdown"></span>
             <em class="error" v-if="errors.has('selToAddress')">{{this.$t('public0.public44')}}<!--请选择地址或使用新地址--></em>
             <ul v-show="showDropdown">
-              <li v-if="datas" class="user-addr" @click.prevent="userSelAddress(datas)">{{datas.alias}} -
+              <li v-if="datas" class="user-addr" @click.prevent="userSelAddress(datas)">{{datas.memo}} -
                 {{datas.address}}
               </li>
               <li v-else>{{$t('usercontent.no-address')}}</li>
@@ -306,9 +307,11 @@
             toAddress: this.toAddress,
             alias: this.alias,
             memo: this.memo,
-            transactionPassword: this.payPassword,
+            password: this.payPassword,
             googleCode: this.googleCode,
-            lang: window.localStorage.getItem('lang') === 'zh-CN' ? 'cn' : 'en'
+            lang: window.localStorage.getItem('lang') === 'zh-CN' ? 'cn' : 'en',
+            withdrawFast: true,
+            type: 0
           }
           userUtils.walletWithdraw(formData, (res) => {
             Vue.$koallTipBox({icon: 'success', message: res})
@@ -543,7 +546,8 @@
     background-color: #19181c;
     cursor: pointer;
     padding: 0 6px;
-    &.active{
+
+    &.active {
       background-color: #242328;
       color: #00B5FF;
     }
@@ -757,7 +761,8 @@
       position: relative;
       width: 100%;
       height: 30px;
-      &:before{
+
+      &:before {
         content: "";
         display: inline-block;
         width: 8px;
@@ -771,7 +776,8 @@
         top: 10px;
         right: 16px;
       }
-      &:hover:before{
+
+      &:hover:before {
         border-color: #00B5FF;
         border-top-color: transparent;
         border-right-color: transparent;
