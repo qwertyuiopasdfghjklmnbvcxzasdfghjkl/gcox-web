@@ -31,14 +31,12 @@
             userApi.getUserInfo((userInfo) => {
               this.setUserInfo(userInfo)
             })
-            this.$emit('removeDialog')
             if (res.rst) {
               Vue.$koallTipBox({icon: 'notification', message: this.$t(`submitted`)})
             } else {
               Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${res.msg}`)})
             }
           }, res => {
-            this.$emit('removeDialog')
             Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${res.msg}`)})
           })
         }
