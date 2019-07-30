@@ -15,6 +15,8 @@ import mycenter from '@/public/mycenter'
 import Activation from '@/public/email/activation'
 import Activationsuccess from '@/public/email/activationsuccess'
 import account from '../public/account'
+import error from '../public/error'
+import success from '../public/success'
 
 Vue.use(Router)
 
@@ -101,6 +103,16 @@ export default new Router({
       path: '/market',
       name: 'market',
       component: Market
+    },
+    {
+      path: '/error',
+      name: 'error',
+      component: error
+    },
+    {
+      path: '/success',
+      name: 'success',
+      component: success
     },
     {
       path: '*',
