@@ -89,23 +89,23 @@ export default {
     },
     walletAgreement () {
       if (this.getLang === 'zh-CN' || this.getLang === 'cht') {
-        return '#'
+        return 'https://gcoxgroup.com/wallet_tnc.html'
       } else {
-        return '#'
+        return 'https://gcoxgroup.com/wallet_tnc.html'
       }
     },
     useAgreement () {
       if (this.getLang === 'zh-CN' || this.getLang === 'cht') {
-        return '#'
+        return 'https://gcoxgroup.com/terms_of_use.html'
       } else {
-        return '#'
+        return 'https://gcoxgroup.com/terms_of_use.html'
       }
     },
     privacyAgreement () {
       if (this.getLang === 'zh-CN' || this.getLang === 'cht') {
-        return '#'
+        return 'https://gcoxgroup.com/privacy_policy.html'
       } else {
-        return '#'
+        return 'https://gcoxgroup.com/privacy_policy.html'
       }
     },
   },
