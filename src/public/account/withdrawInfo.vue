@@ -277,6 +277,7 @@
         // this.showDropdown = false
         // this.errors.clear()
         utils.setDialog(add, {
+          symbol: this.symbol,
           okCallback: (data) => {
             this.toAddress = data.address
           }
