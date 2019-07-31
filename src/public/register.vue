@@ -41,7 +41,7 @@
             <i :class="[checked?'icon-checkbox-checked':'icon-checkbox-unchecked']" @click="checked=!checked"></i>
             <span>
               <em @click="checked=!checked">{{$t('login_register.agree_Service')}}<!--我已阅读并同意--></em>
-              《<a :href="walletAgreement" target="_blank">钱包使用条款<!--钱包使用条款--></a>》、《<a :href="useAgreement" target="_blank">使用条款<!--使用条款--></a>》、《<a :href="privacyAgreement" target="_blank">隐私条款<!--隐私条款--></a>》
+              《<a :href="walletAgreement" target="_blank">{{$t('usercontent.wallet-rule')}}<!--钱包使用条款--></a>》、《<a :href="useAgreement" target="_blank">{{$t('usercontent.use-rule')}}<!--使用条款--></a>》、《<a :href="privacyAgreement" target="_blank">{{$t('usercontent.foot-policy')}}<!--隐私条款--></a>》
             </span>
         </div>
         <div class="text-right mt60"><button type="button" class="mint-btn default round efont" style="width: 140px;" :disabled="!checked" @click="register">{{$t('login_register.register')}}<!-- 注册 --></button></div>
