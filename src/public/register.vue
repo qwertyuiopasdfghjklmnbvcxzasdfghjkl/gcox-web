@@ -73,7 +73,7 @@ export default {
         password: '',
         passwordConfirm: '',
         ref: '',
-        redirectUrl:`${Config.origin}/#/login`
+        redirectUrl:`${Config.origin}/login`
       },
       time: 60
     }
