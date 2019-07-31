@@ -131,7 +131,7 @@ export default {
           Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${typeof msg === 'string' ? msg : msg[0]}`)})
           if (msg === 'verify_email_required') {
             this.$emit('removeDialog')
-            window.vm.$router.push({name: 'sendemail', params: {email: this.formData.username}})
+            window.vm.$router.push({name: 'sendemail', query: {email: this.formData.username}})
           } else if (msg === 'invalid_totp') {
             this.needGoogleCode = true
           }

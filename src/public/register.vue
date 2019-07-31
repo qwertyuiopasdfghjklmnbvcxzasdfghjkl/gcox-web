@@ -147,7 +147,7 @@ export default {
               this.locked = false
               Vue.$koallTipBox({icon: 'success', message: this.$t(`error_code.${msg}`)})
               setTimeout(() => {
-                this.$router.push({name: 'sendemail', params:{email:this.formData.email}})
+                this.$router.push({name: 'sendemail', query:{email:this.formData.email}})
               }, 1500)
             }, (msg) => {
               this.locked = false
