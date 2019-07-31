@@ -52,7 +52,7 @@ export default new Router({
       meta: {goHome: true, noEntry: true}
     },
     {
-      path: '/sendemail/:email',
+      path: '/sendemail',
       name: 'sendemail',
       component: Activation,
       meta: {goHome: true, noEntry: true}

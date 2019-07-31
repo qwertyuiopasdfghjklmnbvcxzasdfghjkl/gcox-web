@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     sendEmail () {
-      let email = this.$route.params.email
+      let email = this.$route.query.email
       userApi.sendActivateEmail({
         lang: this.getLang === 'zh-CN' || this.getLang === 'cht' ? 'cn' : 'en',
         email: email,
