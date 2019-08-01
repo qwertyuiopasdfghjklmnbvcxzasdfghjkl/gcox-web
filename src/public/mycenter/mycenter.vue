@@ -91,7 +91,7 @@
       return {
         vsloaded: false, // 认证信息加载完毕状态
         avatarUrl: avatar,
-        userInfo: null,
+        userInfo: {},
         showLoading: false
       }
     },

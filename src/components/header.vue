@@ -178,6 +178,9 @@
               background: no-repeat 0;
               background-size: 20px 20px;
             }
+            span{
+              white-space: nowrap;
+            }
 
             .security {
               background-image: url('../assets/img/icon-security.svg');
