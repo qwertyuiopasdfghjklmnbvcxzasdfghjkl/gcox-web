@@ -123,7 +123,9 @@ let gjh = {
     "use-rule":"使用条款",
 
     //
-    "measure":"以BTC衡量"
+    "measure":"以BTC衡量",
+    "error":"认证失败",
+    "success":"认证成功",
   }
 }
 export default gjh
