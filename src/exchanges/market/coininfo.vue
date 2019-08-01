@@ -15,7 +15,7 @@
                 <div v-html="$t(`symbol_desc.${currentSymbol}`)"></div>
               </div>
             </li>
-            <li class="item">
+            <li class="item" v-show="false">
               <div class="title"> {{$t('exchange.issuing_date')}}<!-- 发行日期 --> </div>
               <div class="body"> <span> {{new Date(Number(symbolInfo.issueTime)).format('yyyy-MM-dd')}} </span> </div>
             </li>

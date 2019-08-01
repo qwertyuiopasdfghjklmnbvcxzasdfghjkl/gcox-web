@@ -24,11 +24,11 @@ export default {
   },
   methods: {
     sendEmail () {
-      let email = this.$route.params.email
+      let email = this.$route.query.email
       userApi.sendActivateEmail({
         lang: this.getLang === 'zh-CN' || this.getLang === 'cht' ? 'cn' : 'en',
         email: email,
-        redirectUrl:`${Config.origin}/#/login`
+        redirectUrl:`${Config.origin}/login`
       }, (msg) => {
         Vue.$koallTipBox({icon: 'success', message: this.$t(`error_code.${msg}`)})
       }, (msg) => {

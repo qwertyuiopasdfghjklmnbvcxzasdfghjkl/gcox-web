@@ -105,7 +105,7 @@ export default {
         return numUtils.BN(amount).gt('0.00000000') ? true : false
       })
       return asks.sort((item1, item2) => {
-        return numUtils.BN(item1.price).lt(item2.price) ? 1 : -1
+        return numUtils.BN(item1.price).gt(item2.price) ? 1 : -1
       })
     },
     filterBids () {

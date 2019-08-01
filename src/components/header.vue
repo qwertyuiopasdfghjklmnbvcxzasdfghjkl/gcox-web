@@ -16,7 +16,7 @@
       <div class="right">
           <router-link to="" class="item" v-if="isLogin">
             <span style="color: #fff;">{{displayUsername}}</span>
-            <div class="popover-nav" ref="nav1" @click="hidePopoverNav('nav1')">
+            <div class="popover-nav" :class="{en:getLang==='en'}" ref="nav1" @click="hidePopoverNav('nav1')">
               <div class="popover-menu">
                 <router-link :to="{name:'mycenter_menu', params:{menu:'mycenter'}}" class="sub-item" tag="div">
                   <i class="security"></i>
@@ -157,6 +157,7 @@
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
         word-break: break-all;
         display: none;
+        &.en {min-width: 200px;}
 
         .popover-menu {
           line-height: 40px;
