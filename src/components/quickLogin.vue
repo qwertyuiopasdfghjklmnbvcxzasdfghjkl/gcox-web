@@ -120,7 +120,9 @@ export default {
         formData.rsaPublicKey = rsaPublicKey
         userApi.login(formData, (apiToken, res) => {
           if (apiToken) {
-            window.noLoginRedirect = true
+            if(window.vm.$route.name!=='login' && window.vm.$route.name!=='register'){
+              window.noLoginRedirect = true
+            }
             this.$emit('removeDialog')
             this.setApiToken(apiToken)
             myAPi.addLoginHistory()
