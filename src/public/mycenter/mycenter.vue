@@ -253,8 +253,9 @@
             }
 
             span:nth-of-type(2) {
-              width: 560px;
+              width: 550px;
               flex-shrink: 0;
+              padding-right: 20px;
             }
 
             i {
