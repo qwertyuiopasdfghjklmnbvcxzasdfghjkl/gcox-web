@@ -37,7 +37,7 @@
 			</div>
 			<div class="ui-flex">
 				<div class="ui-flex-1"> </div>
-				<div forgot="" @click="goRouter('findpwd')"> 忘记密码？ </div>
+				<div forgot="" @click="goRouter('findpwd')"> {{$t('login_register.forget_password')}} </div>
 			</div>
 			<div class="mt30 text-right">
 				<button type="button" class="mint-btn primary middle round" style="width: 90px;" :disabled="errors.any()" @click="login">{{$t('login_register.login')}}<!-- 登录 --></button>
