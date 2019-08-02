@@ -170,12 +170,12 @@
       display: flex;
 
       > div {
-        margin-left: 70px;
+        margin-left: 50px;
 
         a {
           color: #979799;
           display: inline-block;
-          max-width: 100px;
+          max-width: 140px;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
