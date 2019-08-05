@@ -10,16 +10,10 @@ import Config from './config'
   let apiToken = ''
   opts = opts || {}
   let symbol = opts.symbol || 'ETHBTC'
-  let period = opts.period || '1m'
+  let period = opts.period || '30m'
   let subscribe = opts.subscribe || []
   let port = '9501'
   let isLeavePage = false
-
-  let chartSettings = window.localStorage.getItem('chartSettings')
-  if (chartSettings) {
-    chartSettings = JSON.parse(chartSettings)
-    period = chartSettings.charts.period
-  }
 
   let webSocket = null
   function sendMessage () {
