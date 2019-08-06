@@ -5,16 +5,51 @@
       <label :class="{active:show}" @click="show = true">{{$t('account.user_center_history_deposit')}}<!--充值记录--></label>
       <label :class="{active:!show}" @click="show = false">{{$t('account.user_center_history_withdrawal')}}<!--提现记录--></label>
     </div>
-    <div class="search">
-      <!--<div>-->
-        <!--<select>-->
-          <!--<option>{{$t('usercontent.user73')}}</option>-->
-          <!--<option>{{$t('usercontent.user73')}}</option>-->
-        <!--</select>-->
-      <!--</div>-->
-      <div></div>
-      <div></div>
+
+    <div class="search mt10 ui-flex" v-show="show">
+      <div @click="rechargePanel.showToken=!rechargePanel.showToken">
+        <p>{{params.token!==''?params.token:$t('trade_record.trade_record_all')}} <i :class="[!rechargePanel.showToken?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
+        <ul v-show="rechargePanel.showToken">
+          <li v-for="item in tokens" @click="params.token=item">{{item!==''?item:$t('trade_record.trade_record_all')}}</li>
+        </ul>
+      </div>
+      <div @click="rechargePanel.showPeriod=!rechargePanel.showPeriod">
+        <p>{{params.period}} {{$t('exchange.exchange_day')}} <i :class="[!rechargePanel.showPeriod?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
+        <ul v-show="rechargePanel.showPeriod">
+          <li v-for="item in periods" @click="params.period=item">{{item}} {{$t('exchange.exchange_day')}}</li>
+        </ul>
+      </div>
+      <span class="ml30">{{$t('exchange.exchange_status')}}</span>
+      <div @click="rechargePanel.showStatus=!rechargePanel.showStatus">
+        <p>{{getRechargeState(params.status).value}} <i :class="[!rechargePanel.showStatus?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
+        <ul v-show="rechargePanel.showStatus">
+          <li v-for="item in rechargeStatus" @click="params.status=item">{{getRechargeState(item).value}}</li>
+        </ul>
+      </div>
     </div>
+
+    <div class="search mt10 ui-flex" v-show="!show">
+      <div @click="withdrawalPanel.showToken=!withdrawalPanel.showToken">
+        <p>{{params2.token!==''?params2.token:$t('trade_record.trade_record_all')}} <i :class="[!withdrawalPanel.showToken?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
+        <ul v-show="withdrawalPanel.showToken">
+          <li v-for="item in tokens" @click="params2.token=item">{{item!==''?item:$t('trade_record.trade_record_all')}}</li>
+        </ul>
+      </div>
+      <div @click="withdrawalPanel.showPeriod=!withdrawalPanel.showPeriod">
+        <p>{{params2.period}} {{$t('exchange.exchange_day')}} <i :class="[!withdrawalPanel.showPeriod?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
+        <ul v-show="withdrawalPanel.showPeriod">
+          <li v-for="item in periods" @click="params2.period=item">{{item}} {{$t('exchange.exchange_day')}}</li>
+        </ul>
+      </div>
+      <span class="ml30">{{$t('exchange.exchange_status')}}</span>
+      <div @click="withdrawalPanel.showStatus=!withdrawalPanel.showStatus">
+        <p>{{getWithdrawalState(params2.status).value}} <i :class="[!withdrawalPanel.showStatus?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
+        <ul v-show="withdrawalPanel.showStatus">
+          <li v-for="item in withdrawalStatus" @click="params2.status=item">{{getWithdrawalState(item).value}}</li>
+        </ul>
+      </div>
+    </div>
+
     <div class="recharge" v-if="show">
       <ul class="header" v-if="!rechargeLoading && rechargeHistory.length > 0">
         <li>
@@ -102,17 +137,37 @@
         params: {
           page: 1,
           show: 10,
-          total: 0
+          total: 0,
+          token:'',
+          period:7,
+          status:''
         },
         params2: {
           page: 1,
           show: 10,
-          total: 0
+          total: 0,
+          token:'',
+          period:7,
+          status:''
         },
         rechargeHistory: [],
         withdrawalHistory: [],
         rechargeLoading: true,
-        withdrawalLoading: true
+        withdrawalLoading: true,
+        tokens:[],
+        periods:[7,30,18],
+        rechargeStatus:['', 1, 2],
+        withdrawalStatus:['', 1, 2, 4, 5, 6],
+        rechargePanel:{
+          showToken:false,
+          showPeriod:false,
+          showStatus:false,
+        },
+        withdrawalPanel:{
+          showToken:false,
+          showPeriod:false,
+          showStatus:false
+        },
       }
     },
     computed: {
@@ -120,18 +175,68 @@
         return {
           direction: 1,
           page: this.params.page,
-          pageSize: this.params.show
+          pageSize: this.params.show,
+          symbol: this.params.token,
+          time: this.params.period+'days',
+          status: this.params.status
         }
       },
       params2Change () {
         return {
           direction: 2,
           page: this.params2.page,
-          pageSize: this.params2.show
+          pageSize: this.params2.show,
+          symbol: this.params2.token,
+          time: this.params2.period+'days',
+          status: this.params2.status
         }
       }
     },
     watch: {
+      show(){
+        this.rechargePanel.showToken = false
+        this.rechargePanel.showPeriod = false
+        this.rechargePanel.showStatus = false
+        this.withdrawalPanel.showToken = false
+        this.withdrawalPanel.showPeriod = false
+        this.withdrawalPanel.showStatus = false
+      },
+      'rechargePanel.showToken'(_new){
+        if (_new) {
+          this.rechargePanel.showPeriod = false
+          this.rechargePanel.showStatus = false
+        }
+      },
+      'rechargePanel.showPeriod'(_new){
+        if (_new) {
+          this.rechargePanel.showToken = false
+          this.rechargePanel.showStatus = false
+        }
+      },
+      'rechargePanel.showStatus'(_new){
+        if (_new) {
+          this.rechargePanel.showToken = false
+          this.rechargePanel.showPeriod = false
+        }
+      },
+      'withdrawalPanel.showToken'(_new){
+        if (_new) {
+          this.withdrawalPanel.showPeriod = false
+          this.withdrawalPanel.showStatus = false
+        }
+      },
+      'withdrawalPanel.showPeriod'(_new){
+        if (_new) {
+          this.withdrawalPanel.showToken = false
+          this.withdrawalPanel.showStatus = false
+        }
+      },
+      'withdrawalPanel.showStatus'(_new){
+        if (_new) {
+          this.withdrawalPanel.showToken = false
+          this.withdrawalPanel.showPeriod = false
+        }
+      },
       paramsChange () {
         this.getListDepositHistory()
       },
@@ -140,15 +245,22 @@
       }
     },
     created () {
+      this.getAssets()
       this.getListDepositHistory()
       this.getListWithdrawHistory()
     },
     methods: {
+      getAssets(){
+        userUtils.myAssets({}, (data) => {
+          this.tokens = [''].concat(data.map(item=>{return item.symbol}))
+        })
+      },
       switch_tab (tab) {
         this.$emit('switchTab', tab)
       },
       getListDepositHistory () { // 获取充值记录
         this.rechargeLoading = true
+        let data = this.paramsChange
         userUtils.listDepositHistory(this.paramsChange, (res) => {
           this.rechargeHistory = res.data
           this.params.total = res.total
@@ -185,7 +297,7 @@
         } else {
           return {
             className: null,
-            value: null
+            value: this.$t('trade_record.trade_record_all') // 全部
           }
         }
       },
@@ -220,7 +332,7 @@
           default:
             return {
               className: null,
-              value: null
+              value: this.$t('trade_record.trade_record_all') // 全部
             }
         }
       },
@@ -392,5 +504,21 @@
     line-height: 20px;
     color: #A1A1A1;
   }
+
+.search {
+  > div { 
+      line-height: 25px;
+      position: relative;
+      &+div {margin-left: 30px;}
+      > p {border-bottom: 1px solid hsla(240, 4%, 95%, 0.1); padding-left: 15px; padding-right: 15px; cursor: pointer;  position: relative; display: inline-block; min-width: 100px; }
+      > p i {position: absolute; right: 15px; top: 6px;}
+      > ul {
+        position: absolute; left: 0; right: 0; background-color: #212028; box-shadow: 1px 1px 3px rgba(0,0,0,.3); max-height: 400px; overflow-y: auto;
+        li {line-height: 35px; padding-left: 15px; padding-right: 15px; cursor: pointer;}
+        li:hover {background-color: #292831;}
+        li.active {color: #00a0e9; background-color: #292831;}
+      }
+    }
+}
 </style>
 
