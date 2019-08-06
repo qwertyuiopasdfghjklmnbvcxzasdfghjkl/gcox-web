@@ -1,5 +1,6 @@
 import Home from '@/exchanges/home'
 import Helpcenter from '@/exchanges/helpcenter'
+import quickTrade from '@/exchanges/quickTrade'
 
 const routes = [
   {
@@ -16,7 +17,12 @@ const routes = [
     path: '/exchange/helpcenter',
     name: 'exchange_helpcenter',
     component: Helpcenter
-  }
+  },
+  {
+    path: '/1-click-trade',
+    name: 'quickTrade',
+    component: quickTrade
+  },
 ]
 
 export default routes
