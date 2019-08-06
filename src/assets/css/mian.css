@@ -86,6 +86,7 @@ div.hopscotch-bubble h3,div.hopscotch-bubble .hopscotch-content{color:#aeb7d0;}
 	font-family:'ethnocentric';
 	src: url('./fonts/ethnocentric rg.ttf') format('truetype');
 }
+.pointer {cursor: pointer;}
 .inline {display: inline-block; vertical-align: middle;}
 .efont{font-family: ethnocentric,PingFangSC-Regular,Microsoft YaHei,sans-serif;}
 .rang-down {color: #f1304a!important;}
