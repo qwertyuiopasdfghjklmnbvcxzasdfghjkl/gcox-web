@@ -38,9 +38,7 @@
                     :title="$t('account.estimated_value_deposit')">
                                 {{$t('usercontent.user71')}}<!--充值-->
                             </span>
-              <span  class="buy icon_recharge"
-                     :class="{disabled: Number(item.rechargeFlag) !== 1 || Number(item.withdrawFlag) !== 1}"
-                      @click="(Number(item.rechargeFlag) !== 1) &&(Number(item.withdrawFlag) !== 1) ? false : buy()">
+              <span  class="buy icon_recharge disabled">
                 {{$t('usercontent.user72')}}
               </span>
             </div>
