@@ -42,6 +42,7 @@
           <span class="avgPrice">{{$t('exchange.exchange_Transaction_price')}} <!--成交均价--></span>
           <span class="tradeVolume">{{$t('exchange.exchange_Transaction_volume')}} <!--成交量--></span>
           <span class="tradeSum">{{$t('exchange.exchange_Transaction_amount')}}<!--成交金额--></span>
+          <span class="tradeSum">金额(USD)</span><!--法币金额-->
           <span class="charge">{{$t('exchange.advanced_fee')}}<!--手续费--></span>
         </li>
       </ul>
@@ -52,8 +53,8 @@
           <span class="type" :class="item.direction === 1 ? 'buy' : 'sell'">{{getType(item.direction)}}</span><!--方向-->
           <span class="avgPrice">{{getPrice(item.averagePrice)}}</span><!--成交均价-->
           <span class="tradeVolume">{{toFixed(item.finishedAmount)}}</span><!--成交量-->
-          <span class="tradeSum">{{toFixed(item.dealCurrency)}} {{item.direction === 1 ? item.fromSymbol : item.toSymbol}}</span>
-          <!--成交金额-->
+          <span class="tradeSum">{{toFixed(item.dealCurrency)}} {{item.direction === 1 ? item.fromSymbol : item.toSymbol}}</span><!--成交金额-->
+          <span class="tradeSum">{{toFixed(item.usd||0,2).toMoney()}}</span><!--法币金额-->
           <span class="charge" v-html="fee(item)"></span><!--手续费-->
         </li>
       </ul>
