@@ -1,6 +1,6 @@
 <template>
   <div class="cont">
-    <h4>{{$t('usercontent.user96')}}{{ symbol }}{{$t('usercontent.user97')}}</h4>
+    <h4>{{$t('usercontent.user96').format(symbol) }}</h4>
     <div class="inp">
       <label>
         <p>{{$t('usercontent.user88')}}</p>
