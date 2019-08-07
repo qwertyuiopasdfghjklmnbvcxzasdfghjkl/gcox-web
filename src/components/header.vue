@@ -6,9 +6,10 @@
         <router-link :to="{name:'home'}" class="icon_logo item"></router-link>
         <router-link :to="{name:'market'}" class="item"><i class="market"></i> {{$t('home.home_pair')}}<!-- 市场 -->
         </router-link>
-        <router-link :to="{name:'exchange_index2'}" class="item"
-                     :class="{active:$route.name === 'exchange_index2' || $route.name === 'exchange_index'}"><i
-          class="exchange"></i> {{$t('exchange.exchange_name')}}<!-- 交易所 --></router-link>
+        <router-link :to="{name:'exchange_index2'}" class="item" :class="{active:$route.name === 'exchange_index2' || $route.name === 'exchange_index' || $route.name === 'quickTrade'}">
+           <i class="exchange"></i> {{$t('exchange.exchange_name')}}<!-- 交易所 -->
+           
+        </router-link>
         <router-link :to="{name:'acm'}" class="item"><i class="acm"></i> ACM</router-link>
         <a href="javascript:;" v-if="!isLogin" class="item" @click="showQuickLogin"><i class="account"></i> {{$t('usercontent.user56')}}<!-- 知产管理 --></a>
         <router-link v-if="isLogin" :to="{name:'account'}" class="item"><i class="account"></i> {{$t('usercontent.user56')}}<!-- 知产管理 --></router-link>
@@ -158,6 +159,16 @@
         word-break: break-all;
         display: none;
         &.en {min-width: 200px;}
+        &.black {
+          background: #3F3B3B;
+          border-radius: 0;
+          border: none;
+          color: #fff;
+          .popover-menu .sub-item:hover {
+            background-color: #333030;
+            color: #00a0e9;
+          }
+        }
 
         .popover-menu {
           line-height: 40px;
@@ -167,6 +178,7 @@
             border-bottom: 1px solid rgba(21, 23, 32, .08);
             cursor: pointer;
             display: flex;
+            position: relative;
 
             &:hover {
               background-color: #E5E5E5;
@@ -181,6 +193,7 @@
             span{
               white-space: nowrap;
             }
+            .arrow {position: absolute; right: 10px; top: 15px; transform: rotate(-90deg);}
 
             .security {
               background-image: url('../assets/img/icon-security.svg');

@@ -513,7 +513,7 @@
       > p {border-bottom: 1px solid hsla(240, 4%, 95%, 0.1); padding-left: 15px; padding-right: 15px; cursor: pointer;  position: relative; display: inline-block; min-width: 100px; }
       > p i {position: absolute; right: 15px; top: 6px;}
       > ul {
-        position: absolute; left: 0; right: 0; background-color: #212028; box-shadow: 1px 1px 3px rgba(0,0,0,.3); max-height: 400px; overflow-y: auto;
+        position: absolute; left: 0; right: 0; background-color: #212028; box-shadow: 1px 1px 3px rgba(0,0,0,.3); max-height: 400px; overflow-y: auto; z-index: 1;
         li {line-height: 35px; padding-left: 15px; padding-right: 15px; cursor: pointer;}
         li:hover {background-color: #292831;}
         li.active {color: #00a0e9; background-color: #292831;}
