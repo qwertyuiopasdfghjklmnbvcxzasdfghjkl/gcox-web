@@ -27,20 +27,8 @@
               <i class="icon-search"></i>
               <input type="text" v-model="filterTitle" placeholder="BTC"/>
             </div>
-            <!--<div class="limit">-->
-            <!--<span @click="switchTab('historyrecord')">-->
-            <!--{{$t('account.userViewTheHistory')}}&lt;!&ndash;历史记录&ndash;&gt;-->
-            <!--</span>-->
-            <!--</div>-->
           </div>
         </div>
-        <!--<div class="acount_tab">-->
-        <!--<div :class="{'active': active === 'main'}" @click="switchHeadTab('main')">{{$t('public.main_account')}}</div>-->
-        <!--<div :class="{'active': active === 'vote'}" @click="switchHeadTab('vote')">-->
-        <!--{{$t('public.vote_miner_account')}}-->
-        <!--</div>-->
-        <!--<span @click="tansferDialog">{{$t('vote_mining.funds_transfer')}}</span>-->
-        <!--</div>-->
         <ul class="accountInfo-lists header" v-if="pandectShow">
           <li class="th">
             <div class="items">
@@ -51,13 +39,6 @@
                   <i class="icon-arrow-down" :class="{active:sort==='desc'}"></i>
                 </em>
               </div>
-              <!--<div class="fullName ng-binding" @click="sortAssets('fullName')">-->
-              <!--{{$t('account.estimated_value_name')}}&lt;!&ndash;全称&ndash;&gt;-->
-              <!--<em v-if="sortActive==='fullName'">-->
-              <!--<i class="icon-arrow-up" :class="{active:sort==='asc'}"></i>-->
-              <!--<i class="icon-arrow-down" :class="{active:sort==='desc'}"></i>-->
-              <!--</em>-->
-              <!--</div>-->
               <div class="f-right ng-binding" @click="sortAssets('total')">
                 {{$t('account.estimated_value_total')}}<!--总金额-->
                 <em v-if="sortActive==='total'">
@@ -72,20 +53,6 @@
                   <i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>
                 </em>
               </div>
-              <!--<div class="useable f-right ng-binding">-->
-                <!--{{$t('usercontent.measure')}}&lt;!&ndash;以BTC衡量&ndash;&gt;-->
-                <!--&lt;!&ndash;<em v-if="sortActive==='available'">&ndash;&gt;-->
-                  <!--&lt;!&ndash;<i class="icon-arrow-up" :class="{active:sort==='desc'}"></i>&ndash;&gt;-->
-                  <!--&lt;!&ndash;<i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>&ndash;&gt;-->
-                <!--&lt;!&ndash;</em>&ndash;&gt;-->
-              <!--</div>-->
-              <!--<div class="locked f-right ng-binding" @click="sortAssets('frozen')">-->
-              <!--{{$t('public0.public34')}}&lt;!&ndash;冻结金额&ndash;&gt;-->
-              <!--<em v-if="sortActive==='frozen'">-->
-              <!--<i class="icon-arrow-up" :class="{active:sort==='desc'}"></i>-->
-              <!--<i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>-->
-              <!--</em>-->
-              <!--</div>-->
               <div class="opreat f-right ng-binding" v-if="accountType===1">
                 {{$t('otc_exchange.otc_exchange_operating')}}<!--操作-->
               </div>
