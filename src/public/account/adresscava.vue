@@ -8,17 +8,15 @@
     <div class="tsmb">
       <div class="tsmb-flex">
         <p>{{$t('usercontent.notice')}}</p>
-        <label>
-          <p>{{$t('usercontent.not1')}}{{symbol}}{{$t('usercontent.not1-1')}}</p>
-          <p>{{$t('usercontent.not2')}}{{symbol}}{{$t('usercontent.not2-1')}}{{symbol}}{{$t('usercontent.not2-2')}}</p>
+        <label style="padding-left: 4px">
+          <p>{{$t('usercontent.not1').format(symbol)}}</p>
+          <!--<p>{{$t('usercontent.not2').format(symbol,'0.01')}}</p>-->
         </label>
       </div>
       <div class="tsmb-flex blue">
         <p>{{$t('usercontent.not3')}}</p>
-        <label>
-          <p>{{$t('usercontent.not3-1')}}
-            {{symbol}}{{$t('usercontent.not3-2')}}
-            {{symbol}}{{$t('usercontent.not3-3')}}</p>
+        <label style="padding-left: 4px">
+          <p>{{$t('usercontent.not3-1').format(symbol)}}</p>
         </label>
       </div>
     </div>
@@ -52,7 +50,8 @@
         addr: null,
         symbol: null,
         allData: [],
-        showSymbol: false
+        showSymbol: false,
+        minWithdraw: ''
       }
     },
     watch: {
@@ -95,6 +94,7 @@
           this.allData.filter(next => {
             if (next.symbol === this.symbol) {
               this.addr = next.address
+              this.minWithdraw = next.minWithdraw
             }
           })
           console.log(res)

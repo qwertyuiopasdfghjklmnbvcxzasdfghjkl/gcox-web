@@ -8,8 +8,8 @@
       </div>
       <div>
         <p class="tbsm">
-          <span>{{$t('usercontent.description')}}</span>
-          <span>{{$t('usercontent.description-text')}}</span>
+          <span>{{$t('usercontent.description')}} </span>
+          <span style="padding-left:4px ">{{$t('usercontent.description-text')}}</span>
         </p>
       </div>
       <div class="input-box">
@@ -117,7 +117,6 @@
   import Vue from 'vue'
   import userUtils from '@/api/wallet'
   import userApi from '@/api/individual'
-  import myApi from '@/api/user'
   import numUtils from '@/assets/js/numberUtils'
   import {Validator} from 'vee-validate'
   import numberbox from '@/components/formel/numberbox'
