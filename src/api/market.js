@@ -7,7 +7,7 @@ import uuid from 'uuid/v1'
 let domain = ''
 let market = {}
 
-// 获取币币交易公告
+// 公告
 const getCmsList = function (data, success, error) {
   api.post(`${domain}/api/v1/cms/list`, data, (res) => {
     if (res.rst === 1) {
