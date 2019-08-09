@@ -25,7 +25,7 @@
                     <!--@click="Number(item.rechargeFlag) !== 1 ? false : copy()" :title="$t('account.user_Copy_address')">-->
                                 <!--&lt;!&ndash;复制地址&ndash;&gt;-->
                             <!--</span>-->
-              <span class="reche icon_withdraw" v-if="false"
+              <span class="reche icon_withdraw"
                     :class="{disabled: false}"
                     @click="Number(item.withdrawFlag) !== 1 ? false : withdrawDalog()"
                     :title="$t('account.account.stake')">
@@ -225,6 +225,17 @@
           })
           return
         }
+        // if (!this.getUserInfo.email && this.mobileState !== 1) {
+        //   Vue.$confirmDialog({
+        //     id: 'SMS_AUTH_FIRST',
+        //     showCancel: false,
+        //     content: this.$t('error_code.CELLPHONE_AUTH_FIRST'), // 请先进行短信验证
+        //     okCallback: () => {
+        //       this.$router.push({name: 'mycenter_menu', params: {menu: 'safety'}})
+        //     }
+        //   })
+        //   return
+        // }
         let data = {
           symbol: this.item.symbol,
           symbolType: this.item.symbolType,
@@ -242,6 +253,18 @@
             allData: this.allData
           }
         })
+        // utils.setDialog(withdrawInfo, {
+        //   symbol: this.item.symbol,
+        //   symbolType: this.item.symbolType,
+        //   available: this.item.availableBalance,
+        //   fromAddress: this.getAddress,
+        //   procedure: this.item.procedureFee,
+        //   minWithdraw: this.item.minWithdraw,
+        //   fromAccount: this.item.accountId,
+        //   okCallback: () => {
+        //     this.$emit('updateMyAssets')
+        //   }
+        // })
       },
       scanEWM () {
         this.$router.push({
@@ -254,7 +277,7 @@
       },
       buy(){
         let market = this.getMarketList.filter(item=>{
-          return item.baseSymbol === this.symbol
+          return item.currencySymbol === this.symbol
         })
         if(market.length){
           this.$router.push({name:'exchange_index',params:{symbol:`${market[0].currencySymbol}_${market[0].baseSymbol}`}})
