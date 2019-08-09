@@ -128,7 +128,8 @@
         display: flex;
 
         & > p {
-          width: 72px;
+          min-width: 72px;
+          white-space: nowrap;
         }
 
         & > label {
