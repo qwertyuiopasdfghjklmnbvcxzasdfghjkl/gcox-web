@@ -25,12 +25,7 @@
                     <!--@click="Number(item.rechargeFlag) !== 1 ? false : copy()" :title="$t('account.user_Copy_address')">-->
                                 <!--&lt;!&ndash;复制地址&ndash;&gt;-->
                             <!--</span>-->
-              <span class="reche icon_withdraw"
-                    :class="{disabled: false}"
-                    @click="Number(item.withdrawFlag) !== 1 ? false : withdrawDalog()"
-                    :title="$t('account.account.stake')">
-                                {{$t('account.stake')}}<!--锁仓-->
-                            </span>
+              
 
               <span class="reche icon_withdraw"
                     :class="{disabled: Number(item.withdrawFlag) !== 1}"
