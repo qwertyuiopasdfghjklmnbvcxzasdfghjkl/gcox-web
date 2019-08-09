@@ -17,8 +17,9 @@
   import settings from '@/public/mycenter/settings'
   import safety from '@/public/mycenter/safety'
   import message from '@/public/mycenter/message'
-  import agency from '@/public/mycenter/agency'
-  import agencyApply from '@/public/mycenter/agencyApply'
+  import referral from '@/public/mycenter/referral'
+  // import agency from '@/public/mycenter/agency'
+  // import agencyApply from '@/public/mycenter/agencyApply'
   import resetpassword from '@/public/mycenter/resetpassword'
   import assetpassword from '@/public/mycenter/assetpassword'
   import Vue from 'vue'
@@ -38,8 +39,9 @@
       settings,
       safety,
       message,
-      agency,
-      agencyApply,
+      referral,
+      // agency,
+      // agencyApply,
       resetpassword,
       assetpassword
     },

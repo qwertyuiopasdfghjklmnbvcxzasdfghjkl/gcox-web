@@ -383,6 +383,9 @@ Vue.filter('numbean',function(n){
   return r>0?b.slice(0,r)+","+b.slice(r,len).match(/\d{3}/g).join(","):b.slice(r,len).match(/\d{3}/g).join(",");
 });
 
+/* 去除末尾的0 */
+Vue.filter('removeEndZero',removeEndZero);
+
 // 注册一个全局自定义指令 `v-focus`
 Vue.directive('focus', {
   inserted: function (el) {
@@ -567,5 +570,43 @@ const encryptPwd = function (publickey, pwd) {
   return pwd
 }
 utils.encryptPwd = encryptPwd
+
+const getPhonePlatform = () => {
+  var isAndroid = navigator.userAgent.indexOf('Android') > -1 || navigator.userAgent.indexOf('Linux') > -1;
+  if (isAndroid) {
+      return 'android';
+  }
+  var isiOS = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+  if (isiOS) {
+      return 'ios';
+  }
+  return false;
+}
+utils.getPhonePlatform = getPhonePlatform
+
+// 复制
+const copyText = (str) => {
+  if (getPhonePlatform() !== 'ios') {
+      var save = function (e) {
+          e.clipboardData.setData('text/plain', str);
+          e.preventDefault();
+      }
+      document.addEventListener('copy', save);
+      document.execCommand('copy');
+      document.removeEventListener('copy', save);
+      return;
+  }
+  var copyDOM = document.createElement("div");
+  copyDOM.id = "copy_clipboard";
+  copyDOM.innerHTML = str;
+  document.body.appendChild(copyDOM);
+  var range = document.createRange();
+  range.selectNode(copyDOM);
+  window.getSelection().addRange(range);
+  document.execCommand('copy');
+  window.getSelection().removeAllRanges();
+  document.body.removeChild(copyDOM);
+}
+utils.copyText = copyText
 
 export default utils

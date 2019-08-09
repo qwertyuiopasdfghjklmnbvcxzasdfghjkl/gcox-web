@@ -25,6 +25,12 @@
                     <!--@click="Number(item.rechargeFlag) !== 1 ? false : copy()" :title="$t('account.user_Copy_address')">-->
                                 <!--&lt;!&ndash;复制地址&ndash;&gt;-->
                             <!--</span>-->
+              <span class="reche icon_withdraw" v-if="false"
+                    :class="{disabled: false}"
+                    @click="Number(item.withdrawFlag) !== 1 ? false : withdrawDalog()"
+                    :title="$t('account.account.stake')">
+                                {{$t('account.stake')}}<!--锁仓-->
+                            </span>
 
               <span class="reche icon_withdraw"
                     :class="{disabled: Number(item.withdrawFlag) !== 1}"
@@ -38,7 +44,9 @@
                     :title="$t('account.estimated_value_deposit')">
                                 {{$t('usercontent.user71')}}<!--充值-->
                             </span>
-              <span  class="buy icon_recharge disabled">
+              <span  class="buy icon_recharge"
+                     :class="{disabled: Number(item.rechargeFlag) !== 1 || Number(item.withdrawFlag) !== 1}"
+                      @click="(Number(item.rechargeFlag) !== 1) &&(Number(item.withdrawFlag) !== 1) ? false : buy()">
                 {{$t('usercontent.user72')}}
               </span>
             </div>
@@ -143,6 +151,7 @@
       }
     },
     computed: {
+      ...mapGetters(['getMarketList']),
       blockQuantity () {
         if (this.item.blockConfirm) {
           return this.item.blockConfirm
@@ -244,7 +253,14 @@
         })
       },
       buy(){
-        this.$router.push('/exchange/'+this.symbol)
+        let market = this.getMarketList.filter(item=>{
+          return item.baseSymbol === this.symbol
+        })
+        if(market.length){
+          this.$router.push({name:'exchange_index',params:{symbol:`${market[0].currencySymbol}_${market[0].baseSymbol}`}})
+        } else {
+          this.$router.push({name:'exchange_index2'})
+        }
       },
       scanMEMO () {
         utils.setDialog(memoCava, {
@@ -282,7 +298,6 @@
 
   .depositBox .filed span {
     display: inline-block;
-    width: 25px;
     height: 25px;
     margin-right: 5px;
     background: none no-repeat left center;
@@ -308,7 +323,8 @@
     line-height: 28px;
     margin-right: 10px;
     height: 30px;
-    width: 80px;
+    padding-left: 15px;
+    padding-right: 15px;
   }
   .depositBox .filed span.icon_recharge.buy{
     margin-right: 0;
@@ -331,7 +347,8 @@
     line-height: 28px;
     margin-right: 10px;
     height: 30px;
-    width: 80px;
+    padding-left: 15px;
+    padding-right: 15px;
   }
 
   .depositBox .filed span.icon_withdraw:hover {

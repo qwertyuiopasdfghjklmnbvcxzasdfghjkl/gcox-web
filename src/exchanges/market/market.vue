@@ -231,12 +231,12 @@ export default {
       if(!this.getMarketList.length || key){
         marketApi.marketList((res) => {
           this.setMarketList(res || [])
-          if(this.hasCollection){
+          if(!this.$route.params.symbol && this.hasCollection){
             this.active = 'collection'
           }
         })
       } else {
-        if(this.hasCollection){
+        if(!this.$route.params.symbol && this.hasCollection){
           this.active = 'collection'
         }
       }
