@@ -225,17 +225,6 @@
           })
           return
         }
-        // if (!this.getUserInfo.email && this.mobileState !== 1) {
-        //   Vue.$confirmDialog({
-        //     id: 'SMS_AUTH_FIRST',
-        //     showCancel: false,
-        //     content: this.$t('error_code.CELLPHONE_AUTH_FIRST'), // 请先进行短信验证
-        //     okCallback: () => {
-        //       this.$router.push({name: 'mycenter_menu', params: {menu: 'safety'}})
-        //     }
-        //   })
-        //   return
-        // }
         let data = {
           symbol: this.item.symbol,
           symbolType: this.item.symbolType,
@@ -253,18 +242,6 @@
             allData: this.allData
           }
         })
-        // utils.setDialog(withdrawInfo, {
-        //   symbol: this.item.symbol,
-        //   symbolType: this.item.symbolType,
-        //   available: this.item.availableBalance,
-        //   fromAddress: this.getAddress,
-        //   procedure: this.item.procedureFee,
-        //   minWithdraw: this.item.minWithdraw,
-        //   fromAccount: this.item.accountId,
-        //   okCallback: () => {
-        //     this.$emit('updateMyAssets')
-        //   }
-        // })
       },
       scanEWM () {
         this.$router.push({
