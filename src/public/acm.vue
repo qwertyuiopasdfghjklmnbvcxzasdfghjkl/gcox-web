@@ -48,7 +48,7 @@
           </div> 
           <div class="mb40">
            <p>The Acclaim Token(ACM)is the base token for all Celebrity Tokens and is traded</p> 
-           <p>on the GCOX Exchange. ACM servers as a means of exchange for the different</p> 
+           <p>on the GCOX Exchange. ACM serve as a means of exchange for the different</p> 
            <p>tokens of our GCOX celebrities and global brand partners. ACM may also be used</p>
            <p>to gain access to exclusive features and celebrity programmes availble on GCOX</p>
            <p>platforms</p>

@@ -31,6 +31,11 @@
         <span>{{$t('usercontent.user41')}}</span>
         <!--系统消息-->
       </li>
+      <li v-if="false" :class="{'active': active === 'referral'}" @click="switch_tab('referral')">
+        <!--<i class="icon-message"></i>-->
+        <span>{{$t('account.referralProgramme')}}</span>
+        <!--我的推荐-->
+      </li>
       <!--<li :class="{'active': active === 'agencyApply'}" @click="switch_tab('agencyApply')" v-if="!showShops">-->
         <!--&lt;!&ndash;<i class="icon-shield"></i>&ndash;&gt;-->
         <!--<span>{{$t('business.MERCHANT_APPLICATION')}}</span>-->

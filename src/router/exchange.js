@@ -1,6 +1,7 @@
 import Home from '@/exchanges/home'
 import Helpcenter from '@/exchanges/helpcenter'
 import quickTrade from '@/exchanges/quickTrade'
+import fiat from '@/exchanges/fiat'
 
 const routes = [
   {
@@ -22,6 +23,11 @@ const routes = [
     path: '/1-click-trade',
     name: 'quickTrade',
     component: quickTrade
+  },
+  {
+    path: '/fiat',
+    name: 'fiat',
+    component: fiat
   },
 ]
 

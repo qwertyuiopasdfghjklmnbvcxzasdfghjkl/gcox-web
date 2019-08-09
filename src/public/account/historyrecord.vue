@@ -155,7 +155,7 @@
         rechargeLoading: true,
         withdrawalLoading: true,
         tokens:[],
-        periods:[7,30,18],
+        periods:[7,30,180],
         rechargeStatus:['', 1, 2],
         withdrawalStatus:['', 1, 2, 4, 5, 6],
         rechargePanel:{
@@ -506,6 +506,7 @@
   }
 
 .search {
+  > span {line-height: 24px;}
   > div { 
       line-height: 25px;
       position: relative;
