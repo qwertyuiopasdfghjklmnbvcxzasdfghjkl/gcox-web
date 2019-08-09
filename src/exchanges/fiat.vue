@@ -1,46 +1,32 @@
 <template>
-  <div class="quick-trade w1200 f-c-white">
+  <div class="fiat w1200 f-c-white">
     <div>
-      <p class="fs28">1-Click-Trade</p>
-      <div class="ui-flex mt20">
-        <div class="trade-panel">
-          <div class="setting clearfix">
-            <div class="symbol-container">
-              <div class="buy_or_sell text-center fs24 f-c-gray"><span class="pointer" :class="{'rang-up':formData.direction===1}" @click="formData.direction=1">Buy</span> &nbsp;|&nbsp; <span class="pointer" :class="{'rang-down':formData.direction===2}"  @click="formData.direction=2">Sell</span></div>
-              <div class="symbol">
-                <img src=""> BTC <i class="icon-arrow-down3"></i>
-                <ul>
-                  <li></li>
-                </ul>
-              </div>
-            </div>
-            <div class="currency-container"></div>
+      <p class="fs16">购买 BTC / ETH</p>
+      <div class="ui-flex mt15">
+        <div class="block">
+          <p>Order Amount</p>
+          <div class="amount mt10 fs16">
+            <input type="number" name="amount" v-model="formData.amount" placeholder="请输入购买数量" v-focus>
+            <a href="javascript:;">
+              {{formData.symbol}} <i class="icon-arrow-down3 ml10"></i>
+              <ul ref="symbol">
+                <li v-for="item in symbol" @click="setSymbol(item)">{{item}}</li>
+              </ul>
+            </a>
           </div>
-          <div class="block">
-            <p>Order Amount</p>
-            <div class="amount mt10 fs16">
-              <input type="number" name="amount" v-model="formData.amount" placeholder="请输入购买数量" v-focus>
-              <a href="javascript:;">
-                {{formData.symbol}} <i class="icon-arrow-down3 ml10"></i>
-                <ul ref="symbol">
-                  <li v-for="item in symbol" @click="setSymbol(item)">{{item}}</li>
-                </ul>
-              </a>
-            </div>
-            <p style="margin-top: 60px;">Total Charge (fee included)</p>
-            <div class="charge mt10 fs16">
-              <input type="number" name="charge" :value="formData.charge" readonly="">
-              <a href="javascript:;">
-                {{formData.currency}} <i class="icon-arrow-down3 ml10"></i>
-                <ul ref="currency">
-                  <li v-for="item in currency" @click="setCurrency(item)">{{item}}</li>
-                </ul>
-              </a>
-            </div>
-            <button type="button" class="buy mt40"><strong>BUY NOW</strong></button>
-            <div class="mt20 text-center powerby">
-              Powered by <i class="icon_simplex ml20"></i>
-            </div>
+          <p style="margin-top: 60px;">Total Charge (fee included)</p>
+          <div class="charge mt10 fs16">
+            <input type="number" name="charge" :value="formData.charge" readonly="">
+            <a href="javascript:;">
+              {{formData.currency}} <i class="icon-arrow-down3 ml10"></i>
+              <ul ref="currency">
+                <li v-for="item in currency" @click="setCurrency(item)">{{item}}</li>
+              </ul>
+            </a>
+          </div>
+          <button type="button" class="buy mt40"><strong>BUY NOW</strong></button>
+          <div class="mt20 text-center powerby">
+            Powered by <i class="icon_simplex ml20"></i>
           </div>
         </div>
         <div class="ml40 why" style="padding-top: 25px;">
@@ -70,7 +56,6 @@ export default {
       symbol:['BTC','ETH'],
       currency:['USD','CNY'],
       formData:{
-        direction:1,
         symbol:'BTC',
         amount:'1',
         currency:'USD',
@@ -113,21 +98,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.setting > div{
-  width: 200px;
-  float: left;
-  &+div {margin-left: 35px;}
-  .symbol {
-    border: 1px solid #fff;
-    border-radius: 8px;
-    line-height: 46px;
-    font-size: 22px;
-    text-align: center;
-    margin-top: 15px;
-    position: relative;
-    i{position: absolute; right: 15px; top: 15px; font-size: 16px;}
-  }
-}
 .block {
     width: 550px;
     background: #19181d;
@@ -137,7 +107,7 @@ export default {
         margin: 0;
     }
 }
-.quick-trade {padding-top: 50px; padding-bottom: 30px; > div {padding-left: 15px; padding-right: 15px;}}
+.fiat {padding-top: 50px; padding-bottom: 30px; > div {padding-left: 15px; padding-right: 15px;}}
 .amount, .charge {
   background-color: #3F3B3A; line-height: 40px; position: relative;
   input {width:100%; height: 30px; box-sizing: border-box; font-size: 16px; color: #fff; background-color: transparent; padding-left: 20px; padding-right: 100px;}

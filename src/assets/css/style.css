@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?2v7tep');
-  src:  url('fonts/icomoon.eot?2v7tep#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?2v7tep') format('truetype'),
-    url('fonts/icomoon.woff?2v7tep') format('woff'),
-    url('fonts/icomoon.svg?2v7tep#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?62047e');
+  src:  url('fonts/icomoon.eot?62047e#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?62047e') format('truetype'),
+    url('fonts/icomoon.woff?62047e') format('woff'),
+    url('fonts/icomoon.svg?62047e#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,30 +24,39 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-cross:before {
+  content: "\e924";
+}
+.icon-users:before {
+  content: "\e923";
+}
+.icon-check:before {
+  content: "\e91f";
+}
+.icon-shield:before {
+  content: "\e95a";
+}
+.icon-shop:before {
+  content: "\e937";
+}
+.icon-facebook1:before {
+  content: "\e920";
+}
+.icon-tencentqq:before {
+  content: "\e921";
+}
+.icon-whatsapp:before {
+  content: "\e922";
+}
 .icon-ve:before {
   content: "\e95f";
 }
-.icon-gcox .path1:before {
+.icon-gcox:before {
   content: "\e95b";
-  color: rgb(36, 77, 146);
-}
-.icon-gcox .path2:before {
-  content: "\e95c";
-  margin-left: -1em;
-  color: rgb(235, 207, 34);
-}
-.icon-gcox .path3:before {
-  content: "\e95d";
-  margin-left: -1em;
-  color: rgb(36, 77, 146);
-}
-.icon-gcox .path4:before {
-  content: "\e95e";
-  margin-left: -1em;
-  color: rgb(36, 77, 146);
 }
 .icon-usdt:before {
   content: "\e901";
+  color: #515151;
 }
 .icon-add:before {
   content: "\e902";
@@ -136,33 +145,6 @@
 .icon-draw-arrow:before {
   content: "\e91e";
 }
-.icon-draw-arrowline:before {
-  content: "\e91f";
-}
-.icon-draw-biparallelrayline:before {
-  content: "\e920";
-}
-.icon-draw-crosscursor:before {
-  content: "\e921";
-}
-.icon-draw-horirayline:before {
-  content: "\e922";
-}
-.icon-draw-horizontalline:before {
-  content: "\e923";
-}
-.icon-draw-rayline:before {
-  content: "\e924";
-}
-.icon-draw-straightline:before {
-  content: "\e925";
-}
-.icon-draw-trendline:before {
-  content: "\e926";
-}
-.icon-draw-verticalline:before {
-  content: "\e927";
-}
 .icon-enlarge:before {
   content: "\e928";
 }
@@ -209,7 +191,6 @@
 }
 .icon-msg-hi:before {
   content: "\e936";
-  color: #11a8fe;
 }
 .icon-my:before {
   content: "\e938";
@@ -315,10 +296,4 @@
 }
 .icon-star:before {
   content: "\e900";
-}
-.icon-shield:before {
-  content: "\e95a";
-}
-.icon-shop:before {
-  content: "\e937";
 }

@@ -1,6 +1,12 @@
 <template>
   <div class="digassets">
-    <h3>{{$t('usercontent.user58')}}<!--我的数字资产--></h3>
+    <h3>{{$t('usercontent.user58')}}<!--我的数字资产-->
+      <template v-if="false">
+        <span class="ml80 pointer" :class="{'f-c-main':accountType===1}" @click="accountType=1">{{$t('account.trading_wallet')}}<!-- 交易钱包 --></span>
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+        <span class="pointer" :class="{'f-c-main':accountType===2}" @click="accountType=2">{{$t('account.staking_wallet')}}<!-- 锁仓钱包 --></span>
+      </template>
+    </h3>
     <div class="hcontainer">
       <div class="chargeWithdraw" v-if="!showLoaing">
         <div class="total">
@@ -41,83 +47,175 @@
         <!--</div>-->
         <!--<span @click="tansferDialog">{{$t('vote_mining.funds_transfer')}}</span>-->
         <!--</div>-->
-        <ul class="accountInfo-lists header" v-if="pandectShow">
-          <li class="th">
-            <div class="items">
-              <div class="coin ng-binding" @click="sortAssets('symbol')">
-                {{$t('account.estimated_value_coin')}}<!--币种-->
-                <em v-if="sortActive==='symbol'">
-                  <i class="icon-arrow-up" :class="{active:sort==='asc'}"></i>
-                  <i class="icon-arrow-down" :class="{active:sort==='desc'}"></i>
-                </em>
-              </div>
-              <!--<div class="fullName ng-binding" @click="sortAssets('fullName')">-->
-              <!--{{$t('account.estimated_value_name')}}&lt;!&ndash;全称&ndash;&gt;-->
-              <!--<em v-if="sortActive==='fullName'">-->
-              <!--<i class="icon-arrow-up" :class="{active:sort==='asc'}"></i>-->
-              <!--<i class="icon-arrow-down" :class="{active:sort==='desc'}"></i>-->
-              <!--</em>-->
-              <!--</div>-->
-              <div class="f-right ng-binding" @click="sortAssets('total')">
-                {{$t('account.estimated_value_total')}}<!--总金额-->
-                <em v-if="sortActive==='total'">
-                  <i class="icon-arrow-up" :class="{active:sort==='desc'}"></i>
-                  <i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>
-                </em>
-              </div>
-              <div class="useable f-right ng-binding" @click="sortAssets('available')">
-                {{$t('account.estimated_value_available')}}<!--可用余额-->
-                <em v-if="sortActive==='available'">
-                  <i class="icon-arrow-up" :class="{active:sort==='desc'}"></i>
-                  <i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>
-                </em>
-              </div>
-              <!--<div class="useable f-right ng-binding">-->
-                <!--{{$t('usercontent.measure')}}&lt;!&ndash;以BTC衡量&ndash;&gt;-->
-                <!--&lt;!&ndash;<em v-if="sortActive==='available'">&ndash;&gt;-->
-                  <!--&lt;!&ndash;<i class="icon-arrow-up" :class="{active:sort==='desc'}"></i>&ndash;&gt;-->
-                  <!--&lt;!&ndash;<i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>&ndash;&gt;-->
-                <!--&lt;!&ndash;</em>&ndash;&gt;-->
-              <!--</div>-->
-              <!--<div class="locked f-right ng-binding" @click="sortAssets('frozen')">-->
-              <!--{{$t('public0.public34')}}&lt;!&ndash;冻结金额&ndash;&gt;-->
-              <!--<em v-if="sortActive==='frozen'">-->
-              <!--<i class="icon-arrow-up" :class="{active:sort==='desc'}"></i>-->
-              <!--<i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>-->
-              <!--</em>-->
-              <!--</div>-->
-              <div class="opreat f-right ng-binding" v-if="accountType===1">
-                {{$t('otc_exchange.otc_exchange_operating')}}<!--操作-->
-              </div>
-            </div>
-          </li>
-        </ul>
-        <div class="flex">
-          <ul class="accountInfo-lists">
-            <li v-for="(data, index) in filterDatas()" :key="data.accountId">
+        <div v-show="accountType===1">
+          <ul class="accountInfo-lists header" v-if="pandectShow">
+            <li class="th">
               <div class="items">
-                <div class="coin ng-binding">{{data.symbol}}</div>
-                <!--<div class="fullName ng-binding">{{$t(`symbol.${data.symbol}`)}}</div>-->
-                <div class="f-right ng-binding" v-if="pandectShow">{{toFixed(data.totalBalance)}}</div>
-                <div class="useable f-right ng-binding">{{toFixed(data.availableBalance)}}</div>
-                <!--<div class="locked f-right ng-binding" v-if="pandectShow">{{toFixed(data.frozenBalance)}}</div>-->
-                <moreinfo class="action"
-                          :googleState="getUserInfo.googleAuthEnable"
-                          :verifyState="getUserInfo.kycState"
-                          :symbol="data.symbol"
-                          :allData="filterDatas()"
-                          :item="data"/>
+                <div class="coin " @click="sortAssets('symbol')">
+                  {{$t('account.estimated_value_coin')}}<!--币种-->
+                  <em v-if="sortActive==='symbol'">
+                    <i class="icon-arrow-up" :class="{active:sort==='asc'}"></i>
+                    <i class="icon-arrow-down" :class="{active:sort==='desc'}"></i>
+                  </em>
+                </div>
+                <!--<div class="fullName " @click="sortAssets('fullName')">-->
+                <!--{{$t('account.estimated_value_name')}}&lt;!&ndash;全称&ndash;&gt;-->
+                <!--<em v-if="sortActive==='fullName'">-->
+                <!--<i class="icon-arrow-up" :class="{active:sort==='asc'}"></i>-->
+                <!--<i class="icon-arrow-down" :class="{active:sort==='desc'}"></i>-->
+                <!--</em>-->
+                <!--</div>-->
+                <div class="f-right " @click="sortAssets('total')">
+                  {{$t('account.estimated_value_total')}}<!--总金额-->
+                  <em v-if="sortActive==='total'">
+                    <i class="icon-arrow-up" :class="{active:sort==='desc'}"></i>
+                    <i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>
+                  </em>
+                </div>
+                <div class="useable f-right " @click="sortAssets('available')">
+                  {{$t('account.estimated_value_available')}}<!--可用余额-->
+                  <em v-if="sortActive==='available'">
+                    <i class="icon-arrow-up" :class="{active:sort==='desc'}"></i>
+                    <i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>
+                  </em>
+                </div>
+                <div class="useable f-right " @click="sortAssets('available')">
+                  {{$t('account.staked_balanc')}}<!--当前锁仓-->
+                  <em v-if="sortActive==='available'">
+                    <i class="icon-arrow-up" :class="{active:sort==='desc'}"></i>
+                    <i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>
+                  </em>
+                </div>
+                <!--<div class="useable f-right ">-->
+                  <!--{{$t('usercontent.measure')}}&lt;!&ndash;以BTC衡量&ndash;&gt;-->
+                  <!--&lt;!&ndash;<em v-if="sortActive==='available'">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<i class="icon-arrow-up" :class="{active:sort==='desc'}"></i>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</em>&ndash;&gt;-->
+                <!--</div>-->
+                <!--<div class="locked f-right " @click="sortAssets('frozen')">-->
+                <!--{{$t('public0.public34')}}&lt;!&ndash;冻结金额&ndash;&gt;-->
+                <!--<em v-if="sortActive==='frozen'">-->
+                <!--<i class="icon-arrow-up" :class="{active:sort==='desc'}"></i>-->
+                <!--<i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>-->
+                <!--</em>-->
+                <!--</div>-->
+                <div class="opreat f-right " v-if="accountType===1">
+                  {{$t('otc_exchange.otc_exchange_operating')}}<!--操作-->
+                </div>
               </div>
             </li>
           </ul>
+          <div class="flex">
+            <ul class="accountInfo-lists">
+              <li v-for="(data, index) in filterDatas()" :key="data.accountId">
+                <div class="items">
+                  <div class="coin ">{{data.symbol}}</div>
+                  <!--<div class="fullName ">{{$t(`symbol.${data.symbol}`)}}</div>-->
+                  <div class="f-right " v-if="pandectShow">{{toFixed(data.totalBalance)|removeEndZero}}</div>
+                  <div class="useable f-right ">{{toFixed(data.availableBalance)|removeEndZero}}</div>
+                  <!--<div class="locked f-right " v-if="pandectShow">{{toFixed(data.frozenBalance)}}</div>-->
+                  <moreinfo class="action"
+                            :googleState="getUserInfo.googleAuthEnable"
+                            :verifyState="getUserInfo.kycState"
+                            :symbol="data.symbol"
+                            :allData="filterDatas()"
+                            :item="data"/>
+                </div>
+              </li>
+            </ul>
 
-          <div class="echart" v-if="!pandectShow">
-            <div>
-              <v-chart :options="polar"/>
+            <div class="echart" v-if="!pandectShow">
+              <div>
+                <v-chart :options="polar"/>
+              </div>
             </div>
           </div>
-
         </div>
+        <div v-show="accountType===2"  v-if="false">
+          <ul class="accountInfo-lists header" v-if="pandectShow">
+            <li class="th">
+              <div class="items">
+                <div class="coin " @click="sortAssets('symbol')">
+                  {{$t('account.estimated_value_coin')}}<!--币种-->
+                  <em v-if="sortActive==='symbol'">
+                    <i class="icon-arrow-up" :class="{active:sort==='asc'}"></i>
+                    <i class="icon-arrow-down" :class="{active:sort==='desc'}"></i>
+                  </em>
+                </div>
+                <!--<div class="fullName " @click="sortAssets('fullName')">-->
+                <!--{{$t('account.estimated_value_name')}}&lt;!&ndash;全称&ndash;&gt;-->
+                <!--<em v-if="sortActive==='fullName'">-->
+                <!--<i class="icon-arrow-up" :class="{active:sort==='asc'}"></i>-->
+                <!--<i class="icon-arrow-down" :class="{active:sort==='desc'}"></i>-->
+                <!--</em>-->
+                <!--</div>-->
+                <div class="f-right " @click="sortAssets('total')">
+                  {{$t('account.total_staked')}}<!--总锁仓-->
+                  <em v-if="sortActive==='total'">
+                    <i class="icon-arrow-up" :class="{active:sort==='desc'}"></i>
+                    <i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>
+                  </em>
+                </div>
+                <div class="useable f-right " @click="sortAssets('available')">
+                  {{$t('account.staked_balanc')}}<!--当前锁仓-->
+                  <em v-if="sortActive==='available'">
+                    <i class="icon-arrow-up" :class="{active:sort==='desc'}"></i>
+                    <i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>
+                  </em>
+                </div>
+                <div class="useable f-right " @click="sortAssets('available')">
+                  {{$t('account.released_to_date')}}<!--已解锁-->
+                  <em v-if="sortActive==='available'">
+                    <i class="icon-arrow-up" :class="{active:sort==='desc'}"></i>
+                    <i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>
+                  </em>
+                </div>
+                <!--<div class="useable f-right ">-->
+                  <!--{{$t('usercontent.measure')}}&lt;!&ndash;以BTC衡量&ndash;&gt;-->
+                  <!--&lt;!&ndash;<em v-if="sortActive==='available'">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<i class="icon-arrow-up" :class="{active:sort==='desc'}"></i>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</em>&ndash;&gt;-->
+                <!--</div>-->
+                <!--<div class="locked f-right " @click="sortAssets('frozen')">-->
+                <!--{{$t('public0.public34')}}&lt;!&ndash;冻结金额&ndash;&gt;-->
+                <!--<em v-if="sortActive==='frozen'">-->
+                <!--<i class="icon-arrow-up" :class="{active:sort==='desc'}"></i>-->
+                <!--<i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>-->
+                <!--</em>-->
+                <!--</div>-->
+                <div class="opreat f-right ">
+                  {{$t('otc_exchange.otc_exchange_operating')}}<!--操作-->
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div class="flex">
+            <ul class="accountInfo-lists">
+              <li v-for="(data, index) in filterDatas()" :key="data.accountId">
+                <div class="items">
+                  <div class="coin ">{{data.symbol}}</div>
+                  <!--<div class="fullName ">{{$t(`symbol.${data.symbol}`)}}</div>-->
+                  <div class="f-right ">{{toFixed(data.totalBalance)|removeEndZero}}</div>
+                  <div class="useable f-right ">{{toFixed(data.availableBalance)|removeEndZero}}</div>
+                  <div class="useable f-right ">{{toFixed(data.availableBalance)|removeEndZero}}</div>
+                  <div class="ui-flex-1">
+                    <button type="button" class="mint-btn action" @click="showStake(data)">Stake</button>
+                  </div>
+                </div>
+                  
+              </li>
+            </ul>
+
+            <div class="echart" v-if="!pandectShow">
+              <div>
+                <v-chart :options="polar"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        
       </div>
       <loading v-if="showLoaing"/>
     </div>
@@ -132,7 +230,7 @@
   import utils from '@/assets/js/utils'
   import userApi from '@/api/individual'
   import moreinfo from '@/public/account/moreinfo'
-  import TansferDialog from '@/vote_mining/dialog/transfer'
+  import stakeDialog from '@/public/account/stakeDialog'
   import loading from '@/components/loading'
 
   export default {
@@ -249,9 +347,10 @@
     },
     methods: {
       ...mapGetters(['getUserInfo', 'getLang']),
-      tansferDialog () {
-        // 修改呢称
-        utils.setDialog(TansferDialog, {
+      showStake(data){
+        utils.setDialog(stakeDialog, {
+          data:data,
+          backClose:true,
           okCallback: () => {
             this.getList()
           }
@@ -528,7 +627,7 @@
   .accountInfo-lists {
     padding: 0 8px 0px 8px;
   }
-
+  .accountInfo-lists button {padding-left: 15px; padding-right:15px; border-radius: 0;}
   .accountInfo-lists.header {
     padding-bottom: 0px;
     color: #979799;
@@ -596,10 +695,11 @@
     line-height: 22px;
     display: flex;
     align-items: center;
-    white-space: normal;
+    white-space: nowrap;
     word-break: break-all;
     padding: 0 4px;
     width: 170px;
+    overflow: hidden
   }
 
   .accountInfo-lists.header li {
@@ -681,15 +781,15 @@
   }
 
   .accountInfo-lists li .items > div.total {
-    width: 180px;
+    width: 150px;
   }
 
   .accountInfo-lists li .items > div.useable {
-    width: 180px;
+    width: 150px;
   }
 
   .accountInfo-lists li .items > div.locked {
-    width: 180px;
+    width: 150px;
   }
 
   .accountInfo-lists li .items > div.opreat {
