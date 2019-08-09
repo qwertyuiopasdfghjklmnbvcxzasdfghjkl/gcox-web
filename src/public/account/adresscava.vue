@@ -8,12 +8,12 @@
     <div class="tsmb">
       <div class="tsmb-flex">
         <p>{{$t('usercontent.notice')}}</p>
-        <label style="padding-left: 4px">
+        <label>
           <p>{{$t('usercontent.not1').format(symbol)}}</p>
           <!--<p>{{$t('usercontent.not2').format(symbol,'0.01')}}</p>-->
         </label>
       </div>
-      <div class="tsmb-flex blue">
+      <div  class="tsmb-flex blue">
         <p>{{$t('usercontent.not3')}}</p>
         <label style="padding-left: 4px">
           <p>{{$t('usercontent.not3-1').format(symbol)}}</p>
@@ -128,8 +128,9 @@
         display: flex;
 
         & > p {
-          min-width: 72px;
+          min-width: 110px;
           white-space: nowrap;
+          padding-right: 10px;
         }
 
         & > label {
