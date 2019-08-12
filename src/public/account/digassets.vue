@@ -1,7 +1,7 @@
 <template>
   <div class="digassets">
     <h3>{{$t('usercontent.user58')}}<!--我的数字资产-->
-      <template v-if="false">
+      <template v-if="pandectShow">
         <span class="ml80 pointer" :class="{'f-c-main':accountType===1}" @click="accountType=1">{{$t('account.trading_wallet')}}<!-- 交易钱包 --></span>
         &nbsp;&nbsp;|&nbsp;&nbsp;
         <span class="pointer" :class="{'f-c-main':accountType===2}" @click="accountType=2">{{$t('account.staking_wallet')}}<!-- 锁仓钱包 --></span>
@@ -67,7 +67,7 @@
                   <i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>
                 </em>
               </div>
-              <div class="useable f-right " @click="sortAssets('available')" v-if="false">
+              <div class="useable f-right " @click="sortAssets('available')" >
                   {{$t('account.staked_balanc')}}<!--当前锁仓-->
                   <em v-if="sortActive==='available'">
                     <i class="icon-arrow-up" :class="{active:sort==='desc'}"></i>
@@ -106,7 +106,7 @@
             </div>
           </div>
         </div>
-        <div v-show="accountType===2"  v-if="false">
+        <div v-show="accountType===2"  >
           <ul class="accountInfo-lists header" v-if="pandectShow">
             <li class="th">
               <div class="items">

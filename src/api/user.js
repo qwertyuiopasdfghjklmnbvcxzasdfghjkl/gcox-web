@@ -216,4 +216,28 @@ const payPW = function (data, success, error) {
 }
 user.payPW = payPW
 
+// 获取用户推荐信息
+const getInvitedInfo = function (success, error) {
+  api.get(`${domain}api/v2/individual/invitedInfo`, (res) => {
+    if (res.rst === 1) {
+      success && success(res.data)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+user.getInvitedInfo = getInvitedInfo
+
+// 获取用户推荐信息
+const getInvitedRecord = function (data, success, error) {
+  api.get(`${domain}api/v1/gcox/user/invite/record`, data, (res) => {
+    if (res.rst === 1) {
+      success && success(res.total, res.data)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+user.getInvitedRecord = getInvitedRecord
+
 export default user
