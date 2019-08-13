@@ -49,7 +49,7 @@ axios.interceptors.response.use(function (response) {
     let error = {response: response}
     return Promise.reject(error)
   }
-  if ((response.data && response.data.rst === 401) || response.status === 403) {
+  if ((response.data && response.data.rst === 401) || response.status === 403 || response.status === 401) {
     requireLogin(response);
     return null
   }
