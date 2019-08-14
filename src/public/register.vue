@@ -111,12 +111,12 @@ export default {
   },
   watch: {
     $route () {
-      this.formData.ref = utils.getUrlHashParams().ref
+      this.formData.ref = this.$route.query.ref || ''
     }
   },
   created () {
     this.formData.username = this.$route.query.email
-    this.formData.ref = utils.getUrlHashParams().ref
+    this.formData.ref = this.$route.query.ref || ''
   },
   methods: {
     register () {
