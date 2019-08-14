@@ -7,7 +7,7 @@
       </div>
       <div class="ui-flex-1 ml20">
         <div class="item">
-          <span>{{$t('referral.Invitation')}}<!-- Invitation Code -->:</span> {{invitedInfo.myInvitationCode}}
+          <span>{{$t('referral.invitation_code')}}<!-- Invitation Code -->:</span> {{invitedInfo.myInvitationCode}}
           <button type="button" class="mint-btn default copy" @click="copyText(invitedInfo.myInvitationCode)">{{$t('referral.copy')}}<!-- 复制 --></button>
         </div>
         <div class="item">
