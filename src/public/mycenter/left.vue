@@ -31,9 +31,9 @@
         <span>{{$t('usercontent.user41')}}</span>
         <!--系统消息-->
       </li>
-      <li v-if="false" :class="{'active': active === 'referral'}" @click="switch_tab('referral')">
+      <li :class="{'active': active === 'referral'}" @click="switch_tab('referral')">
         <!--<i class="icon-message"></i>-->
-        <span>{{$t('account.referralProgramme')}}</span>
+        <span>{{$t('referral.referral_programme')}}</span>
         <!--我的推荐-->
       </li>
       <!--<li :class="{'active': active === 'agencyApply'}" @click="switch_tab('agencyApply')" v-if="!showShops">-->

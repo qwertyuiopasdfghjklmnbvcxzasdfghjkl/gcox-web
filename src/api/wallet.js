@@ -6,6 +6,18 @@ import api from '@/api'
 let domain = ''
 let wallet = {}
 
+// 锁仓接口
+const postStake = function (data, success, error) {
+  api.post(`${domain}api/v2/account2/stake`, data, (res) => {
+    if (res.rst === 1) {
+      success && success(res.msg)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+wallet.postStake = postStake
+
 // 获取对应币种钱包
 const getWalletByCoin = function (data, success, error) {
   api.get(`${domain}api/v2/account/show`, data, (res) => {

@@ -3,60 +3,60 @@
     <div class="ref-info ui-flex">
       <div class="ref-qr">
         <div ref="inviteQR" class="inviteQR"></div>
-        <p class="mt10">Invite friend to scan QR code to register</p>
+        <p class="mt10">{{$t('referral.referral_title')}}<!-- Invite friend to scan QR code to register --></p>
       </div>
       <div class="ui-flex-1 ml20">
         <div class="item">
-          <span>Invitation Code:</span> {{getUserInfo.myInvitationCode}}
-          <button type="button" class="mint-btn default copy" @click="copyText(getUserInfo.myInvitationCode)">复制</button>
+          <span>{{$t('referral.Invitation')}}<!-- Invitation Code -->:</span> {{invitedInfo.myInvitationCode}}
+          <button type="button" class="mint-btn default copy" @click="copyText(invitedInfo.myInvitationCode)">{{$t('referral.copy')}}<!-- 复制 --></button>
         </div>
         <div class="item">
-          <span>Invitation Link:</span> {{getUserInfo.myInvitationUrl}}
-          <button type="button" class="mint-btn default copy" @click="copyText(getUserInfo.myInvitationUrl)">复制</button>
+          <span>{{$t('referral.invitation_link')}}<!-- Invitation Link -->:</span> {{invitedInfo.myInvitationUrl}}
+          <button type="button" class="mint-btn default copy" @click="copyText(invitedInfo.myInvitationUrl)">{{$t('referral.copy')}}<!-- 复制 --></button>
         </div>
         <div class="item">
-          <span>Share to:</span>
-          <div class="media"><i class="icon-whatsapp"></i> <i class="icon-tencentqq"></i> <i class="icon-twitter"></i> <i class="icon-facebook1"></i> <i class="icon-telegram"></i></div>
+          <span>{{$t('referral.share_to')}}<!-- Share to -->:</span>
+          <div class="media"><a class="icon-twitter f-c-white" :href="`https://twitter.com/share?text=${shareTitle}&url=${invitedInfo.myInvitationUrl}`"  target="_blank"></a> <a class="icon-facebook1 f-c-white" :href="`https://www.facebook.com/sharer.php?title=${shareTitle}&u=${invitedInfo.myInvitationUrl}`" target="_blank"></a></div>
         </div>
       </div>
     </div>
 
     <div class="ref-profit mt50 ui-flex">
       <div class="ui-flex-1">
-        <p class="fs16">Refunded (ACM)</p>
-        <p class="f-c-main fs24 mt10"><strong>0.00000000</strong></p>
+        <p class="fs16">{{$t('referral.refunded')}} (ACM) <!-- Refunded --></p>
+        <p class="f-c-main fs24 mt10"><strong>{{invitedInfo.invitedCount * 100 | numbean}}</strong></p>
       </div>
       <div class="ml15 ui-flex-1">
-        <p class="fs16">Number of Invitees</p>
-        <p class="f-c-main fs24 mt10"><strong>1 Invitees</strong></p>
+        <p class="fs16">{{$t('referral.invitees_num')}}<!-- Number of Invitees --></p>
+        <p class="f-c-main fs24 mt10"><strong>{{invitedInfo.invitedCount}} Invitees</strong></p>
       </div>
     </div>
 
     <div class="ref-history mt50">
       <ul class="tabs ui-flex">
-        <li class="ui-flex-1" :class="{active:active}" @click="active=true">Invitation History</li>
-        <li class="ui-flex-1" :class="{active:!active}" @click="active=false">Program Rules</li>
+        <li class="ui-flex-1" :class="{active:active}" @click="active=true">{{$t('referral.invitation_history')}}<!-- Invitation History --></li>
+        <li class="ui-flex-1" :class="{active:!active}" @click="active=false">{{$t('referral.program_rules')}}<!-- Program Rules --></li>
       </ul>
       <div class="mt40 detail" v-show="active">
         <ul class="selector ui-flex">
           <li>
-            <p>Date</p>
-            <div><button type="button" class="mint-btn default">Today</button></div>
+            <p>{{$t('referral.date')}}<!-- Date --></p>
+            <div><button type="button" class="mint-btn default" @click="setTime('day')">{{$t('referral.today')}}<!-- Today --></button></div>
           </li>
           <li>
-            <p>Start Date</p>
-            <div><button type="button" class="mint-btn default">Last one month</button></div>
+            <p>{{$t('referral.start_date')}}<!-- Start Date --></p>
+            <div><button type="button" class="mint-btn default" @click="setTime('month')">{{$t('referral.last_one_month')}}<!-- Last one month --></button></div>
           </li>
           <li>
-            <p>End Date</p>
-            <div><button type="button" class="mint-btn default">Last one year</button></div>
+            <p>{{$t('referral.end_date')}}<!-- End Date --></p>
+            <div><button type="button" class="mint-btn default" @click="setTime('year')">{{$t('referral.last_one_year')}}<!-- Last one year --></button></div>
           </li>
           <li>
-            <p>Invitation Status</p>
+            <p>{{$t('referral.invitation_status')}}<!-- Invitation Status --></p>
             <div class="rp">
               <button type="button" class="mint-btn default status" @click="showStatus=!showStatus">{{getStatus(params.status)}} <i :class="[showStatus?'icon-arrow-up2':'icon-arrow-down3']"></i></button>
               <div class="status-list" v-show="showStatus">
-                <div v-for="item in statusList" @click="status=item,showStatus=false">{{getStatus(item)}}</div>
+                <div v-for="item in statusList" @click="params.status=item,showStatus=false">{{getStatus(item)}}</div>
               </div>
             </div>
           </li>
@@ -64,10 +64,10 @@
         <div class="ref-history-list mt60">
           <ul>
             <li class="header ui-flex">
-              <span class="ui-flex-1">Account</span>
-              <span class="ui-flex-1">Registeration Time</span>
-              <span class="ui-flex-1">Invitation Status</span>
-              <span class="ui-flex-1">Refunded (ACM)</span>
+              <span class="ui-flex-1">{{$t('account.user_center_account')}}<!-- Account --></span>
+              <span class="ui-flex-1">{{$t('referral.registeration_time')}}<!-- Registeration Time --></span>
+              <span class="ui-flex-1">{{$t('referral.invitation_status')}}<!-- Invitation Status --></span>
+              <span class="ui-flex-1">{{$t('referral.refunded')}}<!-- Refunded --> (ACM)</span>
             </li>
             <li class="ui-flex" v-for="item in historyList">
               <span class="ui-flex-1">fla****@163.com</span>
@@ -81,10 +81,10 @@
       <div class="mt40 detail" v-show="!active">Program Rules</div>
     </div>
     <page v-if="!showLoading && historyList.length > 0" :pageIndex="params.page" :pageSize="params.size"
-          :total="params.total" @changePageIndex="pageChange"/>
-    <div class="nodata" v-if="!showLoading && historyList.length === 0">
+          :total="total" @changePageIndex="pageChange"/>
+    <div class="nodata text-center" v-if="!showLoading && historyList.length === 0">
       <div class="nodata-icon icon-no-order"></div>
-      <div class="nodata-text">{{$t('public0.public50')}}<!--暂无提现记录--></div>
+      <div class="nodata-text">{{$t('public0.public50')}}<!--暂无相关数据--></div>
     </div>
     <loading v-if="showLoading"/>
   </div>
@@ -93,7 +93,6 @@
 <script>
   import Vue from 'vue'
   import {mapGetters, mapActions} from 'vuex'
-  import userUtils from '@/api/individual'
   import utils from '@/assets/js/utils'
   import loading from '@/components/loading'
   import userApi from '@/api/user'
@@ -109,30 +108,85 @@
         showLoading: false,
         showStatus: false,
         active:true,
-        statusList:['',1,2],
-        historyList:new Array(10),
+        invitedInfo:{},
+        statusList:['',1,-1],
+        historyList:[],
         params:{
           status:'',
           page:1,
           size:10,
-          total:0
-        }
+          startTime:''
+        },
+        total:0,
+
       }
     },
     computed: {
-      ...mapGetters(['getUserInfo', 'getLang']),
+      ...mapGetters(['getUserInfo','getLang']),
+      shareTitle(){
+        if(this.getLang==='en')
+          return `GCOX invitation from ${this.getUserInfo.nickname||this.getUserInfo.username}`
+        else
+          return `来自${this.getUserInfo.nickname||this.getUserInfo.username}的GCOX邀请`
+      },
+      paramsChange(){
+        return {
+          status:this.params.status,
+          page:this.params.page,
+          size:this.params.size,
+          startTime:this.params.startTime
+        }
+      }
     },
     watch: {
-      
+      paramsChange(){
+        this.getInvitedRecord()
+      }
     },
     created () {
-      
+      this.getInvitedInfo()
+      this.getInvitedRecord()
     },
     mounted(){
-      this.initQRCode()
+      
     },
     methods: {
-      ...mapActions(['setUserInfo']),
+      ...mapActions([]),
+      setTime(key){
+        let nowdate = new Date()
+        switch (key){
+          case 'day':
+            nowdate = new Date(nowdate.setHours(0, 0, 0, 0)).getTime()
+            break
+          case 'month':
+            nowdate = new Date(nowdate.setHours(0, 0, 0, 0))
+            nowdate = new Date(nowdate.setMonth(nowdate.getMonth()-1)).getTime()
+            break
+          default:
+            nowdate = new Date(nowdate.setHours(0, 0, 0, 0))
+            nowdate = new Date(nowdate.setFullYear(nowdate.getFullYear()-1)).getTime()
+        }
+        this.params.startTime = nowdate
+      },
+      getInvitedInfo(){
+        userApi.getInvitedInfo(res=>{
+          this.invitedInfo = res
+          this.initQRCode()
+        },msg=>{
+          Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
+        })
+      },
+      getInvitedRecord(){
+        this.showLoading = true
+        userApi.getInvitedRecord(this.params,(total,res)=>{
+          this.historyList = res
+          this.total = total
+          this.showLoading = false
+        },msg=>{
+          Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
+          this.showLoading = false
+        })
+      },
       pageChange (currentIndex) {
         this.params.page = currentIndex
       },
@@ -141,7 +195,7 @@
         switch(status){
           case '': rst = this.$t('trade_record.trade_record_all'); break;
           case 1: rst = this.$t('account.user_complete'); break;
-          case 2: rst = this.$t('account.user_uncompleted'); break;
+          case -1: rst = this.$t('account.user_uncompleted'); break;
         }
         return rst
       },
@@ -152,7 +206,7 @@
       initQRCode(){
         //初始化二维码
         utils.qrcode(this.$refs.inviteQR, {
-          text: this.getUserInfo.myInvitationUrl,
+          text: this.invitedInfo.myInvitationUrl,
           colorDark:'#00a0e9',
           width: 116,
           height: 116,
@@ -185,8 +239,8 @@
       font-size: 20px;
       display: inline-block;
       vertical-align: middle;
-      i {cursor: pointer;}
-      i + i {margin-left: 20px;}
+      a {cursor: pointer;}
+      a + a {margin-left: 20px;}
     }
     
   }
@@ -244,5 +298,17 @@
   border-bottom: 1px solid #423E3D;
   &:hover {background-color: #3F3B3A;}
 }
+.nodata .nodata-icon {
+    height: 80px;
+    line-height: 80px;
+    font-size: 40px;
+    color: #A1A1A1;
+  }
+
+.nodata .nodata-text {
+    height: 40px;
+    line-height: 20px;
+    color: #A1A1A1;
+  }
 </style>
 
