@@ -28,7 +28,7 @@
       </div>
       <div class="ml15 ui-flex-1">
         <p class="fs16">{{$t('referral.invitees_num')}}<!-- Number of Invitees --></p>
-        <p class="f-c-main fs24 mt10"><strong>{{invitedInfo.invitedCount}} Invitees</strong></p>
+        <p class="f-c-main fs24 mt10"><strong>{{invitedInfo.invitedCount}} {{$t('referral.invitees')}}<!-- Invitees --></strong></p>
       </div>
     </div>
 
