@@ -70,10 +70,10 @@
               <span class="ui-flex-1">{{$t('referral.refunded')}}<!-- Refunded --> (ACM)</span>
             </li>
             <li class="ui-flex" v-for="item in historyList">
-              <span class="ui-flex-1">fla****@163.com</span>
-              <span class="ui-flex-1">2019-08-07 12:23:23</span>
-              <span class="ui-flex-1">完成</span>
-              <span class="ui-flex-1">50</span>
+              <span class="ui-flex-1">{{item.username}}</span>
+              <span class="ui-flex-1">{{item.registerTime}}</span>
+              <span class="ui-flex-1">{{getStatus(item.status)}}</span>
+              <span class="ui-flex-1">{{item.amount}}</span>
             </li>
           </ul>
         </div>
@@ -194,6 +194,7 @@
         let rst = ''
         switch(status){
           case '': rst = this.$t('trade_record.trade_record_all'); break;
+          case 0:
           case 1: rst = this.$t('account.user_complete'); break;
           case -1: rst = this.$t('account.user_uncompleted'); break;
         }
