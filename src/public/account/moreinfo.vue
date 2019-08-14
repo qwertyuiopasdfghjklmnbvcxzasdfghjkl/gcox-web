@@ -25,7 +25,11 @@
                     <!--@click="Number(item.rechargeFlag) !== 1 ? false : copy()" :title="$t('account.user_Copy_address')">-->
                                 <!--&lt;!&ndash;复制地址&ndash;&gt;-->
                             <!--</span>-->
-              
+              <span class="reche icon_withdraw"
+                    @click="showStake"
+                    :title="$t('account.account.stake')">
+                    {{$t('account.stake')}}<!--锁仓-->
+              </span>
 
               <span class="reche icon_withdraw"
                     :class="{disabled: Number(item.withdrawFlag) !== 1}"
@@ -108,6 +112,7 @@
   import memoCava from './memocava'
   import Vue from 'vue'
   import {mapGetters} from 'vuex'
+  import stakeDialog from '@/public/account/stakeDialog'
 
   const copyText = (str) => {
     var save = function (e) {
@@ -164,6 +169,15 @@
     },
     methods: {
       ...mapGetters(['getUserInfo', 'getLang']),
+      showStake(){
+        utils.setDialog(stakeDialog, {
+          data:this.item,
+          backClose:true,
+          okCallback: () => {
+            this.$parent.getList()
+          }
+        })
+      },
       getEosAddress () {
         userUtils.getEosAddress(data => {
           this.EOS_MEMO = data
@@ -339,7 +353,7 @@
     -webkit-box-sizing: initial;
     box-sizing: initial;
     line-height: 28px;
-    margin-right: 10px;
+    margin-right: 5px;
     height: 30px;
     padding-left: 15px;
     padding-right: 15px;
@@ -363,7 +377,7 @@
     -webkit-box-sizing: initial;
     box-sizing: initial;
     line-height: 28px;
-    margin-right: 10px;
+    margin-right: 5px;
     height: 30px;
     padding-left: 15px;
     padding-right: 15px;
