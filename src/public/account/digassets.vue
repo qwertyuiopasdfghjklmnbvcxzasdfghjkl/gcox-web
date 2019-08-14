@@ -110,7 +110,7 @@
           </div>
         </div>
         <div v-show="accountType===2"  >
-          <ul class="accountInfo-lists header" v-if="pandectShow">
+          <ul class="accountInfo-lists header" v-if="pandectShow" :class="{pandect:pandectShow}">
             <li class="th">
               <div class="items">
                 <div class="coin " @click="sortAssets('symbol')">
@@ -155,14 +155,14 @@
             </li>
           </ul>
           <div class="flex">
-            <ul class="accountInfo-lists">
+            <ul class="accountInfo-lists" :class="{pandect:pandectShow}">
               <li v-for="(data, index) in filterDatas()" :key="data.accountId">
                 <div class="items">
                   <div class="coin ">{{data.symbol}}</div>
                   <div class="f-right ">{{toFixed(data.totalBalance)|removeEndZero}}</div>
                   <div class="useable f-right ">{{toFixed(data.frozenBalance)|removeEndZero}}</div>
                   <div class="useable f-right ">{{toFixed(data.availableBalance)|removeEndZero}}</div>
-                  <div class="ui-flex-1">
+                  <div class="ui-flex-1 text-center">
                     <button type="button" class="mint-btn action" @click="showStake(data.accountName)">{{$t('account.stake')}}<!-- Stake --></button>
                   </div>
                 </div>
