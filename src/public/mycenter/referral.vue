@@ -24,7 +24,7 @@
     <div class="ref-profit mt50 ui-flex">
       <div class="ui-flex-1">
         <p class="fs16">{{$t('referral.refunded')}} (ACM) <!-- Refunded --></p>
-        <p class="f-c-main fs24 mt10"><strong>{{invitedInfo.invitedCount * 100 | numbean}}</strong></p>
+        <p class="f-c-main fs24 mt10"><strong>{{invitedInfo.rewardCount | numbean}}</strong></p>
       </div>
       <div class="ml15 ui-flex-1">
         <p class="fs16">{{$t('referral.invitees_num')}}<!-- Number of Invitees --></p>
