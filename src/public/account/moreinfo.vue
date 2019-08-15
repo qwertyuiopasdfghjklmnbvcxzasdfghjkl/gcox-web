@@ -25,7 +25,7 @@
                     <!--@click="Number(item.rechargeFlag) !== 1 ? false : copy()" :title="$t('account.user_Copy_address')">-->
                                 <!--&lt;!&ndash;复制地址&ndash;&gt;-->
                             <!--</span>-->
-              <span class="reche icon_withdraw"
+              <span class="reche icon_withdraw" :class="{disabled: !item.openStaking}"
                     @click="showStake"
                     :title="$t('account.account.stake')">
                     {{$t('account.stake')}}<!--锁仓-->
@@ -170,6 +170,9 @@
     methods: {
       ...mapGetters(['getUserInfo', 'getLang']),
       showStake(){
+        if(!this.item.openStaking){
+          return
+        }
         utils.setDialog(stakeDialog, {
           data:this.item,
           backClose:true,

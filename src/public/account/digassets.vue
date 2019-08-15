@@ -163,7 +163,7 @@
                   <div class="useable f-right ">{{toFixed(data.frozenBalance)|removeEndZero}}</div>
                   <div class="useable f-right ">{{toFixed(data.availableBalance)|removeEndZero}}</div>
                   <div class="ui-flex-1 text-center">
-                    <button type="button" class="mint-btn action" @click="showStake(data.accountName)">{{$t('account.stake')}}<!-- Stake --></button>
+                    <button type="button" class="mint-btn action" :disabled="!data.openStaking" @click="showStake(data.accountName)">{{$t('account.stake')}}<!-- Stake --></button>
                   </div>
                 </div>
                   
@@ -311,6 +311,9 @@
       ...mapGetters(['getUserInfo', 'getLang']),
       showStake(accountName){
         let data = this.myAssets.filter(item=>{ return item.accountName===accountName && item.type===1})
+        if(!data[0].openStaking){
+          return
+        }
         utils.setDialog(stakeDialog, {
           data:data[0],
           backClose:true,
@@ -595,6 +598,7 @@
     padding: 0 8px 0px 8px;
   }
   .accountInfo-lists button {padding-left: 15px; padding-right:15px; border-radius: 0;}
+  .accountInfo-lists button:disabled {cursor: not-allowed;}
   .accountInfo-lists.header {
     padding-bottom: 0px;
     color: #979799;
