@@ -21,10 +21,12 @@ export default {
   computed: {
     ...mapGetters(['getSysParams']),
     android(){
-      return this.getSysParams.androidUrl && this.getSysParams.androidUrl.value
+      return 'https://play.google.com/store/apps/details?id=com.gsx.app'
+      // return this.getSysParams.androidUrl && this.getSysParams.androidUrl.value
     },
     ios(){
-      return this.getSysParams.appleUrl && this.getSysParams.appleUrl.value
+      return 'https://apps.apple.com/ng/app/gcox/id1458094561'
+      // return this.getSysParams.appleUrl && this.getSysParams.appleUrl.value
     },
   }
 }
