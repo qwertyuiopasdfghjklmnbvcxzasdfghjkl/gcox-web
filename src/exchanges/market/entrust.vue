@@ -39,7 +39,7 @@
         <li class="ui-flex" v-for="(item,index) in filterCdatas" :key="item.orderBookId">
           <span class="ui-flex-2">{{new Date(Number(item.createdAt)).format()}}</span>
           <span class="ui-flex-2">{{Number(item.price)===-1?$t('exchange.exchange_market_price'):$t('otc_exchange.otc_exchange_limited_price')}}</span>
-          <span class="ui-flex-2" :class="[Number(item.direction)===1 ? 'rang-down' : 'rang-up']">{{getType(item.direction)}}</span>
+          <span class="ui-flex-2" :class="[Number(item.direction)===1 ? 'rang-up' : 'rang-down']">{{getType(item.direction)}}</span>
           <span class="ui-flex-2">{{currentSymbol}}/{{baseSymbol}}</span>
           <span class="ui-flex-3 text-right">{{getPrice(item.price)}}/<br />{{item.averagePrice}}</span>
           <span class="ui-flex-3 text-right">{{toFixed(item.totalAmount)}}/<br />{{toFixed(item.finishedAmount)}} ({{getFinishedPercent(item)}}%)</span>
