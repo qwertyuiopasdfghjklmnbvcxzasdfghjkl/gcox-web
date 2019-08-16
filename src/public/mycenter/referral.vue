@@ -76,6 +76,13 @@
               <span class="ui-flex-1">{{item.amount}}</span>
             </li>
           </ul>
+          <page v-if="!showLoading && historyList.length > 0" :pageIndex="params.page" :pageSize="params.size"
+                :total="total" @changePageIndex="pageChange"/>
+          <div class="nodata text-center mt20" v-if="!showLoading && historyList.length === 0">
+            <div class="nodata-icon icon-no-order"></div>
+            <div class="nodata-text">{{$t('public0.public50')}}<!--暂无相关数据--></div>
+          </div>
+          <loading v-if="showLoading"/>
         </div>
       </div>
       <div class="mt40 detail lh17" v-show="!active">
@@ -115,13 +122,6 @@
         </template>
       </div>
     </div>
-    <page v-if="!showLoading && historyList.length > 0" :pageIndex="params.page" :pageSize="params.size"
-          :total="total" @changePageIndex="pageChange"/>
-    <div class="nodata text-center" v-if="!showLoading && historyList.length === 0">
-      <div class="nodata-icon icon-no-order"></div>
-      <div class="nodata-text">{{$t('public0.public50')}}<!--暂无相关数据--></div>
-    </div>
-    <loading v-if="showLoading"/>
   </div>
 </template>
 
