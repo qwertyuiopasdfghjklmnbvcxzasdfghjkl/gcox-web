@@ -102,7 +102,7 @@
               </li>
             </ul>
 
-            <div class="echart" v-if="!pandectShow">
+            <div class="echart" v-if="false">
               <div>
                 <v-chart :options="polar"/>
               </div>
@@ -166,12 +166,12 @@
                     <button type="button" class="mint-btn action" :disabled="!data.openStaking" @click="showStake(data.accountName)">{{$t('account.stake')}}<!-- Stake --></button>
                   </div>
                 </div>
-                  
+
               </li>
             </ul>
           </div>
         </div>
-        
+
       </div>
       <loading v-if="showLoaing"/>
     </div>
@@ -660,7 +660,7 @@
     white-space: nowrap;
     word-break: break-all;
     padding: 0 4px;
-    width: 110px;
+    width: 130px;
     text-overflow: ellipsis;
     overflow: hidden
   }
@@ -736,7 +736,7 @@
   }
 
   .accountInfo-lists li .items > div.useable {
-    width: 90px;
+    width: 130px;
   }
   .accountInfo-lists.pandect li .items > div.useable {
     width: 130px;
