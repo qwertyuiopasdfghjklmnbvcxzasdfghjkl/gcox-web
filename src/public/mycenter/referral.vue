@@ -73,7 +73,7 @@
               <span class="ui-flex-1">{{item.username}}</span>
               <span class="ui-flex-1">{{item.registerTime}}</span>
               <span class="ui-flex-1">{{getStatus(item.status)}}</span>
-              <span class="ui-flex-1">{{item.amount}}</span>
+              <span class="ui-flex-1">{{item.status===1?item.amount:0}}</span>
             </li>
           </ul>
           <page v-if="!showLoading && historyList.length > 0" :pageIndex="params.page" :pageSize="params.size"
