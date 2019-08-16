@@ -80,6 +80,9 @@ export default {
         Vue.$koallTipBox({icon: 'success', message: this.$t('error_code.SUCCESS')})
         this.$emit('okCallback')
         this.$emit('removeDialog')
+      }, msg=>{
+        this.locked = false
+        Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
       })
 
     },
