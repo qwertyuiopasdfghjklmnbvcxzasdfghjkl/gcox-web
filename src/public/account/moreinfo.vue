@@ -334,7 +334,6 @@
   .depositBox .filed span {
     display: inline-block;
     height: 25px;
-    margin-right: 5px;
     background: none no-repeat left center;
   }
 
@@ -356,10 +355,9 @@
     -webkit-box-sizing: initial;
     box-sizing: initial;
     line-height: 28px;
-    margin-right: 5px;
     height: 30px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
   }
   .depositBox .filed span.icon_recharge.buy{
     margin-right: 0;
@@ -379,10 +377,9 @@
     -webkit-box-sizing: initial;
     box-sizing: initial;
     line-height: 28px;
-    margin-right: 5px;
     height: 30px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
   }
 
   .depositBox .filed span.icon_withdraw:hover {
