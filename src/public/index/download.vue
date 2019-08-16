@@ -45,6 +45,13 @@ export default {
         height: 100
       })
     }
+  },
+  mounted(){
+    utils.qrcode(this.$refs.qrcode, {
+      text: this.android,
+      width: 100,
+      height: 100
+    })
   }
 }
 </script>
