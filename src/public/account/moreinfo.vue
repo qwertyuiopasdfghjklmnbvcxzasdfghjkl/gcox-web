@@ -27,7 +27,7 @@
                             <!--</span>-->
               <span class="reche icon_withdraw" :class="{disabled: !item.openStaking}"
                     @click="showStake"
-                    :title="$t('account.account.stake')">
+                    :title="$t('account.stake')">
                     {{$t('account.stake')}}<!--锁仓-->
               </span>
 
