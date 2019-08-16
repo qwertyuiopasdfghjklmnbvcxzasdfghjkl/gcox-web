@@ -1,6 +1,6 @@
 <template>
   <div class="cont">
-    <p class="tip-title">{{$t('usercontent.user20')}}</p>
+    <p class="tip-title"><i></i>{{$t('usercontent.user20')}}</p>
     <div class="btn">
       <button @click="toGoogle()">
         <p>{{$t('usercontent.user21')}}</p>
@@ -44,8 +44,15 @@
       font-size: 16px;
       color: #00a0e9;
       padding: 10px 0;
-      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAQlBMVEUAAADyMUvxMEvyMUvyMEryMEryMUryMEvxMUvzMUzzMU31NE73Nk3xMEr////0XnL82N3yRl37yM/6wcn2hJPyRV3VCfr6AAAADXRSTlMA/fPs2djHvoFUPzEhI1mGfQAAAJlJREFUKM99k1kOwzAIRLHjLcE4a+9/1aqLoKSC+UPPIJYxsLDVFGOqDeGuORMrzwr1QkqlC1smumlamAX6U/jSznkq91O5yPPjkCLl3Sex1jFWiV49ZwtmACQLEkKzYYNqwwrJhgmiDaML3bJuQ2qUcJ5BjYJkCtX69m17SJT14q8xLr14KL+Zu5zMPbZnE99gvjV9U7vf4QkKEh77JMzQegAAAABJRU5ErkJggg==) 96px 14px no-repeat;
-      background-size: auto 14px;
+      i {
+        width: 20px; 
+        height: 14px;
+        display: inline-block;
+        vertical-align: middle;
+        background-size: auto 14px;
+        background-repeat: no-repeat;
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAQlBMVEUAAADyMUvxMEvyMUvyMEryMEryMUryMEvxMUvzMUzzMU31NE73Nk3xMEr////0XnL82N3yRl37yM/6wcn2hJPyRV3VCfr6AAAADXRSTlMA/fPs2djHvoFUPzEhI1mGfQAAAJlJREFUKM99k1kOwzAIRLHjLcE4a+9/1aqLoKSC+UPPIJYxsLDVFGOqDeGuORMrzwr1QkqlC1smumlamAX6U/jSznkq91O5yPPjkCLl3Sex1jFWiV49ZwtmACQLEkKzYYNqwwrJhgmiDaML3bJuQ2qUcJ5BjYJkCtX69m17SJT14q8xLr14KL+Zu5zMPbZnE99gvjV9U7vf4QkKEh77JMzQegAAAABJRU5ErkJggg==);
+      }
     }
 
     .btn {
