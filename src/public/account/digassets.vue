@@ -88,10 +88,10 @@
               <li v-for="(data, index) in filterDatas()" :key="data.accountId">
                 <div class="items">
                   <div class="coin ">{{data.symbol}}</div>
-                  <div class="f-right ">{{toFixed(data.totalBalance)|removeEndZero}}</div>
-                  <div class="f-right ">{{toFixed(data.availableBalance)|removeEndZero}}</div>
-                  <div class="useable f-right ">{{toFixed(data.frozenBalance)|removeEndZero}}</div>
-                  <div class="useable f-right " v-if="!pandectShow">{{toFixed(getStakeBalance(data.accountName))|removeEndZero}}</div>
+                  <div class="f-right " :title="toFixed(data.totalBalance)|removeEndZero">{{toFixed(data.totalBalance)|removeEndZero}}</div>
+                  <div class="f-right " :title="toFixed(data.availableBalance)|removeEndZero">{{toFixed(data.availableBalance)|removeEndZero}}</div>
+                  <div class="useable f-right " :title="toFixed(data.frozenBalance)|removeEndZero">{{toFixed(data.frozenBalance)|removeEndZero}}</div>
+                  <div class="useable f-right " v-if="!pandectShow" :title="toFixed(getStakeBalance(data.accountName))|removeEndZero">{{toFixed(getStakeBalance(data.accountName))|removeEndZero}}</div>
                   <moreinfo class="action"
                             :googleState="getUserInfo.googleAuthEnable"
                             :verifyState="getUserInfo.kycState"
