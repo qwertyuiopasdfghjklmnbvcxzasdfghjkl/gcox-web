@@ -17,45 +17,17 @@
 </head>
 <body>
 <div id="app"></div>
-<script type="text/javascript">
-/*  function receiveMessage(event) {
-    if (typeof event.data === "string") {
-      var data = window.JSON.parse(event.data);
-      if (data.transactionReference) {
-        //jumio kyc 事件监听
-        console.log('Netverify Web was loaded in an iframe.');
-        console.log('auth token:', data.authorizationToken);
-        console.log('transaction reference:', data.transactionReference);
-        console.log('customer internal reference:', data.customerInternalReference);
-        console.log('event type:', data.eventType);
-        console.log('date-time:', data.dateTime);
-        console.log('event value:', data.payload.value);
-        console.log('event metainfo:', data.payload.metainfo);
-        window.onJumioResult && window.onJumioResult(data);
-      }
-    }
-  }
-
-  window.addEventListener("message", receiveMessage, false);*/
-  /*(function(){
-    // 针对生产环境，只允许跳转到http://www.gcox.ink
-    var protocol = location.protocol;
-    var host = location.host.toLowerCase();
-    if (host === 'pre.gcox.ink' || host === 'test.gcox.ink') {
-      return
-    }
-    if (host.indexOf('gcox.ink') !== -1 && /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent)) {
-      location.href = 'https://m.gcox.ink/' + location.hash;
-      return
-    }
-    if (host.indexOf('gcox.ink') !== -1 && (protocol !== 'https:' || host !== 'www.gcox.ink')) {
-      // location.href = 'https://www.gcox.ink';
-    }
-  })();*/
-</script>
 <!-- built files will be auto injected -->
 <script type="text/javascript" src="/static/js/jsencrypt.min.js"></script>
 <script type="text/javascript" src="/static/js/gt.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-135198121-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'UA-135198121-1');
+</script>
 </body>
 </html>
