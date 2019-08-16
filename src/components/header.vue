@@ -8,9 +8,9 @@
         </router-link>
         <router-link :to="{name:'exchange_index2'}" class="item" :class="{active:$route.name === 'exchange_index2' || $route.name === 'exchange_index' || $route.name === 'quickTrade'}">
            <i class="exchange"></i> {{$t('exchange.exchange_name')}}<!-- 交易所 -->
-           <div class="popover-nav black" ref="nav2" @click="hidePopoverNav('nav2')" v-if="false">
+           <div class="popover-nav black" ref="nav2" @click="hidePopoverNav('nav2')">
               <div class="popover-menu">
-                <router-link :to="{name:'quickTrade'}" class="sub-item" tag="div">
+                <router-link :to="{name:'quickTrade'}" class="sub-item" tag="div" v-if="false">
                   <span>{{$t('exchange.oneClickTrade')}}<!-- 一键购买 --></span>
                 </router-link>
                 <router-link :to="{name:'exchange_index2'}" class="sub-item" tag="div">
@@ -22,8 +22,8 @@
         <router-link :to="{name:'acm'}" class="item"><i class="acm"></i> ACM</router-link>
         <a href="javascript:;" v-if="!isLogin" class="item" @click="showQuickLogin"><i class="account"></i> {{$t('usercontent.user56')}}<!-- 资产管理 --></a>
         <router-link v-if="isLogin" :to="{name:'account'}" class="item"><i class="account"></i> {{$t('usercontent.user56')}}<!-- 资产管理 --></router-link>
-        <router-link v-if="false" :to="{name:'fiat'}" class="item"><i class="icon-curry"></i> FIAT<!-- FIAT --></router-link>
-        <router-link v-if="false" :to="{name:'mycenter', params:{menu:'referral'}}" class="item"><i class="icon-users"></i> {{$t('account.referralProgramme')}}<!-- 我的推荐 --></router-link>
+        <router-link v-if="isLogin" v-show="false" :to="{name:'fiat'}" class="item"><i class="icon-curry"></i> FIAT<!-- FIAT --></router-link>
+        <router-link v-if="isLogin" :to="{name:'mycenter', params:{menu:'referral'}}" class="item"><i class="icon-users"></i> {{$t('referral.referral_programme')}}<!-- 我的推荐 --></router-link>
       </div>
       <div class="right">
           <router-link to="" class="item" v-if="isLogin">
@@ -230,7 +230,7 @@
     }
 
     .item + .item {
-      margin-left: 40px;
+      margin-left: 30px;
     }
 
     .icon_logo {

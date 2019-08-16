@@ -30,6 +30,7 @@
       </ul>
 
       <ul class="buy">
+        <li v-if="filterBids.length===0"><span></span></li>
         <li class="ui-flex bar pointer" :style="listItemStyle(item, 'bid')" v-for="(item,index) in filterBids" :key="item.orderBookId" @click="clickChangeValue(item)">
           <span class="rang-up with-35">{{index+1}}</span> 
           <span class="text-center ui-flex-1" @click="clickChangeValue(item, 'total')">{{muldepth(item.price, item.avaliableAmount)}}</span> 

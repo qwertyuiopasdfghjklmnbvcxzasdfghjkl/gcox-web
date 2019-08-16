@@ -22,7 +22,8 @@ const routes = [
   {
     path: '/1-click-trade',
     name: 'quickTrade',
-    component: quickTrade
+    component: quickTrade,
+    meta:{login:true}
   },
   {
     path: '/fiat',

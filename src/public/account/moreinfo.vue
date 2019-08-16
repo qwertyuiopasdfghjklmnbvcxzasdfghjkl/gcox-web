@@ -25,7 +25,11 @@
                     <!--@click="Number(item.rechargeFlag) !== 1 ? false : copy()" :title="$t('account.user_Copy_address')">-->
                                 <!--&lt;!&ndash;复制地址&ndash;&gt;-->
                             <!--</span>-->
-              
+              <span class="reche icon_withdraw" :class="{disabled: !item.openStaking}"
+                    @click="showStake"
+                    :title="$t('account.stake')">
+                    {{$t('account.stake')}}<!--锁仓-->
+              </span>
 
               <span class="reche icon_withdraw"
                     :class="{disabled: Number(item.withdrawFlag) !== 1}"
@@ -108,6 +112,7 @@
   import memoCava from './memocava'
   import Vue from 'vue'
   import {mapGetters} from 'vuex'
+  import stakeDialog from '@/public/account/stakeDialog'
 
   const copyText = (str) => {
     var save = function (e) {
@@ -164,6 +169,18 @@
     },
     methods: {
       ...mapGetters(['getUserInfo', 'getLang']),
+      showStake(){
+        if(!this.item.openStaking){
+          return
+        }
+        utils.setDialog(stakeDialog, {
+          data:this.item,
+          backClose:true,
+          okCallback: () => {
+            this.$parent.getList()
+          }
+        })
+      },
       getEosAddress () {
         userUtils.getEosAddress(data => {
           this.EOS_MEMO = data
@@ -317,7 +334,6 @@
   .depositBox .filed span {
     display: inline-block;
     height: 25px;
-    margin-right: 5px;
     background: none no-repeat left center;
   }
 
@@ -339,10 +355,9 @@
     -webkit-box-sizing: initial;
     box-sizing: initial;
     line-height: 28px;
-    margin-right: 10px;
     height: 30px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
   }
   .depositBox .filed span.icon_recharge.buy{
     margin-right: 0;
@@ -359,14 +374,12 @@
     color: #f1f1f2;
     background-color: #2e2c3c;
     border: 1px solid #312e45;
-    text-align: center;
     -webkit-box-sizing: initial;
     box-sizing: initial;
     line-height: 28px;
-    margin-right: 10px;
     height: 30px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
   }
 
   .depositBox .filed span.icon_withdraw:hover {
