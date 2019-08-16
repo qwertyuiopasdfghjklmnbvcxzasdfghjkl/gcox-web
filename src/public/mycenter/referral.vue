@@ -11,12 +11,12 @@
           <button type="button" class="mint-btn default copy" @click="copyText(invitedInfo.myInvitationCode)">{{$t('referral.copy')}}<!-- 复制 --></button>
         </div>
         <div class="item">
-          <span>{{$t('referral.invitation_link')}}<!-- Invitation Link -->:</span> {{invitedInfo.myInvitationUrl}}
-          <button type="button" class="mint-btn default copy" @click="copyText(invitedInfo.myInvitationUrl)">{{$t('referral.copy')}}<!-- 复制 --></button>
+          <span>{{$t('referral.invitation_link')}}<!-- Invitation Link -->:</span> {{myInvitationUrl}}
+          <button type="button" class="mint-btn default copy" @click="copyText(myInvitationUrl)">{{$t('referral.copy')}}<!-- 复制 --></button>
         </div>
         <div class="item">
           <span>{{$t('referral.share_to')}}<!-- Share to -->:</span>
-          <div class="media"><a class="icon-twitter f-c-white" :href="`https://twitter.com/share?text=${shareTitle}&url=${invitedInfo.myInvitationUrl}`"  target="_blank"></a> <a class="icon-facebook1 f-c-white" :href="`https://www.facebook.com/sharer.php?title=${shareTitle}&u=${invitedInfo.myInvitationUrl}`" target="_blank"></a></div>
+          <div class="media"><a class="icon-twitter f-c-white" :href="`https://twitter.com/share?text=${shareTitle}&url=${myInvitationUrl}`"  target="_blank"></a> <a class="icon-facebook1 f-c-white" :href="`https://www.facebook.com/sharer.php?title=${shareTitle}&u=${myInvitationUrl}`" target="_blank"></a></div>
         </div>
       </div>
     </div>
@@ -158,6 +158,9 @@
     },
     computed: {
       ...mapGetters(['getUserInfo','getLang']),
+      myInvitationUrl(){
+        return `http://${location.host}/register?ref=${this.invitedInfo.myInvitationCode}`
+      },
       shareTitle(){
         if(this.getLang==='en')
           return `GCOX invitation from ${this.getUserInfo.nickname||this.getUserInfo.username}`
@@ -242,7 +245,7 @@
       initQRCode(){
         //初始化二维码
         utils.qrcode(this.$refs.inviteQR, {
-          text: this.invitedInfo.myInvitationUrl,
+          text: this.myInvitationUrl,
           colorDark:'#00a0e9',
           width: 116,
           height: 116,
