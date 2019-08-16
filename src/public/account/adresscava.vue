@@ -90,12 +90,12 @@
       },
       getListAccount () {
         userUtils.myAssets({}, res => {
-          this.allData = res
-          this.allData.filter(next => {
+          this.allData = res.filter(next => {
             if (next.symbol === this.symbol) {
               this.addr = next.address
               this.minWithdraw = next.minWithdraw
             }
+            return next.type === 1
           })
           console.log(res)
         })

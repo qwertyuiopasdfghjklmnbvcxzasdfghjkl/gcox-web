@@ -169,12 +169,6 @@
                   
               </li>
             </ul>
-
-            <div class="echart" v-if="!pandectShow">
-              <div>
-                <v-chart :options="polar"/>
-              </div>
-            </div>
           </div>
         </div>
         
@@ -221,7 +215,7 @@
             show: true,
             data: [],
             width: '190px',
-            top: '260px',
+            top: '200px',
             left: 0,
             textStyle: {
               color: '#ffffff'
@@ -251,7 +245,7 @@
                   show: false
                 }
               },
-              center: ['100px', '130px'],
+              center: ['100px', '85px'],
               data: [],
               itemStyle: {
                 emphasis: {
@@ -663,7 +657,6 @@
     box-sizing: border-box;
     min-height: 50px;
     line-height: 22px;
-    align-items: center;
     white-space: nowrap;
     word-break: break-all;
     padding: 0 4px;
