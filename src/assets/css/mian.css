@@ -79,7 +79,7 @@ div.hopscotch-bubble h3,div.hopscotch-bubble .hopscotch-content{color:#aeb7d0;}
     display: -webkit-box;
     -webkit-line-clamp: 4;
 }
-.mask-layer {position: fixed; left: 0; top: 70px; right: 0; bottom: 0; background-color: rgba(0,0,0,.6); z-index: 9999999;}
+.mask-layer {position: fixed; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,.6); z-index: 9999999;}
 
 
 @font-face {
