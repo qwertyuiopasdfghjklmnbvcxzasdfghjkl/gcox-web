@@ -132,6 +132,7 @@
   import loading from '@/components/loading'
   import userApi from '@/api/user'
   import page from '@/components/page'
+  import Config from '@/assets/js/config'
 
   export default {
     components: {
@@ -159,7 +160,7 @@
     computed: {
       ...mapGetters(['getUserInfo','getLang']),
       myInvitationUrl(){
-        return `http://${location.host}/register?ref=${this.invitedInfo.myInvitationCode}`
+        return `${Config.origin}/register?ref=${this.invitedInfo.myInvitationCode}`
       },
       shareTitle(){
         if(this.getLang==='en')
