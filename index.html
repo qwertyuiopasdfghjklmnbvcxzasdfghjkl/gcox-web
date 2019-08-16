@@ -23,6 +23,11 @@
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135198121-1"></script>
 <script>
+  var protocol = location.protocol;
+  var host = location.host.toLowerCase();
+  if(host.indexOf('gcox.com') !== -1 && protocol !== 'https:') {
+    location.href = 'https://gcox.com';
+  }
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
