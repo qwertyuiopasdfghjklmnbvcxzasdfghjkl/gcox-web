@@ -41,6 +41,9 @@
       ...mapActions(['setUserInfo']),
       closeDialog () {
         this.$emit('removeDialog')
+        userApi.getUserInfo((userInfo) => {
+          this.setUserInfo(userInfo)
+        })
       }
     }
   }

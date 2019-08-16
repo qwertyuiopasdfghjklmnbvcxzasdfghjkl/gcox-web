@@ -88,7 +88,8 @@
               <li v-for="(data, index) in filterDatas()" :key="data.accountId">
                 <div class="items">
                   <div class="coin ">{{data.symbol}}</div>
-                  <div class="f-right " :title="toFixed(data.totalBalance)|removeEndZero">{{toFixed(data.totalBalance)|removeEndZero}}</div>
+                  <div class="f-right " :title="toFixed(data.totalBalance)|removeEndZero" v-if="pandectShow">{{toFixed(data.totalBalance)|removeEndZero}}</div>
+                  <div class="f-right " :title="toFixed(numUtils.add(data.totalBalance, getStakeBalance(data.accountName)))|removeEndZero" v-else>{{toFixed(numUtils.add(data.totalBalance, getStakeBalance(data.accountName)))|removeEndZero}}</div>
                   <div class="f-right " :title="toFixed(data.availableBalance)|removeEndZero">{{toFixed(data.availableBalance)|removeEndZero}}</div>
                   <div class="useable f-right " :title="toFixed(data.frozenBalance)|removeEndZero">{{toFixed(data.frozenBalance)|removeEndZero}}</div>
                   <div class="useable f-right " v-if="!pandectShow" :title="toFixed(getStakeBalance(data.accountName))|removeEndZero">{{toFixed(getStakeBalance(data.accountName))|removeEndZero}}</div>
@@ -102,7 +103,7 @@
               </li>
             </ul>
 
-            <div class="echart" v-if="!pandectShow">
+            <div class="echart" v-if="false">
               <div>
                 <v-chart :options="polar"/>
               </div>
@@ -166,12 +167,12 @@
                     <button type="button" class="mint-btn action" :disabled="!data.openStaking" @click="showStake(data.accountName)">{{$t('account.stake')}}<!-- Stake --></button>
                   </div>
                 </div>
-                  
+
               </li>
             </ul>
           </div>
         </div>
-        
+
       </div>
       <loading v-if="showLoaing"/>
     </div>
@@ -193,6 +194,7 @@
     props: ['pandect'],
     data () {
       return {
+        numUtils:numUtils,
         sortActive: null,
         sort: null,
         showLoaing: true,
@@ -660,7 +662,7 @@
     white-space: nowrap;
     word-break: break-all;
     padding: 0 4px;
-    width: 110px;
+    width: 130px;
     text-overflow: ellipsis;
     overflow: hidden
   }
@@ -736,7 +738,7 @@
   }
 
   .accountInfo-lists li .items > div.useable {
-    width: 90px;
+    width: 130px;
   }
   .accountInfo-lists.pandect li .items > div.useable {
     width: 130px;
