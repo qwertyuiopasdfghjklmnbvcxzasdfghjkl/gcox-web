@@ -252,6 +252,7 @@
     methods: {
       getAssets(){
         userUtils.myAssets({}, (data) => {
+          data = data.filter(item=>{return item.type===1})
           this.tokens = [''].concat(data.map(item=>{return item.symbol}))
         })
       },
