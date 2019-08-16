@@ -40,7 +40,7 @@
           <span class="ui-flex-2">{{new Date(Number(item.createdAt)).format()}}</span>
           <span class="ui-flex-2">{{Number(item.price)===-1?$t('exchange.exchange_market_price'):$t('otc_exchange.otc_exchange_limited_price')}}</span>
           <span class="ui-flex-2" :class="[Number(item.direction)===1 ? 'rang-up' : 'rang-down']">{{getType(item.direction)}}</span>
-          <span class="ui-flex-2">{{currentSymbol}}/{{baseSymbol}}</span>
+          <span class="ui-flex-2">{{getCurrentSymbol(item.market)}}/{{getBaseSymbol(item.market)}}</span>
           <span class="ui-flex-3 text-right">{{getPrice(item.price)}}/<br />{{item.averagePrice}}</span>
           <span class="ui-flex-3 text-right">{{toFixed(item.totalAmount)}}/<br />{{toFixed(item.finishedAmount)}} ({{getFinishedPercent(item)}}%)</span>
           <span class="ui-flex-3 text-right">{{toFixed(item.totalAmount)}}</span>
@@ -56,7 +56,7 @@
           <span class="ui-flex-2">{{new Date(Number(item.createdAt)).format()}}</span>
           <span class="ui-flex-2">{{Number(item.price)===-1?$t('exchange.exchange_market_price'):$t('otc_exchange.otc_exchange_limited_price')}}</span>
           <span class="ui-flex-2" :class="[Number(item.direction)===1 ? 'rang-down' : 'rang-up']">{{getType(item.direction)}}</span>
-          <span class="ui-flex-2">{{currentSymbol}}/{{baseSymbol}}</span>
+          <span class="ui-flex-2">{{getCurrentSymbol(item.market)}}/{{getBaseSymbol(item.market)}}</span>
           <span class="ui-flex-3 text-right">{{getPrice(item.price)}}/<br />{{item.averagePrice}}</span>
           <span class="ui-flex-3 text-right">{{toFixed(item.totalAmount)}}/<br />{{toFixed(item.finishedAmount)}} ({{getFinishedPercent(item)}}%)</span>
           <span class="ui-flex-3 text-right">{{toFixed(item.totalAmount)}}</span>
@@ -127,18 +127,23 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getApiToken']),
+    ...mapGetters(['getApiToken','getMarketList']),
+    symbolList(){
+      return this.getMarketList?this.getMarketList.map(item=>{return item.baseSymbol}).join('|'):''
+    },
     filterCdatas(){
       let data = this.cdatas
       if(!this.checked){
-        data = data.filter((item) => {return this.symbol !== item.market})
+        data = data.filter((item) => {return this.symbol === item.market})
+        console.log(data)
       }
+      
       return data
     },
     filterHdatas(){
       let data = this.hdatas
       if(!this.checked){
-        data = data.filter((item) => {return this.symbol !== item.market})
+        data = data.filter((item) => {return this.symbol === item.market})
       }
       return data
     }
@@ -198,6 +203,16 @@ export default {
   },
   methods: {
     ...mapActions(['setEntrustPrices', 'addEvents', 'removeEvents', 'tiggerEvents']),
+    getCurrentSymbol(market){
+      let patt = new RegExp(`(.*)(${this.symbolList})$`)
+      let ms = market.match(patt)
+      return ms && ms[1]
+    },
+    getBaseSymbol(market){
+      let patt = new RegExp(`(.*)(${this.symbolList})$`)
+      let ms = market.match(patt)
+      return ms && ms[2]
+    },
     showQuickLogin () {
       utils.setDialog(quickLogin, {backClose:true})
     },

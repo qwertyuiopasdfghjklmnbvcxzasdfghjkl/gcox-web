@@ -376,7 +376,6 @@
     color: #f1f1f2;
     background-color: #2e2c3c;
     border: 1px solid #312e45;
-    text-align: center;
     -webkit-box-sizing: initial;
     box-sizing: initial;
     line-height: 28px;
