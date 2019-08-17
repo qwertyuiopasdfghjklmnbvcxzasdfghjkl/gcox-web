@@ -115,6 +115,7 @@ export default {
       })
     },
     loginAC(formData){
+      this.locked = true
       userApi.getRsaPublicKey((rsaPublicKey) => {
         formData.password = utils.encryptPwd(rsaPublicKey, formData.password)
         formData.rsaPublicKey = rsaPublicKey

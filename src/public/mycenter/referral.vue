@@ -73,7 +73,7 @@
               <span class="ui-flex-1">{{item.username}}</span>
               <span class="ui-flex-1">{{item.registerTime}}</span>
               <span class="ui-flex-1">{{getStatus(item.status)}}</span>
-              <span class="ui-flex-1">{{item.amount}}</span>
+              <span class="ui-flex-1">{{item.status!==-1?item.amount:0}}</span>
             </li>
           </ul>
           <page v-if="!showLoading && historyList.length > 0" :pageIndex="params.page" :pageSize="params.size"
@@ -102,6 +102,7 @@
           <p class="mt20">Notes:</p>
           <p>* Trading Wallet – ACM balance held in the Trading Wallet can be used for trading</p>
           <p>* Staking Wallet – ACM balance held in the Staking Wallet is locked and 1% of the staked amount will be release on a weekly basis</p>
+          <p>* Referrals are deemed successful once the referred user has completed their KYC process. </p>
         </template>
         <template v-else>
           <h3 class="text-center">--- “注册奖励计划” ---</h3>
@@ -132,6 +133,7 @@
   import loading from '@/components/loading'
   import userApi from '@/api/user'
   import page from '@/components/page'
+  import Config from '@/assets/js/config'
 
   export default {
     components: {
@@ -159,7 +161,7 @@
     computed: {
       ...mapGetters(['getUserInfo','getLang']),
       myInvitationUrl(){
-        return `http://${location.host}/register?ref=${this.invitedInfo.myInvitationCode}`
+        return `${Config.origin}/register?ref=${this.invitedInfo.myInvitationCode}`
       },
       shareTitle(){
         if(this.getLang==='en')
