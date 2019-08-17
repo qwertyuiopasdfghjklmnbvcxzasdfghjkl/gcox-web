@@ -283,7 +283,7 @@
           name: 'account_menu',
           params: {
             menu: 'adresscava',
-            symbol: this.symbol
+            symbol: this.symbol,
           }
         })
       },
