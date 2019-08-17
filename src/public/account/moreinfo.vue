@@ -284,7 +284,6 @@
           params: {
             menu: 'adresscava',
             symbol: this.symbol,
-            addr: this.getAddress
           }
         })
       },
