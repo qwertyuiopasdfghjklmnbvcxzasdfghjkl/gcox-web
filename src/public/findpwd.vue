@@ -32,7 +32,7 @@ export default {
       gtLocked: false,
       formData: {
         email: '',
-        redirectUrl:`${Config.origin}/#/login`
+        redirectUrl:`${Config.origin}/login`
       }
     }
   },
