@@ -16,7 +16,7 @@
      <tbody>
       <tr v-for="(item, index) in datas" :key="index" @click="clickChangeValue(item)">
        <td class="text-left">{{formatDate(item.createdAt)}}</td> 
-       <td class="text-left" :class="[Number(item.direction)===1 ? 'rang-down' : 'rang-up']">{{Number(item.direction)===1 ? $t('exchange.exchange_sell') : $t('exchange.exchange_buy')}}</td> 
+       <td class="text-left" :class="[Number(item.direction)===1 ? 'rang-up' : 'rang-down']">{{Number(item.direction)===1 ? $t('exchange.exchange_buy') : $t('exchange.exchange_sell')}}</td> 
        <td class="text-right">{{toFixed(item.price)}}</td> 
        <td class="text-right">{{toFixed(item.amount, Quantityaccu)}}</td>
       </tr>
