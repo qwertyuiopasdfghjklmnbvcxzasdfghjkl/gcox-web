@@ -230,7 +230,7 @@
     }
 
     .item + .item {
-      margin-left: 30px;
+      margin-left: 25px;
     }
 
     .icon_logo {
