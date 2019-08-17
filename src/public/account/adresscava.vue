@@ -67,6 +67,7 @@
       let symbol = this.$route.params.symbol
       this.symbol = symbol || 'ETH'
       this.getListAccount()
+      this.addr = this.$route.params.addr
       console.log(this.addr, this.symbol)
       this.$nextTick(() => {
         utils.qrcode(this.$refs.qrcode, {
