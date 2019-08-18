@@ -26,6 +26,9 @@
     watch: {
       '$route' (e) {
         console.log(e)
+      },
+      getLang(){
+        this.getDetail()
       }
     },
     created () {
