@@ -19,11 +19,11 @@
               </div>
             </div>
         </router-link>
-        <router-link :to="{name:'acm'}" class="item"><i class="acm"></i> ACM</router-link>
+        <!-- <router-link :to="{name:'acm'}" class="item"><i class="acm"></i> ACM</router-link> -->
         <a href="javascript:;" v-if="!isLogin" class="item" @click="showQuickLogin"><i class="account"></i> {{$t('usercontent.user56')}}<!-- 资产管理 --></a>
         <router-link v-if="isLogin" :to="{name:'account'}" class="item"><i class="account"></i> {{$t('usercontent.user56')}}<!-- 资产管理 --></router-link>
         <router-link v-if="isLogin" v-show="false" :to="{name:'fiat'}" class="item"><i class="icon-curry"></i> FIAT<!-- FIAT --></router-link>
-        <router-link v-if="isLogin" :to="{name:'mycenter', params:{menu:'referral'}}" class="item"><i class="icon-users"></i> {{$t('referral.referral_programme')}}<!-- 我的推荐 --></router-link>
+        <router-link v-if="isLogin" :to="{name:'mycenter_menu', params:{menu:'referral'}}" class="item"><i class="icon-users"></i> {{$t('referral.referral_programme')}}<!-- 我的推荐 --></router-link>
       </div>
       <div class="right">
           <router-link to="" class="item" v-if="isLogin">
@@ -152,7 +152,7 @@
       height: 100%;
       vertical-align: middle;
       position: relative;
-      margin-left: 60px;
+      &+.item {margin-left: 60px;}
 
       .popover-nav {
         position: absolute;
@@ -230,7 +230,7 @@
     }
 
     .item + .item {
-      margin-left: 30px;
+      margin-left: 25px;
     }
 
     .icon_logo {
