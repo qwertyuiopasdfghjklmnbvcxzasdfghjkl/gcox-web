@@ -17,7 +17,7 @@
       </div>
       <div v-if="getUserInfo.kycState === -2 || getUserInfo.kycState === -3">
         <p class="f-c-danger">{{$t('usercontent.user44')}}</p>
-        <span @click="submitKYC()"  style="cursor: pointer"  v-html="$t('usercontent.user45')"></span>
+        <span @click="submitKYC()" style="cursor: pointer" v-html="$t('usercontent.user45')"></span>
       </div>
     </div>
   </div>
@@ -46,6 +46,12 @@
     },
     computed: {
       ...mapGetters(['getUserInfo'])
+    },
+    watch: {
+      ...mapGetters(['getUserInfo']),
+      getUserInfo () {
+        console.log(this.getUserInfo)
+      }
     },
     created () {
     },
