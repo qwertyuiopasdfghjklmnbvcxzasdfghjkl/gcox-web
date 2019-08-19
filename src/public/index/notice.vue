@@ -27,8 +27,10 @@ created() {
 },
 methods:{
     getCmsList(){
-      marketApi.getCmsList({firstLevel:1,secondLevel:1,page:1,size:3},res=>{
-        this.notice = res
+      marketApi.getCmsList({firstLevel:1,secondLevel:1,page:1,size:20},res=>{
+        this.notice = res.filter(item=>{
+            return item.state !== 0 
+          }).slice(0,3)
       })
     },
     getTitle(item){
