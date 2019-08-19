@@ -48,7 +48,7 @@ import BigNumber from '@/assets/js/bignumber.min'
 
 		return (window.devicePixelRatio || 1) / backingStore
   }
-  let _ratio = 3 || getPixelRatio()
+  let _ratio = 1 || getPixelRatio()
 
   var container = opts.container
   var cWidth = container.clientWidth * _ratio
@@ -234,6 +234,7 @@ import BigNumber from '@/assets/js/bignumber.min'
   // y分割
   const ySplit = function (callback) {
     let avg = ySplitLen * _ratio
+    console.log(avg)
     let y = this._bottom - avg
     while (y >= this._top) {
       callback && callback(y, avg)
