@@ -323,7 +323,7 @@ export default {
   }
 }
 .order-book {
-    height: 450px;
+    height: 460px;
     overflow: hidden;
     background: #19181c;
     font-size: 12px;
