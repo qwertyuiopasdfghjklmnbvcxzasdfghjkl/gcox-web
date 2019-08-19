@@ -39,7 +39,7 @@
       getDetail () {
         this.id = this.$route.params.id
         market.getCmsDetail(this.id, res => {
-          console.log(res)
+          
           if (this.getLang === 'zh-CN') {
             this.data = res.bodyCn
             this.title = res.titleCn

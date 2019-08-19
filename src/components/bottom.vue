@@ -96,7 +96,7 @@
             firstLevel: 2,
           },
           res => {
-            console.log(res)
+            
             res.filter(data => {
               if (data.secondLevel === 3) {
                 this.about.push(data)
