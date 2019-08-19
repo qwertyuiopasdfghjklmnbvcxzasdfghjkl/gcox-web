@@ -148,8 +148,10 @@ export default {
           let klineDatas = this.klineData
           let datas = res.data && res.data.constructor === Array ? res.data : []
           let newArray = []
+          datas = datas.sort((item1, item2)=>{
+            return item1[0]>=item2[0]?1:-1
+          })
           datas.forEach((item) => {
-            // newArray.push([Number(item[0]), parseFloat(item[1]) || 0, parseFloat(item[2]) || 0, parseFloat(item[3]) || 0, parseFloat(item[4]) || 0, parseFloat(item[5]) || 0])
             newArray.push([Number(item[0]), parseFloat(this.toFixed(Number(item[1]))) || 0, parseFloat(this.toFixed(Number(item[2]))) || 0, parseFloat(this.toFixed(Number(item[3]))) || 0, parseFloat(this.toFixed(Number(item[4]))) || 0, parseFloat(this.toFixed(Number(item[5]))) || 0])
           })
           if (!this.isFirst) {
