@@ -4,12 +4,17 @@
       <div class="download-header efont">{{$t('public0.public212')}}<!-- 下载APP --></div>
       <div class="download-slogen text-center fs18">{{$t('about.desc_download')}}<!-- 随时随地，享受安全便捷的数字金融服务 --></div>
       <div class="ui-flex download-main">
-        <div class="ui-flex-1 ui-flex">
-          <a :href="ios" target="_blank"><span class="app-store"></span></a>
+        <div class="ui-flex-1 ui-flex gray-layer">
+          <!-- <a :href="ios" target="_blank"><span class="app-store"></span></a>
           <a :href="googlePlay" target="_blank"><span class="google-play ml60"></span></a>
           <a :href="android" target="_blank"><span class="android-app ml60"></span></a>
           <a href="javascript:;" class="rp qrcode"><span class="icon-qrcode ml20"></span>
             <div ref="qrcode" class="qr-container"></div>
+          </a> -->
+          <a ><span class="app-store"></span></a>
+          <a><span class="google-play ml60"></span></a>
+          <a><span class="android-app ml60"></span></a>
+          <a class="rp qrcode"><span class="icon-qrcode ml20"></span>
           </a>
         </div>
         <div class="download-phone">
@@ -128,4 +133,12 @@ export default {
   display: none;
 }
 .qrcode:hover .qr-container {display: block;}
+.gray-layer {
+  -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%);
+    filter: gray;
+}
 </style>
