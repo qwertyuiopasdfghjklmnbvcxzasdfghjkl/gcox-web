@@ -20,6 +20,7 @@
   import page from '@/components/page'
   import loading from '@/components/loading'
   import {mapGetters} from 'vuex'
+
   export default {
     name: 'list',
     components: {
@@ -52,7 +53,11 @@
         }
         market.getCmsList(data, (res, total) => {
           console.log(res)
-          this.list = res
+          this.list = res.filter(res => {
+            if (res.state === 1) {
+              return res
+            }
+          })
           this.total = total
           this.loading = false
         }, msg => {
