@@ -52,6 +52,11 @@
         }
         market.getCmsList(data, (res, total) => {
           
+          this.list = res.filter(res => {
+            if (res.state === 1) {
+              return res
+            }
+          })
           this.list = res
           this.total = total
           this.loading = false
