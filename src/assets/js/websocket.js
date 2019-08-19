@@ -38,7 +38,7 @@ import Config from './config'
   function createWebSocket () {
     let host = location.host.toLowerCase(), url = `${Config.protocol}${Config.domain}/ws${port}`
     if(host.indexOf('gcox.com') !== -1 &&  host.indexOf('exchange-staging.gcox.com') === -1) {
-      url = `${Config.protocol}ws-exchange.gcox.com//ws${port}`
+      url = `${Config.protocol}ws-exchange.gcox.com/ws${port}`
     }
     let ws = new WebSocket(url)
     ws.onopen = function () {
