@@ -58,6 +58,8 @@
               return res
             }
           })
+          
+          this.list = res
           this.total = total
           this.loading = false
         }, msg => {
