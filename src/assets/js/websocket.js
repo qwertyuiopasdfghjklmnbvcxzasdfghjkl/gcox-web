@@ -36,8 +36,10 @@ import Config from './config'
     }
   }
   function createWebSocket () {
-    // let ws = new WebSocket(`${Config.protocol}${Config.domain}/ws${port}`)
-    let url = process.env.NODE_ENV === 'development' ? `${Config.protocol}${Config.domain}/ws${port}`: `${Config.protocol}ws-exchange.gcox.com/${port}`
+    let host = location.host.toLowerCase(), url = `${Config.protocol}${Config.domain}/ws${port}`
+    if(host.indexOf('gcox.com') !== -1) {
+      url = `${Config.protocol}ws-exchange.gcox.com/${port}`
+    }
     let ws = new WebSocket(url)
     ws.onopen = function () {
       console.log(`open websocket:${port}`)
