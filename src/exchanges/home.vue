@@ -130,7 +130,7 @@ export default {
       this.socket && this.socket.switchPeriod && this.socket.switchSymbol(this.symbol)
     },
     fixedNumber(newVal){
-      // this.$refs.depth.mergeValue = newVal
+      this.$refs.depth.mergeValue = newVal
     }
   },
   created () {

@@ -234,7 +234,6 @@ import BigNumber from '@/assets/js/bignumber.min'
   // y分割
   const ySplit = function (callback) {
     let avg = ySplitLen * _ratio
-    console.log(avg)
     let y = this._bottom - avg
     while (y >= this._top) {
       callback && callback(y, avg)
