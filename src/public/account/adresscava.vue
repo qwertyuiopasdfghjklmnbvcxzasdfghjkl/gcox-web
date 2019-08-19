@@ -13,7 +13,7 @@
           <!--<p>{{$t('usercontent.not2').format(symbol,'0.01')}}</p>-->
         </label>
       </div>
-      <div  class="tsmb-flex blue">
+      <div class="tsmb-flex blue">
         <p>{{$t('usercontent.not3')}}</p>
         <label style="padding-left: 4px">
           <p>{{$t('usercontent.not3-1').format(symbol)}}</p>
@@ -91,13 +91,15 @@
       getListAccount () {
         userUtils.myAssets({}, res => {
           this.allData = res.filter(next => {
-            if (next.symbol === this.symbol) {
-              this.addr = next.address
-              this.minWithdraw = next.minWithdraw
+            if (next.type === 1) {
+              if (next.symbol === this.symbol) {
+                this.addr = next.address
+                this.minWithdraw = next.minWithdraw
+                console.log(next)
+              }
             }
             return next.type === 1
           })
-          console.log(res)
         })
       }
     }
