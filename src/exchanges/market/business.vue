@@ -5,7 +5,7 @@
            <span class="rang-down pointer" :class="{active:tradeType==='sell'}" @click="tradeType='sell'">{{$t('exchange.exchange_sell')}}<!-- 卖出 --></span>
         </div>
         <div class="balance ui-flex ui-flex-justify">
-          <div><span>{{isBuy ? baseSymbol : currentSymbol}}</span> <span>{{$t('exchange.exchange_balance')}}<!--余额-->：</span> <span>{{toFixed(isBuy ? toBalance.availableBalance : fromBalance.availableBalance).toMoney()}}</span></div>
+          <div><span>{{isBuy ? baseSymbol : currentSymbol}}</span> <span>{{$t('exchange.exchange_balance')}}<!--余额-->：</span> <span>{{toFixed(isBuy ? toBalance.availableBalance : fromBalance.availableBalance, 8) | removeEndZero | toMoney}}</span></div>
           <router-link :to="{name:'account_menu', params:{menu: 'adresscava',symbol: currentSymbol}}" class="normal pull-right" tag="button" v-if="getApiToken">{{$t('account.estimated_value_deposit')}}<!-- 充值 --></router-link>
           <router-link :to="{name:'login'}" class="normal pull-right" tag="button" v-else>{{$t('account.estimated_value_deposit')}}<!-- 充值 --></router-link>
         </div>
@@ -407,9 +407,9 @@ export default {
         if (msg === 'AMOUNT_ERROR') {
           // 最小金额必须大于等于{0}{1}
           let minAmount = numUtils.BN(this.getMarketConfig[this.symbol].minAmount).toString()
-          Vue.$koallTipBox({icon: 'notification', message: this.$t('public.min_total_greater_than').format(minAmount, this.baseSymbol)})
+          Vue.$koallTipBox({icon: 'notification', delay:3000, message: this.$t('public.min_total_greater_than').format(minAmount, this.baseSymbol)})
         } else {
-          Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
+          Vue.$koallTipBox({icon: 'notification', delay:3000, message: this.$t(`error_code.${msg}`)})
         }
       })
     },

@@ -48,7 +48,7 @@ import BigNumber from '@/assets/js/bignumber.min'
 
 		return (window.devicePixelRatio || 1) / backingStore
   }
-  let _ratio = 3 || getPixelRatio()
+  let _ratio = 1 || getPixelRatio()
 
   var container = opts.container
   var cWidth = container.clientWidth * _ratio

@@ -82,7 +82,7 @@
       ...mapGetters(['getUserInfo']),
       getAllSymbol () {
         walletApi.myAssets({}, res => {
-          console.log(res)
+          
           res.filter(item => {
             this.symbolList.push(item.symbol)
           })
