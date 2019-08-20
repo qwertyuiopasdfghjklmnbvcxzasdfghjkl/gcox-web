@@ -50,9 +50,9 @@
           this.products = Object.values(res)
           for(let item of this.products){
             this.getKlineData(item.market)
-            this.timers.push(setInterval(()=>{
+            /*this.timers.push(setInterval(()=>{
               this.getKlineData(item.market)
-            },60000))
+            },60000))*/
           }
         }, () => {
         })
@@ -60,8 +60,8 @@
       getKlineData(symbol){
         let data = {
           symbol:symbol,
-          period:'1m',
-          size:60
+          period:'1h',
+          size:24
         }
         marketApi.getKlineData(data, res=>{
           for(let item of this.products){
