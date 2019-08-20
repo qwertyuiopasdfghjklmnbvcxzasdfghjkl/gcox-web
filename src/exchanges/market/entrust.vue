@@ -25,7 +25,6 @@
         <span class="ui-flex-2">{{$t('exchange.trade_pair')}}<!-- 交易对 --></span>
         <span class="ui-flex-3 text-right">{{$t('exchange.entrust_price')}}<!-- 委托价格 -->/<br />{{$t('exchange.exchange_Transaction_price')}}<!-- 成交均价 --></span>
         <span class="ui-flex-3 text-right">{{$t('exchange.entrust_number')}}<!-- 委托数量 -->/<br />{{$t('exchange.advanced_filled')}}<!-- 成交数量 --></span>
-        <span class="ui-flex-3 text-right">{{$t('exchange.entrust_total')}}<!-- 委托总量 --></span>
         <span class="ui-flex-2 text-right" v-if="false">{{$t('exchange.advanced_fee')}}<!-- 手续费 --></span>
         <span class="ui-flex-2 text-center">
           <template v-if="active==='current'">{{$t('otc_exchange.otc_exchange_operating')}}<!-- 操作 --></template>
@@ -41,10 +40,8 @@
           <span class="ui-flex-2">{{Number(item.price)===-1?$t('exchange.exchange_market_price'):$t('otc_exchange.otc_exchange_limited_price')}}</span>
           <span class="ui-flex-2" :class="[Number(item.direction)===1 ? 'rang-up' : 'rang-down']">{{getType(item.direction)}}</span>
           <span class="ui-flex-2">{{getCurrentSymbol(item.market)}}/{{getBaseSymbol(item.market)}}</span>
-          <span class="ui-flex-3 text-right">{{getPrice(item.price)}}/<br />{{item.averagePrice}}</span>
-          <span class="ui-flex-3 text-right">{{toFixed(item.totalAmount)}}/<br />{{toFixed(item.finishedAmount)}} ({{getFinishedPercent(item)}}%)</span>
-          <span class="ui-flex-3 text-right">{{toFixed(item.totalAmount)}}</span>
-          <!-- <span class="ui-flex-2 text-right">0</span> -->
+          <span class="ui-flex-3 text-right">{{getPrice(item)}}/<br />{{toFixed(item.averagePrice,getMarketConfig[item.market].accuracy)|removeEndZero}}</span>
+          <span class="ui-flex-3 text-right">{{toFixed(item.totalAmount, getMarketConfig[item.market].quantityAccu)|removeEndZero}}/<br />{{toFixed(item.finishedAmount, getMarketConfig[item.market].quantityAccu)|removeEndZero}} ({{getFinishedPercent(item)}}%)</span>
           <span class="ui-flex-2 text-center f-c-main pointer" @click="cancelOrder(item.orderBookId, index)">{{$t('exchange.exchange_revoked')}}</span>
         </li>
       </ul>
@@ -57,10 +54,8 @@
           <span class="ui-flex-2">{{Number(item.price)===-1?$t('exchange.exchange_market_price'):$t('otc_exchange.otc_exchange_limited_price')}}</span>
           <span class="ui-flex-2" :class="[Number(item.direction)===1 ? 'rang-down' : 'rang-up']">{{getType(item.direction)}}</span>
           <span class="ui-flex-2">{{getCurrentSymbol(item.market)}}/{{getBaseSymbol(item.market)}}</span>
-          <span class="ui-flex-3 text-right">{{getPrice(item.price)}}/<br />{{item.averagePrice}}</span>
-          <span class="ui-flex-3 text-right">{{toFixed(item.totalAmount)}}/<br />{{toFixed(item.finishedAmount)}} ({{getFinishedPercent(item)}}%)</span>
-          <span class="ui-flex-3 text-right">{{toFixed(item.totalAmount)}}</span>
-          <!-- <span class="ui-flex-2 text-right">0</span> -->
+          <span class="ui-flex-3 text-right">{{getPrice(item)}}/<br />{{toFixed(item.averagePrice,getMarketConfig[item.market].accuracy)|removeEndZero}}</span>
+          <span class="ui-flex-3 text-right">{{toFixed(item.totalAmount, getMarketConfig[item.market].quantityAccu)|removeEndZero}}/<br />{{toFixed(item.finishedAmount, getMarketConfig[item.market].quantityAccu)|removeEndZero}} ({{getFinishedPercent(item)}}%)</span>
           <span class="ui-flex-2 text-center" v-html="getStatue(item)"></span>
         </li>
       </ul>
@@ -127,7 +122,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getApiToken','getMarketList']),
+    ...mapGetters(['getApiToken','getMarketList','getMarketConfig']),
     symbolList(){
       return this.getMarketList?this.getMarketList.map(item=>{return item.baseSymbol}).join('|'):''
     },
@@ -285,11 +280,11 @@ export default {
         return this.$t('exchange.exchange_sell') // 卖
       }
     },
-    getPrice (price) {
-      if (numUtils.BN(price).equals(numUtils.BN(-1))) {
+    getPrice (item) {
+      if (numUtils.BN(item.price).equals(numUtils.BN(-1))) {
         return this.$t('exchange.exchange_market_price') // 市价
       }
-      return this.toFixed(price)
+      return utils.removeEndZero(this.toFixed(item.price, this.getMarketConfig[item.market].accuracy))
     },
     getStatue (item) {
       let state = Number(item.state)
