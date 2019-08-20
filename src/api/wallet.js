@@ -32,7 +32,7 @@ wallet.getWalletByCoin = getWalletByCoin
 
 // 我的资产
 const myAssets = function (data, success, error) {
-  api.get(`${domain}api/v2/account/listAccounts`, data, (res) => {
+  api.get(`${domain}api/v2/account/listAccounts?r=${Math.round(Math.random()*10000)}`, data, (res) => {
     if (res.rst === 1) {
       success && success(res.data)
     } else {
