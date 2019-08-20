@@ -16,6 +16,7 @@ String.prototype.format = function () {
   })
 }
 
+
 String.prototype.toMoney = function () {
   let s = this.split('.')
   let s0 = s[0]
@@ -381,6 +382,27 @@ Vue.filter('numbean',function(n){
   if(len<=3){return b;}
   var r=len%3;
   return r>0?b.slice(0,r)+","+b.slice(r,len).match(/\d{3}/g).join(","):b.slice(r,len).match(/\d{3}/g).join(",");
+});
+
+
+Vue.filter('toMoney', function (string) {
+  let s = string.split('.')
+  let s0 = s[0]
+  let end = s0.length % 3
+  let arr = []
+  if (end != 0) {
+    arr.push(s0.substring(0, end))
+  }
+  let count = Math.floor(s0.length / 3)
+  if (count > 0) {
+    s0 = s0.substring(end)
+    do {
+      arr.push(s0.substring(0, 3))
+      s0 = s0.substring(3)
+    } while (s0.length)
+  }
+  s[0] = arr.join(',')
+  return s.join('.')
 });
 
 /* 去除末尾的0 */
