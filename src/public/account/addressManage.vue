@@ -14,7 +14,8 @@
             <i class="icon-arrow-down2"></i>
           </p>
           <ul v-show="showDropdown" class="ul">
-            <li v-for="item in symbolList" @click.prevent="selAdd(item)">{{item}}</li>
+            <li v-for="item in symbolList" :class="{'active': item.symbol === symbol}"
+                @click.prevent="selAdd(item.symbol)">{{item.symbol}}</li>
           </ul>
         </div>
         <label class="add">
@@ -82,9 +83,8 @@
       ...mapGetters(['getUserInfo']),
       getAllSymbol () {
         walletApi.myAssets({}, res => {
-          
-          res.filter(item => {
-            this.symbolList.push(item.symbol)
+          this.symbolList = res.filter(item => {
+              return item.type === 1
           })
         })
         // walletApi.getAllSymbol({}, data=>{
@@ -192,6 +192,9 @@
               font-size: 14px;
               transition: background 0.3s;
               border-bottom: 1px solid #1d1c1e;
+              &.active{
+                color: #00B5FF;
+              }
 
               &:hover {
                 background: #2D2C2F
@@ -209,25 +212,31 @@
           display: flex;
           justify-content: space-between;
           padding: 6px 2px;
+
           span {
             color: #979799;
-            &:nth-child(1){
+
+            &:nth-child(1) {
               width: 300px;
             }
-            &:nth-child(2){
+
+            &:nth-child(2) {
               width: 36px;
             }
-            &:nth-child(3){
+
+            &:nth-child(3) {
               width: 60px;
             }
-            &:nth-child(4){
+
+            &:nth-child(4) {
               width: 100px;
             }
           }
         }
       }
     }
-    .btn{
+
+    .btn {
       cursor: pointer;
       font-size: 12px;
       color: #f1f1f2;
