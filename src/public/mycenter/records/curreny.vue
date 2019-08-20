@@ -367,6 +367,8 @@
   }
 
   .curreny /deep/ .record ul li {
+    display: flex;
+    flex-wrap: nowrap;
   }
 
   .curreny /deep/ .record ul.header li {
