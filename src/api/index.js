@@ -9,6 +9,7 @@ const DOMAIN = process.env.NODE_ENV === 'development' ? `http://${config.domain}
 axios.defaults.baseURL = DOMAIN
 axios.defaults.timeout = 100000
 
+
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
   var apiToken = JsCookies.get('api_token')
