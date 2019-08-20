@@ -5,7 +5,7 @@
            <span class="rang-down pointer" :class="{active:tradeType==='sell'}" @click="tradeType='sell'">{{$t('exchange.exchange_sell')}}<!-- 卖出 --></span>
         </div>
         <div class="balance ui-flex ui-flex-justify">
-          <div><span>{{isBuy ? baseSymbol : currentSymbol}}</span> <span>{{$t('exchange.exchange_balance')}}<!--余额-->：</span> <span>{{(isBuy ? toBalance.availableBalance : fromBalance.availableBalance) | removeEndZero | numbean}}</span></div>
+          <div><span>{{isBuy ? baseSymbol : currentSymbol}}</span> <span>{{$t('exchange.exchange_balance')}}<!--余额-->：</span> <span>{{toFixed(isBuy ? toBalance.availableBalance : fromBalance.availableBalance, 8) | removeEndZero | numbean}}</span></div>
           <router-link :to="{name:'account_menu', params:{menu: 'adresscava',symbol: currentSymbol}}" class="normal pull-right" tag="button" v-if="getApiToken">{{$t('account.estimated_value_deposit')}}<!-- 充值 --></router-link>
           <router-link :to="{name:'login'}" class="normal pull-right" tag="button" v-else>{{$t('account.estimated_value_deposit')}}<!-- 充值 --></router-link>
         </div>
