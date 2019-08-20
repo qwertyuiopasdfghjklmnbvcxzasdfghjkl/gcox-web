@@ -41,7 +41,7 @@
           <span class="ui-flex-2" :class="[Number(item.direction)===1 ? 'rang-up' : 'rang-down']">{{getType(item.direction)}}</span>
           <span class="ui-flex-2">{{getCurrentSymbol(item.market)}}/{{getBaseSymbol(item.market)}}</span>
           <span class="ui-flex-3 text-right">{{getPrice(item)}}/<br />{{toFixed(item.averagePrice,getMarketConfig[item.market].accuracy)|removeEndZero}}</span>
-          <span class="ui-flex-3 text-right">{{toFixed(item.totalAmount, getMarketConfig[item.market].quantityAccu)|removeEndZero}}/<br />{{toFixed(item.finishedAmount, getMarketConfig[item.market].quantityAccu)|removeEndZero}} <br /> ({{getFinishedPercent(item)}}%)</span>
+          <span class="ui-flex-3 text-right">{{toFixed(item.totalAmount, getMarketConfig[item.market].quantityAccu)|removeEndZero}}/<br />{{toFixed(item.finishedAmount, getMarketConfig[item.market].quantityAccu)|removeEndZero}} ({{getFinishedPercent(item)}}%)</span>
           <span class="ui-flex-2 text-center f-c-main pointer" @click="cancelOrder(item.orderBookId, index)">{{$t('exchange.exchange_revoked')}}</span>
         </li>
       </ul>
@@ -55,7 +55,7 @@
           <span class="ui-flex-2" :class="[Number(item.direction)===1 ? 'rang-down' : 'rang-up']">{{getType(item.direction)}}</span>
           <span class="ui-flex-2">{{getCurrentSymbol(item.market)}}/{{getBaseSymbol(item.market)}}</span>
           <span class="ui-flex-3 text-right">{{getPrice(item)}}/<br />{{toFixed(item.averagePrice,getMarketConfig[item.market].accuracy)|removeEndZero}}</span>
-          <span class="ui-flex-3 text-right">{{toFixed(item.totalAmount, getMarketConfig[item.market].quantityAccu)|removeEndZero}}/<br />{{toFixed(item.finishedAmount, getMarketConfig[item.market].quantityAccu)|removeEndZero}} <br /> ({{getFinishedPercent(item)}}%)</span>
+          <span class="ui-flex-3 text-right">{{toFixed(item.totalAmount, getMarketConfig[item.market].quantityAccu)|removeEndZero}}/<br />{{toFixed(item.finishedAmount, getMarketConfig[item.market].quantityAccu)|removeEndZero}} ({{getFinishedPercent(item)}}%)</span>
           <span class="ui-flex-2 text-center" v-html="getStatue(item)"></span>
         </li>
       </ul>
