@@ -359,8 +359,8 @@
   }
 
   .curreny /deep/ .record ul {
-    padding-left: 20px;
-    padding-right: 20px;
+    /*padding-left: 20px;*/
+    /*padding-right: 20px;*/
   }
 
   .curreny /deep/ .record ul.header {
