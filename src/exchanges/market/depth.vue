@@ -261,7 +261,7 @@ export default {
       return numUtils.BN(value || 0).toFixed(fixed === undefined ? this.fixedNumber : fixed, 1)
     },
     muldepth (v1, v2) {
-      return numUtils.mul(v1, v2).toFixed(this.mergeValue, 1)
+      return numUtils.mul(v1, v2).toFixed(this.Amountaccu, 1)
     }
   }
 }
