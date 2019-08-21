@@ -127,11 +127,11 @@ export default {
         })
       }
     },
-    getLang (val) {
+    /*getLang (val) {
       this.$nextTick(() => {
         this.TVjsApi && this.TVjsApi.switch_language(this.langs[val])
       })
-    },
+    },*/
     depthChange () {
       this.depthChart && this.depthChart.drawDepth(this.depthChange)
     },
