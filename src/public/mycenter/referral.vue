@@ -8,11 +8,11 @@
       <div class="ui-flex-1 ml20">
         <div class="item">
           <span>{{$t('referral.invitation_code')}}<!-- Invitation Code -->:</span> {{invitedInfo.myInvitationCode}}
-          <button type="button" class="mint-btn default copy" @click="copyText(invitedInfo.myInvitationCode)">{{$t('referral.copy')}}<!-- 复制 --></button>
+          <button type="button" class="mint-btn default copy" v-clipboard:copy="invitedInfo.myInvitationCode" v-clipboard:success="onCopy" v-clipboard:error="onError">{{$t('referral.copy')}}<!-- 复制 --></button>
         </div>
         <div class="item">
           <span>{{$t('referral.invitation_link')}}<!-- Invitation Link -->:</span> {{myInvitationUrl}}
-          <button type="button" class="mint-btn default copy" @click="copyText(myInvitationUrl)">{{$t('referral.copy')}}<!-- 复制 --></button>
+          <button type="button" class="mint-btn default copy" v-clipboard:copy="myInvitationUrl" v-clipboard:success="onCopy" v-clipboard:error="onError">{{$t('referral.copy')}}<!-- 复制 --></button>
         </div>
         <div class="item">
           <span>{{$t('referral.share_to')}}<!-- Share to -->:</span>
@@ -192,6 +192,12 @@
     },
     methods: {
       ...mapActions([]),
+      onCopy () {
+        Vue.$koallTipBox({icon: 'success', message: this.$t(`usercontent.copy-success`)})
+      },
+      onError () {
+        Vue.$koallTipBox({icon: 'notification', message: this.$t(`usercontent.copy-error`)})
+      },
       setTime(key){
         let nowdate = new Date()
         switch (key){
@@ -239,10 +245,6 @@
           case -1: rst = this.$t('account.user_uncompleted'); break;
         }
         return rst
-      },
-      copyText(str){
-        utils.copyText(str)
-        Vue.$koallTipBox({icon: 'success', message: this.$t('public0.public33')})
       },
       initQRCode(){
         //初始化二维码
