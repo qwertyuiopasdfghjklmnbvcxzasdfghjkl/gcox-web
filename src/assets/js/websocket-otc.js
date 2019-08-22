@@ -31,7 +31,7 @@ import Config from '@/assets/js/config'
     // 监听连接打开
     ws.onopen = function (evt) {
       isInit = true
-      console.log(`open websocket:${port}`)
+      //console.log(`open websocket:${port}`)
       this.send(1)
       sendMessage()
     }
@@ -39,7 +39,7 @@ import Config from '@/assets/js/config'
     // 监听连接关闭
     ws.onclose = function (evt) {
       isInit = false
-      console.log(`close websocket:${port}`)
+      //console.log(`close websocket:${port}`)
       setTimeout(function () {
         if (isClose) {
           return
@@ -63,7 +63,7 @@ import Config from '@/assets/js/config'
         }
         opts.onMessage && opts.onMessage(data)
       } catch (ex) {
-        console.log(ex)
+        //console.log(ex)
       }
     }
 

@@ -28,7 +28,7 @@ axios.interceptors.request.use(function (config) {
 
 function requireLogin(response) {
   console.error(response.config.url)
-  console.log('用户不存在，退出登录')
+  //console.log('用户不存在，退出登录')
   // 用户不存在，退出登录
   window.localStorage.removeItem('userInfo')
   JsCookies.remove('api_token')
@@ -58,13 +58,18 @@ axios.interceptors.response.use(function (response) {
   return response
 }, function (error) {
   // 对响应错误做点什么
+  console.error(error)
   let response = error.response;
-  if (response.status === 403) {
+  if (response.status === 403 || response.status === 401) {
     requireLogin(response);
   }
   if (response.status === 500 && typeof response.data === "string" && response.data.toLowerCase.indexOf("token") >= 0) {
     requireLogin(response);
+  } else if(response.status === 500){
+     Vue.$koallTipBox({icon: 'notification', message: window.$i18n.t(`error_code.server_deserted`)})
+    return Promise.resolve('')
   }
+
   return Promise.reject(error)
 })
 

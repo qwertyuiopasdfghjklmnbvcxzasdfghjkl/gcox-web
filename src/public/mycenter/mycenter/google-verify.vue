@@ -45,7 +45,7 @@
       if (this.state === 1) {
         this.getGoogleKey()
       }
-      console.log(this.getUserInfo().username)
+      //console.log(this.getUserInfo().username)
     },
     methods: {
       ...mapGetters(['getUserInfo']),

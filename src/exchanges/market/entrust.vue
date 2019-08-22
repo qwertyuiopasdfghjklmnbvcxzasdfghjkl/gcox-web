@@ -130,7 +130,7 @@ export default {
       let data = this.cdatas
       if(!this.checked){
         data = data.filter((item) => {return this.symbol === item.market})
-        console.log(data)
+        //console.log(data)
       }
       
       return data

@@ -25,7 +25,7 @@
     },
     watch: {
       '$route' (e) {
-        console.log(e)
+        //console.log(e)
         this.getDetail()
       },
       getLang(){
@@ -39,19 +39,19 @@
       getDetail () {
         this.id = this.$route.params.id
         market.getCmsDetail(this.id, res => {
-          
+
           if (this.getLang === 'zh-CN') {
             this.data = res.bodyCn
             this.title = res.titleCn
             this.small = new Date(res.updatedAt).format()
-            console.log('1')
+            //console.log('1')
           } else {
             this.data = res.bodyEn
             this.title = res.titleEn
             this.small = new Date(res.updatedAt).format()
-            console.log('2')
+            //console.log('2')
           }
-          console.log(this.title,this.small)
+          //console.log(this.title,this.small)
         })
       }
     }
@@ -78,6 +78,15 @@
       text-align: center;
       display: block;
       padding: 10px;
+    }
+    ul{
+      list-style-type: initial;
+    }
+    ol{
+      list-style-type: decimal;
+    }
+    a{
+      color: #00B5FF;
     }
   }
 </style>

@@ -42,7 +42,7 @@ import Config from './config'
     }
     let ws = new WebSocket(url)
     ws.onopen = function () {
-      console.log(`open websocket:${port}`)
+      //console.log(`open websocket:${port}`)
       this.send(1)
       sendMessage()
       if (opts.type === 'global') {
@@ -63,7 +63,7 @@ import Config from './config'
         }
         if (res.dataType === 'LastNetwork') {
           let interval = Date.now() - curTime
-          console.log(`网络监测：${interval}`)
+          //console.log(`网络监测：${interval}`)
           let minMS = 200
           let maxMS = 400
           if (interval < minMS) {
@@ -84,7 +84,7 @@ import Config from './config'
       }
     }
     ws.onclose = function () {
-      console.log(`close websocket:${port}`)
+      //console.log(`close websocket:${port}`)
       typeof opts.onClose === 'function' && opts.onClose()
       setTimeout(function () {
         if (isLeavePage) {
@@ -94,7 +94,7 @@ import Config from './config'
       }, 3000)
     }
     ws.onerror = function () {
-      console.log(`error websocket:${port}`)
+      //console.log(`error websocket:${port}`)
     }
     return ws
   }

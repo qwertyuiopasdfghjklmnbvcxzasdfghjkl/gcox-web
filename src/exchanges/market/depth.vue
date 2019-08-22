@@ -161,7 +161,7 @@ export default {
       // 获取深度信息
       marketApi.getDepths(this.symbol, (res) => {
         if (tempSymbol !== this.symbol) {
-          console.log(`depth-symbol不匹配${tempSymbol}-${this.symbol}`)
+          //console.log(`depth-symbol不匹配${tempSymbol}-${this.symbol}`)
           return
         }
         this.asks = res.asks //  卖
