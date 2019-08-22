@@ -83,7 +83,7 @@
     watch: {},
     created () {
       this.getList()
-      console.log(this.getLang)
+      //console.log(this.getLang)
     },
     beforeDestroy () {
 

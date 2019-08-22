@@ -390,7 +390,7 @@ export default {
             }
             this.formData[i] = res[i]
           }
-          console.log(this.formData)
+          //console.log(this.formData)
           this.formData.ad_type = res.ad_type
           this.formData.bench_marking_id = parseInt(res.bench_marking_id)
           this.formData.symbol_count = utils.removeEndZero(numUtils.BN(res.symbol_count).toFixed(5))

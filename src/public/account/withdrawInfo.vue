@@ -198,7 +198,7 @@
       let item = this.$route.params.item
       this.allData = this.$route.params.allData
       if (!item || item === 'undefined') {
-        console.log('error')
+        //console.log('error')
         this.$router.push({
           name: 'account_menu',
           params: {
@@ -214,7 +214,7 @@
         this.procedure = item.procedure
         this.minWithdraw = item.minWithdraw
       }
-      console.log(this.allData)
+      //console.log(this.allData)
       this.getUserState()
       Validator.extend('isLessMin', {
         getMessage: (field, args) => this.$t('account.user_minimum_number_of_cash').format(`${this.minWithdraw}`),

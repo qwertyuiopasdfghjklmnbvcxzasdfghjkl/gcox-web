@@ -13,11 +13,11 @@ import '@/components/confirm'
 import '@/components/ajaxLoading'
 import '@/components/messageTipBox'
 import '@/assets/js/vee-validate'
-import '../node_modules/hopscotch/dist/css/hopscotch.min.css'
+import 'hopscotch/dist/css/hopscotch.min.css'
 import 'vtip/lib/index.min.css'
 import '@/assets/css/style.css'
 import '@/assets/css/mian.css'
-import 'swiper/dist/css/swiper.css'
+import '@/assets/css/swiper.min.css'
 import langApi from '@/api/language'
 
 import ECharts from 'vue-echarts/components/ECharts.vue'
@@ -30,6 +30,14 @@ import 'echarts/lib/component/title.js'
 import loading from '@/components/loading'
 
 import VueClipboard from 'vue-clipboard2'
+
+import * as Sentry from '@sentry/browser'
+import * as Integrations from '@sentry/integrations'
+
+Sentry.init({
+  dsn: 'https://0502e238d6194626b8c23f27dff83ba9@sentry.io/1538112',
+  integrations: [new Integrations.Vue({Vue, attachProps: true})],
+});
 
 Vue.use(VeeValidate)
 Vue.use(VueI18n)

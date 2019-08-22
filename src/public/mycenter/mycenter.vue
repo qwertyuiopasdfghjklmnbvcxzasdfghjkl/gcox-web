@@ -105,7 +105,7 @@
       }
     },
     created () {
-      console.log(this.getUserInfo)
+      //console.log(this.getUserInfo)
       this.userInfo = this.getUserInfo
       setTimeout(() => {
         this.examine()

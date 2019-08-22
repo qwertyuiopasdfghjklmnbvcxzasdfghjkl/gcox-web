@@ -67,7 +67,7 @@
       let symbol = this.$route.params.symbol
       this.symbol = symbol || 'ETH'
       this.getListAccount()
-      console.log(this.addr, this.symbol)
+      //console.log(this.addr, this.symbol)
       this.$nextTick(() => {
         utils.qrcode(this.$refs.qrcode, {
           text: this.addr,
@@ -78,7 +78,7 @@
     },
     methods: {
       icheck (item) {
-        console.log(item)
+        //console.log(item)
         this.addr = item.address
         this.symbol = item.symbol
       },
@@ -95,7 +95,7 @@
               if (next.symbol === this.symbol) {
                 this.addr = next.address
                 this.minWithdraw = next.minWithdraw
-                console.log(next)
+                //console.log(next)
               }
             }
             return next.type === 1

@@ -119,12 +119,12 @@ export default {
       market.getNearestTradeRecords(this.symbol, (res) => {
         this.showLoading = false
         if (tempSymbol !== this.symbol) {
-          console.log(`lastdeal-symbol不匹配${tempSymbol}-${this.symbol}`)
+          //console.log(`lastdeal-symbol不匹配${tempSymbol}-${this.symbol}`)
           return
         }
         this.datas = res
       }, (msg) => {
-        console.log(msg)
+        //console.log(msg)
         this.showLoading = false
       })
     },
