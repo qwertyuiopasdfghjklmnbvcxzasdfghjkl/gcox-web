@@ -101,7 +101,7 @@
           this.$i18n.locale = lang
           return
         }
-        console.log('change langugae')
+        //console.log('change langugae')
         langApi.getLanguage(lang, (res) => {
           this.$i18n.locale = lang
           this.$i18n.setLocaleMessage(lang, res)

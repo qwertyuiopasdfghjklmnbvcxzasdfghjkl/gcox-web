@@ -191,7 +191,7 @@ export default {
   watch: {
     'item.isExpire' (newVal) {
       if (newVal && this.item.pay_state === 0) {
-        console.log(`自动取消订单`)
+        //console.log(`自动取消订单`)
         // 由于您在规定时间内未标记确认付款，系统已经自动取消了您的订单！
         Vue.$confirmDialog({
           id: 'cancel_order_tip',

@@ -140,7 +140,7 @@ export default {
       period: null,
       callback: (res) => {
         if (res.symbol && res.symbol !== this.symbol) {
-          console.log(`市场数据不匹配...`)
+          //console.log(`市场数据不匹配...`)
           return
         }
         // K线图数据
@@ -207,7 +207,7 @@ export default {
             }
           })
         } else if (res.dataType === 'LastUserOrderBook') {
-          console.log('res.data==',res.data)
+          //console.log('res.data==',res.data)
           // 当前委托
           this.tiggerEvents({
             name: 'extrustEvent',
@@ -261,7 +261,7 @@ export default {
         symbol: this.symbol
       }, (res) => {
         if (tempSymbol !== this.symbol) {
-          console.log(`24h-symbol不匹配${tempSymbol}-${this.symbol}`)
+          //console.log(`24h-symbol不匹配${tempSymbol}-${this.symbol}`)
           return
         }
         // 24小时最新信息

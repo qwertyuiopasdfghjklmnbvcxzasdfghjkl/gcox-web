@@ -52,7 +52,7 @@
           size: this.size
         }
         market.getCmsList(data, (res, total) => {
-          console.log(res)
+          //console.log(res)
           this.list = res.filter(res => {
             if (res.state === 1) {
               return res

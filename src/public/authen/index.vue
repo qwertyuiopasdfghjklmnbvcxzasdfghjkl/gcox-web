@@ -50,7 +50,7 @@
     watch: {
       ...mapGetters(['getUserInfo']),
       getUserInfo () {
-        console.log(this.getUserInfo)
+        //console.log(this.getUserInfo)
       }
     },
     created () {

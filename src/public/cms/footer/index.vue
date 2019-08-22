@@ -43,12 +43,12 @@
     },
     watch: {
       '$route' () {
-        console.log(this.$route.params.type)
+        //console.log(this.$route.params.type)
         this.type = this.$route.params.type
       }
     },
     created () {
-      console.log(this.$route.params.type)
+      //console.log(this.$route.params.type)
       this.type = this.$route.params.type
     }
   }
