@@ -39,7 +39,7 @@
       getDetail () {
         this.id = this.$route.params.id
         market.getCmsDetail(this.id, res => {
-          
+
           if (this.getLang === 'zh-CN') {
             this.data = res.bodyCn
             this.title = res.titleCn
@@ -78,6 +78,15 @@
       text-align: center;
       display: block;
       padding: 10px;
+    }
+    ul{
+      list-style-type: initial;
+    }
+    ol{
+      list-style-type: decimal;
+    }
+    a{
+      color: #00B5FF;
     }
   }
 </style>
