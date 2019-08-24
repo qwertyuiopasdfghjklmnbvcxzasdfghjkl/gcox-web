@@ -34,10 +34,12 @@ import VueClipboard from 'vue-clipboard2'
 import * as Sentry from '@sentry/browser'
 import * as Integrations from '@sentry/integrations'
 
-Sentry.init({
-  dsn: 'https://0502e238d6194626b8c23f27dff83ba9@sentry.io/1538112',
-  integrations: [new Integrations.Vue({Vue, attachProps: true})],
-});
+if(process.env.NODE_ENV !== 'development'){
+  Sentry.init({
+    dsn: 'https://0502e238d6194626b8c23f27dff83ba9@sentry.io/1538112',
+    integrations: [new Integrations.Vue({Vue, attachProps: true})],
+  });
+}
 
 Vue.use(VeeValidate)
 Vue.use(VueI18n)
