@@ -2,55 +2,101 @@
   <div class="history-record">
     <p>{{$t('usercontent.user59')}}</p>
     <div class="history_nav">
-      <label :class="{active:show}" @click="show = true">{{$t('account.user_center_history_deposit')}}<!--充值记录--></label>
-      <label :class="{active:!show}" @click="show = false">{{$t('account.user_center_history_withdrawal')}}<!--提现记录--></label>
+      <label :class="{active:show==='deposit'}" @click="show = 'deposit'">{{$t('account.user_center_history_deposit')}}<!--充值记录--></label>
+      <label :class="{active:show==='withdrawal'}" @click="show = 'withdrawal'">{{$t('account.user_center_history_withdrawal')}}<!--提现记录--></label>
+      <label :class="{active:show==='staked'}" @click="show = 'staked'">{{$t('account.history_staked')}}<!--锁仓记录--></label>
+      <label :class="{active:show==='distributed'}" @click="show = 'distributed'">{{$t('account.history_distributed')}}<!--分发记录--></label>
     </div>
 
-    <div class="search mt10 ui-flex" v-show="show">
-      <div @click="rechargePanel.showToken=!rechargePanel.showToken">
-        <p>{{params.token!==''?params.token:$t('trade_record.trade_record_all')}} <i :class="[!rechargePanel.showToken?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
-        <ul v-show="rechargePanel.showToken">
+    <div class="search mt10 ui-flex" v-show="show==='deposit'">
+      <div @click="panel.showToken=!panel.showToken">
+        <p>{{params.token!==''?params.token:$t('trade_record.trade_record_all')}} <i :class="[!panel.showToken?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
+        <ul v-show="show==='deposit' && panel.showToken">
           <li v-for="item in tokens" @click="params.token=item">{{item!==''?item:$t('trade_record.trade_record_all')}}</li>
         </ul>
       </div>
-      <div @click="rechargePanel.showPeriod=!rechargePanel.showPeriod">
-        <p>{{params.period}} {{$t('exchange.exchange_day')}} <i :class="[!rechargePanel.showPeriod?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
-        <ul v-show="rechargePanel.showPeriod">
+      <div @click="panel.showPeriod=!panel.showPeriod">
+        <p>{{params.period}} {{$t('exchange.exchange_day')}} <i :class="[!panel.showPeriod?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
+        <ul v-show="show==='deposit' && panel.showPeriod">
           <li v-for="item in periods" @click="params.period=item">{{item}} {{$t('exchange.exchange_day')}}</li>
         </ul>
       </div>
       <span class="ml30">{{$t('exchange.exchange_status')}}</span>
-      <div @click="rechargePanel.showStatus=!rechargePanel.showStatus">
-        <p>{{getRechargeState(params.status).value}} <i :class="[!rechargePanel.showStatus?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
-        <ul v-show="rechargePanel.showStatus">
+      <div @click="panel.showStatus=!panel.showStatus">
+        <p>{{getRechargeState(params.status).value}} <i :class="[!panel.showStatus?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
+        <ul v-show="show==='deposit' && panel.showStatus">
           <li v-for="item in rechargeStatus" @click="params.status=item">{{getRechargeState(item).value}}</li>
         </ul>
       </div>
     </div>
 
-    <div class="search mt10 ui-flex" v-show="!show">
-      <div @click="withdrawalPanel.showToken=!withdrawalPanel.showToken">
-        <p>{{params2.token!==''?params2.token:$t('trade_record.trade_record_all')}} <i :class="[!withdrawalPanel.showToken?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
-        <ul v-show="withdrawalPanel.showToken">
+    <div class="search mt10 ui-flex" v-show="show==='withdrawal'">
+      <div @click="panel.showToken=!panel.showToken">
+        <p>{{params2.token!==''?params2.token:$t('trade_record.trade_record_all')}} <i :class="[!panel.showToken?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
+        <ul v-show="show==='withdrawal' && panel.showToken">
           <li v-for="item in tokens" @click="params2.token=item">{{item!==''?item:$t('trade_record.trade_record_all')}}</li>
         </ul>
       </div>
-      <div @click="withdrawalPanel.showPeriod=!withdrawalPanel.showPeriod">
-        <p>{{params2.period}} {{$t('exchange.exchange_day')}} <i :class="[!withdrawalPanel.showPeriod?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
-        <ul v-show="withdrawalPanel.showPeriod">
+      <div @click="panel.showPeriod=!panel.showPeriod">
+        <p>{{params2.period}} {{$t('exchange.exchange_day')}} <i :class="[!panel.showPeriod?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
+        <ul v-show="show==='withdrawal' && panel.showPeriod">
           <li v-for="item in periods" @click="params2.period=item">{{item}} {{$t('exchange.exchange_day')}}</li>
         </ul>
       </div>
       <span class="ml30">{{$t('exchange.exchange_status')}}</span>
-      <div @click="withdrawalPanel.showStatus=!withdrawalPanel.showStatus">
-        <p>{{getWithdrawalState(params2.status).value}} <i :class="[!withdrawalPanel.showStatus?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
-        <ul v-show="withdrawalPanel.showStatus">
+      <div @click="panel.showStatus=!panel.showStatus">
+        <p>{{getWithdrawalState(params2.status).value}} <i :class="[!panel.showStatus?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
+        <ul v-show="show==='withdrawal' && panel.showStatus">
           <li v-for="item in withdrawalStatus" @click="params2.status=item">{{getWithdrawalState(item).value}}</li>
         </ul>
       </div>
     </div>
 
-    <div class="recharge" v-if="show">
+    <div class="search mt10 ui-flex" v-show="show==='staked'">
+      <div @click="panel.showToken=!panel.showToken">
+        <p>{{params3.token!==''?params3.token:$t('trade_record.trade_record_all')}} <i :class="[!panel.showToken?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
+        <ul v-show="show==='staked' && panel.showToken">
+          <li v-for="item in tokens" @click="params3.token=item">{{item!==''?item:$t('trade_record.trade_record_all')}}</li>
+        </ul>
+      </div>
+      <div @click="panel.showPeriod=!panel.showPeriod">
+        <p>{{params3.period}} {{$t('exchange.exchange_day')}} <i :class="[!panel.showPeriod?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
+        <ul v-show="show==='staked' && panel.showPeriod">
+          <li v-for="item in periods" @click="params3.period=item">{{item}} {{$t('exchange.exchange_day')}}</li>
+        </ul>
+      </div>
+      <span class="ml30">{{$t('exchange.exchange_status')}}</span>
+      <div @click="panel.showStatus=!panel.showStatus">
+        <p>{{getStakedState(params3.status).value}} <i :class="[!panel.showStatus?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
+        <ul v-show="show==='staked' && panel.showStatus">
+          <li v-for="item in rechargeStatus" @click="params3.status=item">{{getStakedState(item).value}}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="search mt10 ui-flex" v-show="show==='distributed'">
+      <div @click="panel.showToken=!panel.showToken">
+        <p>{{params4.token!==''?params4.token:$t('trade_record.trade_record_all')}} <i :class="[!panel.showToken?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
+        <ul v-show="show==='distributed' && panel.showToken">
+          <li v-for="item in tokens" @click="params4.token=item">{{item!==''?item:$t('trade_record.trade_record_all')}}</li>
+        </ul>
+      </div>
+      <div @click="panel.showPeriod=!panel.showPeriod">
+        <p>{{params4.period}} {{$t('exchange.exchange_day')}} <i :class="[!panel.showPeriod?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
+        <ul v-show="show==='distributed' && panel.showPeriod">
+          <li v-for="item in periods" @click="params4.period=item">{{item}} {{$t('exchange.exchange_day')}}</li>
+        </ul>
+      </div>
+      <span class="ml30">{{$t('exchange.exchange_status')}}</span>
+      <div @click="panel.showStatus=!panel.showStatus">
+        <p>{{getDistributedState(params4.status).value}} <i :class="[!panel.showStatus?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
+        <ul v-show="show==='distributed' && panel.showStatus">
+          <li v-for="item in rechargeStatus" @click="params4.status=item">{{getDistributedState(item).value}}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="recharge" v-if="show==='deposit'">
       <ul class="header" v-if="!rechargeLoading && rechargeHistory.length > 0">
         <li>
           <span class="time">{{$t('account.user_center_history_receiveTime')}}<!--到账时间--></span>
@@ -81,7 +127,8 @@
       </div>
       <loading v-if="rechargeLoading"/>
     </div>
-    <div class="recharge withdrawal" v-else>
+
+    <div class="recharge withdrawal" v-show="show==='withdrawal'">
 
       <ul class="header" v-if="!withdrawalLoading && withdrawalHistory.length > 0">
         <li>
@@ -116,6 +163,68 @@
       </div>
       <loading v-if="withdrawalLoading"/>
     </div>
+
+    <div class="recharge withdrawal" v-show="show==='staked'">
+      <ul class="header" v-if="!stakedLoading && stakedHistory.length > 0">
+        <li>
+          <span class="time">{{$t('exchange.exchange_date')}}<!--时间--></span>
+          <span class="currency">{{$t('account.user_center_history_coin')}}<!--币种--></span>
+          <span class="quantity">{{$t('account.staking_amount')}}<!--锁仓数量--></span>
+          <span class="quantity">{{$t('account.staking_reward')}}<!--锁仓奖励--></span>
+          <span class="status">{{$t('account.user_center_history_status')}}<!--状态--></span>
+
+        </li>
+      </ul>
+
+      <ul v-if="!stakedLoading && stakedHistory.length > 0">
+        <li v-for="(item, index) in stakedHistory" :key="index">
+          <span class="time">{{item.updatedAt ? new Date(Number(item.updatedAt)).format() : '--'}}</span>
+          <span class="currency">{{item.symbol}}</span>
+          <span class="quantity">{{toFixed(item.amount) | removeEndZero}}</span>
+          <span class="quantity">{{toFixed(item.amount) | removeEndZero}}</span>
+          <span class="status" :class="getStakedState(item.status)['className']">{{getStakedState(item.status)['value']}}</span>
+
+        </li>
+      </ul>
+      <page v-if="!stakedLoading && stakedHistory.length > 0" :pageIndex="params3.page" :pageSize="params3.show"
+            :total="params3.total" @changePageIndex="pageChange3"/>
+      <div class="nodata" v-if="!stakedLoading && stakedHistory.length === 0">
+        <div class="nodata-icon icon-no-order"></div>
+        <div class="nodata-text">{{$t('account.nostaking_history')}}<!--暂无锁仓记录--></div>
+      </div>
+      <loading v-if="stakedLoading"/>
+    </div>
+
+    <div class="recharge withdrawal" v-show="show==='distributed'">
+      <ul class="header" v-if="!distributedLoading && distributedHistory.length > 0">
+        <li>
+          <span class="time">{{$t('exchange.exchange_date')}}<!--时间--></span>
+          <span class="currency">{{$t('account.user_center_history_coin')}}<!--币种--></span>
+          <span class="quantity">{{$t('account.distributed_amount')}}<!--分发数量--></span>
+          <span class="status">{{$t('account.user_center_history_status')}}<!--状态--></span>
+          <span class="note">{{$t('account.user_center_history_note')}}<!--备注--></span>
+
+        </li>
+      </ul>
+
+      <ul v-if="!distributedLoading && distributedHistory.length > 0">
+        <li v-for="(item, index) in distributedHistory" :key="index">
+          <span class="time">{{item.updatedAt ? new Date(Number(item.updatedAt)).format() : '--'}}</span>
+          <span class="currency">{{item.symbol}}</span>
+          <span class="quantity">{{toFixed(item.amount) | removeEndZero}}</span>
+          <span class="status" :class="getDistributedState(item.status)['className']">{{getDistributedState(item.status)['value']}}</span>
+          <span class="note">{{item.note}}</span>
+
+        </li>
+      </ul>
+      <page v-if="!distributedLoading && distributedHistory.length > 0" :pageIndex="params4.page" :pageSize="params4.show"
+            :total="params4.total" @changePageIndex="pageChange4"/>
+      <div class="nodata" v-if="!distributedLoading && distributedHistory.length === 0">
+        <div class="nodata-icon icon-no-order"></div>
+        <div class="nodata-text">{{$t('account.nodistributed_history')}}<!--暂无分发记录--></div>
+      </div>
+      <loading v-if="distributedLoading"/>
+    </div>
   </div>
 </template>
 
@@ -133,7 +242,7 @@
     },
     data () {
       return {
-        show: true,
+        show: 'deposit',
         params: {
           page: 1,
           show: 10,
@@ -150,24 +259,39 @@
           period:7,
           status:''
         },
+        params3: {
+          page: 1,
+          show: 6,
+          total: 0,
+          token:'',
+          period:7,
+          status:''
+        },
+        params4: {
+          page: 1,
+          show: 6,
+          total: 0,
+          token:'',
+          period:7,
+          status:''
+        },
         rechargeHistory: [],
         withdrawalHistory: [],
+        stakedHistory: [],
+        distributedHistory: [],
         rechargeLoading: true,
-        withdrawalLoading: true,
+        withdrawalLoading: false,
+        stakedLoading: false,
+        distributedLoading: false,
         tokens:[],
         periods:[7,30,180],
         rechargeStatus:['', 1, 2],
         withdrawalStatus:['', 1, 2, 4, 5, 6],
-        rechargePanel:{
-          showToken:false,
-          showPeriod:false,
-          showStatus:false,
-        },
-        withdrawalPanel:{
+        panel:{
           showToken:false,
           showPeriod:false,
           showStatus:false
-        },
+        }
       }
     },
     computed: {
@@ -190,51 +314,56 @@
           time: this.params2.period+'days',
           status: this.params2.status
         }
+      },
+      params3Change () {
+        return {
+          page: this.params3.page,
+          pageSize: this.params3.show,
+          symbol: this.params3.token,
+          time: this.params3.period+'days',
+          status: this.params3.status
+        }
+      },
+      params4Change () {
+        return {
+          page: this.params4.page,
+          pageSize: this.params4.show,
+          symbol: this.params4.token,
+          time: this.params4.period+'days',
+          status: this.params4.status
+        }
       }
     },
     watch: {
-      show(){
-        this.rechargePanel.showToken = false
-        this.rechargePanel.showPeriod = false
-        this.rechargePanel.showStatus = false
-        this.withdrawalPanel.showToken = false
-        this.withdrawalPanel.showPeriod = false
-        this.withdrawalPanel.showStatus = false
+      show(_new){
+          this.panel.showToken = false
+          this.panel.showPeriod = false
+          this.panel.showStatus = false
+          switch (_new){
+            case 'deposit':
+            this.rechargeHistory.length===0 && this.getListDepositHistory()
+            break
+            case 'withdrawal':
+            this.withdrawalHistory.length===0 && this.getListWithdrawHistory()
+            break
+          }
       },
-      'rechargePanel.showToken'(_new){
+      'panel.showToken'(_new){
         if (_new) {
-          this.rechargePanel.showPeriod = false
-          this.rechargePanel.showStatus = false
+          this.panel.showPeriod = false
+          this.panel.showStatus = false
         }
       },
-      'rechargePanel.showPeriod'(_new){
+      'panel.showPeriod'(_new){
         if (_new) {
-          this.rechargePanel.showToken = false
-          this.rechargePanel.showStatus = false
+          this.panel.showToken = false
+          this.panel.showStatus = false
         }
       },
-      'rechargePanel.showStatus'(_new){
+      'panel.showStatus'(_new){
         if (_new) {
-          this.rechargePanel.showToken = false
-          this.rechargePanel.showPeriod = false
-        }
-      },
-      'withdrawalPanel.showToken'(_new){
-        if (_new) {
-          this.withdrawalPanel.showPeriod = false
-          this.withdrawalPanel.showStatus = false
-        }
-      },
-      'withdrawalPanel.showPeriod'(_new){
-        if (_new) {
-          this.withdrawalPanel.showToken = false
-          this.withdrawalPanel.showStatus = false
-        }
-      },
-      'withdrawalPanel.showStatus'(_new){
-        if (_new) {
-          this.withdrawalPanel.showToken = false
-          this.withdrawalPanel.showPeriod = false
+          this.panel.showToken = false
+          this.panel.showPeriod = false
         }
       },
       paramsChange () {
@@ -242,12 +371,17 @@
       },
       params2Change () {
         this.getListWithdrawHistory()
+      },
+      params3Change () {
+        this.getListWithdrawHistory()
+      },
+      params4Change () {
+        this.getListWithdrawHistory()
       }
     },
     created () {
       this.getAssets()
       this.getListDepositHistory()
-      this.getListWithdrawHistory()
     },
     methods: {
       getAssets(){
@@ -337,11 +471,53 @@
             }
         }
       },
+      getStakedState (state) { // 获取锁仓状态
+        if (state === 1) {
+          return {
+            className: 'fail',
+            value: this.$t('account.user_center_history_status_fail') // 失败
+          }
+        } else if (state === 2) {
+          return {
+            className: 'success',
+            value: this.$t('account.user_center_history_status_success') // 成功
+          }
+        } else {
+          return {
+            className: null,
+            value: this.$t('trade_record.trade_record_all') // 全部
+          }
+        }
+      },
+      getDistributedState (state) { // 获取分发状态
+        if (state === 1) {
+          return {
+            className: 'fail',
+            value: this.$t('account.user_center_history_status_unissued') // 未发放
+          }
+        } else if (state === 2) {
+          return {
+            className: 'success',
+            value: this.$t('account.user_center_history_status_issued') // 已发放
+          }
+        } else {
+          return {
+            className: null,
+            value: this.$t('trade_record.trade_record_all') // 全部
+          }
+        }
+      },
       pageChange (currentIndex) {
         this.params.page = currentIndex
       },
       pageChange2 (currentIndex) {
         this.params2.page = currentIndex
+      },
+      pageChange3 (currentIndex) {
+        this.params3.page = currentIndex
+      },
+      pageChange4 (currentIndex) {
+        this.params4.page = currentIndex
       },
       toFixed (v1) {
         return numUtils.BN(v1).toFixed(8)
@@ -378,9 +554,6 @@
     }
   }
   .recharge, .withdrawal {
-    /*background-color: #FFF;*/
-    /*border-radius: 4px;*/
-    /*box-shadow: 0 1px 3px #e2e2e2;*/
     margin-top: 20px;
   }
 
@@ -482,11 +655,6 @@
   .recharge ul li span.status.success {
     color: #6FD477;
   }
-
-  .withdrawal {
-    margin-top: 8px;
-  }
-
 
   .nodata {
     text-align: center;
