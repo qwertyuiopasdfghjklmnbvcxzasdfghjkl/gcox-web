@@ -7,6 +7,24 @@ let domain = ''
 let wallet = {}
 
 // 锁仓接口
+const findStakingRecords = function (data, success, error) {
+  api.post(`${domain}api/v2/account2/findMinerRecords/${data.pageSize}/${data.page}`, {
+    minerRecordDTO:{
+      symbol:data.symbol,
+      time:data.time,
+      status:data.status
+    }
+  }, (res) => {
+    if (res.rst === 1) {
+      success && success(res.total, res.data)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+wallet.findStakingRecords = findStakingRecords
+
+// 锁仓接口
 const postStake = function (data, success, error) {
   api.post(`${domain}api/v2/account2/stake`, data, (res) => {
     if (res.rst === 1) {
