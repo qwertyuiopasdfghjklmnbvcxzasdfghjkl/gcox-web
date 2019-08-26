@@ -69,7 +69,7 @@
       <div @click="panel.showStatus=!panel.showStatus">
         <p>{{getStakedState(params3.status).value}} <i :class="[!panel.showStatus?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
         <ul v-show="show==='staked' && panel.showStatus">
-          <li v-for="item in rechargeStatus" @click="params3.status=item">{{getStakedState(item).value}}</li>
+          <li v-for="item in stakedStatus" @click="params3.status=item">{{getStakedState(item).value}}</li>
         </ul>
       </div>
     </div>
@@ -287,6 +287,7 @@
         periods:[7,30,180],
         rechargeStatus:['', 1, 2],
         withdrawalStatus:['', 1, 2, 4, 5, 6],
+        stakedStatus:['', 1, -2],
         panel:{
           showToken:false,
           showPeriod:false,
@@ -346,6 +347,9 @@
             case 'withdrawal':
             this.withdrawalHistory.length===0 && this.getListWithdrawHistory()
             break
+            case 'staked':
+            this.stakedHistory.length===0 && this.findStakingRecords()
+            break
           }
       },
       'panel.showToken'(_new){
@@ -373,7 +377,7 @@
         this.getListWithdrawHistory()
       },
       params3Change () {
-        this.getListWithdrawHistory()
+        this.findStakingRecords()
       },
       params4Change () {
         this.getListWithdrawHistory()
@@ -414,6 +418,18 @@
           this.withdrawalLoading = false
         }, (msg) => {
           this.withdrawalLoading = false
+          console.error(msg)
+          Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
+        })
+      },
+      findStakingRecords () { // 获取锁仓记录
+        this.stakedLoading = true
+        userUtils.findStakingRecords(this.params3Change, (total, data) => {
+          this.stakedHistory = data
+          this.params3.total = total
+          this.stakedLoading = false
+        }, (msg) => {
+          this.stakedLoading = false
           console.error(msg)
           Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
         })
@@ -472,12 +488,12 @@
         }
       },
       getStakedState (state) { // 获取锁仓状态
-        if (state === 1) {
+        if (state === -2) {
           return {
             className: 'fail',
             value: this.$t('account.user_center_history_status_fail') // 失败
           }
-        } else if (state === 2) {
+        } else if (state === 1) {
           return {
             className: 'success',
             value: this.$t('account.user_center_history_status_success') // 成功
