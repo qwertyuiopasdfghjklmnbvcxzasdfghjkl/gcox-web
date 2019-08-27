@@ -13,6 +13,7 @@
           {{$t('exchange.exchange_valuation')}}：<!--总当前估值：-->
           <span>{{String(getBTCValuation).toMoney()}} BTC</span>
           <!--≈ {{getCoinSign}} {{USDCNY}}-->
+          <progress-bar></progress-bar>
         </div>
         <div class="balance_search" v-if="pandectShow">
 
@@ -189,6 +190,7 @@
   import moreinfo from '@/public/account/moreinfo'
   import stakeDialog from '@/public/account/stakeDialog'
   import loading from '@/components/loading'
+  import ProgressBar from './progress-bar'
 
   export default {
     props: ['pandect'],
@@ -262,6 +264,7 @@
       }
     },
     components: {
+      ProgressBar,
       moreinfo,
       loading
     },
@@ -462,6 +465,7 @@
     align-items: baseline;
     border-bottom: 1px solid #312e45;
     padding: 10px 0 20px 0;
+    position: relative;
 
     span {
       font-size: 20px;

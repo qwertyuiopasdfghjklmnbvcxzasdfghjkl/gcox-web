@@ -24,6 +24,18 @@ const findStakingRecords = function (data, success, error) {
 }
 wallet.findStakingRecords = findStakingRecords
 
+// 分发记录
+const findDistributedHistory = function (data, success, error) {
+  api.post(`${domain}api/v2/account/showHistory`, data, (res) => {
+    if (res.rst === 1) {
+      success && success(res.total, res.data)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+wallet.findDistributedHistory = findDistributedHistory
+
 // 锁仓接口
 const postStake = function (data, success, error) {
   api.post(`${domain}api/v2/account2/stake`, data, (res) => {

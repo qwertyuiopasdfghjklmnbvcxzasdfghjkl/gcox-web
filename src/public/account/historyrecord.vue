@@ -331,7 +331,8 @@
           pageSize: this.params4.show,
           symbol: this.params4.token,
           time: this.params4.period+'days',
-          status: this.params4.status
+          status: this.params4.status,
+          direction:6
         }
       }
     },
@@ -349,6 +350,9 @@
             break
             case 'staked':
             this.stakedHistory.length===0 && this.findStakingRecords()
+            break
+            case 'distributed':
+            this.distributedHistory.length===0 && this.findDistributedHistory()
             break
           }
       },
@@ -380,7 +384,7 @@
         this.findStakingRecords()
       },
       params4Change () {
-        this.getListWithdrawHistory()
+        this.findDistributedHistory()
       }
     },
     created () {
@@ -427,6 +431,18 @@
         userUtils.findStakingRecords(this.params3Change, (total, data) => {
           this.stakedHistory = data
           this.params3.total = total
+          this.stakedLoading = false
+        }, (msg) => {
+          this.stakedLoading = false
+          console.error(msg)
+          Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
+        })
+      },
+      findDistributedHistory () { // 获取分发记录
+        this.stakedLoading = true
+        userUtils.findDistributedHistory(this.params4Change, (total, data) => {
+          this.distributedHistory = data
+          this.params4.total = total
           this.stakedLoading = false
         }, (msg) => {
           this.stakedLoading = false
@@ -692,7 +708,7 @@
 
 .search {
   > span {line-height: 24px;}
-  > div { 
+  > div {
       line-height: 25px;
       position: relative;
       &+div {margin-left: 30px;}
