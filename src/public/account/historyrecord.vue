@@ -181,7 +181,7 @@
           <span class="time">{{item.createAt ? new Date(Number(item.createAt)).format() : '--'}}</span>
           <span class="currency">{{item.symbol}}</span>
           <span class="quantity">{{toFixed(item.amount) | removeEndZero}}</span>
-          <span class="quantity">{{toFixed(item.rewardAmount) | removeEndZero}}</span>
+          <span class="quantity">{{toFixed(item.amount) | removeEndZero}}</span>
           <span class="status" :class="getStakedState(item.status)['className']">{{getStakedState(item.status)['value']}}</span>
 
         </li>
