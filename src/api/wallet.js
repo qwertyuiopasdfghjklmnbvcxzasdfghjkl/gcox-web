@@ -6,6 +6,46 @@ import api from '@/api'
 let domain = ''
 let wallet = {}
 
+// 额外解锁的进度
+const getUnlockSchedule = function (success, error) {
+  api.get(`${domain}api/v2/account2/unlockSchedule`, (res) => {
+    if (res.rst === 1) {
+      success && success(res)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+wallet.getUnlockSchedule = getUnlockSchedule
+
+// 锁仓接口
+const findStakingRecords = function (data, success, error) {
+  api.post(`${domain}api/v2/account2/findMinerRecords/${data.pageSize}/${data.page}`, {
+    symbol:data.symbol,
+    time:data.time,
+    status:data.status
+  }, (res) => {
+    if (res.rst === 1) {
+      success && success(res.total, res.data)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+wallet.findStakingRecords = findStakingRecords
+
+// 分发记录
+const findDistributedHistory = function (data, success, error) {
+  api.post(`${domain}api/v2/account/showHistory`, data, (res) => {
+    if (res.rst === 1) {
+      success && success(res.total, res.data)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+wallet.findDistributedHistory = findDistributedHistory
+
 // 锁仓接口
 const postStake = function (data, success, error) {
   api.post(`${domain}api/v2/account2/stake`, data, (res) => {

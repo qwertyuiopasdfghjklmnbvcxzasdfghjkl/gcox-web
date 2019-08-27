@@ -69,7 +69,7 @@
       <div @click="panel.showStatus=!panel.showStatus">
         <p>{{getStakedState(params3.status).value}} <i :class="[!panel.showStatus?'icon-arrow-down2':'icon-arrow-up3']"></i></p>
         <ul v-show="show==='staked' && panel.showStatus">
-          <li v-for="item in rechargeStatus" @click="params3.status=item">{{getStakedState(item).value}}</li>
+          <li v-for="item in stakedStatus" @click="params3.status=item">{{getStakedState(item).value}}</li>
         </ul>
       </div>
     </div>
@@ -178,7 +178,7 @@
 
       <ul v-if="!stakedLoading && stakedHistory.length > 0">
         <li v-for="(item, index) in stakedHistory" :key="index">
-          <span class="time">{{item.updatedAt ? new Date(Number(item.updatedAt)).format() : '--'}}</span>
+          <span class="time">{{item.createAt ? new Date(Number(item.createAt)).format() : '--'}}</span>
           <span class="currency">{{item.symbol}}</span>
           <span class="quantity">{{toFixed(item.amount) | removeEndZero}}</span>
           <span class="quantity">{{toFixed(item.amount) | removeEndZero}}</span>
@@ -209,11 +209,11 @@
 
       <ul v-if="!distributedLoading && distributedHistory.length > 0">
         <li v-for="(item, index) in distributedHistory" :key="index">
-          <span class="time">{{item.updatedAt ? new Date(Number(item.updatedAt)).format() : '--'}}</span>
+          <span class="time">{{item.createdAt ? new Date(Number(item.createdAt)).format() : '--'}}</span>
           <span class="currency">{{item.symbol}}</span>
-          <span class="quantity">{{toFixed(item.amount) | removeEndZero}}</span>
+          <span class="quantity">{{toFixed(item.quantity) | removeEndZero}}</span>
           <span class="status" :class="getDistributedState(item.status)['className']">{{getDistributedState(item.status)['value']}}</span>
-          <span class="note">{{item.note}}</span>
+          <span class="note">{{getLockType(item.lockType)}}&nbsp;</span>
 
         </li>
       </ul>
@@ -287,6 +287,7 @@
         periods:[7,30,180],
         rechargeStatus:['', 1, 2],
         withdrawalStatus:['', 1, 2, 4, 5, 6],
+        stakedStatus:['', 0, -2],
         panel:{
           showToken:false,
           showPeriod:false,
@@ -330,7 +331,8 @@
           pageSize: this.params4.show,
           symbol: this.params4.token,
           time: this.params4.period+'days',
-          status: this.params4.status
+          status: this.params4.status,
+          direction:6
         }
       }
     },
@@ -345,6 +347,12 @@
             break
             case 'withdrawal':
             this.withdrawalHistory.length===0 && this.getListWithdrawHistory()
+            break
+            case 'staked':
+            this.stakedHistory.length===0 && this.findStakingRecords()
+            break
+            case 'distributed':
+            this.distributedHistory.length===0 && this.findDistributedHistory()
             break
           }
       },
@@ -373,10 +381,10 @@
         this.getListWithdrawHistory()
       },
       params3Change () {
-        this.getListWithdrawHistory()
+        this.findStakingRecords()
       },
       params4Change () {
-        this.getListWithdrawHistory()
+        this.findDistributedHistory()
       }
     },
     created () {
@@ -384,6 +392,27 @@
       this.getListDepositHistory()
     },
     methods: {
+      getLockType(type){
+        let rst = ''
+        switch(type){
+          case 1:
+          rst = this.$t('account.lock_type_user')
+          break
+          case 2:
+          rst = this.$t('account.lock_type_sys_reward')
+          break
+          case 3:
+          rst = this.$t('account.lock_type_reg_reward')
+          break
+          case 4:
+          rst = this.$t('account.lock_type_ref_reward')
+          break
+          case 5:
+          rst = this.$t('account.lock_type_ref_user_reward')
+          break
+        }
+        return rst
+      },
       getAssets(){
         userUtils.myAssets({}, (data) => {
           data = data.filter(item=>{return item.type===1})
@@ -414,6 +443,30 @@
           this.withdrawalLoading = false
         }, (msg) => {
           this.withdrawalLoading = false
+          console.error(msg)
+          Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
+        })
+      },
+      findStakingRecords () { // 获取锁仓记录
+        this.stakedLoading = true
+        userUtils.findStakingRecords(this.params3Change, (total, data) => {
+          this.stakedHistory = data
+          this.params3.total = total
+          this.stakedLoading = false
+        }, (msg) => {
+          this.stakedLoading = false
+          console.error(msg)
+          Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
+        })
+      },
+      findDistributedHistory () { // 获取分发记录
+        this.stakedLoading = true
+        userUtils.findDistributedHistory(this.params4Change, (total, data) => {
+          this.distributedHistory = data
+          this.params4.total = total
+          this.stakedLoading = false
+        }, (msg) => {
+          this.stakedLoading = false
           console.error(msg)
           Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
         })
@@ -472,12 +525,12 @@
         }
       },
       getStakedState (state) { // 获取锁仓状态
-        if (state === 1) {
+        if (state === -1 || state === -2) {
           return {
             className: 'fail',
             value: this.$t('account.user_center_history_status_fail') // 失败
           }
-        } else if (state === 2) {
+        } else if (state === 1 || state === 0) {
           return {
             className: 'success',
             value: this.$t('account.user_center_history_status_success') // 成功
@@ -490,12 +543,17 @@
         }
       },
       getDistributedState (state) { // 获取分发状态
-        if (state === 1) {
+        if (state === 2 || state === -1) {
           return {
             className: 'fail',
             value: this.$t('account.user_center_history_status_unissued') // 未发放
           }
-        } else if (state === 2) {
+        } else if (state === 0) {
+          return {
+            className: 'success',
+            value: this.$t('account.user_center_history_status_issuing') // 发放中
+          }
+        } else if (state === 1) {
           return {
             className: 'success',
             value: this.$t('account.user_center_history_status_issued') // 已发放
@@ -676,7 +734,7 @@
 
 .search {
   > span {line-height: 24px;}
-  > div { 
+  > div {
       line-height: 25px;
       position: relative;
       &+div {margin-left: 30px;}

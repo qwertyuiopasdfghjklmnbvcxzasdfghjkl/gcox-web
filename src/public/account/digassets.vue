@@ -9,10 +9,13 @@
     </h3>
     <div class="hcontainer">
       <div class="chargeWithdraw" v-if="!showLoaing">
-        <div class="total">
+        <div class="total ui-flex-justify">
+          <p>
           {{$t('exchange.exchange_valuation')}}：<!--总当前估值：-->
           <span>{{String(getBTCValuation).toMoney()}} BTC</span>
+          </p>
           <!--≈ {{getCoinSign}} {{USDCNY}}-->
+          <progress-bar></progress-bar>
         </div>
         <div class="balance_search" v-if="pandectShow">
 
@@ -87,7 +90,9 @@
             <ul class="accountInfo-lists" :class="{pandect:pandectShow}">
               <li v-for="(data, index) in filterDatas()" :key="data.accountId">
                 <div class="items">
-                  <div class="coin ">{{data.symbol}}</div>
+                  <div class="coin ">{{data.symbol}} <i class="icon-notification rp pointer" style="color: #ff3333;" v-if="data.symbol==='ACM'"><span class="acmtip f-c-white">
+                    {{$t('account.enable_sell_balance')}}<!-- Enable sell balance --><br>{{toFixed(data.enableSellBalance)}}
+                  </span></i></div>
                   <div class="f-right " :title="toFixed(data.totalBalance)|removeEndZero" v-if="pandectShow">{{toFixed(data.totalBalance)|removeEndZero}}</div>
                   <div class="f-right " :title="toFixed(numUtils.add(data.totalBalance, getStakeBalance(data.accountName)))|removeEndZero" v-else>{{toFixed(numUtils.add(data.totalBalance, getStakeBalance(data.accountName)))|removeEndZero}}</div>
                   <div class="f-right " :title="toFixed(data.availableBalance)|removeEndZero">{{toFixed(data.availableBalance)|removeEndZero}}</div>
@@ -189,6 +194,7 @@
   import moreinfo from '@/public/account/moreinfo'
   import stakeDialog from '@/public/account/stakeDialog'
   import loading from '@/components/loading'
+  import ProgressBar from './progress-bar'
 
   export default {
     props: ['pandect'],
@@ -262,6 +268,7 @@
       }
     },
     components: {
+      ProgressBar,
       moreinfo,
       loading
     },
@@ -462,6 +469,7 @@
     align-items: baseline;
     border-bottom: 1px solid #312e45;
     padding: 10px 0 20px 0;
+    position: relative;
 
     span {
       font-size: 20px;
@@ -648,7 +656,6 @@
   }
 
   .accountInfo-lists li .items {
-    overflow: hidden;
     min-height: 40px;
     display: flex;
   }
@@ -715,6 +722,7 @@
 
   .accountInfo-lists li .items > div.coin {
     /*flex: 1;*/
+    overflow: visible;
     text-align: left;
     width: 80px;
   }
@@ -814,6 +822,7 @@
       height: 300px;
     }
   }
-
+.acmtip {position: absolute; left: 0; top: 20px; width: 150px; padding: 5px 15px; border-radius: 4px; background-color: #615f5f; line-height: 1.7; display: none;}
+i:hover .acmtip {display: block;}
 </style>
 
