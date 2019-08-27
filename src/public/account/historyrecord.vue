@@ -178,10 +178,10 @@
 
       <ul v-if="!stakedLoading && stakedHistory.length > 0">
         <li v-for="(item, index) in stakedHistory" :key="index">
-          <span class="time">{{item.updatedAt ? new Date(Number(item.updatedAt)).format() : '--'}}</span>
+          <span class="time">{{item.createAt ? new Date(Number(item.createAt)).format() : '--'}}</span>
           <span class="currency">{{item.symbol}}</span>
           <span class="quantity">{{toFixed(item.amount) | removeEndZero}}</span>
-          <span class="quantity">{{toFixed(item.amount) | removeEndZero}}</span>
+          <span class="quantity">{{toFixed(item.rewardAmount) | removeEndZero}}</span>
           <span class="status" :class="getStakedState(item.status)['className']">{{getStakedState(item.status)['value']}}</span>
 
         </li>
@@ -209,11 +209,11 @@
 
       <ul v-if="!distributedLoading && distributedHistory.length > 0">
         <li v-for="(item, index) in distributedHistory" :key="index">
-          <span class="time">{{item.updatedAt ? new Date(Number(item.updatedAt)).format() : '--'}}</span>
+          <span class="time">{{item.createdAt ? new Date(Number(item.createdAt)).format() : '--'}}</span>
           <span class="currency">{{item.symbol}}</span>
-          <span class="quantity">{{toFixed(item.amount) | removeEndZero}}</span>
+          <span class="quantity">{{toFixed(item.quantity) | removeEndZero}}</span>
           <span class="status" :class="getDistributedState(item.status)['className']">{{getDistributedState(item.status)['value']}}</span>
-          <span class="note">{{item.note}}</span>
+          <span class="note">{{getLockType(item.lockType)}}&nbsp;</span>
 
         </li>
       </ul>
@@ -287,7 +287,7 @@
         periods:[7,30,180],
         rechargeStatus:['', 1, 2],
         withdrawalStatus:['', 1, 2, 4, 5, 6],
-        stakedStatus:['', 1, -2],
+        stakedStatus:['', 0, -2],
         panel:{
           showToken:false,
           showPeriod:false,
@@ -392,6 +392,27 @@
       this.getListDepositHistory()
     },
     methods: {
+      getLockType(type){
+        let rst = ''
+        switch(type){
+          case 1:
+          rst = this.$t('account.lock_type_user')
+          break
+          case 2:
+          rst = this.$t('account.lock_type_sys_reward')
+          break
+          case 3:
+          rst = this.$t('account.lock_type_reg_reward')
+          break
+          case 4:
+          rst = this.$t('account.lock_type_ref_reward')
+          break
+          case 5:
+          rst = this.$t('account.lock_type_ref_user_reward')
+          break
+        }
+        return rst
+      },
       getAssets(){
         userUtils.myAssets({}, (data) => {
           data = data.filter(item=>{return item.type===1})
@@ -504,12 +525,12 @@
         }
       },
       getStakedState (state) { // 获取锁仓状态
-        if (state === -2) {
+        if (state === -1 || state === -2) {
           return {
             className: 'fail',
             value: this.$t('account.user_center_history_status_fail') // 失败
           }
-        } else if (state === 1) {
+        } else if (state === 1 || state === 0) {
           return {
             className: 'success',
             value: this.$t('account.user_center_history_status_success') // 成功
@@ -522,12 +543,17 @@
         }
       },
       getDistributedState (state) { // 获取分发状态
-        if (state === 1) {
+        if (state === 2 || state === -1) {
           return {
             className: 'fail',
             value: this.$t('account.user_center_history_status_unissued') // 未发放
           }
-        } else if (state === 2) {
+        } else if (state === 0) {
+          return {
+            className: 'success',
+            value: this.$t('account.user_center_history_status_issuing') // 发放中
+          }
+        } else if (state === 1) {
           return {
             className: 'success',
             value: this.$t('account.user_center_history_status_issued') // 已发放

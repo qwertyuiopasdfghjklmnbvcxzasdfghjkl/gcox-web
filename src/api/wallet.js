@@ -9,11 +9,9 @@ let wallet = {}
 // 锁仓接口
 const findStakingRecords = function (data, success, error) {
   api.post(`${domain}api/v2/account2/findMinerRecords/${data.pageSize}/${data.page}`, {
-    minerRecordDTO:{
-      symbol:data.symbol,
-      time:data.time,
-      status:data.status
-    }
+    symbol:data.symbol,
+    time:data.time,
+    status:data.status
   }, (res) => {
     if (res.rst === 1) {
       success && success(res.total, res.data)
