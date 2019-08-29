@@ -82,7 +82,6 @@ export default {
         this.$emit('removeDialog')
       }, msg=>{
         this.locked = false
-        alert(111)
         Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
       })
 
