@@ -681,6 +681,9 @@
   .recharge ul li span.quantity {
     width: 160px;
   }
+  .recharge ul li span.note {
+    width: 140px;
+  }
 
   .recharge ul li span.address {
     width: 190px;

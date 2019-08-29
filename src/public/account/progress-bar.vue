@@ -4,12 +4,12 @@
       <div class="bar ui-flex mt10">
         <span class="bar-vol">{{getPercent}}%</span>
         <label class="bar-cont ui-flex-1 ml5">
-          <i>$ {{data.thisWeekDealAmount?data.thisWeekDealAmount:'-'}}/{{tarAmount}}</i>
+          <i>$ {{data.thisWeekDealAmount?data.thisWeekDealAmount.toFixed(2):'-'}}/{{tarAmount}}</i>
           <span :style="{width:getProgress+'%'}"></span>
         </label>
         <p class="ml20">{{$t('account.target_amount')}}<!-- Target Amount -->: $ {{tarAmount}}</p>
       </div>
-      <p class="bottom mt10">{{$t('account.account.your_progress')}}<!-- Your Progress -->:&nbsp;&nbsp;&nbsp;{{getWeekStartDate().format('yyyy-MM-dd')}}&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;{{getWeekEndDate().format('yyyy-MM-dd')}}</p>
+      <p class="bottom mt10">{{$t('account.your_progress')}}<!-- Your Progress -->:&nbsp;&nbsp;&nbsp;{{getWeekStartDate().format('yyyy-MM-dd')}}&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;{{getWeekEndDate().format('yyyy-MM-dd')}}</p>
     </div>
 </template>
 
@@ -32,7 +32,7 @@ export default {
   },
   computed:{
     tarAmount(){
-      let amount = this.data.lastWeekDealAmount?utils.removeEndZero((this.data.lastWeekDealAmount*0.05).toFixed(8)):'-'
+      let amount = this.data.lastWeekDealAmount?utils.removeEndZero((this.data.lastWeekDealAmount*0.05).toFixed(2)):'-'
       return amount
     },
     getPercent(){
