@@ -46,7 +46,11 @@ export default {
       if(!this.data.lastWeekDealAmount){
         return 0
       } else {
-        return (this.data.thisWeekDealAmount / (this.data.lastWeekDealAmount*0.05) * 100).toFixed(2)
+        let p = (this.data.thisWeekDealAmount / (this.data.lastWeekDealAmount*0.05) * 100).toFixed(2)
+        if(Number(p)>=100){
+          p = '100'
+        }
+        return p
       }
     }
   },
