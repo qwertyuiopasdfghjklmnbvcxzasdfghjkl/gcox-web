@@ -91,7 +91,7 @@
               <li v-for="(data, index) in filterDatas()" :key="data.accountId">
                 <div class="items">
                   <div class="coin ">{{data.symbol}} <i class="icon-notification rp pointer" style="color: #ff3333;" v-if="data.symbol==='ACM'"><span class="acmtip f-c-white">
-                    {{$t('account.enable_sell_balance')}}<!-- Enable sell balance --><br>{{toFixed(data.enableSellBalance)}}
+                    {{$t('account.enable_sell_balance')}}<!-- Enable sell balance --><br>{{toFixed(data.enableSellBalance)|removeEndZero}}
                   </span></i></div>
                   <div class="f-right " :title="toFixed(data.totalBalance)|removeEndZero" v-if="pandectShow">{{toFixed(data.totalBalance)|removeEndZero}}</div>
                   <div class="f-right " :title="toFixed(numUtils.add(data.totalBalance, getStakeBalance(data.accountName)))|removeEndZero" v-else>{{toFixed(numUtils.add(data.totalBalance, getStakeBalance(data.accountName)))|removeEndZero}}</div>
