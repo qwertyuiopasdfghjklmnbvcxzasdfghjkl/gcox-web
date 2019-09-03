@@ -80,21 +80,23 @@
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135198121-1"></script>
 <script>
-  var protocol = location.protocol;
-  var host = location.host.toLowerCase();
-  if(host.indexOf('gcox.com') !== -1 && /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent)) {
-    location.href = 'https://m-exchange' + (host==='gcox.com'?'.gcox.com':'-staging.gcox.com');
-    return
-  }
-  if(host.indexOf('gcox.com') !== -1 && protocol !== 'https:') {
-    location.href = 'https://'+host;
-    return
-  }
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  (function(){
+    var protocol = location.protocol;
+    var host = location.host.toLowerCase();
+    if(host.indexOf('gcox.com') !== -1 && /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent)) {
+      location.href = 'https://m-exchange' + (host==='gcox.com'?'.gcox.com':'-staging.gcox.com');
+      return
+    }
+    if(host.indexOf('gcox.com') !== -1 && protocol !== 'https:') {
+      location.href = 'https://'+host;
+      return
+    }
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  gtag('config', 'UA-135198121-1');
+    gtag('config', 'UA-135198121-1');
+  })();
 
 </script>
 </body>
