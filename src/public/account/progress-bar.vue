@@ -9,7 +9,7 @@
         </label>
         <p class="ml20">{{$t('account.target_amount')}}<!-- Target Amount -->: $ {{tarAmount}}</p>
       </div>
-      <p class="bottom mt10">{{$t('account.your_progress')}}<!-- Your Progress -->:&nbsp;&nbsp;&nbsp;{{getWeekStartDate().format('yyyy-MM-dd')}}&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;{{getWeekEndDate().format('yyyy-MM-dd')}}</p>
+      <p class="bottom mt10">{{$t('account.your_progress')}}<!-- Your Progress -->:&nbsp;&nbsp;&nbsp;{{getWeekStartDate().format('yyyy/MM/dd')}}&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;{{getWeekEndDate().format('yyyy/MM/dd')}}</p>
     </div>
 </template>
 
