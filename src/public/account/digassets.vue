@@ -822,7 +822,7 @@
       height: 300px;
     }
   }
-.acmtip {position: absolute; left: 0; top: 20px; width: 150px; padding: 5px 15px; border-radius: 4px; background-color: #615f5f; line-height: 1.7; display: none;}
+.acmtip {position: absolute; left: 0; top: 20px; width: 200px; padding: 5px 15px; border-radius: 4px; background-color: #615f5f; line-height: 1.7; display: none;}
 i:hover .acmtip {display: block;}
 </style>
 
