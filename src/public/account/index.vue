@@ -18,6 +18,7 @@
   import adresscava from './adresscava'
   import addressManage from './addressManage'
   import withdrawInfo from './withdrawInfo'
+  import ieorecords from './ieorecords'
 
   export default {
     name: 'index',
@@ -34,7 +35,8 @@
       transaction,
       adresscava,
       addressManage,
-      withdrawInfo
+      withdrawInfo,
+      ieorecords
     },
     watch: {
       '$route' (to, from) {

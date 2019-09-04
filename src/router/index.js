@@ -4,6 +4,7 @@ import Index from '@/public'
 import exchange from './exchange'
 import otc from './otc'
 import cms from './cms'
+import ieo from './ieo'
 import login from '@/public/login'
 import register from '@/public/register'
 import findpwd from '@/public/findpwd'
@@ -120,5 +121,5 @@ export default new Router({
         name: 'home'
       }
     }
-  ].concat(exchange, otc, cms)
+  ].concat(exchange, otc, cms, ieo)
 })

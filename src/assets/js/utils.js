@@ -384,6 +384,24 @@ Vue.filter('numbean',function(n){
   return r>0?b.slice(0,r)+","+b.slice(r,len).match(/\d{3}/g).join(","):b.slice(r,len).match(/\d{3}/g).join(",");
 });
 
+/* 时间人性化显示 */
+Vue.filter('humanTime',function(msec, day){
+  var days = parseInt(msec / 1000 / 60 / 60 / 24, 10); //计算剩余的天数
+  var hours = parseInt(msec / 1000 / 60 / 60 % 24, 10); //计算剩余的小时
+  var minutes = parseInt(msec / 1000 / 60 % 60, 10); //计算剩余的分钟
+  var second = parseInt(msec / 1000 % 60, 10); //计算剩余的秒
+  var days_f = fitLen(days, 2);
+  var hours_f = fitLen(hours, 2);
+  var minutes_f = fitLen(minutes, 2);
+  var second_f = fitLen(second, 2);
+  return `${days_f} ${day} ${hours_f}:${minutes_f}:${second_f}`
+});
+
+//固定显示长度不足补0
+const fitLen = function(num, length) { 
+  num = '0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' + num
+  return num.slice(num.length - length)
+}
 
 Vue.filter('toMoney', function (string) {
   let s = string.split('.')
