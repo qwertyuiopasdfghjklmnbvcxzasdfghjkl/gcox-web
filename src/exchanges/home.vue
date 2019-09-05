@@ -127,7 +127,7 @@ export default {
     },
     symbol () {
       this.get24hPrice()
-      this.socket && this.socket.switchPeriod && this.socket.switchSymbol(this.symbol)
+      this.socket && this.socket.switchSymbol && this.socket.switchSymbol(this.symbol)
     },
     fixedNumber(newVal){
       this.$refs.depth.mergeValue = newVal
@@ -148,9 +148,11 @@ export default {
           let klineDatas = this.klineData
           let datas = res.data && res.data.constructor === Array ? res.data : []
           let newArray = []
-          datas = datas.sort((item1, item2)=>{
-            return item1[0]>=item2[0]?1:-1
-          })
+          if(datas.length>0){
+            datas.sort((item1, item2)=>{
+              return item1[0]>=item2[0]?1:-1
+            })
+          }
           datas.forEach((item) => {
             newArray.push([Number(item[0]), parseFloat(this.toFixed(Number(item[1]))) || 0, parseFloat(this.toFixed(Number(item[2]))) || 0, parseFloat(this.toFixed(Number(item[3]))) || 0, parseFloat(this.toFixed(Number(item[4]))) || 0, parseFloat(this.toFixed(Number(item[5]))) || 0])
           })

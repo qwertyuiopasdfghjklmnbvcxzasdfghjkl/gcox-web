@@ -180,7 +180,7 @@ TVjsApi.prototype.onMessage = function(data) {
     if (count < 5) {
         console.log("这是后台返回的数据" + count + "：" + JSON.stringify(data.length))
     }
-
+    
     if (data && data.length) {
         var list = []
         var ticker = this.symbol + "-" + this.interval;
