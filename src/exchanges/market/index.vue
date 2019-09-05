@@ -9,6 +9,7 @@
     <div class="kline-container">
       <div class="transform-container ui-flex" :class="{depth:!showKline}">
         <div class="chart-container ui-flex-1" id="trade-view"></div>
+        <div class="kline-mask" v-show="showKlineMask"></div>
         <div ref="depth" class="depth-container ui-flex-1"></div>
       </div>
     </div>
@@ -45,6 +46,7 @@ export default {
   },
   data () {
     return {
+      showKlineMask:true,
       isEntrustShow: false,
       asks: [],
       bids: [],
@@ -148,6 +150,15 @@ export default {
   mounted(){
     this.TVjsApi = new window.TVjsApi();
     this.TVjsApi.init(this.symbol, '30', this.fixedNumber, this.langs[this.getLang])
+    document.addEventListener('click', (e)=>{
+      if(this.$route.name==='exchange_index' || this.$route.name==='exchange_index2'){
+        if(e.target.className==='kline-mask'){
+          this.showKlineMask = false
+        } else {
+          this.showKlineMask = true
+        }
+      }
+    }, false)
   },
   beforeDestroy () {
     this.removeEvents('klineEvent')
@@ -235,6 +246,14 @@ export default {
     height: 470px;
     margin-bottom: 4px;
     position: relative;
+}
+.kline-mask {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom:0;
+  z-index: 1;
 }
 
 </style>
