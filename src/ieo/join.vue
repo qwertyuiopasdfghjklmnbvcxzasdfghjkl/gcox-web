@@ -190,7 +190,7 @@ export default {
 	.box {padding-left: 20px; padding-right: 20px;}
 }
 .title {background-color: #000; color: #fff; font-size: 18px; line-height: 50px;}
-.join-title {position: relative; height: 50px;line-height: 50px;color: #fff;font-size: 20px;  text-align: center;}
+.join-title {position: relative; height: 50px;line-height: 50px;color: #5ee7d6;font-size: 18px;  text-align: center;}
 .join-title a {position:absolute;text-decoration:none;font-size:14px;color:#fff;top:17px;right:20px; opacity: 0.8; cursor: pointer;}
 .join-title a:hover{opacity: 1;}
 .join-form {
