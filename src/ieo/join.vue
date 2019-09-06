@@ -174,30 +174,41 @@ export default {
 </script>
 
 <style lang="less" scoped="">
-@main-color:#BA8D35;
+@main-color:#00a0e9;
 .mcolor {color: @main-color;}
 .page {
 	width:1100px;
 	padding-bottom: 10px;
-	background-color: #212020;
-	position: relative;
-	border-top-left-radius: 10px; border-top-right-radius: 10px;
-	overflow: hidden;
+	color: #606266;
+	font-size: 14px;
+	word-break: break-all;
+	background-color: #000;
+	border: 1px solid #727071;
+	-webkit-box-shadow: -2px 2px 5px rgba(0,0,0,.5);
+	box-shadow: -2px 2px 5px rgba(0,0,0,.5);
+	color: #fff;
 	.box {padding-left: 20px; padding-right: 20px;}
 }
 .title {background-color: #000; color: #fff; font-size: 18px; line-height: 50px;}
-.join-title {position: relative; height: 50px;line-height: 50px;color: #fff;font-size: 20px;  text-align: center;background-color: #BA8D35;}
-.join-title a {position:absolute;text-decoration:none;font-size:16px;color:#fff;top:17px;right:15px; opacity: 0.8; cursor: pointer;}
+.join-title {position: relative; height: 50px;line-height: 50px;color: #fff;font-size: 20px;  text-align: center;}
+.join-title a {position:absolute;text-decoration:none;font-size:14px;color:#fff;top:17px;right:20px; opacity: 0.8; cursor: pointer;}
 .join-title a:hover{opacity: 1;}
 .join-form {
-	background-color:#fff;
 	padding:25px 60px;
 	display: flex;
 	section:first-of-type {flex: 1; min-width: 0;}
 	section:last-of-type {width: 300px; min-width: 0;}
 }
-.tokens {min-width: 100px; border:1px solid #999; height: 25px; padding-left: 10px; padding-right: 10px; line-height: 25px; background-position: 93% center; border-radius: 4px;}
-.total {width: 120px; border:1px solid #999; height: 25px; padding-left: 10px; padding-right: 10px; line-height: 25px; border-radius: 4px;}
+.tokens {min-width: 100px; height: 26px; background-color:#eee; padding-left: 10px; padding-right: 10px; line-height: 28px; background-position: 93% center; }
+.total {
+	height: 26px;
+    width: 160px;
+    background-color: #eee;
+    margin-right: 10px;
+    vertical-align: middle;
+    padding-left: 10px;
+    padding-right: 10px;
+}
 .agreement label {display: inline-block;}
 .checkbox {
     width: 12px;
@@ -251,6 +262,6 @@ export default {
 		flex: 1;
 		color: #fff;
 	}
-	&.header span {color: @main-color;}
+	&.header span {color: #999;}
 }
 </style>

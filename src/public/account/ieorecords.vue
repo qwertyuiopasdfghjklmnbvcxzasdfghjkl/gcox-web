@@ -112,7 +112,7 @@ export default {
     flex: 1;
     color: #fff;
   }
-  // &.header span {color: #BA8D35;}
+  &.header span {color: #999;}
 }
 
 .nodata{text-align: center;}
