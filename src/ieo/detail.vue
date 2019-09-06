@@ -201,7 +201,7 @@ export default {
 </script>
 
 <style lang="less" scoped="">
-@main-color:#BA8D35;
+@main-color:#00a0e9;
 .box-bgc {background-color: #1A1A1A;}
 .page {
 	margin:12px auto 42px;

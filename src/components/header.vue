@@ -19,6 +19,7 @@
               </div>
             </div>
         </router-link>
+        <router-link :to="{name:'ieo_index'}" class="item"><i class="icon-stars"></i> SPARKLE</router-link>
         <!-- <router-link :to="{name:'acm'}" class="item"><i class="acm"></i> ACM</router-link> -->
         <a href="javascript:;" v-if="!isLogin" class="item" @click="showQuickLogin"><i class="account"></i> {{$t('usercontent.user56')}}<!-- 资产管理 --></a>
         <router-link v-if="isLogin" :to="{name:'account'}" class="item"><i class="account"></i> {{$t('usercontent.user56')}}<!-- 资产管理 --></router-link>
@@ -266,7 +267,6 @@
         &.exchange {
           background-image: url('../assets/img/EXCHANGE.svg');
         }
-
         &.acm {
           background-image: url('../assets/img/ACM.svg');
         }

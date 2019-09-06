@@ -1,7 +1,7 @@
 <template>
 	<div class="page">
 		<img :src="getSysParams.ieoBanner.value" class="banner-brief">
-		<ul class="tab-bar"><a name="A"></a>
+		<ul class="tab-bar efont"><a name="A"></a>
 			<li class="active"><a href="#A">{{$t('ieo.status_processing')}}<!-- 进行中 --></a></li>
 			<li><a href="#B">{{$t('ieo.status_to_start')}}<!-- 即将开始 --></a></li>
 			<li><a href="#C">{{$t('ieo.status_over')}}<!-- 已结束 --></a></li>
@@ -9,9 +9,9 @@
 		<div class="title box">{{$t('ieo.status_processing')}}<!-- 进行中 --></div>
 		<ul class="items-container clearfix">
 			<li v-for="item in list1" :key="item.projectId" @click="goDetail(item.projectId)">
-				<p>
+				<p class="rp">
 					<img :src="item.projectLogo">
-					<span class="fs16 ptitle">{{item[`projectName${lang}`]}} {{item.projectSymbol}}</span>
+					<span class="fs16 ptitle"><font>{{item[`projectName${lang}`]}} {{item.projectSymbol}}</font></span>
 				</p>
 				<p class="mt25">{{$t('ieo.status_start_purchase')}}<!-- 申购开始 -->： <span>{{new Date(item.startTime).format()}}</span></p>
 				<p class="mt15">{{$t('ieo.status_purchaes_deadline')}}<!-- 申购截止 -->： <span>{{new Date(item.endTime).format()}}</span></p>
@@ -33,7 +33,7 @@
 		<div class="title box mt10">{{$t('ieo.status_to_start')}}<!-- 即将开始 --></div><a name="B"></a>
 		<ul class="items-container wait clearfix">
 			<li v-for="item in list2" :key="item.projectId" @click="goDetail(item.projectId)">
-				<p>
+				<p class="rp">
 					<img :src="item.projectLogo">
 					<span class="fs16 ptitle">{{item[`projectName${lang}`]}} {{item.projectSymbol}}</span>
 				</p>
@@ -52,7 +52,7 @@
 		<div class="title box mt10">{{$t('ieo.status_over')}}<!-- 已结束 --></div><a name="C"></a>
 		<ul class="items-container finished clearfix">
 			<li v-for="item in list3" :key="item.projectId" @click="goDetail(item.projectId)">
-				<p>
+				<p class="rp">
 					<img :src="item.projectLogo">
 					<span class="fs16 ptitle">{{item[`projectName${lang}`]}} {{item.projectSymbol}}</span>
 				</p>
@@ -195,7 +195,7 @@ export default {
 </script>
 
 <style lang="less" scoped="">
-@main-color:#BA8D35;
+@main-color:#00a0e9;
 .page {
 	margin:12px auto 42px;
 	width:1100px;
@@ -211,11 +211,11 @@ export default {
 	border-bottom: 1px solid #37342F;
 	li {
 		display: inline-block;
-		width: 180px;
+		min-width: 180px;
 		color: #fff;
 		position: relative;
 		text-align: center;
-		font-size: 16px;
+		font-size: 15px;
 		a {
 			display: block;
 			color: #fff;
@@ -242,7 +242,7 @@ export default {
 	padding: 10px 10px 70px;
 	margin-right: 20px;
 	margin-bottom: 20px;
-	background-color:#fff;
+	background:-webkit-linear-gradient(top, #1e2136,#1a1920);
 	overflow-x: hidden;
 	position: relative;
 	cursor: pointer;
@@ -250,18 +250,19 @@ export default {
 		margin-right: 0;
 	}
 	img {
-		width: 68px;
-		height: 68px;
+		position:absolute;
+		width: 58px;
+		height: 58px;
 		box-shadow:0px 2px 4px 0px rgba(6,0,1,0.2);
 		border-radius:4px;
 		object-fit: cover;
 		object-position: center;
-		vertical-align: top;
-		margin-right: 15px;
+		
 	}
-	.ptitle {display: inline-block; max-width: 128px; margin-top: 20px; max-height: 45px; overflow: hidden;}
-	p {font-size: 13px;}
-	p span {color: #666; margin-left: 5px;}
+	.ptitle {display: flex; margin-left: 65px;margin-top: 20px; height: 58px; overflow: hidden; flex-direction: column; justify-content: center;}
+	.ptitle font {padding: 10px 8px; background-color: #171717;}
+	p {font-size: 13px; color: #999;}
+	p span {color: #fff; margin-left: 5px;}
 	button {
 		position: absolute;
 		height: 46px;
@@ -281,14 +282,14 @@ export default {
 			left: 0;
 			height: 3px;
 			font-size: 0;
-			background-color: @main-color;
+			background-color: #434361;
 			z-index: 1;
 		}
 		&-bar-base {
 			height: 3px;
 			line-height:0;
 			font-size: 0;
-			background-color: #eee;
+			background-color: #666;
 		}
 	}
 }
