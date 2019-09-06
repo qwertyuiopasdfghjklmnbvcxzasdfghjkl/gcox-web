@@ -22,7 +22,7 @@
 					  <input id="agreement" type="checkbox" name="agreement" checked="">
 					  <i type="checkbox"></i>
 					</label>
-					<label for="agreement">{{$t('login_register.agree_Service')}}<!-- 我已阅读并同意 --> <a href="/ieo/agreement" target="_blank" class="mcolor">XXXXXX</a> {{$t('ieo.terms_of_agreement')}}<!-- 协议条款 --></label>
+					<label for="agreement">{{$t('login_register.agree_Service')}}<!-- 我已阅读并同意 --> <a href="/sparkle/agreement" target="_blank" class="mcolor">XXXXXX</a> {{$t('ieo.terms_of_agreement')}}<!-- 协议条款 --></label>
 				</p>
 				<p class="mt25"><button type="button" class="mint-btn success" :disabled="locked" style="width: 200px" @click="applyValidate">{{$t('ieo.confirm_purchase')}}<!-- 确认申购 --></button></p>
 			</section>
