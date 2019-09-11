@@ -14,7 +14,7 @@
 				</p>
 				<p class="mt15">{{$t('account.estimated_value_available')}}<!-- 可用余额 -->： <strong class="mr20">{{String(currtAccount.availableBalance).toMoney()}} {{currtAccount.symbol}}</strong> ({{$t('ieo.pay_per_copy')}}<!-- 每份需支付 --> <strong>{{Number(price)}} {{currtAccount.symbol}}</strong>)</p>
 				<p class="mt15">{{$t('ieo.subscription_shares')}}<!-- 认购份数 -->：
-					<input type="number" name="total" class="total" v-model="applyQuantity" :placeholder="`${$t('public0.public114')} ${info.subscriptionLeast} ${currtAccount.symbol}`" onKeyPress="if (event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
+					<input type="number" name="total" class="total" v-model="applyQuantity" :placeholder="`${$t('public0.public114')} ${info.subscriptionLeast}`" onKeyPress="if (event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
 					<span class="ml20" v-show="Number(applyQuantity)">{{$t('ieo.payable')}}<!-- 需支付 --> <strong>{{totalPay}}</strong> {{currtAccount.symbol}} </span>
 				</p>
 				<p class="mt15 fs14 agreement">
@@ -22,7 +22,7 @@
 					  <input id="agreement" type="checkbox" name="agreement" checked="">
 					  <i type="checkbox"></i>
 					</label>
-					<label for="agreement">{{$t('login_register.agree_Service')}}<!-- 我已阅读并同意 --> <a href="/sparkle/agreement" target="_blank" class="mcolor">XXXXXX</a> {{$t('ieo.terms_of_agreement')}}<!-- 协议条款 --></label>
+					<label for="agreement">{{$t('login_register.agree_Service')}}<!-- 我已阅读并同意 --> <a href="/linkFoot/detail/186207821702889472" target="_blank" class="mcolor">{{$t('ieo.terms_of_agreement')}}<!-- 协议条款 --></a> </label>
 				</p>
 				<p class="mt25"><button type="button" class="mint-btn success" :disabled="locked" style="width: 200px" @click="applyValidate">{{$t('ieo.confirm_purchase')}}<!-- 确认申购 --></button></p>
 			</section>
