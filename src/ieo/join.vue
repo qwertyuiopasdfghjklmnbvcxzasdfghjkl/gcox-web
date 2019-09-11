@@ -22,7 +22,7 @@
 					  <input id="agreement" type="checkbox" name="agreement" checked="">
 					  <i type="checkbox"></i>
 					</label>
-					<label for="agreement">{{$t('login_register.agree_Service')}}<!-- 我已阅读并同意 --> <a href="/linkFoot/detail/186207821702889472" target="_blank" class="mcolor">{{$t('ieo.terms_of_agreement')}}<!-- 协议条款 --></a> </label>
+					<label for="agreement">{{$t('login_register.agree_Service')}}<!-- 我已阅读并同意 --> <br>(1) <a href="/linkFoot/detail/186207821702889472" target="_blank" class="mcolor">{{$t('ieo.terms_of_service')}}<!-- IEO Terms of Service --></a><br>(2) <a href="https://gcoxgroup.com/privacy_policy.html" target="_blank" class="mcolor">{{$t('ieo.privacy_policy')}}<!-- Privacy Policy --></a><br>(3) <a href="https://gcoxgroup.com/wallet_tnc.html" target="_blank" class="mcolor">{{$t('ieo.ewallet_terms_of_use')}}<!-- E-wallet terms of use --></a></label>
 				</p>
 				<p class="mt25"><button type="button" class="mint-btn success" :disabled="locked" style="width: 200px" @click="applyValidate">{{$t('ieo.confirm_purchase')}}<!-- 确认申购 --></button></p>
 			</section>
