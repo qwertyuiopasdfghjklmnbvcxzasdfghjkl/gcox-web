@@ -16,11 +16,11 @@
 				</div>
 				<div class="mt15 items">
 					<p>{{$t('ieo.subscription_price')}}<!-- 认购价格 -->： <span>1 {{info.priceSymbol}} = {{info.subscriptionPrice}} {{info.projectSymbol}} </span></p>
-					<p>{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span>{{String(info.totalIssue).toMoney()}} {{info.projectSymbol}}</span></p>
+					<p class="ellipsis">{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span :title="`${String(info.totalIssue).toMoney()} ${info.projectSymbol}`">{{String(info.totalIssue).toMoney()}} {{info.projectSymbol}}</span></p>
 				</div>
 				<div class="mt15 items">
-					<p>{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span>{{toFixed(info.totalSubscription-info.remainingQuantity)}} {{info.priceSymbol}}</span></p>
-					<p>{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span>{{String(info.totalRaised).toMoney()}} {{info.priceSymbol}}</span></p>
+					<p class="ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(info.totalSubscription-info.remainingQuantity)} ${info.priceSymbol}`">{{toFixed(info.totalSubscription-info.remainingQuantity)}} {{info.priceSymbol}}</span></p>
+					<p class="ellipsis">{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span :title="`${String(info.totalRaised).toMoney()} ${info.priceSymbol}`">{{String(info.totalRaised).toMoney()}} {{info.priceSymbol}}</span></p>
 				</div>
 				<div class="mt20 progress-container">
 					<div class="progress" sty>
