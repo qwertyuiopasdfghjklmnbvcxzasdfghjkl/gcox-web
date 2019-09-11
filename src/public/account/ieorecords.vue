@@ -1,6 +1,6 @@
 <template>
   <div class="myieo">
-    <p>{{$t('ieo.my_ieo')}}<!--我的IEO--></p>
+    <p>{{$t('ieo.myieo')}}<!--我的IEO--></p>
     <ul class="join-list">
       <li class="header">
         <span>{{$t('ieo.subscribed_time')}}<!-- 认购时间 --></span>
