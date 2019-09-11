@@ -19,9 +19,9 @@
         <span>{{$t('usercontent.user60')}}</span>
         <!--我的订单-->
       </li>
-      <!-- <li :class="{'active': active === 'ieorecords'}" @click="switch_tab('ieorecords')">
+      <li :class="{'active': active === 'ieorecords'}" @click="switch_tab('ieorecords')">
         <span>{{$t('ieo.myieo')}}</span>
-      </li> -->
+      </li>
       <!--我的Sparkle-->
     </ul>
   </div>
