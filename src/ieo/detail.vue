@@ -19,7 +19,7 @@
 					<p>{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span>{{String(info.totalIssue).toMoney()}} {{info.projectSymbol}}</span></p>
 				</div>
 				<div class="mt15 items">
-					<p>{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span>{{info.totalSubscription-info.remainingQuantity}} {{info.priceSymbol}}</span></p>
+					<p>{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span>{{toFixed(info.totalSubscription-info.remainingQuantity)}} {{info.priceSymbol}}</span></p>
 					<p>{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span>{{String(info.totalRaised).toMoney()}} {{info.priceSymbol}}</span></p>
 				</div>
 				<div class="mt20 progress-container">
@@ -75,6 +75,7 @@ import joinDialog from './join'
 import loading from '@/components/loading'
 import socket from '@/assets/js/socket'
 import Config from '@/assets/js/config'
+import numUtils from '@/assets/js/numberUtils'
 export default {
 	components: {
 	  loading
@@ -109,24 +110,30 @@ export default {
 	created(){
 		this.getIEOprojectsDetail()
 	},
-	beforeRouteLeave(to, from, next){
+	destroyed(){
 		clearInterval(this.interVal)
 		this.socket && this.socket.destroy()
-		next()
 	},
+
 	methods:{
+		toFixed (value, fixed) {
+		  return numUtils.BN(value || 0).toFixed(fixed === undefined ? 2 : fixed)
+		},
 		mergeData(data){
 			if(data.dataType==='ieo' && data.data.projectId===this.info.projectId){
 				if(!Number(data.data.remainingQuantity)){
 					this.stage = 3
-					this.socket.destroy()
 					return
 				}
 				this.info.remainingQuantity = Number(data.data.remainingQuantity)
 			}
 		},
 		connectSoket(){
-			this.socket = new socket(`${Config.protocol}${Config.domain}/ws9501`)
+			let host = location.host.toLowerCase(), url = `${Config.protocol}${Config.domain}/ws9501`
+			if(host.indexOf('gcox.com') !== -1 &&  host.indexOf('exchange-staging.gcox.com') === -1) {
+			  url = `${Config.protocol}ws-exchange.gcox.com/ws9501`
+			}
+			this.socket = new socket(url)
 			this.socket.on('open', ()=>{
 	            this.socket.send({
 	            	event: 'addChannel',
