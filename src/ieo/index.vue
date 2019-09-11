@@ -17,7 +17,7 @@
 				<p class="mt15">{{$t('ieo.status_purchaes_deadline')}}<!-- 申购截止 -->： <span>{{new Date(item.endTime).format()}}</span></p>
 				<p class="mt15">{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span>{{String(item.totalIssue).toMoney()}} {{item.projectSymbol}}</span></p>
 				<p class="mt15">{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span>{{String(item.totalRaised).toMoney()}} {{item.priceSymbol}}</span></p>
-				<p class="mt15">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span>{{String(item.totalSubscription-item.remainingQuantity).toMoney()}} {{item.priceSymbol}}</span></p>
+				<p class="mt15">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span>{{toFixed(item.totalSubscription-item.remainingQuantity).toMoney()}} {{item.priceSymbol}}</span></p>
 				<div class="progress mt20">
 					<div class="progress-bar-base"></div>
 					<div class="progress-bar" :style="`width: ${(item.totalSubscription-item.remainingQuantity)/item.totalRaised*100>100?100:(item.totalSubscription-item.remainingQuantity)/item.totalRaised*100}%`"></div>
@@ -41,7 +41,7 @@
 				<p class="mt15">{{$t('ieo.status_purchaes_deadline')}}<!-- 申购截止 -->： <span>{{new Date(item.endTime).format()}}</span></p>
 				<p class="mt15">{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span>{{String(item.totalIssue).toMoney()}} {{item.projectSymbol}}</span></p>
 				<p class="mt15">{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span>{{String(item.totalRaised).toMoney()}} {{item.priceSymbol}}</span></p>
-				<p class="mt15">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span>{{String(item.totalSubscription-item.remainingQuantity).toMoney()}} {{item.priceSymbol}}</span></p>
+				<p class="mt15">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span>{{toFixed(item.totalSubscription-item.remainingQuantity).toMoney()}} {{item.priceSymbol}}</span></p>
 				<button>{{$t('ieo.start_of_distance')}}<!-- 距离开始 -->：{{item.getMsec(item)|humanTime('天')}}</button>
 			</li>
 		</ul>
@@ -60,7 +60,7 @@
 				<p class="mt15">{{$t('ieo.status_purchaes_deadline')}}<!-- 申购截止 -->： <span>{{new Date(item.endTime).format()}}</span></p>
 				<p class="mt15">{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span>{{String(item.totalIssue).toMoney()}} {{item.projectSymbol}}</span></p>
 				<p class="mt15">{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span>{{String(item.totalRaised).toMoney()}} {{item.priceSymbol}}</span></p>
-				<p class="mt15">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span>{{String(item.totalSubscription-item.remainingQuantity).toMoney()}} {{item.priceSymbol}}</span></p>
+				<p class="mt15">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span>{{toFixed(item.totalSubscription-item.remainingQuantity).toMoney()}} {{item.priceSymbol}}</span></p>
 				<div class="progress mt20">
 					<div class="progress-bar-base"></div>
 					<div class="progress-bar" :style="`width: ${(item.totalSubscription-item.remainingQuantity)/item.totalRaised*100>100?100:(item.totalSubscription-item.remainingQuantity)/item.totalRaised*100}%`"></div>
@@ -85,6 +85,8 @@ import loading from '@/components/loading'
 import ieoApi from '@/api/ieo'
 import socket from '@/assets/js/socket'
 import Config from '@/assets/js/config'
+import numUtils from '@/assets/js/numberUtils'
+
 export default {
 	components: {
 	  loading
@@ -114,12 +116,14 @@ export default {
 		this.getIEOProjectsList()
 		this.connectSoket()
 	},
-	beforeRouteLeave(to, from, next){
+	destroyed(){
 		clearInterval(this.interVal)
 		this.socket.destroy()
-		next()
 	},
 	methods:{
+		toFixed (value, fixed) {
+		  return numUtils.BN(value || 0).toFixed(fixed === undefined ? 2 : fixed)
+		},
 		mergeData(data){
 			if(data.dataType==='ieo' && data.data.length){
 				for(let item of this.list1){
@@ -136,7 +140,11 @@ export default {
 			}
 		},
 		connectSoket(){
-			this.socket = new socket(`${Config.protocol}${Config.domain}/ws9501`)
+			let host = location.host.toLowerCase(), url = `${Config.protocol}${Config.domain}/ws9501`
+			if(host.indexOf('gcox.com') !== -1 &&  host.indexOf('exchange-staging.gcox.com') === -1) {
+			  url = `${Config.protocol}ws-exchange.gcox.com/ws9501`
+			}
+			this.socket = new socket(url)
 			this.socket.on('open', ()=>{
 	            this.socket.send({
 	            	event: 'addChannel',
