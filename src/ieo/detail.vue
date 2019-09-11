@@ -38,10 +38,15 @@
 		<div class="title box mt10">{{$t('ieo.project_progres')}}<!-- 项目进度 --></div>
 		<div class="steps-container box-bgc">
 			<div class="steps">
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
+				<span :class="{active: serverTime>= info.startTime}"></span>
+				<span :class="{active: serverTime>= info.endTime}"></span>
+				<span :class="{active: serverTime>= info.paidTime}"></span>
+				<span :class="{active: serverTime>= info.releaseTime}"></span>
+			</div>
+			<div class="steps-bar ui-flex">
+				<div class="ui-flex-1 rp"><span :style="getProgress1"></span></div>
+				<div class="ui-flex-1 rp"><span :style="getProgress2"></span></div>
+				<div class="ui-flex-1 rp"><span :style="getProgress3"></span></div>
 			</div>
 			<div class="steps-title mt20">
 				<span>{{$t('ieo.status_start_purchase')}}<!-- 申购开始 -->：{{new Date(info.startTime).format()}}</span>
@@ -87,7 +92,8 @@ export default {
 			timer:0,
 			interVal:null,
 			locked:true,
-			socket:null
+			socket:null,
+			serverTime:null
 		}
 	},
 	computed:{
@@ -99,6 +105,24 @@ export default {
 				return 'En'
 			}
 		},
+		getProgress1(){
+			let duration = Math.round((this.serverTime -this.info.startTime) / (this.info.endTime - this.info.startTime) *100)
+			duration = duration<=0?0:duration
+			duration = duration>100?100:duration
+			return {width:duration+'%'}
+		},
+		getProgress2(){
+			let duration = Math.round((this.serverTime -this.info.endTime) / (this.info.paidTime - this.info.endTime) *100)
+			duration = duration<=0?0:duration
+			duration = duration>100?100:duration
+			return {width:duration+'%'}
+		},
+		getProgress3(){
+			let duration = Math.round((this.serverTime -this.info.paidTime) / (this.info.releaseTime - this.info.paidTime) *100)
+			duration = duration<=0?0:duration
+			duration = duration>100?100:duration
+			return {width:duration+'%'}
+		}
 	},
 	watch:{
 		stage(_n){
@@ -172,6 +196,7 @@ export default {
 			ieoApi.getIEOprojectsDetail(this.$route.params.id,(res, serverTime)=>{
 				this.locked = false
 				this.timer = 0
+				this.serverTime = serverTime
 				if(!this.interVal){
 					this.interVal = setInterval(()=>{this.timer += 1000},1000)
 				}
@@ -267,12 +292,12 @@ export default {
 }
 .title {background-color: #000; color: #fff; font-size: 18px; line-height: 50px;}
 .steps-container {
-	padding:55px 20px 50px;
+	margin:55px 20px 50px; position: relative;
 	.steps {
 		height: 6px;
 		line-height: 0;
 		font-size: 0;
-		background-color:@main-color;
+		background-color:#383838;
 		position: relative;
 		border-radius: 6px;
 		display: flex;
@@ -280,10 +305,17 @@ export default {
 		span {
 			width: 12px;
 			height: 12px;
-			background-color:@main-color;
+			background-color:#383838;
 			border-radius: 12px;
 			margin-top: -3px;
+			position: relative;
+			z-index: 2;
+			&.active {background-color:@main-color;}
 		}
+	}
+	.steps-bar {
+		height: 6px; position: absolute; top: 0; left: 0; right: 0; z-index: 1;
+		span {position: absolute; height: 100%;left: 0; top: 0; background-color: @main-color;}
 	}
 	.steps-title {
 		display: flex;
