@@ -30,7 +30,8 @@
 		  <div class="nodata-icon icon-no-order"></div>
 		  <div class="nodata-text">{{$t('public0.public50')}}<!--暂无数据--></div>
 		</div>
-		<div class="title box mt10">{{$t('ieo.status_to_start')}}<!-- 即将开始 --></div><a name="B"></a>
+		<a name="B"></a>
+		<div class="title box mt10">{{$t('ieo.status_to_start')}}<!-- 即将开始 --></div>
 		<ul class="items-container wait clearfix">
 			<li v-for="item in list2" :key="item.projectId" @click="goDetail(item.projectId)">
 				<p class="rp">
@@ -49,7 +50,8 @@
 		  <div class="nodata-icon icon-no-order"></div>
 		  <div class="nodata-text">{{$t('public0.public50')}}<!--暂无数据--></div>
 		</div>
-		<div class="title box mt10">{{$t('ieo.status_over')}}<!-- 已结束 --></div><a name="C"></a>
+		<a name="C"></a>
+		<div class="title box mt10">{{$t('ieo.status_over')}}<!-- 已结束 --></div>
 		<ul class="items-container finished clearfix">
 			<li v-for="item in list3" :key="item.projectId" @click="goDetail(item.projectId)">
 				<p class="rp">
@@ -309,4 +311,8 @@ export default {
 .nodata{text-align: center;}
 .nodata .nodata-icon{height: 80px;line-height: 80px;font-size: 40px;color: #A1A1A1;}
 .nodata .nodata-text{height: 40px;line-height: 20px;color: #A1A1A1;}
+a[name=A], a[name=B], a[name=C] {
+	position: absolute;
+	margin-top: -70px;
+}
 </style>
