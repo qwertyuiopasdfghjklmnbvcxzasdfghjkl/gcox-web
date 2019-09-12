@@ -175,7 +175,7 @@ export default {
                 }
               }
             })
-          } else {
+          } else if(newArray.length>1){
             this.isFirst = false
             this.klineData = newArray
           }
