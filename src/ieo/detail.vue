@@ -19,14 +19,14 @@
 					<p class="ellipsis">{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span :title="`${String(info.totalIssue).toMoney()} ${info.projectSymbol}`">{{String(info.totalIssue).toMoney()}} {{info.projectSymbol}}</span></p>
 				</div>
 				<div class="mt15 items">
-					<p class="ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(info.totalSubscription-info.remainingQuantity)} ${info.priceSymbol}`">{{toFixed(info.totalSubscription-info.remainingQuantity)}} {{info.priceSymbol}}</span></p>
+					<p class="ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(info.totalQuantity-info.remainingQuantity)} ${info.priceSymbol}`">{{toFixed(info.totalQuantity-info.remainingQuantity)}} {{info.priceSymbol}}</span></p>
 					<p class="ellipsis">{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span :title="`${String(info.totalRaised).toMoney()} ${info.priceSymbol}`">{{String(info.totalRaised).toMoney()}} {{info.priceSymbol}}</span></p>
 				</div>
 				<div class="mt20 progress-container">
 					<div class="progress" sty>
 						<div class="progress-bar-base"></div>
-						<div class="progress-bar" :style="`width: ${(info.totalSubscription-info.remainingQuantity)/info.totalSubscription*100>100?100:(info.totalSubscription-info.remainingQuantity)/info.totalSubscription*100}%`"></div>
-						<p class="mt8 f-c-gray">{{$t('ieo.achieved')}}<!-- 已达成 -->： {{((info.totalSubscription-info.remainingQuantity)/info.totalSubscription*100).toFixed(2)}}%</p>
+						<div class="progress-bar" :style="`width: ${(info.totalQuantity-info.remainingQuantity)/info.totalQuantity*100>100?100:(info.totalQuantity-info.remainingQuantity)/info.totalQuantity*100}%`"></div>
+						<p class="mt8 f-c-gray">{{$t('ieo.achieved')}}<!-- 已达成 -->： {{((info.totalQuantity-info.remainingQuantity)/info.totalQuantity*100).toFixed(2)}}%</p>
 					</div>
 					<div>
 						<button type="button" class="mint-btn" :class="stage!==3?'success':'disabled'" :disabled="stage!==1"  @click="joinDialog()">{{$t('ieo.participate_immediately')}}<!-- 立即参与 --></button>
