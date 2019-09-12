@@ -17,12 +17,12 @@
 				<p class="mt15">{{$t('ieo.status_purchaes_deadline')}}<!-- 申购截止 -->： <span>{{new Date(item.endTime).format()}}</span></p>
 				<p class="mt15 ellipsis">{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span :title="`${String(item.totalIssue).toMoney()} ${item.projectSymbol}`">{{String(item.totalIssue).toMoney()}} {{item.projectSymbol}}</span></p>
 				<p class="mt15 ellipsis">{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span :title="`${String(item.totalRaised).toMoney()} ${item.priceSymbol}`">{{String(item.totalRaised).toMoney()}} {{item.priceSymbol}}</span></p>
-				<p class="mt15 ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(item.totalSubscription-item.remainingQuantity).toMoney()} ${item.priceSymbol}`">{{toFixed(item.totalSubscription-item.remainingQuantity).toMoney()}} {{item.priceSymbol}}</span></p>
+				<p class="mt15 ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(item.totalQuantity-item.remainingQuantity).toMoney()} ${item.priceSymbol}`">{{toFixed(item.totalQuantity-item.remainingQuantity).toMoney()}} {{item.priceSymbol}}</span></p>
 				<div class="progress mt20">
 					<div class="progress-bar-base"></div>
-					<div class="progress-bar" :style="`width: ${(item.totalSubscription-item.remainingQuantity)/item.totalSubscription*100>100?100:(item.totalSubscription-item.remainingQuantity)/item.totalSubscription*100}%`"></div>
+					<div class="progress-bar" :style="`width: ${(item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100>100?100:(item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100}%`"></div>
 				</div>
-				<p class="mt8 text-center">{{$t('ieo.achieved')}}<!-- 已达成 --> {{((item.totalSubscription-item.remainingQuantity)/item.totalRaised*100).toFixed(2)}}%</p>
+				<p class="mt8 text-center">{{$t('ieo.achieved')}}<!-- 已达成 --> {{((item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100).toFixed(2)}}%</p>
 				<button>{{$t('ieo.end_of_distance')}}<!-- 距离结束 -->：{{item.getMsec(item)|humanTime(lang)}}</button>
 			</li>
 		</ul>
@@ -42,7 +42,7 @@
 				<p class="mt15">{{$t('ieo.status_purchaes_deadline')}}<!-- 申购截止 -->： <span>{{new Date(item.endTime).format()}}</span></p>
 				<p class="mt15 ellipsis">{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span :title="`${String(item.totalIssue).toMoney()} ${item.projectSymbol}`">{{String(item.totalIssue).toMoney()}} {{item.projectSymbol}}</span></p>
 				<p class="mt15 ellipsis">{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span :title="`${String(item.totalRaised).toMoney()} ${item.priceSymbol}`">{{String(item.totalRaised).toMoney()}} {{item.priceSymbol}}</span></p>
-				<p class="mt15 ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(item.totalSubscription-item.remainingQuantity).toMoney()} ${item.priceSymbol}`">{{toFixed(item.totalSubscription-item.remainingQuantity).toMoney()}} {{item.priceSymbol}}</span></p>
+				<p class="mt15 ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(item.totalQuantity-item.remainingQuantity).toMoney()} ${item.priceSymbol}`">{{toFixed(item.totalQuantity-item.remainingQuantity).toMoney()}} {{item.priceSymbol}}</span></p>
 				<button>{{$t('ieo.start_of_distance')}}<!-- 距离开始 -->：{{item.getMsec(item)|humanTime(lang)}}</button>
 			</li>
 		</ul>
@@ -62,12 +62,12 @@
 				<p class="mt15">{{$t('ieo.status_purchaes_deadline')}}<!-- 申购截止 -->： <span>{{new Date(item.endTime).format()}}</span></p>
 				<p class="mt15 ellipsis">{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span :title="`${String(item.totalIssue).toMoney()} ${item.projectSymbol}`">{{String(item.totalIssue).toMoney()}} {{item.projectSymbol}}</span></p>
 				<p class="mt15 ellipsis">{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span :title="`${String(item.totalRaised).toMoney()} ${item.priceSymbol}`">{{String(item.totalRaised).toMoney()}} {{item.priceSymbol}}</span></p>
-				<p class="mt15 ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(item.totalSubscription-item.remainingQuantity).toMoney()} ${item.priceSymbol}`">{{toFixed(item.totalSubscription-item.remainingQuantity).toMoney()}} {{item.priceSymbol}}</span></p>
+				<p class="mt15 ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(item.totalQuantity-item.remainingQuantity).toMoney()} ${item.priceSymbol}`">{{toFixed(item.totalQuantity-item.remainingQuantity).toMoney()}} {{item.priceSymbol}}</span></p>
 				<div class="progress mt20">
 					<div class="progress-bar-base"></div>
-					<div class="progress-bar" :style="`width: ${(item.totalSubscription-item.remainingQuantity)/item.totalSubscription*100>100?100:(item.totalSubscription-item.remainingQuantity)/item.totalSubscription*100}%`"></div>
+					<div class="progress-bar" :style="`width: ${(item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100>100?100:(item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100}%`"></div>
 				</div>
-				<p class="mt8 text-center">{{$t('ieo.reach')}}<!-- 达成 --> {{((item.totalSubscription-item.remainingQuantity)/item.totalSubscription*100).toFixed(2)}}%</p>
+				<p class="mt8 text-center">{{$t('ieo.reach')}}<!-- 达成 --> {{((item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100).toFixed(2)}}%</p>
 			</li>
 		</ul>
 		<div class="nodata" v-if="!locked && list3.length === 0">
