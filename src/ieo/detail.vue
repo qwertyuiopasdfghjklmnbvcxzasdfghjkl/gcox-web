@@ -25,12 +25,12 @@
 				<div class="mt20 progress-container">
 					<div class="progress" sty>
 						<div class="progress-bar-base"></div>
-						<div class="progress-bar" :style="`width: ${(info.totalSubscription-info.remainingQuantity)/info.totalRaised*100>100?100:(info.totalSubscription-info.remainingQuantity)/info.totalRaised*100}%`"></div>
-						<p class="mt8 f-c-gray">{{$t('ieo.achieved')}}<!-- 已达成 -->： {{((info.totalSubscription-info.remainingQuantity)/info.totalRaised*100).toFixed(2)}}%</p>
+						<div class="progress-bar" :style="`width: ${(info.totalSubscription-info.remainingQuantity)/info.totalSubscription*100>100?100:(info.totalSubscription-info.remainingQuantity)/info.totalSubscription*100}%`"></div>
+						<p class="mt8 f-c-gray">{{$t('ieo.achieved')}}<!-- 已达成 -->： {{((info.totalSubscription-info.remainingQuantity)/info.totalSubscription*100).toFixed(2)}}%</p>
 					</div>
 					<div>
 						<button type="button" class="mint-btn" :class="stage!==3?'success':'disabled'" :disabled="stage!==1"  @click="joinDialog()">{{$t('ieo.participate_immediately')}}<!-- 立即参与 --></button>
-						<span class="f-c-danger fs12 ml20" v-if="stage!==3"><i v-if="stage===2">{{$t('ieo.start_of_distance')}}<!-- 距离开始 --></i><i v-if="stage===1">{{$t('ieo.remaining')}}<!-- 剩余 --></i>：{{info.getMsec(info)|humanTime(lang==''?'天':'days')}}</span>
+						<span class="f-c-danger fs12 ml20" v-if="stage!==3"><i v-if="stage===2">{{$t('ieo.start_of_distance')}}<!-- 距离开始 --></i><i v-if="stage===1">{{$t('ieo.remaining')}}<!-- 剩余 --></i>：{{info.getMsec(info)|humanTime(lang)}}</span>
 					</div>
 				</div>
 			</div>
@@ -144,7 +144,7 @@ export default {
 		  return numUtils.BN(value || 0).toFixed(fixed === undefined ? 2 : fixed)
 		},
 		mergeData(data){
-			if(data.dataType==='ieo' && data.data.projectId===this.info.projectId){
+			if(data.dataType==='ieo'){
 				if(!Number(data.data.remainingQuantity)){
 					this.stage = 3
 					return
