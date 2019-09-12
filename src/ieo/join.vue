@@ -12,7 +12,7 @@
 						<option :value="item.accountId" selected="" v-for="item in info.accounts">{{item.symbol}}</option>
 					</select>
 				</p>
-				<p class="mt15">{{$t('account.estimated_value_available')}}<!-- 可用余额 -->： <strong class="mr20">{{String(currtAccount.availableBalance).toMoney()}} {{currtAccount.symbol}}</strong> ({{$t('ieo.pay_per_copy')}}<!-- 每份需支付 --> <strong>{{Number(price)}} {{currtAccount.symbol}}</strong>)</p>
+				<p class="mt15">{{$t('account.estimated_value_available')}}<!-- 可用余额 -->： <strong class="mr20">{{(currtAccount.availableBalance).toFixed('8').toMoney()|removeEndZero}} {{currtAccount.symbol}}</strong> ({{$t('ieo.pay_per_copy')}}<!-- 每份需支付 --> <strong>{{Number(price)}} {{currtAccount.symbol}}</strong>)</p>
 				<p class="mt15">{{$t('ieo.subscription_shares')}}<!-- 认购份数 -->：
 					<input type="number" name="total" class="total" v-model="applyQuantity" :placeholder="`${$t('public0.public114')} ${info.subscriptionLeast}`" onKeyPress="if (event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
 					<span class="ml20" v-show="Number(applyQuantity)">{{$t('ieo.payable')}}<!-- 需支付 --> <strong>{{totalPay}}</strong> {{currtAccount.symbol}} </span>
