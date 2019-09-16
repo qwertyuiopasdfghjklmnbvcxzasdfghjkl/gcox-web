@@ -30,6 +30,7 @@
         list: [],
         page: 1,
         size: 10,
+        state: 1,
         total: null,
         loading: false
       }
@@ -50,7 +51,7 @@
           size: this.size
         }
         market.getCmsList(data, (res, total) => {
-          
+
           this.list = res
           this.total = total
           this.loading = false

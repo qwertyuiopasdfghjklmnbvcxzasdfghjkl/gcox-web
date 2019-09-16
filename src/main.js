@@ -30,6 +30,7 @@ import 'echarts/lib/component/title.js'
 import loading from '@/components/loading'
 
 import VueClipboard from 'vue-clipboard2'
+// import gjh from '../src/public/mycenter/gjh'
 
 import * as Sentry from '@sentry/browser'
 import * as Integrations from '@sentry/integrations'
@@ -69,7 +70,6 @@ if (lang === 'en') {
 }
 langApi.getLanguage(lang, (res) => {
   i18n.locale = lang
-  // res.usercontent = gjh.usercontent
   i18n.setLocaleMessage(lang, res)
   window.vm = new Vue({
     el: '#app',
