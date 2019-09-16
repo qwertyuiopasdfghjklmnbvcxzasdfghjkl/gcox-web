@@ -12,9 +12,9 @@
 						<option :value="item.accountId" selected="" v-for="item in info.accounts">{{item.symbol}}</option>
 					</select>
 				</p>
-				<p class="mt15">{{$t('account.estimated_value_available')}}<!-- 可用余额 -->： <strong class="mr20">{{String(currtAccount.availableBalance).toMoney()}} {{currtAccount.symbol}}</strong> ({{$t('ieo.pay_per_copy')}}<!-- 每份需支付 --> <strong>{{Number(price)}} {{currtAccount.symbol}}</strong>)</p>
+				<p class="mt15">{{$t('account.estimated_value_available')}}<!-- 可用余额 -->： <strong class="mr20">{{(currtAccount.availableBalance).toFixed('8').toMoney()|removeEndZero}} {{currtAccount.symbol}}</strong> ({{$t('ieo.pay_per_copy')}}<!-- 每份需支付 --> <strong>{{Number(price)}} {{currtAccount.symbol}}</strong>)</p>
 				<p class="mt15">{{$t('ieo.subscription_shares')}}<!-- 认购份数 -->：
-					<input type="number" name="total" class="total" v-model="applyQuantity" :placeholder="`${$t('public0.public114')} ${info.subscriptionLeast} ${currtAccount.symbol}`" onKeyPress="if (event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
+					<input type="number" name="total" class="total" v-model="applyQuantity" :placeholder="`${$t('public0.public114')} ${info.subscriptionLeast}`" onKeyPress="if (event.keyCode!=45 && event.keyCode<48 || event.keyCode>57) event.returnValue=false">
 					<span class="ml20" v-show="Number(applyQuantity)">{{$t('ieo.payable')}}<!-- 需支付 --> <strong>{{totalPay}}</strong> {{currtAccount.symbol}} </span>
 				</p>
 				<p class="mt15 fs14 agreement">
@@ -22,13 +22,13 @@
 					  <input id="agreement" type="checkbox" name="agreement" checked="">
 					  <i type="checkbox"></i>
 					</label>
-					<label for="agreement">{{$t('login_register.agree_Service')}}<!-- 我已阅读并同意 --> <a href="/sparkle/agreement" target="_blank" class="mcolor">XXXXXX</a> {{$t('ieo.terms_of_agreement')}}<!-- 协议条款 --></label>
+					<label for="agreement">{{$t('login_register.agree_Service')}}<!-- 我已阅读并同意 --> <br>(1) <a href="/linkFoot/detail/186207821702889472" target="_blank" class="mcolor">{{$t('ieo.terms_of_service')}}<!-- IEO Terms of Service --></a><br>(2) <a href="https://gcoxgroup.com/privacy_policy.html" target="_blank" class="mcolor">{{$t('ieo.privacy_policy')}}<!-- Privacy Policy --></a><br>(3) <a href="https://gcoxgroup.com/wallet_tnc.html" target="_blank" class="mcolor">{{$t('ieo.ewallet_terms_of_use')}}<!-- E-wallet terms of use --></a></label>
 				</p>
 				<p class="mt25"><button type="button" class="mint-btn success" :disabled="locked" style="width: 200px" @click="applyValidate">{{$t('ieo.confirm_purchase')}}<!-- 确认申购 --></button></p>
 			</section>
 			<section class="lh15 f-c-gray">
 				<p><span class="icon-info-with-circle f-c-danger"></span> {{$t('ieo.subscription_notice')}}<!-- 认购须知 -->：</p>
-				<div v-html="this.info.subscriptionNotice"></div>
+				<div v-html="info['subscriptionNotice'+lang]"></div>
 			</section>
 		</div>
 		<div class="title box mt10">{{$t('ieo.participation_record')}}<!-- 当前参与记录 --></div>
@@ -69,7 +69,14 @@ export default {
 		}
 	},
 	computed:{
-		...mapGetters([]),
+		...mapGetters(['getLang']),
+		lang(){
+			if(this.getLang==='zh-CN' || this.getLang==='cht'){
+				return ''
+			} else {
+				return 'En'
+			}
+		},
 		buyLimit(){
 			let applied = 0
 			for(let item of this.list){

@@ -15,22 +15,23 @@
 				</p>
 				<p class="mt25">{{$t('ieo.status_start_purchase')}}<!-- 申购开始 -->： <span>{{new Date(item.startTime).format()}}</span></p>
 				<p class="mt15">{{$t('ieo.status_purchaes_deadline')}}<!-- 申购截止 -->： <span>{{new Date(item.endTime).format()}}</span></p>
-				<p class="mt15">{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span>{{String(item.totalIssue).toMoney()}} {{item.projectSymbol}}</span></p>
-				<p class="mt15">{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span>{{String(item.totalRaised).toMoney()}} {{item.priceSymbol}}</span></p>
-				<p class="mt15">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span>{{String(item.totalSubscription-item.remainingQuantity).toMoney()}} {{item.priceSymbol}}</span></p>
+				<p class="mt15 ellipsis">{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span :title="`${String(item.totalIssue).toMoney()} ${item.projectSymbol}`">{{String(item.totalIssue).toMoney()}} {{item.projectSymbol}}</span></p>
+				<p class="mt15 ellipsis">{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span :title="`${String(item.totalRaised).toMoney()} ${item.priceSymbol}`">{{String(item.totalRaised).toMoney()}} {{item.priceSymbol}}</span></p>
+				<p class="mt15 ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(item.totalQuantity-item.remainingQuantity).toMoney()}`">{{toFixed(item.totalQuantity-item.remainingQuantity).toMoney()}}</span></p>
 				<div class="progress mt20">
 					<div class="progress-bar-base"></div>
-					<div class="progress-bar" :style="`width: ${(item.totalSubscription-item.remainingQuantity)/item.totalRaised*100>100?100:(item.totalSubscription-item.remainingQuantity)/item.totalRaised*100}%`"></div>
+					<div class="progress-bar" :style="`width: ${(item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100>100?100:(item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100}%`"></div>
 				</div>
-				<p class="mt8 text-center">{{$t('ieo.achieved')}}<!-- 已达成 --> {{((item.totalSubscription-item.remainingQuantity)/item.totalRaised*100).toFixed(2)}}%</p>
-				<button>{{$t('ieo.end_of_distance')}}<!-- 距离结束 -->：{{item.getMsec(item)|humanTime(lang==''?'天':'days')}}</button>
+				<p class="mt8 text-center">{{$t('ieo.achieved')}}<!-- 已达成 --> {{((item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100).toFixed(2)}}%</p>
+				<button>{{$t('ieo.end_of_distance')}}<!-- 距离结束 -->：{{item.getMsec(item)|humanTime(lang)}}</button>
 			</li>
 		</ul>
 		<div class="nodata" v-if="!locked && list1.length === 0">
 		  <div class="nodata-icon icon-no-order"></div>
 		  <div class="nodata-text">{{$t('public0.public50')}}<!--暂无数据--></div>
 		</div>
-		<div class="title box mt10">{{$t('ieo.status_to_start')}}<!-- 即将开始 --></div><a name="B"></a>
+		<a name="B"></a>
+		<div class="title box mt10">{{$t('ieo.status_to_start')}}<!-- 即将开始 --></div>
 		<ul class="items-container wait clearfix">
 			<li v-for="item in list2" :key="item.projectId" @click="goDetail(item.projectId)">
 				<p class="rp">
@@ -39,17 +40,18 @@
 				</p>
 				<p class="mt25">{{$t('ieo.status_start_purchase')}}<!-- 申购开始 -->： <span>{{new Date(item.startTime).format()}}</span></p>
 				<p class="mt15">{{$t('ieo.status_purchaes_deadline')}}<!-- 申购截止 -->： <span>{{new Date(item.endTime).format()}}</span></p>
-				<p class="mt15">{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span>{{String(item.totalIssue).toMoney()}} {{item.projectSymbol}}</span></p>
-				<p class="mt15">{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span>{{String(item.totalRaised).toMoney()}} {{item.priceSymbol}}</span></p>
-				<p class="mt15">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span>{{String(item.totalSubscription-item.remainingQuantity).toMoney()}} {{item.priceSymbol}}</span></p>
-				<button>{{$t('ieo.start_of_distance')}}<!-- 距离开始 -->：{{item.getMsec(item)|humanTime('天')}}</button>
+				<p class="mt15 ellipsis">{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span :title="`${String(item.totalIssue).toMoney()} ${item.projectSymbol}`">{{String(item.totalIssue).toMoney()}} {{item.projectSymbol}}</span></p>
+				<p class="mt15 ellipsis">{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span :title="`${String(item.totalRaised).toMoney()} ${item.priceSymbol}`">{{String(item.totalRaised).toMoney()}} {{item.priceSymbol}}</span></p>
+				<p class="mt15 ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(item.totalQuantity-item.remainingQuantity).toMoney()}`">{{toFixed(item.totalQuantity-item.remainingQuantity).toMoney()}}</span></p>
+				<button>{{$t('ieo.start_of_distance')}}<!-- 距离开始 -->：{{item.getMsec(item)|humanTime(lang)}}</button>
 			</li>
 		</ul>
 		<div class="nodata" v-if="!locked && list2.length === 0">
 		  <div class="nodata-icon icon-no-order"></div>
 		  <div class="nodata-text">{{$t('public0.public50')}}<!--暂无数据--></div>
 		</div>
-		<div class="title box mt10">{{$t('ieo.status_over')}}<!-- 已结束 --></div><a name="C"></a>
+		<a name="C"></a>
+		<div class="title box mt10">{{$t('ieo.status_over')}}<!-- 已结束 --></div>
 		<ul class="items-container finished clearfix">
 			<li v-for="item in list3" :key="item.projectId" @click="goDetail(item.projectId)">
 				<p class="rp">
@@ -58,14 +60,14 @@
 				</p>
 				<p class="mt25">{{$t('ieo.status_start_purchase')}}<!-- 申购开始 -->： <span>{{new Date(item.startTime).format()}}</span></p>
 				<p class="mt15">{{$t('ieo.status_purchaes_deadline')}}<!-- 申购截止 -->： <span>{{new Date(item.endTime).format()}}</span></p>
-				<p class="mt15">{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span>{{String(item.totalIssue).toMoney()}} {{item.projectSymbol}}</span></p>
-				<p class="mt15">{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span>{{String(item.totalRaised).toMoney()}} {{item.priceSymbol}}</span></p>
-				<p class="mt15">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span>{{String(item.totalSubscription-item.remainingQuantity).toMoney()}} {{item.priceSymbol}}</span></p>
+				<p class="mt15 ellipsis">{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span :title="`${String(item.totalIssue).toMoney()} ${item.projectSymbol}`">{{String(item.totalIssue).toMoney()}} {{item.projectSymbol}}</span></p>
+				<p class="mt15 ellipsis">{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span :title="`${String(item.totalRaised).toMoney()} ${item.priceSymbol}`">{{String(item.totalRaised).toMoney()}} {{item.priceSymbol}}</span></p>
+				<p class="mt15 ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(item.totalQuantity-item.remainingQuantity).toMoney()}`">{{toFixed(item.totalQuantity-item.remainingQuantity).toMoney()}}</span></p>
 				<div class="progress mt20">
 					<div class="progress-bar-base"></div>
-					<div class="progress-bar" :style="`width: ${(item.totalSubscription-item.remainingQuantity)/item.totalRaised*100>100?100:(item.totalSubscription-item.remainingQuantity)/item.totalRaised*100}%`"></div>
+					<div class="progress-bar" :style="`width: ${(item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100>100?100:(item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100}%`"></div>
 				</div>
-				<p class="mt8 text-center">{{$t('ieo.reach')}}<!-- 达成 --> {{((item.totalSubscription-item.remainingQuantity)/item.totalRaised*100).toFixed(2)}}%</p>
+				<p class="mt8 text-center">{{$t('ieo.reach')}}<!-- 达成 --> {{((item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100).toFixed(2)}}%</p>
 			</li>
 		</ul>
 		<div class="nodata" v-if="!locked && list3.length === 0">
@@ -85,6 +87,8 @@ import loading from '@/components/loading'
 import ieoApi from '@/api/ieo'
 import socket from '@/assets/js/socket'
 import Config from '@/assets/js/config'
+import numUtils from '@/assets/js/numberUtils'
+
 export default {
 	components: {
 	  loading
@@ -114,12 +118,14 @@ export default {
 		this.getIEOProjectsList()
 		this.connectSoket()
 	},
-	beforeRouteLeave(to, from, next){
+	destroyed(){
 		clearInterval(this.interVal)
 		this.socket.destroy()
-		next()
 	},
 	methods:{
+		toFixed (value, fixed) {
+		  return numUtils.BN(value || 0).toFixed(fixed === undefined ? 2 : fixed)
+		},
 		mergeData(data){
 			if(data.dataType==='ieo' && data.data.length){
 				for(let item of this.list1){
@@ -136,7 +142,11 @@ export default {
 			}
 		},
 		connectSoket(){
-			this.socket = new socket(`${Config.protocol}${Config.domain}/ws9501`)
+			let host = location.host.toLowerCase(), url = `${Config.protocol}${Config.domain}/ws9501`
+			if(host.indexOf('gcox.com') !== -1 &&  host.indexOf('exchange-staging.gcox.com') === -1) {
+			  url = `${Config.protocol}ws-exchange.gcox.com/ws9501`
+			}
+			this.socket = new socket(url)
 			this.socket.on('open', ()=>{
 	            this.socket.send({
 	            	event: 'addChannel',
@@ -301,4 +311,8 @@ export default {
 .nodata{text-align: center;}
 .nodata .nodata-icon{height: 80px;line-height: 80px;font-size: 40px;color: #A1A1A1;}
 .nodata .nodata-text{height: 40px;line-height: 20px;color: #A1A1A1;}
+a[name=A], a[name=B], a[name=C] {
+	position: absolute;
+	margin-top: -70px;
+}
 </style>

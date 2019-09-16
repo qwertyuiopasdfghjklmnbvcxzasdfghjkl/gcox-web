@@ -16,21 +16,21 @@
 				</div>
 				<div class="mt15 items">
 					<p>{{$t('ieo.subscription_price')}}<!-- 认购价格 -->： <span>1 {{info.priceSymbol}} = {{info.subscriptionPrice}} {{info.projectSymbol}} </span></p>
-					<p>{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span>{{String(info.totalIssue).toMoney()}} {{info.projectSymbol}}</span></p>
+					<p class="ellipsis">{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span :title="`${String(info.totalIssue).toMoney()} ${info.projectSymbol}`">{{String(info.totalIssue).toMoney()}} {{info.projectSymbol}}</span></p>
 				</div>
 				<div class="mt15 items">
-					<p>{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span>{{info.totalSubscription-info.remainingQuantity}} {{info.priceSymbol}}</span></p>
-					<p>{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span>{{String(info.totalRaised).toMoney()}} {{info.priceSymbol}}</span></p>
+					<p class="ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(info.totalQuantity-info.remainingQuantity)}`">{{toFixed(info.totalQuantity-info.remainingQuantity)}}</span></p>
+					<p class="ellipsis">{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span :title="`${String(info.totalRaised).toMoney()} ${info.priceSymbol}`">{{String(info.totalRaised).toMoney()}} {{info.priceSymbol}}</span></p>
 				</div>
 				<div class="mt20 progress-container">
 					<div class="progress" sty>
 						<div class="progress-bar-base"></div>
-						<div class="progress-bar" :style="`width: ${(info.totalSubscription-info.remainingQuantity)/info.totalRaised*100>100?100:(info.totalSubscription-info.remainingQuantity)/info.totalRaised*100}%`"></div>
-						<p class="mt8 f-c-gray">{{$t('ieo.achieved')}}<!-- 已达成 -->： {{((info.totalSubscription-info.remainingQuantity)/info.totalRaised*100).toFixed(2)}}%</p>
+						<div class="progress-bar" :style="`width: ${(info.totalQuantity-info.remainingQuantity)/info.totalQuantity*100>100?100:(info.totalQuantity-info.remainingQuantity)/info.totalQuantity*100}%`"></div>
+						<p class="mt8 f-c-gray">{{$t('ieo.achieved')}}<!-- 已达成 -->： {{((info.totalQuantity-info.remainingQuantity)/info.totalQuantity*100).toFixed(2)}}%</p>
 					</div>
 					<div>
 						<button type="button" class="mint-btn" :class="stage!==3?'success':'disabled'" :disabled="stage!==1"  @click="joinDialog()">{{$t('ieo.participate_immediately')}}<!-- 立即参与 --></button>
-						<span class="f-c-danger fs12 ml20" v-if="stage!==3"><i v-if="stage===2">{{$t('ieo.start_of_distance')}}<!-- 距离开始 --></i><i v-if="stage===1">{{$t('ieo.remaining')}}<!-- 剩余 --></i>：{{info.getMsec(info)|humanTime(lang==''?'天':'days')}}</span>
+						<span class="f-c-danger fs12 ml20" v-if="stage!==3"><i v-if="stage===2">{{$t('ieo.start_of_distance')}}<!-- 距离开始 --></i><i v-if="stage===1">{{$t('ieo.remaining')}}<!-- 剩余 --></i>：{{info.getMsec(info)|humanTime(lang)}}</span>
 					</div>
 				</div>
 			</div>
@@ -38,10 +38,15 @@
 		<div class="title box mt10">{{$t('ieo.project_progres')}}<!-- 项目进度 --></div>
 		<div class="steps-container box-bgc">
 			<div class="steps">
-				<span></span>
-				<span></span>
-				<span></span>
-				<span></span>
+				<span :class="{active: serverTime>= info.startTime}"></span>
+				<span :class="{active: serverTime>= info.endTime}"></span>
+				<span :class="{active: serverTime>= info.paidTime}"></span>
+				<span :class="{active: serverTime>= info.releaseTime}"></span>
+			</div>
+			<div class="steps-bar ui-flex">
+				<div class="ui-flex-1 rp"><span :style="getProgress1"></span></div>
+				<div class="ui-flex-1 rp"><span :style="getProgress2"></span></div>
+				<div class="ui-flex-1 rp"><span :style="getProgress3"></span></div>
 			</div>
 			<div class="steps-title mt20">
 				<span>{{$t('ieo.status_start_purchase')}}<!-- 申购开始 -->：{{new Date(info.startTime).format()}}</span>
@@ -75,6 +80,7 @@ import joinDialog from './join'
 import loading from '@/components/loading'
 import socket from '@/assets/js/socket'
 import Config from '@/assets/js/config'
+import numUtils from '@/assets/js/numberUtils'
 export default {
 	components: {
 	  loading
@@ -86,7 +92,8 @@ export default {
 			timer:0,
 			interVal:null,
 			locked:true,
-			socket:null
+			socket:null,
+			serverTime:null
 		}
 	},
 	computed:{
@@ -98,6 +105,24 @@ export default {
 				return 'En'
 			}
 		},
+		getProgress1(){
+			let duration = Math.round((this.serverTime -this.info.startTime) / (this.info.endTime - this.info.startTime) *100)
+			duration = duration<=0?0:duration
+			duration = duration>100?100:duration
+			return {width:duration+'%'}
+		},
+		getProgress2(){
+			let duration = Math.round((this.serverTime -this.info.endTime) / (this.info.paidTime - this.info.endTime) *100)
+			duration = duration<=0?0:duration
+			duration = duration>100?100:duration
+			return {width:duration+'%'}
+		},
+		getProgress3(){
+			let duration = Math.round((this.serverTime -this.info.paidTime) / (this.info.releaseTime - this.info.paidTime) *100)
+			duration = duration<=0?0:duration
+			duration = duration>100?100:duration
+			return {width:duration+'%'}
+		}
 	},
 	watch:{
 		stage(_n){
@@ -109,24 +134,30 @@ export default {
 	created(){
 		this.getIEOprojectsDetail()
 	},
-	beforeRouteLeave(to, from, next){
+	destroyed(){
 		clearInterval(this.interVal)
 		this.socket && this.socket.destroy()
-		next()
 	},
+
 	methods:{
+		toFixed (value, fixed) {
+		  return numUtils.BN(value || 0).toFixed(fixed === undefined ? 2 : fixed)
+		},
 		mergeData(data){
-			if(data.dataType==='ieo' && data.data.projectId===this.info.projectId){
+			if(data.dataType==='ieo'){
 				if(!Number(data.data.remainingQuantity)){
 					this.stage = 3
-					this.socket.destroy()
 					return
 				}
 				this.info.remainingQuantity = Number(data.data.remainingQuantity)
 			}
 		},
 		connectSoket(){
-			this.socket = new socket(`${Config.protocol}${Config.domain}/ws9501`)
+			let host = location.host.toLowerCase(), url = `${Config.protocol}${Config.domain}/ws9501`
+			if(host.indexOf('gcox.com') !== -1 &&  host.indexOf('exchange-staging.gcox.com') === -1) {
+			  url = `${Config.protocol}ws-exchange.gcox.com/ws9501`
+			}
+			this.socket = new socket(url)
 			this.socket.on('open', ()=>{
 	            this.socket.send({
 	            	event: 'addChannel',
@@ -165,6 +196,7 @@ export default {
 			ieoApi.getIEOprojectsDetail(this.$route.params.id,(res, serverTime)=>{
 				this.locked = false
 				this.timer = 0
+				this.serverTime = serverTime
 				if(!this.interVal){
 					this.interVal = setInterval(()=>{this.timer += 1000},1000)
 				}
@@ -260,12 +292,12 @@ export default {
 }
 .title {background-color: #000; color: #fff; font-size: 18px; line-height: 50px;}
 .steps-container {
-	padding:55px 20px 50px;
+	margin:55px 20px 50px; position: relative;
 	.steps {
 		height: 6px;
 		line-height: 0;
 		font-size: 0;
-		background-color:@main-color;
+		background-color:#383838;
 		position: relative;
 		border-radius: 6px;
 		display: flex;
@@ -273,10 +305,17 @@ export default {
 		span {
 			width: 12px;
 			height: 12px;
-			background-color:@main-color;
+			background-color:#383838;
 			border-radius: 12px;
 			margin-top: -3px;
+			position: relative;
+			z-index: 2;
+			&.active {background-color:@main-color;}
 		}
+	}
+	.steps-bar {
+		height: 6px; position: absolute; top: 0; left: 0; right: 0; z-index: 1;
+		span {position: absolute; height: 100%;left: 0; top: 0; background-color: @main-color;}
 	}
 	.steps-title {
 		display: flex;

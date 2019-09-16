@@ -156,7 +156,7 @@ export default {
           datas.forEach((item) => {
             newArray.push([Number(item[0]), parseFloat(this.toFixed(Number(item[1]))) || 0, parseFloat(this.toFixed(Number(item[2]))) || 0, parseFloat(this.toFixed(Number(item[3]))) || 0, parseFloat(this.toFixed(Number(item[4]))) || 0, parseFloat(this.toFixed(Number(item[5]))) || 0])
           })
-          if (!this.isFirst) {
+          if (!this.isFirst && newArray.length===1) {
             let tempObj = {}
             newArray.forEach((item) => {
               tempObj[String(item[0])] = item
@@ -170,10 +170,12 @@ export default {
             }
             newArray.forEach((item) => {
               if (tempObj[String(item[0])]) {
-                klineDatas.push(item)
+                if(klineDatas.slice(-1).length===0 || (klineDatas.slice(-1).length && item[0]>klineDatas.slice(-1)[0][0])){
+                  klineDatas.push(item)
+                }
               }
             })
-          } else {
+          } else if(newArray.length>1){
             this.isFirst = false
             this.klineData = newArray
           }

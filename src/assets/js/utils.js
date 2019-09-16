@@ -394,6 +394,7 @@ Vue.filter('humanTime',function(msec, day){
   var hours_f = fitLen(hours, 2);
   var minutes_f = fitLen(minutes, 2);
   var second_f = fitLen(second, 2);
+  day = day===''?'天':(days>1?'days':'day')
   return `${days_f} ${day} ${hours_f}:${minutes_f}:${second_f}`
 });
 
