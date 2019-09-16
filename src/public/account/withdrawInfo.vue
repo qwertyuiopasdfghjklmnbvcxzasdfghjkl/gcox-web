@@ -19,7 +19,7 @@
           </em>
           <div class="withAdress">
             <p class="drown" @click.stop="showSymbol=!showSymbol">{{symbol}}</p>
-            <ul v-show="showSymbol">
+            <ul v-show="showSymbol" style="z-index: 999">
               <li v-for="item in allData"
                   @click.prevent="changeW(item)"
                   :class="{active: item.symbol === symbol}">{{item.symbol}}

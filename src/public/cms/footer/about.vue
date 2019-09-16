@@ -46,11 +46,12 @@
         let data = {
           firstLevel: 2,
           secondLevel: 3,
+          state: 1,
           page: this.page,
           size: this.size
         }
         market.getCmsList(data, (res, total) => {
-          
+
           this.list = res
           this.total = total
           this.loading = false

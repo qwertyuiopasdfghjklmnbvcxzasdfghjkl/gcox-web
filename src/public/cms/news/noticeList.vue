@@ -47,11 +47,12 @@
         let data = {
           firstLevel: 1,
           secondLevel: 1,
+          state: 1,
           page: this.page,
           size: this.size
         }
         market.getCmsList(data, (res, total) => {
-          
+
           this.list = res.filter(res => {
             if (res.state === 1) {
               return res
