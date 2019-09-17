@@ -1,6 +1,6 @@
 <template>
 	<div class="page">
-		<img :src="getSysParams.ieoBanner.value" class="banner-brief">
+		<img :src="getSysParams.ieoBanner && getSysParams.ieoBanner.value" class="banner-brief">
 		<ul class="tab-bar efont"><a name="A"></a>
 			<li class="active"><a href="#A">{{$t('ieo.status_processing')}}<!-- 进行中 --></a></li>
 			<li><a href="#B">{{$t('ieo.status_to_start')}}<!-- 即将开始 --></a></li>
@@ -17,18 +17,18 @@
 				<p class="mt15">{{$t('ieo.status_purchaes_deadline')}}<!-- 申购截止 -->： <span>{{new Date(item.endTime).format()}}</span></p>
 				<p class="mt15 ellipsis">{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span :title="`${String(item.totalIssue).toMoney()} ${item.projectSymbol}`">{{String(item.totalIssue).toMoney()}} {{item.projectSymbol}}</span></p>
 				<p class="mt15 ellipsis">{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span :title="`${String(item.totalRaised).toMoney()} ${item.priceSymbol}`">{{String(item.totalRaised).toMoney()}} {{item.priceSymbol}}</span></p>
-				<p class="mt15 ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(item.totalQuantity-item.remainingQuantity).toMoney()}`">{{toFixed(item.totalQuantity-item.remainingQuantity).toMoney()}}</span></p>
+				<p class="mt15 ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(item.totalQuantity-item.remainingQuantity,0).toMoney()} / ${toFixed(item.totalQuantity,0).toMoney()} Lots`">{{`${toFixed(item.totalQuantity-item.remainingQuantity,0).toMoney()} / ${toFixed(item.totalQuantity,0).toMoney()} Lots`}}</span></p>
 				<div class="progress mt20">
 					<div class="progress-bar-base"></div>
 					<div class="progress-bar" :style="`width: ${(item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100>100?100:(item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100}%`"></div>
 				</div>
 				<p class="mt8 text-center">{{$t('ieo.achieved')}}<!-- 已达成 --> {{((item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100).toFixed(2)}}%</p>
+				<p class="mt15 text-right f-c-main">{{$t('ieo.participate_immediately')}} →</p>
 				<button>{{$t('ieo.end_of_distance')}}<!-- 距离结束 -->：{{item.getMsec(item)|humanTime(lang)}}</button>
 			</li>
 		</ul>
 		<div class="nodata" v-if="!locked && list1.length === 0">
-		  <div class="nodata-icon icon-no-order"></div>
-		  <div class="nodata-text">{{$t('public0.public50')}}<!--暂无数据--></div>
+		  <div class="nodata-icon icon-stars"></div>
 		</div>
 		<a name="B"></a>
 		<div class="title box mt10">{{$t('ieo.status_to_start')}}<!-- 即将开始 --></div>
@@ -42,13 +42,12 @@
 				<p class="mt15">{{$t('ieo.status_purchaes_deadline')}}<!-- 申购截止 -->： <span>{{new Date(item.endTime).format()}}</span></p>
 				<p class="mt15 ellipsis">{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span :title="`${String(item.totalIssue).toMoney()} ${item.projectSymbol}`">{{String(item.totalIssue).toMoney()}} {{item.projectSymbol}}</span></p>
 				<p class="mt15 ellipsis">{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span :title="`${String(item.totalRaised).toMoney()} ${item.priceSymbol}`">{{String(item.totalRaised).toMoney()}} {{item.priceSymbol}}</span></p>
-				<p class="mt15 ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(item.totalQuantity-item.remainingQuantity).toMoney()}`">{{toFixed(item.totalQuantity-item.remainingQuantity).toMoney()}}</span></p>
+				<p class="mt15 ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(item.totalQuantity-item.remainingQuantity,0).toMoney()} / ${toFixed(item.totalQuantity,0).toMoney()} Lots`">{{`${toFixed(item.totalQuantity-item.remainingQuantity,0).toMoney()} / ${toFixed(item.totalQuantity,0).toMoney()} Lots`}}</span></p>
 				<button>{{$t('ieo.start_of_distance')}}<!-- 距离开始 -->：{{item.getMsec(item)|humanTime(lang)}}</button>
 			</li>
 		</ul>
 		<div class="nodata" v-if="!locked && list2.length === 0">
-		  <div class="nodata-icon icon-no-order"></div>
-		  <div class="nodata-text">{{$t('public0.public50')}}<!--暂无数据--></div>
+		  <div class="nodata-icon icon-stars"></div>
 		</div>
 		<a name="C"></a>
 		<div class="title box mt10">{{$t('ieo.status_over')}}<!-- 已结束 --></div>
@@ -62,7 +61,7 @@
 				<p class="mt15">{{$t('ieo.status_purchaes_deadline')}}<!-- 申购截止 -->： <span>{{new Date(item.endTime).format()}}</span></p>
 				<p class="mt15 ellipsis">{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span :title="`${String(item.totalIssue).toMoney()} ${item.projectSymbol}`">{{String(item.totalIssue).toMoney()}} {{item.projectSymbol}}</span></p>
 				<p class="mt15 ellipsis">{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span :title="`${String(item.totalRaised).toMoney()} ${item.priceSymbol}`">{{String(item.totalRaised).toMoney()}} {{item.priceSymbol}}</span></p>
-				<p class="mt15 ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(item.totalQuantity-item.remainingQuantity).toMoney()}`">{{toFixed(item.totalQuantity-item.remainingQuantity).toMoney()}}</span></p>
+				<p class="mt15 ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(item.totalQuantity-item.remainingQuantity,0).toMoney()} / ${toFixed(item.totalQuantity,0).toMoney()} Lots`">{{`${toFixed(item.totalQuantity-item.remainingQuantity,0).toMoney()} / ${toFixed(item.totalQuantity,0).toMoney()} Lots`}}</span></p>
 				<div class="progress mt20">
 					<div class="progress-bar-base"></div>
 					<div class="progress-bar" :style="`width: ${(item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100>100?100:(item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100}%`"></div>
@@ -71,8 +70,7 @@
 			</li>
 		</ul>
 		<div class="nodata" v-if="!locked && list3.length === 0">
-		  <div class="nodata-icon icon-no-order"></div>
-		  <div class="nodata-text">{{$t('public0.public50')}}<!--暂无数据--></div>
+		  <div class="nodata-icon icon-stars"></div>
 		</div>
 		<div class="mask-layer" v-show="locked">
 			<div class="center"><loading/></div>
