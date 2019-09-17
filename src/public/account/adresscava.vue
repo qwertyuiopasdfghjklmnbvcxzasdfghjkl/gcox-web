@@ -24,7 +24,7 @@
       <small>{{$t('usercontent.user86')}}</small>
       <p @click.stop="showSymbol = !showSymbol">{{symbol}}</p>
       <ul v-show="showSymbol">
-        <li v-for="item in allData" @click.prevent="icheck(item)">{{item.symbol}}</li>
+        <li v-for="item in allData" @click.prevent="icheck(item)" v-show="item.rechargeFlag===1">{{item.symbol}}</li>
       </ul>
     </div>
     <div class="bottom-box">
