@@ -38,7 +38,7 @@
 				<span>{{$t('ieo.payment_symbol')}}<!-- 付款币种 --></span>
 				<span>{{$t('ieo.number_of_applications')}}<!-- 申请份数 --></span>
 				<span>{{$t('ieo.application_amount')}}<!-- 申请金额 --></span>
-				<span>{{$t('ieo.estimate_gain_quantity')}}<!-- 预期获取数量 --></span>
+				<span>{{$t('ieo.gain_quantity')}}<!-- 获取数量 --></span>
 				<span>{{$t('ieo.status')}}<!-- 状态 --></span>
 			</li>
 			<li v-for="item in list">

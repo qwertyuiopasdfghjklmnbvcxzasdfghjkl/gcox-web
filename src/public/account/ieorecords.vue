@@ -6,7 +6,7 @@
         <span>{{$t('ieo.subscribed_time')}}<!-- 认购时间 --></span>
         <span class="ellipsis" style="flex:none; min-width: 0; width: 180px">{{$t('ieo.project_name')}}<!-- 项目名称 --></span>
         <span>{{$t('ieo.number_of_copies')}}<!-- 获得份数 --></span>
-        <span>{{$t('ieo.gain_quantity')}}<!-- 获得数量 --></span>
+        <span>{{$t('ieo.gain')}}<!-- 获得数量 --></span>
         <span>{{$t('ieo.payment_symbol')}}<!-- 付款币种 --></span>
         <span>{{$t('ieo.payment_amount')}}<!-- 付款金额 --></span>
         <span>{{$t('ieo.status')}}<!-- 状态 --></span>
