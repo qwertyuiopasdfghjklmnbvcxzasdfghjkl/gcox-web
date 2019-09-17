@@ -213,7 +213,7 @@
           <span class="currency">{{item.symbol}}</span>
           <span class="quantity">{{toFixed(item.quantity) | removeEndZero}}</span>
           <span class="status" :class="getDistributedState(item.status)['className']">{{getDistributedState(item.status)['value']}}</span>
-          <span class="note">{{getLockType(item.lockType)}}&nbsp;</span>
+          <span class="note">{{getLockType(item.lockType, item.remarks)}}&nbsp;</span>
 
         </li>
       </ul>
@@ -392,9 +392,12 @@
       this.getListDepositHistory()
     },
     methods: {
-      getLockType(type){
+      getLockType(type, remarks){
         let rst = ''
         switch(type){
+          case -1:
+          rst = remarks
+          break
           case 1:
           rst = this.$t('account.lock_type_user')
           break
