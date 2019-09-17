@@ -318,6 +318,8 @@
             Vue.$koallTipBox({icon: 'success', message: res})
             this.$emit('okCallback')
             this.$emit('removeDialog')
+            this.payPassword = ''
+            this.googleCode = ''
           }, (msg) => {
             Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
           })
