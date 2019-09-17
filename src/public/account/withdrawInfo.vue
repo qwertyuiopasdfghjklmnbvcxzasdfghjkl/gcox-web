@@ -22,6 +22,7 @@
             <ul v-show="showSymbol" style="z-index: 999">
               <li v-for="item in allData"
                   @click.prevent="changeW(item)"
+                  v-show="item.withdrawFlag===1"
                   :class="{active: item.symbol === symbol}">{{item.symbol}}
               </li>
             </ul>
