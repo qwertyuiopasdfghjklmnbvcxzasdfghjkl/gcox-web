@@ -27,9 +27,10 @@
         <li v-for="item in allData" @click.prevent="icheck(item)" v-show="item.rechargeFlag===1">{{item.symbol}}</li>
       </ul>
     </div>
-    <div class="bottom-box">
+    <p class="title-div" style="margin-top: 40px;"><small>{{$t('account.userRechargeAddress')}}<!--充值地址--></small> <small style="color: #E14B26; display: inline-block; background-color: #2E2C3C; padding: 0 8px;" v-show="symbol==='EOS' || symbol==='XRP'"><i class="icon-notification"></i> Memo和Address需要同时使用才能充值成功！</small></p>
+    <div class="bottom-box" style="margin-top: 10px;">
       <div class="copy">
-        <p>{{getAddress}}</p>
+        <p class="ellipsis">{{getAddress}}</p>
         <label v-clipboard:copy="getAddress" v-clipboard:success="onCopy" v-clipboard:error="onError">{{$t('usercontent.copy')}}</label>
       </div>
       <div class="qrad">
@@ -41,7 +42,7 @@
       <p class="title-div" style="margin-top: 40px;"><small>{{symbol}} {{$t('account.recharge_memo')}}<!--充值备注--></small></p>
       <div class="bottom-box" style="margin-top: 10px;">
         <div class="copy">
-          <p>{{addr}}</p>
+          <p class="ellipsis">{{addr}}</p>
           <label v-clipboard:copy="addr" v-clipboard:success="onCopy" v-clipboard:error="onError">{{$t('usercontent.copy')}}</label>
         </div>
         <div class="qrad">
