@@ -48,6 +48,14 @@
             {{$t('account.user_new_address')}}<!--使用新地址-->
           </p>
         </div>
+        <div class="filed" v-if="symbol==='EOS' || symbol==='XRP'">
+          <em>
+            {{$t('account.user_center_history_note')}}({{$t('public0.public237')}})<!--提现备注-->
+          </em>
+          <div class="withAdress" style="position:relative;">
+            <input type="text" maxlength="1000" v-model="memo" />
+          </div>
+        </div>
         <div class="filed">
           <div class="filed-number">
             <em>{{$t('account.user_Draw_the_number')}}<!--提现数量--> </em>
