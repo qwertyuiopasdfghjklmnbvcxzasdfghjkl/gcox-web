@@ -43,7 +43,7 @@
       <div class="bottom-box" style="margin-top: 10px;">
         <div class="copy">
           <p class="ellipsis">{{addr}}</p>
-          <label v-clipboard:copy="addr" v-clipboard:success="onCopy" v-clipboard:error="onError">{{$t('usercontent.copy')}}</label>
+          <label v-clipboard:copy="addr" v-clipboard:success="onCopy" v-clipboard:error="onError">{{$t('usercontent.copy_memo')}}</label>
         </div>
         <div class="qrad">
           <p>{{$t('usercontent.qrcode')}}</p>
