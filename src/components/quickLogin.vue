@@ -55,6 +55,7 @@ import { mapActions } from 'vuex'
 import userApi from '@/api/user'
 import myAPi from '@/api/individual'
 import utils from '@/assets/js/utils'
+import twoVerify from '@/public/twoVerify'
 export default {
   data () {
     return {
@@ -82,6 +83,16 @@ export default {
   },
   methods: {
     ...mapActions(['setApiToken']),
+    showTwoVerify () {
+      this.$emit('removeDialog')
+      utils.setDialog(twoVerify, {
+        // backClose:true
+        params:{
+          username: this.formData.username,
+          password: this.formData.password
+        }
+      })
+    },
     goRouter(target){
     	window.vm.$router.push({name:target})
     	this.$emit('removeDialog')
@@ -136,7 +147,8 @@ export default {
             this.$emit('removeDialog')
             window.vm.$router.push({name: 'sendemail', query: {email: this.formData.username}})
           } else if (msg === 'invalid_totp') {
-            this.needGoogleCode = true
+            // this.needGoogleCode = true
+            this.showTwoVerify()
           }
         })
       }, () => {
