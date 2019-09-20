@@ -42,6 +42,7 @@ import userApi from '@/api/user'
 import myAPi from '@/api/individual'
 import utils from '@/assets/js/utils'
 import loading from '@/components/loading'
+import twoVerify from './twoVerify'
 export default {
   components:{
     loading
@@ -67,11 +68,20 @@ export default {
       }
     }
   },
-  created () {
-    
+  mounted(){
+    // this.showTwoVerify()
   },
   methods: {
     ...mapActions(['setApiToken']),
+    showTwoVerify () {
+      utils.setDialog(twoVerify, {
+        // backClose:true
+        params:{
+          username: this.formData.username,
+          password: this.formData.password
+        }
+      })
+    },
     login () {
       this.$validator.validateAll().then((validResult) => {
         if (!validResult) {
@@ -117,8 +127,10 @@ export default {
           if (msg === 'verify_email_required') {
             this.$router.push({name: 'sendemail', query: {email: this.formData.username}})
           } else if (msg === 'invalid_totp') {
-            this.needGoogleCode = true
+            // this.needGoogleCode = true
+            this.showTwoVerify()
           }
+          
         })
       }, () => {
         this.locked = false
