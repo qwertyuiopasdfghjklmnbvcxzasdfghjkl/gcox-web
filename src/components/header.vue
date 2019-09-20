@@ -66,6 +66,7 @@
   import langApi from '@/api/language'
   import utils from '@/assets/js/utils'
   import quickLogin from '@/components/quickLogin'
+  import userApi from '@/api/user'
 
   export default {
     data () {
@@ -109,7 +110,10 @@
         })
       },
       logout () {
-        this.setApiToken(null)
+        userApi.logout(res=>{
+            this.setApiToken(null)
+        })
+        
       },
       hidePopoverNav (target) {
         if(this.$refs[target]){
