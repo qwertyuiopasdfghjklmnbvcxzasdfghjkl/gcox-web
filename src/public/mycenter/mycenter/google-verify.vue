@@ -79,7 +79,7 @@
 
 <style scoped lang="less">
   .cont {
-    width: 520px;
+    width: 680px;
     background: #ffffff;
     padding: 30px 40px;
     color: #19181c;
