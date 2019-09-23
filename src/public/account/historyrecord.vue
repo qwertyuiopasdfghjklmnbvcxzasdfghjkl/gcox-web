@@ -170,7 +170,7 @@
           <span class="time">{{$t('exchange.exchange_date')}}<!--时间--></span>
           <span class="currency">{{$t('account.user_center_history_coin')}}<!--币种--></span>
           <span class="quantity">{{$t('account.staking_amount')}}<!--锁仓数量--></span>
-          <span class="quantity">{{$t('account.staking_reward')}}<!--锁仓奖励--></span>
+          <span class="quantity">{{$t('business.TYPE')}}<!--类型--></span>
           <span class="status">{{$t('account.user_center_history_status')}}<!--状态--></span>
 
         </li>
@@ -181,7 +181,7 @@
           <span class="time">{{item.createAt ? new Date(Number(item.createAt)).format() : '--'}}</span>
           <span class="currency">{{item.symbol}}</span>
           <span class="quantity">{{toFixed(item.amount) | removeEndZero}}</span>
-          <span class="quantity">{{toFixed(item.amount) | removeEndZero}}</span>
+          <span class="quantity">{{item.type===1?$t('account.lock_type_user'):$t('account.staking_reward')}}</span>
           <span class="status" :class="getStakedState(item.status)['className']">{{getStakedState(item.status)['value']}}</span>
 
         </li>
@@ -213,7 +213,7 @@
           <span class="currency">{{item.symbol}}</span>
           <span class="quantity">{{toFixed(item.quantity) | removeEndZero}}</span>
           <span class="status" :class="getDistributedState(item.status)['className']">{{getDistributedState(item.status)['value']}}</span>
-          <span class="note">{{getLockType(item.lockType)}}&nbsp;</span>
+          <span class="note">{{getLockType(item.lockType, item.remarks)}}&nbsp;</span>
 
         </li>
       </ul>
@@ -392,9 +392,12 @@
       this.getListDepositHistory()
     },
     methods: {
-      getLockType(type){
+      getLockType(type, remarks){
         let rst = ''
         switch(type){
+          case -1:
+          rst = remarks
+          break
           case 1:
           rst = this.$t('account.lock_type_user')
           break

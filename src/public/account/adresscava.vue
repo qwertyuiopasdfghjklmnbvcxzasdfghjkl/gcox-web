@@ -24,22 +24,37 @@
       <small>{{$t('usercontent.user86')}}</small>
       <p @click.stop="showSymbol = !showSymbol">{{symbol}}</p>
       <ul v-show="showSymbol">
-        <li v-for="item in allData" @click.prevent="icheck(item)">{{item.symbol}}</li>
+        <li v-for="item in allData" @click.prevent="icheck(item)" v-show="item.rechargeFlag===1">{{item.symbol}}</li>
       </ul>
     </div>
-    <div class="bottom-box">
+    <p class="title-div" style="margin-top: 40px;"><small>{{$t('account.userRechargeAddress')}}<!--充值地址--></small> <small style="color: #E14B26; display: inline-block; background-color: #2E2C3C; padding: 0 8px;" v-show="symbol==='EOS' || symbol==='XRP'"><i class="icon-notification"></i> {{$t('account.userRechargeMemoTip')}}<!-- Memo和Address需要同时使用才能充值成功！ --></small></p>
+    <div class="bottom-box" style="margin-top: 10px;">
       <div class="copy">
-        <p>{{addr}}</p>
-        <label v-clipboard:copy="addr" v-clipboard:success="onCopy" v-clipboard:error="onError">{{$t('usercontent.copy')}}</label>
+        <p class="ellipsis">{{getAddress}}</p>
+        <label v-clipboard:copy="getAddress" v-clipboard:success="onCopy" v-clipboard:error="onError">{{$t('usercontent.copy')}}</label>
       </div>
       <div class="qrad">
         <p>{{$t('usercontent.qrcode')}}</p>
         <div ref="qrcode" class="qrcode"></div>
       </div>
     </div>
+    <template v-if="symbol==='EOS' || symbol==='XRP'">
+      <p class="title-div" style="margin-top: 40px;"><small>{{symbol}} {{$t('account.recharge_memo')}}<!--充值备注--></small></p>
+      <div class="bottom-box" style="margin-top: 10px;">
+        <div class="copy">
+          <p class="ellipsis">{{addr}}</p>
+          <label v-clipboard:copy="addr" v-clipboard:success="onCopy" v-clipboard:error="onError">{{$t('usercontent.copy_memo')}}</label>
+        </div>
+        <div class="qrad">
+          <p>{{$t('usercontent.qrcode')}}</p>
+          <div ref="memoQrcode" class="qrcode"></div>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 <script>
+  import { mapGetters } from 'vuex'
   import utils from '@/assets/js/utils'
   import Vue from 'vue'
   import userUtils from '@/api/wallet'
@@ -51,17 +66,36 @@
         symbol: null,
         allData: [],
         showSymbol: false,
-        minWithdraw: ''
+        minWithdraw: '',
+        EOS_MEMO:''
+      }
+    },
+    computed: {
+      ...mapGetters(['getSysParams']),
+      XRP_MEMO(){
+        return (this.getSysParams['mainAddXRP'] && this.getSysParams.mainAddXRP.value) || ''
+      },
+      getAddress(){
+        return this.symbol==='EOS'?this.EOS_MEMO:(this.symbol==='XRP'?this.XRP_MEMO:this.addr)
       }
     },
     watch: {
-      addr () {
+      getAddress () {
         utils.qrcode(this.$refs.qrcode, {
-          text: this.addr,
+          text: this.getAddress,
           width: 190,
           height: 190
         })
-      }
+      },
+      addr () {
+        this.$nextTick(() => {
+          utils.qrcode(this.$refs.memoQrcode, {
+            text: this.addr,
+            width: 190,
+            height: 190
+          })
+        })
+      },
     },
     created () {
       let symbol = this.$route.params.symbol
@@ -70,17 +104,33 @@
       //console.log(this.addr, this.symbol)
       this.$nextTick(() => {
         utils.qrcode(this.$refs.qrcode, {
+          text: this.getAddress,
+          width: 190,
+          height: 190
+        })
+
+        utils.qrcode(this.$refs.memoQrcode, {
           text: this.addr,
           width: 190,
           height: 190
         })
+
       })
+      if(this.symbol==='EOS' && !this.EOS_MEMO){
+        this.getEosAddress()
+      }
     },
     methods: {
+      getEosAddress(){
+        userUtils.getEosAddress(data=>{
+          this.EOS_MEMO = data
+        })
+      },
       icheck (item) {
         //console.log(item)
         this.addr = item.address
         this.symbol = item.symbol
+        this.getEosAddress()
       },
       onCopy () {
         Vue.$koallTipBox({icon: 'success', message: this.$t(`usercontent.copy-success`)})
@@ -194,6 +244,7 @@
         background-color: #212028;
         border: 1px solid #242329;
         width: 350px;
+        z-index: 1;
 
         li {
           font-size: 12px;
@@ -261,7 +312,7 @@
         padding: 15px;
         background: #ffffff;
         height: 190px;
-
+        z-index: 1;
         img {
           width: 190px;
         }

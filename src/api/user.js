@@ -27,6 +27,18 @@ const login = function (formData, success, error) {
 }
 user.login = login
 
+// 退出登录
+const logout = function (success, error) {
+  api.get(`${domain}api/v1/gcox/user/logout`, (res) => {
+    if (res.rst === 1) {
+      success && success(res)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+user.logout = logout
+
 // 获取用户信息
 const getUserInfo = function (success, error) {
   api.get(`${domain}api/v1/gcox/user/info`, (res) => {

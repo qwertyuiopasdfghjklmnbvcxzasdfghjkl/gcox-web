@@ -22,6 +22,7 @@
             <ul v-show="showSymbol" style="z-index: 999">
               <li v-for="item in allData"
                   @click.prevent="changeW(item)"
+                  v-show="item.withdrawFlag===1"
                   :class="{active: item.symbol === symbol}">{{item.symbol}}
               </li>
             </ul>
@@ -46,6 +47,14 @@
           <p @click="useNewAddress" class="add-address">
             {{$t('account.user_new_address')}}<!--使用新地址-->
           </p>
+        </div>
+        <div class="filed" v-if="symbol==='EOS' || symbol==='XRP'">
+          <em>
+            {{$t('account.user_center_history_note')}}({{$t('public0.public237')}})<!--提现备注-->
+          </em>
+          <div class="withAdress" style="position:relative;">
+            <input type="text" maxlength="1000" v-model="memo" />
+          </div>
         </div>
         <div class="filed">
           <div class="filed-number">
@@ -317,6 +326,8 @@
             Vue.$koallTipBox({icon: 'success', message: res})
             this.$emit('okCallback')
             this.$emit('removeDialog')
+            this.payPassword = ''
+            this.googleCode = ''
           }, (msg) => {
             Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
           })
