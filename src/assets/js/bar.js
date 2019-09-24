@@ -23,6 +23,7 @@ export default function getData(data) {
     }],
     yAxis: [{
       show:false,
+      min:'dataMin'
     }],
     series: [{
       name: 'lastPrice',

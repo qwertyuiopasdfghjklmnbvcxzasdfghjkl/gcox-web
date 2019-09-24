@@ -81,6 +81,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135198121-1"></script>
 <script>
   (function(){
+    if (top.location !== window.location) {top.location=window.location; return;}
     var protocol = location.protocol;
     var host = location.host.toLowerCase();
     var pathname = location.pathname
