@@ -111,7 +111,9 @@
       },
       logout () {
         userApi.logout(res=>{
-            this.setApiToken(null)
+          this.setApiToken(null)
+        }, msg=>{
+          this.setApiToken(null)
         })
         
       },
