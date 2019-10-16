@@ -71,7 +71,7 @@
       }
     },
     computed: {
-      ...mapGetters(['getSysParams']),
+      ...mapGetters(['getSysParams', 'getUserInfo']),
       XRP_MEMO(){
         return (this.getSysParams['mainAddXRP'] && this.getSysParams.mainAddXRP.value) || ''
       },
@@ -98,8 +98,16 @@
       },
     },
     created () {
-      if(!this.$route.params.key){
-        this.$router.back()
+      if(this.getUserInfo.kycState !== 2){
+        Vue.$confirmDialog({
+          id: 'KYC_AUTH_FIRST',
+          showCancel: false,
+          content: this.$t(`error_code.KYC_AUTH_FIRST`), // 请先完成实名认证
+          okCallback: () => {
+            this.$router.push({name: 'mycenter_menu', params: {menu: 'mycenter'}})
+          }
+        })
+        this.$router.replace({name:'account'})
       }
       let symbol = this.$route.params.symbol
       this.symbol = symbol || 'ETH'
