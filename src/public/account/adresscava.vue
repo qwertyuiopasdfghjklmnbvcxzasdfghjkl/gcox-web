@@ -98,6 +98,9 @@
       },
     },
     created () {
+      if(!this.$route.params.key){
+        this.$router.back()
+      }
       let symbol = this.$route.params.symbol
       this.symbol = symbol || 'ETH'
       this.getListAccount()
