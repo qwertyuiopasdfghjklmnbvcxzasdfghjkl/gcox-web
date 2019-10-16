@@ -184,17 +184,6 @@
           })
           return
         }
-        if (this.getUserInfo().googleAuthEnable !== 1) {
-          Vue.$confirmDialog({
-            id: 'GOOGLEAUTH_OR_SMSAUTH_FIRST',
-            showCancel: false,
-            content: this.$t('error_code.GOOGLE_CELLPHONE_AUTH_FIRST'), // 请先进行谷歌验证或短信验证
-            okCallback: () => {
-              this.$router.push({name: 'mycenter_menu', params: {menu: 'mycenter'}})
-            }
-          })
-          return
-        }
         utils.setDialog(stakeDialog, {
           data:this.item,
           backClose:true,
@@ -312,23 +301,11 @@
           })
           return
         }
-        if (this.getUserInfo().googleAuthEnable !== 1) {
-          Vue.$confirmDialog({
-            id: 'GOOGLEAUTH_OR_SMSAUTH_FIRST',
-            showCancel: false,
-            content: this.$t('error_code.GOOGLE_CELLPHONE_AUTH_FIRST'), // 请先进行谷歌验证或短信验证
-            okCallback: () => {
-              this.$router.push({name: 'mycenter_menu', params: {menu: 'mycenter'}})
-            }
-          })
-          return
-        }
         this.$router.push({
           name: 'account_menu',
           params: {
             menu: 'adresscava',
             symbol: this.symbol,
-            key:true
           }
         })
       },

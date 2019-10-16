@@ -115,7 +115,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getApiToken', 'getMarketConfig', 'getLast24h', 'getEntrustNewPrice','getSysParams']),
+    ...mapGetters(['getApiToken', 'getMarketConfig', 'getLast24h', 'getEntrustNewPrice','getSysParams','getUserInfo']),
     rateData(){
       return this.getSysParams.transactionRate && this.getSysParams.transactionRate.value * 100
     },
@@ -273,6 +273,17 @@ export default {
       }
     },
     buyOrSell () {
+      if(this.getUserInfo.kycState !== 2){
+        Vue.$confirmDialog({
+          id: 'KYC_AUTH_FIRST',
+          showCancel: true,
+          content: this.$t(`error_code.KYC_AUTH_FIRST`), // 请先完成实名认证
+          okCallback: () => {
+            this.$router.push({name: 'mycenter_menu', params: {menu: 'mycenter'}})
+          }
+        })
+        return
+      }
       this.errorObj = {}
       if (!this.getApiToken) {
         Vue.$koallTipBox({icon: 'notification', message: this.$t('exchange.exchange_Not_logged')}) // 未登录
