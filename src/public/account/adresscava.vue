@@ -104,7 +104,7 @@
           showCancel: false,
           content: this.$t(`error_code.KYC_AUTH_FIRST`), // 请先完成实名认证
           okCallback: () => {
-            this.$router.push({name: 'mycenter_menu', params: {menu: 'mycenter'}})
+            this.$router.push({name: 'mycenter_menu', params: {menu: 'authentication'}})
           }
         })
         this.$router.replace({name:'account'})
