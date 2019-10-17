@@ -54,8 +54,21 @@
             <!-- 登录 --></a>
           <router-link v-show="!isLogin" :to="{name:'register'}" class="item f-c-blue">{{$t('login_register.register')}}
             <!-- 注册 --></router-link>
-          <a class="item" href="javascript:;" @click="setLanguage('en')" v-if="getLang==='zh-CN'">ENGLISH</a>
-          <a class="item" href="javascript:;" @click="setLanguage('zh-CN')" v-if="getLang==='en'">简体中文</a>
+          <a class="item" href="javascript:;">{{getLang==='en'?'ENGLISH':(getLang==='kr'?'한국어':'简体中文')}}
+            <div class="popover-nav"  ref="nav2" @click="hidePopoverNav('nav2')">
+              <div class="popover-menu">
+                <div class="sub-item" @click="setLanguage('en')">
+                  <span>ENGLISH</span>
+                </div>
+                <div class="sub-item" @click="setLanguage('zh-CN')">
+                  <span>简体中文</span>
+                </div>
+                <div class="sub-item" @click="setLanguage('kr')">
+                  <span>한국어</span>
+                </div>
+              </div>
+            </div>
+          </a>
       </div>
     </div>
   </div>
