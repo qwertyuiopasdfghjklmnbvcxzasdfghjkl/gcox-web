@@ -151,7 +151,7 @@
       }
     },
     computed: {
-      ...mapGetters(['getMarketList']),
+      ...mapGetters(['getMarketList','getUserInfo', 'getLang']),
       blockQuantity () {
         if (this.item.blockConfirm) {
           return this.item.blockConfirm
@@ -168,7 +168,6 @@
       }
     },
     methods: {
-      ...mapGetters(['getUserInfo', 'getLang']),
       showStake(){
         if(!this.item.openStaking){
           return
