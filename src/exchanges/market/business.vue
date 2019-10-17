@@ -279,7 +279,7 @@ export default {
           showCancel: true,
           content: this.$t(`error_code.KYC_AUTH_FIRST`), // 请先完成实名认证
           okCallback: () => {
-            this.$router.push({name: 'mycenter_menu', params: {menu: 'mycenter'}})
+            this.$router.push({name: 'mycenter_menu', params: {menu: 'authentication'}})
           }
         })
         return
