@@ -98,7 +98,7 @@
       },
     },
     created () {
-      if(this.getUserInfo.kycState !== 2){
+      if(this.getUserInfo.kycState !== 1){
         Vue.$confirmDialog({
           id: 'KYC_AUTH_FIRST',
           showCancel: false,

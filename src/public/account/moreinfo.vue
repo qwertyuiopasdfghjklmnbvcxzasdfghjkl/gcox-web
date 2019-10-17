@@ -173,7 +173,7 @@
         if(!this.item.openStaking){
           return
         }
-        if (this.verifyState !== 2) {
+        if (this.getUserInfo.kycState !== 1) {
           Vue.$confirmDialog({
             id: 'KYC_AUTH_FIRST',
             showCancel: false,
@@ -237,7 +237,7 @@
         //   })
         //   return
         // }
-        if (this.getUserInfo().googleAuthEnable !== 1) {
+        if (this.getUserInfo.googleAuthEnable !== 1) {
           Vue.$confirmDialog({
             id: 'GOOGLEAUTH_OR_SMSAUTH_FIRST',
             showCancel: false,
@@ -290,7 +290,7 @@
         // })
       },
       scanEWM () {
-        if (this.verifyState !== 2) {
+        if (this.getUserInfo.kycState !== 1) {
           Vue.$confirmDialog({
             id: 'KYC_AUTH_FIRST',
             showCancel: false,
