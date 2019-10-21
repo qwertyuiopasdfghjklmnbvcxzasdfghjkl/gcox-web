@@ -5,10 +5,10 @@
       <div class="download-slogen text-center fs18">{{$t('about.desc_download')}}<!-- 随时随地，享受安全便捷的数字金融服务 --></div>
       <div class="ui-flex download-main">
         <div class="ui-flex-1 ui-flex">
-          <!-- <a :href="ios" target="_blank"><span class="app-store"></span></a>
-          <a :href="googlePlay" target="_blank"><span class="google-play ml60"></span></a> -->
-          <a class="gray-layer"><span class="app-store"></span></a>
-          <a class="gray-layer"><span class="google-play ml60"></span></a>
+          <a :href="ios" target="_blank"><span class="app-store"></span></a>
+          <a :href="googlePlay" target="_blank"><span class="google-play ml60"></span></a>
+          <!-- <a class="gray-layer"><span class="app-store"></span></a>
+          <a class="gray-layer"><span class="google-play ml60"></span></a> -->
           <a :href="android" target="_blank"><span class="android-app ml60"></span></a>
           <a href="javascript:;" class="rp qrcode"><span class="icon-qrcode ml20"></span>
             <div ref="qrcode" class="qr-container"></div>
@@ -29,14 +29,13 @@ export default {
   computed: {
     ...mapGetters(['getSysParams']),
     googlePlay(){
-      return 'https://play.google.com/store/apps/details?id=com.gsx.app'
+      return this.getSysParams.androidUrl && this.getSysParams.androidUrl.value
     },
     android(){
-      return this.getSysParams.androidUrl && `${config.origin}${this.getSysParams.androidPath.value}`
+      return this.getSysParams.androidPath && `${config.origin}${this.getSysParams.androidPath.value}`
     },
     ios(){
-      return 'https://apps.apple.com/ng/app/gcox/id1458094561'
-      // return this.getSysParams.appleUrl && this.getSysParams.appleUrl.value
+      return this.getSysParams.appleUrl && this.getSysParams.appleUrl.value
     },
   },
   watch:{
