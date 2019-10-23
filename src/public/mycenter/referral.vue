@@ -86,40 +86,48 @@
         </div>
       </div>
       <div class="mt40 detail lh17" v-show="!active">
-        <template v-if="getLang==='en'">
-          <h3 class="text-center">--Register on GCOX Exchange and invite your friends to earn attractive bonuses--</h3>
-          <p class="mt20">Eligibility Criteria:</p>
-          <p>• Register on GCOX Exchange after 19th August, 1pm(GMT+8) </p>
-          <p>• Complete the KYC Process</p>
-          <p class="mt20">Rewards:</p>
-          <p>One-time reward of 100 ACM tokens to your Staking Wallet*. </p>
-          <p class="mt20">Also, we are pleased to introduce our referral scheme where you can earn attractive bonuses by simply sharing your referral code with your friends and inviting them to sign up on GCOX Exchange! </p>
-          <p class="mt20">Eligibility Criteria:</p>
-          <p>• Invite your friends to sign up on GCOX Exchange using your referral code after 19th August, 1 pm(GMT+8)</p>
-          <p>• Your friend completes the KYC Process</p>
-          <p class="mt20">Rewards:</p>
-          <p>50 ACM tokens reward to your Staking Wallet* for every successful referral**, NO CAP! The more you invite, the more you earn!</p>
-          <p class="mt20">Notes:</p>
-          <p>* Trading Wallet – ACM balance held in the Trading Wallet can be used for trading</p>
-          <p>* Staking Wallet – ACM balance held in the Staking Wallet is locked and 1% of the staked amount will be release on a weekly basis</p>
-          <p>* Referrals are deemed successful once the referred user has completed their KYC process. </p>
+        <template v-if="getLang==='zh-CN'">
+          <h3 class="text-center">--邀请朋友注册GCOX交易所赢取丰厚奖励--</h3>
+          <p class="mt20">亲爱的GCOX用户，</p>
+          <p class="mt20">感谢您对我们ACM 1X2激励计划的大力支持。我们很荣幸乐见此计划在用户中大受欢迎。</p>
+          <p class="mt20">由于奖励力度巨大，在此我们将通知您，新用户注册50 ACM奖励与邀请朋友注册25 ACM奖励将会在2019年10月7日2359（东八区时间）截止。</p>
+          <p class="mt20">再次感谢您的支持并请持续关注我们的社交媒体。</p>
+          <p class="mt20">注册与邀请奖励计划已结束。</p>
+          <p class="mt20">奖励标准：</p>
+          <p>• 2019年8月19日下午1点后在GCOX交易所注册（东八区时间）</p>
+          <p>• 完成并通过KYC流程</p>
+          <p class="mt20">注释*</p>
+          <p>*ACM交易钱包——可买卖ACM代币与其他数字货币</p>
+          <p>*ACM质押钱包——质押钱包中的ACM将被锁定，每周释放1%的金额到您的交易钱包</p>
+          <p>*被邀请人需完成并通过KYC流程才将视为成功邀请</p>
+        </template>
+        <template v-else-if="getLang==='kr'">
+          <h3 class="text-center">-GCOX 거래소에 등록하고 친구를 추천하면 보너스를 받으실 수 있습니다-</h3>
+          <p class="mt20">ACM 1x2 보상 프로그램에 대해 사용자 여러분이 보여주신 뜨거운 관심과 성원에 감사의 말씀 올립니다. ACM 프로그램이 사용자 여러분들께 많은 사랑을 받고 있어 기쁩니다.</p>
+          <p class="mt20">신규 사용자 당 50 ACM의 신규 가입 보너스와 레퍼럴 당 25 ACM의 레퍼럴 보너스가 10월 7일 23시 59분 (GMT+8)부터 마감되었습니다.</p>
+          <p class="mt20">다시 한 번 사용자 여러분께 감사의 인사를 올리며 저희 소셜 네트워크 채널에 주목하시고 GCOX Exchange에서 앞으로 진행할 캠페인에 대한 정보를 놓치지 마세요.</p>
+          <p class="mt20">이미 완성된 등록 및 레퍼럴 캠페인</p>
+          <p class="mt20">해당 자격:</p>
+          <p>• 9월 19일 오후 1시(GMT+8)  후에 GCOX거래소에 등록하신 사용자</p>
+          <p>• KYC를 통과하신 사용자</p>
+          <p class="mt20">추가 설명:</p>
+          <p>• 거래 지갑 – 거래 지갑에 있는 ACM은 거래할 수 있습니다.</p>
+          <p>• 스테이킹 지갑 – 스테이킹 지갑에 있는 ACM은 잠겨 있는 상태이며 매주 1%씩 해제됩니다.</p>
+          <p>• 추천하신 사용자가 KYC를 통과하신 경우만 추천 성공으로 판단합니다.</p>
         </template>
         <template v-else>
-          <h3 class="text-center">--- “注册奖励计划” ---</h3>
-          <p class="text-center mt10">在GCOX交易所注册并邀请您的朋友赚取丰厚奖励！</p>
-          <p class="mt20">新用户注册奖励：</p>
-          <p>• 一次性100个ACM代币空投至用户的质押钱包* </p>
-          <p class="mt20">奖励标准：</p>
-          <p>• 8月19日下午1:00后在GCOX交易所注册(GMT+8)</p>
-          <p>• 完成KYC流程</p>
-          <p class="mt20">邀请注册奖励：</p>
-          <p>此外，我们很高兴向您介绍我们的“推荐奖励计划”。每成功推荐一位身边的朋友在GCOX注册并完成KYC，即可获得50个ACM代币奖励，无上限！邀请的越多，赚的越多！</p>
-          <p class="mt20">奖励标准：</p>
-          <p>• 被邀请人于8月19日下午1:00后通过邀请人发送的邀请码在GCOX交易所注册(GMT+8)</p>
-          <p>• 被邀请人完成KYC流程</p>
-          <p class="mt20">注释*</p>
-          <p>ACM交易钱包——可买卖ACM代币与其他数字货币</p>
-          <p>ACM质押钱包——质押钱包中的ACM将被锁定，每周释放1%的金额到您的交易钱包</p>
+          <h3 class="text-center">--Register on GCOX Exchange and invite your friends to earn attractive bonuses—</h3>
+          <p class="mt20">We would like to express our sincere gratitude for the overwhelming support to our ACM 1x2 Acclamation Programme. We are pleased to see our ACM programme is so popular with all our users.</p>
+          <p class="mt20">Please be informed that we will be discontinuing the new sign up bonus of 50 ACM tokens per new user and referral bonus of 25 ACM tokens per successful referral on 7th October 2359(GMT+8).</p>
+          <p class="mt20">Thank you and please stay tuned to our socials for more campaigns on GCOX Exchange in the future. </p>
+          <p class="mt20">Completed Registration and Referral Campaign</p>
+          <p class="">Eligibility Criteria:</p>
+          <p>• Register on GCOX Exchange after 19th August, 1pm(GMT+8)</p>
+          <p>• Complete the KYC Process</p>
+          <p class="mt20">Notes:</p>
+          <p>• Trading Wallet – ACM balance held in the Trading Wallet can be used for trading</p>
+          <p>• Staking Wallet – ACM balance held in the Staking Wallet is locked and 1% of the staked amount will be release on a weekly basis</p>
+          <p>• Referrals are deemed successful once the referred user has completed their KYC process.</p>
         </template>
       </div>
     </div>
