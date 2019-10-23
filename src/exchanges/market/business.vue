@@ -6,7 +6,7 @@
         </div>
         <div class="balance ui-flex ui-flex-justify">
           <div><span>{{isBuy ? baseSymbol : currentSymbol}}</span> <span>{{$t('exchange.exchange_balance')}}<!--余额-->：</span> <span>{{toFixed(isBuy ? toBalance.availableBalance : fromBalance.availableBalance, 8) | removeEndZero | toMoney}}</span></div>
-          <router-link :to="{name:'account_menu', params:{menu: 'adresscava',symbol: currentSymbol}}" class="normal pull-right" tag="button" v-if="getApiToken">{{$t('account.estimated_value_deposit')}}<!-- 充值 --></router-link>
+          <router-link :to="{name:'account_menu', params:{menu: 'adresscava',symbol: currentSymbol}}" class="normal pull-right" tag="button" v-if="getApiToken" :disabled="Number(fromWallet.rechargeFlag) !== 1">{{$t('account.estimated_value_deposit')}}<!-- 充值 --></router-link>
           <router-link :to="{name:'login'}" class="normal pull-right" tag="button" v-else>{{$t('account.estimated_value_deposit')}}<!-- 充值 --></router-link>
         </div>
         <p class="exhange-rate" v-if="false">{{$t('public.fee_rate')}}：{{rateData || 0.01}}%<!--手续费率--></p>
@@ -487,6 +487,10 @@ export default {
     top: 6px;
     &:hover {
       background-color: #4D4A64;
+    }
+    &:disabled {
+      color: #999;
+      cursor: not-allowed;
     }
   }
 }
