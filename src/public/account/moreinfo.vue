@@ -44,8 +44,7 @@
                                 {{$t('usercontent.user71')}}<!--充值-->
                             </span>
               <span  class="buy icon_recharge"
-                     :class="{disabled: Number(item.rechargeFlag) !== 1 || Number(item.withdrawFlag) !== 1}"
-                      @click="(Number(item.rechargeFlag) !== 1) &&(Number(item.withdrawFlag) !== 1) ? false : buy()">
+                      @click="buy">
                 {{$t('usercontent.user72')}}
               </span>
             </div>
