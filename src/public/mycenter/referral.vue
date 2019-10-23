@@ -90,7 +90,7 @@
           <h3 class="text-center">--邀请朋友注册GCOX交易所赢取丰厚奖励--</h3>
           <p class="mt20">亲爱的GCOX用户，</p>
           <p class="mt20">感谢您对我们ACM 1X2激励计划的大力支持。我们很荣幸乐见此计划在用户中大受欢迎。</p>
-          <p class="mt20">由于奖励力度巨大，在此我们将通知您，新用户注册50 ACM奖励与邀请朋友注册25 ACM奖励将会在2019年10月7日2359（东八区时间）截止。</p>
+          <p class="mt20">由于奖励力度巨大，在此我们将通知您，新用户注册50 ACM奖励与邀请朋友注册25 ACM奖励将会在2019年10月7日23:59（东八区时间）截止。</p>
           <p class="mt20">再次感谢您的支持并请持续关注我们的社交媒体。</p>
           <p class="mt20">注册与邀请奖励计划已结束。</p>
           <p class="mt20">奖励标准：</p>
@@ -118,7 +118,7 @@
         <template v-else>
           <h3 class="text-center">--Register on GCOX Exchange and invite your friends to earn attractive bonuses—</h3>
           <p class="mt20">We would like to express our sincere gratitude for the overwhelming support to our ACM 1x2 Acclamation Programme. We are pleased to see our ACM programme is so popular with all our users.</p>
-          <p class="mt20">Please be informed that we will be discontinuing the new sign up bonus of 50 ACM tokens per new user and referral bonus of 25 ACM tokens per successful referral on 7th October 2359(GMT+8).</p>
+          <p class="mt20">Please be informed that we will be discontinuing the new sign up bonus of 50 ACM tokens per new user and referral bonus of 25 ACM tokens per successful referral on 7th October 23:59(GMT+8).</p>
           <p class="mt20">Thank you and please stay tuned to our socials for more campaigns on GCOX Exchange in the future. </p>
           <p class="mt20">Completed Registration and Referral Campaign</p>
           <p class="">Eligibility Criteria:</p>
