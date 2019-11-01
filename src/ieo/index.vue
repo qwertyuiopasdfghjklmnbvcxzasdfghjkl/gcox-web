@@ -17,12 +17,12 @@
 				<p class="mt15">{{$t('ieo.status_purchaes_deadline')}}<!-- 申购截止 -->： <span>{{new Date(item.endTime).format()}}</span></p>
 				<p class="mt15 ellipsis">{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span :title="`${String(item.totalIssue).toMoney()} ${item.projectSymbol}`">{{String(item.totalIssue).toMoney()}} {{item.projectSymbol}}</span></p>
 				<p class="mt15 ellipsis">{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span :title="`${String(item.totalRaised).toMoney()} ${item.priceSymbol}`">{{String(item.totalRaised).toMoney()}} {{item.priceSymbol}}</span></p>
-				<p class="mt15 ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(item.totalQuantity-item.remainingQuantity,0).toMoney()} / ${toFixed(item.totalQuantity,0).toMoney()} Lots`">{{`${toFixed(item.totalQuantity-item.remainingQuantity,0).toMoney()} / ${toFixed(item.totalQuantity,0).toMoney()} Lots`}}</span></p>
-				<div class="progress mt20">
+				<p class="mt15 ellipsis" v-if="false">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(item.totalQuantity-item.remainingQuantity,0).toMoney()} / ${toFixed(item.totalQuantity,0).toMoney()} Lots`">{{`${toFixed(item.totalQuantity-item.remainingQuantity,0).toMoney()} / ${toFixed(item.totalQuantity,0).toMoney()} Lots`}}</span></p>
+				<div class="progress mt20" v-if="false">
 					<div class="progress-bar-base"></div>
 					<div class="progress-bar" :style="`width: ${(item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100>100?100:(item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100}%`"></div>
 				</div>
-				<p class="mt8 text-center">{{$t('ieo.achieved')}}<!-- 已达成 --> {{((item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100).toFixed(2)}}%</p>
+				<p class="mt8 text-center" v-if="false">{{$t('ieo.achieved')}}<!-- 已达成 --> {{((item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100).toFixed(2)}}%</p>
 				<p class="mt15 text-right f-c-main">{{$t('ieo.participate_immediately')}} →</p>
 				<button>{{$t('ieo.end_of_distance')}}<!-- 距离结束 -->：{{item.getMsec(item)|humanTime(lang)}}</button>
 			</li>
@@ -61,12 +61,12 @@
 				<p class="mt15">{{$t('ieo.status_purchaes_deadline')}}<!-- 申购截止 -->： <span>{{new Date(item.endTime).format()}}</span></p>
 				<p class="mt15 ellipsis">{{$t('ieo.issue_number')}}<!-- 发行数量 -->： <span :title="`${String(item.totalIssue).toMoney()} ${item.projectSymbol}`">{{String(item.totalIssue).toMoney()}} {{item.projectSymbol}}</span></p>
 				<p class="mt15 ellipsis">{{$t('ieo.raised_amount')}}<!-- 募集金额 -->： <span :title="`${String(item.totalRaised).toMoney()} ${item.priceSymbol}`">{{String(item.totalRaised).toMoney()}} {{item.priceSymbol}}</span></p>
-				<p class="mt15 ellipsis">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(item.totalQuantity-item.remainingQuantity,0).toMoney()} / ${toFixed(item.totalQuantity,0).toMoney()} Lots`">{{`${toFixed(item.totalQuantity-item.remainingQuantity,0).toMoney()} / ${toFixed(item.totalQuantity,0).toMoney()} Lots`}}</span></p>
-				<div class="progress mt20">
+				<p class="mt15 ellipsis" v-if="false">{{$t('ieo.subscribed')}}<!-- 已认购 -->： <span :title="`${toFixed(item.totalQuantity-item.remainingQuantity,0).toMoney()} / ${toFixed(item.totalQuantity,0).toMoney()} Lots`">{{`${toFixed(item.totalQuantity-item.remainingQuantity,0).toMoney()} / ${toFixed(item.totalQuantity,0).toMoney()} Lots`}}</span></p>
+				<div class="progress mt20" v-if="false">
 					<div class="progress-bar-base"></div>
 					<div class="progress-bar" :style="`width: ${(item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100>100?100:(item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100}%`"></div>
 				</div>
-				<p class="mt8 text-center">{{$t('ieo.reach')}}<!-- 达成 --> {{((item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100).toFixed(2)}}%</p>
+				<p class="mt8 text-center" v-if="false">{{$t('ieo.reach')}}<!-- 达成 --> {{((item.totalQuantity-item.remainingQuantity)/item.totalQuantity*100).toFixed(2)}}%</p>
 			</li>
 		</ul>
 		<div class="nodata" v-if="!locked && list3.length === 0">
