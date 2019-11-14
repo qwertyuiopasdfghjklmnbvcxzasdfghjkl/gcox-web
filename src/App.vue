@@ -108,7 +108,7 @@ export default {
     this.getBTCValuation()
     this.getUserInfoMethod()
     this.checkRouteChange(this.$route)
-    this.ws = new OtcWebSocket({
+    /*this.ws = new OtcWebSocket({
       onMessage: (data) => {
         let events = this.getOtcSocketEvents
         for (let i = 0; i < events.length; i++) {
@@ -116,7 +116,7 @@ export default {
           ev(data)
         }
       }
-    })
+    })*/
     this.gws = new GlobalWebSocket({
       type: 'global',
       checkNetWork: (signal) => {
