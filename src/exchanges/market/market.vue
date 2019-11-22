@@ -96,6 +96,13 @@ export default {
           return this.sort === 'asc' ? (m1 < m2 ? -1 : 1) : (m1 > m2 ? -1 : 1)
         }
       })
+      if(this.sortActive===''){
+        datas = datas.sort((item1, item2) => {
+          let m1 = numUtils.BN(item1.idx)
+          let m2 = numUtils.BN(item2.idx)
+          return m1.gt(m2) ? -1 : 1
+        })
+      }
 
       datas = datas.filter((item) => {
         let symbol = (item.market || '').toUpperCase()
