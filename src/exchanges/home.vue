@@ -240,6 +240,11 @@ export default {
           })
         } else if (res.dataType === 'markets') {
           // 市场信息
+          if(window.marketOrder){
+            res.data.forEach(item=>{
+              item.idx = window.marketOrder[item.market]
+            })
+          }
           this.tiggerEvents({
             name: 'marketEvent',
             params: {

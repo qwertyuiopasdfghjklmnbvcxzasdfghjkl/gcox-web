@@ -35,6 +35,13 @@ market.getCmsDetail = getCmsDetail
 const marketList = function (success, error) {
   api.get(`${domain}api/v3/trade/market`, (res) => {
     if (res.rst === 1) {
+      if(res.data){
+        let marketOrder = {}
+        res.data.forEach(item=>{
+          marketOrder[item.market] = item.idx
+        })
+        window.marketOrder = marketOrder
+      }
       success && success(res.data)
     } else {
       error && error(res.msg)
