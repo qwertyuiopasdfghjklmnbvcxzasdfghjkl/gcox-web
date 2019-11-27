@@ -97,6 +97,10 @@
         })
         newData.forEach((item) => {
           item.iconBase64 = tempObj[item.market]
+          if(window.marketOrder){
+              item.idx = window.marketOrder[item.market]
+              item.visible = window.marketVisible[item.market]
+          }
         })
         return newData
       },
@@ -108,6 +112,9 @@
               item = Object.assign(item,rd)
               break
             }
+          }
+          if(window.marketOrder){
+              item.visible = window.marketVisible[item.market]
           }
           return item
         })

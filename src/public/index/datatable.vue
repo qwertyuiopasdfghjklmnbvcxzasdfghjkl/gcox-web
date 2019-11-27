@@ -18,7 +18,7 @@
           </tr>
         </thead>
         <tbody >
-          <router-link v-for="item in current==='rise'?riseList:(current==='fall'?fallList:newList)" :to="{name: 'exchange_index',params:{symbol:item.currencySymbol+'_'+item.baseSymbol}}" tag='tr'>
+          <router-link v-for="item in current==='rise'?riseList:(current==='fall'?fallList:newList)" :to="{name: 'exchange_index',params:{symbol:item.currencySymbol+'_'+item.baseSymbol}}" tag='tr' v-if="(item.visible&&Number(item.visible)) || !item.visible">
             <td class="icon" :style="`background-image: url(${item.iconBase64?'data:image/png;base64,'+item.iconBase64:origin+item.iconUrl});`">
               <span >{{item.currencySymbol}}/{{item.baseSymbol}}</span>
             </td>
