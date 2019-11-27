@@ -36,11 +36,13 @@ const marketList = function (success, error) {
   api.get(`${domain}api/v3/trade/market`, (res) => {
     if (res.rst === 1) {
       if(res.data){
-        let marketOrder = {}
+        let marketOrder = {}, marketVisible = {}
         res.data.forEach(item=>{
           marketOrder[item.market] = item.idx
+          marketVisible[item.market] = item.visible
         })
         window.marketOrder = marketOrder
+        window.marketVisible = marketVisible
       }
       success && success(res.data)
     } else {

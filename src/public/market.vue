@@ -62,7 +62,7 @@
             <tbody>
             <router-link v-for="item in curProducts"
                          :to="{name: 'exchange_index',params:{symbol:item.currencySymbol+'_'+item.baseSymbol}}"
-                         tag='tr'>
+                         tag='tr' v-if="(item.visible&&Number(item.visible)) || !item.visible">
               <td class="icon">
                 <span @click.stop="addOrDelFavor(item)"><img src="../assets/img/star_blue.png"
                                                              v-if="item.collection || (!getApiToken && favorSymbol.includes(item.market))"><img
@@ -191,6 +191,10 @@
         newData.forEach((item) => {
           item.iconBase64 = tempObj[item.market]
           item.collection = collectionObj[item.market]
+          if(window.marketOrder){
+              item.idx = window.marketOrder[item.market]
+              item.visible = window.marketVisible[item.market]
+          }
         })
         return newData
       },
@@ -250,6 +254,7 @@
       queryMarketList () { // 获取所有市场数据
         if (!this.getMarketList.length) {
           marketApi.marketList((res) => {
+
             this.setMarketList(res || [])
           })
         }

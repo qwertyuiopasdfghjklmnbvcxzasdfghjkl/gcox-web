@@ -88,7 +88,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getApiToken', 'getLast24h', 'getMarketConfig']),
+    ...mapGetters(['getApiToken', 'getLast24h', 'getMarketConfig', 'getMarketList']),
     baseSymbol () {
       let symbol = this.$route.params.symbol
       if (symbol) {
@@ -119,6 +119,16 @@ export default {
         return null
       }
       return d.iconBase64 ? `data:image/png;base64,${d.iconBase64}` : config.origin + d.iconUrl
+    },
+    currentMarket(){
+      let _market = null
+      for(let item of this.getMarketList){
+        if (item.market===this.symbol) {
+          _market = item
+          break
+        }
+      }
+      return _market
     }
   },
   watch: {
@@ -131,9 +141,13 @@ export default {
     },
     fixedNumber(newVal){
       this.$refs.depth.mergeValue = newVal
+    },
+    currentMarket(){
+      this.checkMarket()
     }
   },
   created () {
+    this.checkMarket()
     window.klineLocal = this
     this.socket = KLineWebSocket({
       symbol: this.symbol,
@@ -243,6 +257,7 @@ export default {
           if(window.marketOrder){
             res.data.forEach(item=>{
               item.idx = window.marketOrder[item.market]
+              item.visible = window.marketVisible[item.market]
             })
           }
           this.tiggerEvents({
@@ -263,6 +278,14 @@ export default {
   },
   methods: {
     ...mapActions(['setLast24h', 'tiggerEvents']),
+    checkMarket(){
+      if(this.currentMarket && this.currentMarket.visible==='0'){
+        if(!this.$route.query.visible){
+          console.log('--------------------------------------')
+          this.$router.replace({name:'exchange_index2'})
+        }
+      }
+    },
     get24hPrice () {
       let tempSymbol = this.symbol
       // 获取24小时最新价格
