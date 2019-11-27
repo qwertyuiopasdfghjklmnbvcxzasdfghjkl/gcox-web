@@ -24,7 +24,7 @@
       </ul>
       <div class="scroll-wrapper" id="scrollWrapper">
         <ul class="pair-table">
-          <li v-for="item in curProducts" class="pointer" :class="{active:item.market===symbol}" @click="changeSymbol(item)">
+          <li v-for="item in curProducts" class="pointer" :class="{active:item.market===symbol}" @click="changeSymbol(item)" v-if="(item.visible&&Number(item.visible)) || !item.visible">
             <span class="fixed favor">
               <span @click.stop="addOrDelFavor(item)"><img src="../../assets/img/star_blue.png" v-if="item.collection || (!getApiToken && favorSymbol.includes(item.market))"><img src="../../assets/img/star_gray.png" v-else></span>
               <span>{{item.currencySymbol}}</span>

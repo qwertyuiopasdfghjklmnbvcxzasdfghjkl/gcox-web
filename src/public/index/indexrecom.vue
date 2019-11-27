@@ -47,7 +47,8 @@
       getMarketCom () {
         // 获取推荐市场
         marketApi.marketListCom(1, (res) => {
-          this.products = Object.values(res)
+          this.products = Object.values(res).filter(item=>{return (item.visible&&Number(item.visible)) || !item.visible})
+
           for(let item of this.products){
             this.getKlineData(item.market)
             /*this.timers.push(setInterval(()=>{
