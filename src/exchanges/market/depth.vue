@@ -1,30 +1,30 @@
 <template>
   <div class="block depth">
     <div class="title-container clearfix">
-       <span class="pull-left">{{$t('exchange.order_book')}}<!-- 订单簿 --></span> 
-       <span class="small pull-left">{{$t('exchange.exchange_last_price')}}<!-- 最新价 --></span> 
-       <span class="small pull-left"><span>{{toFixed(this.getLast24h.close)}} {{toCoin}}</span></span> 
-       <span class="small pull-right arrow-down" @click="showDigit=!showDigit"><em>{{mergeValue}}{{$t('exchange.exchange_decimals')}}<!--位小数--></em> 
+       <span class="pull-left">{{$t('exchange.order_book')}}<!-- 订单簿 --></span>
+       <span class="small pull-left">{{$t('exchange.exchange_last_price')}}<!-- 最新价 --></span>
+       <span class="small pull-left"><span>{{toFixed(this.getLast24h.close)}} {{toCoin}}</span></span>
+       <span class="small pull-right arrow-down" @click="showDigit=!showDigit"><em>{{mergeValue}}{{$t('exchange.exchange_decimals')}}<!--位小数--></em>
         <ul v-show="showDigit">
          <li v-for="n in getDigit" :key="n + fixedNumber - getDigit" @click="mergeValue=(n + fixedNumber - getDigit)">{{n + fixedNumber - getDigit}}{{$t('exchange.exchange_decimals')}}<!--位小数--></li>
-        </ul></span> 
+        </ul></span>
        <span class="small pull-right">{{$t('exchange.exchange_Deep_merger')}}:<!--深度合并--></span>
     </div>
     <div class="order-book clearfix">
       <ul class="header buy">
         <li class="ui-flex">
-          <span class="green with-35">{{$t('exchange.exchange_buy')}}<!-- 买入 --></span> 
-          <span class="text-center ui-flex-1">{{$t('exchange.exchange_Transaction_amount')}}({{toCoin}})<!--成交金额--></span> 
-          <span class="text-center ui-flex-1">{{$t('exchange.exchange_amount')}} ({{fromCoin}})<!--数量--></span> 
+          <span class="green with-35">{{$t('exchange.exchange_buy')}}<!-- 买入 --></span>
+          <span class="text-center ui-flex-1">{{$t('exchange.exchange_Transaction_amount')}}({{toCoin}})<!--成交金额--></span>
+          <span class="text-center ui-flex-1">{{$t('exchange.exchange_amount')}} ({{fromCoin}})<!--数量--></span>
           <span class="text-right ui-flex-1">{{$t('exchange.exchange_price')}}({{toCoin}})<!--价格--></span>
         </li>
       </ul>
 
       <ul class="header sell">
         <li class="ui-flex">
-          <span class="ui-flex-1">{{$t('exchange.exchange_price')}}({{toCoin}})<!--价格--></span> 
-          <span class="text-center ui-flex-1">{{$t('exchange.exchange_amount')}} ({{fromCoin}})<!--数量--></span> 
-          <span class="text-center ui-flex-1">{{$t('exchange.exchange_Transaction_amount')}}({{toCoin}})<!--成交金额--></span> 
+          <span class="ui-flex-1">{{$t('exchange.exchange_price')}}({{toCoin}})<!--价格--></span>
+          <span class="text-center ui-flex-1">{{$t('exchange.exchange_amount')}} ({{fromCoin}})<!--数量--></span>
+          <span class="text-center ui-flex-1">{{$t('exchange.exchange_Transaction_amount')}}({{toCoin}})<!--成交金额--></span>
           <span class="text-right red with-35">{{$t('exchange.exchange_sell')}}<!-- 卖出 --></span>
         </li>
       </ul>
@@ -32,21 +32,22 @@
       <ul class="buy">
         <li v-if="filterBids.length===0"><span></span></li>
         <li class="ui-flex bar pointer" :style="listItemStyle(item, 'bid')" v-for="(item,index) in filterBids" :key="item.orderBookId" @click="clickChangeValue(item)">
-          <span class="rang-up with-35">{{index+1}}</span> 
-          <span class="text-center ui-flex-1" @click="clickChangeValue(item, 'total')">{{muldepth(item.price, item.avaliableAmount)}}</span> 
-          <span class="text-center ui-flex-1" @click="clickChangeValue(toFixed(item.price), 'price')">{{toFixed(item.avaliableAmount, Quantityaccu)}}</span> 
+          <span class="rang-up with-35">{{index+1}}</span>
+          <span class="text-center ui-flex-1" @click="clickChangeValue(item, 'total')">{{muldepth(item.price, item.avaliableAmount)}}</span>
+          <span class="text-center ui-flex-1" @click="clickChangeValue(toFixed(item.price), 'price')">{{toFixed(item.avaliableAmount, Quantityaccu)}}</span>
           <span class="text-right ui-flex-1" @click="clickChangeValue(toFixed(item.price), 'price')">{{toFixed(item.price,mergeValue)}}</span>
         </li>
       </ul>
-      
+
       <ul class="sell">
         <li class="ui-flex bar pointer" :style="listItemStyle(item, 'ask')" v-for="(item,index) in filterAsks" :key="item.orderBookId" @click="clickChangeValue(item)">
-          <span class="ui-flex-1" @click="clickChangeValue(toFixed(item.price), 'price')">{{toFixed(item.price,mergeValue)}}</span> 
-          <span class="text-center ui-flex-1" @click="clickChangeValue(toFixed(item.price), 'price')">{{toFixed(item.avaliableAmount, Quantityaccu)}}</span> 
-          <span class="text-center ui-flex-1" @click="clickChangeValue(item, 'total')">{{muldepth(item.price, item.avaliableAmount)}}</span> 
+          <span class="ui-flex-1" @click="clickChangeValue(toFixed(item.price), 'price')">{{toFixed(item.price,mergeValue)}}</span>
+          <span class="text-center ui-flex-1" @click="clickChangeValue(toFixed(item.price), 'price')">{{toFixed(item.avaliableAmount, Quantityaccu)}}</span>
+          <span class="text-center ui-flex-1" @click="clickChangeValue(item, 'total')">{{muldepth(item.price, item.avaliableAmount)}}</span>
           <span class="text-right rang-down with-35">{{index+1}}</span>
         </li>
       </ul>
+      <loading v-show="!load" class="load"/>
     </div>
   </div>
 </template>
@@ -90,6 +91,9 @@ export default {
   },
   computed: {
     ...mapGetters(['getLast24h', 'getEntrustPrices', 'getNetworkSignal']),
+    load () {
+      return this.filterBids.length && this.filterAsks.length
+    },
     getDigit (){
       return this.fixedNumber>=this.digit?this.digit:this.fixedNumber
     },
@@ -319,7 +323,7 @@ export default {
               }
           }
       }
-      
+
   }
 }
 .order-book {
@@ -327,6 +331,7 @@ export default {
     overflow: hidden;
     background: #19181c;
     font-size: 12px;
+    position: relative;
     ul {
         float: left;
         width: 50%;
@@ -360,5 +365,12 @@ export default {
       position: relative;
       span {padding: 4px; position: relative; z-index: 10;}
     }
+  .load{
+    position: absolute;
+    top:50%;
+    left: 50%;
+    margin-left: -25px;
+    margin-top: -25px;
+  }
 }
 </style>
