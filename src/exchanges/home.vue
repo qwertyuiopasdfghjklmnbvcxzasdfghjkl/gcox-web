@@ -281,7 +281,7 @@ export default {
     checkMarket(){
       if(this.currentMarket && this.currentMarket.visible==='0'){
         if(!this.$route.query.visible){
-          console.log('--------------------------------------')
+          // console.log('--------------------------------------')
           this.$router.replace({name:'exchange_index2'})
         }
       }
