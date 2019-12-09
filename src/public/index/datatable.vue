@@ -92,7 +92,7 @@
         let ndatas = this.getMarketList.sort((item1, item2) => {
           let m1 = numUtils.BN(item1.createdAt)
           let m2 = numUtils.BN(item2.createdAt)
-          return m1.gte(m2) ? 1 : -1
+          return m1.lt(m2) ? 1 : -1
         })
         return ndatas.slice(0,10)
       }
