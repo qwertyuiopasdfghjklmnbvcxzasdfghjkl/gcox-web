@@ -136,10 +136,14 @@
             let m1 = numUtils.BN(item1.createdAt)
             let m2 = numUtils.BN(item2.createdAt)
             return this.sort === 'asc' ? (m1.lt(m2) ? -1 : 1) : (m1.gt(m2) ? -1 : 1)
-          } else {
+          } else if (this.sortActive === 'market') {
             let m1 = item1.market
             let m2 = item2.market
             return this.sort === 'asc' ? (m1 < m2 ? -1 : 1) : (m1 > m2 ? -1 : 1)
+          } else {
+            let m1 = numUtils.BN(item1.idx)
+            let m2 = numUtils.BN(item2.idx)
+            return m1.gt(m2) ? -1 : 1
           }
         })
 
