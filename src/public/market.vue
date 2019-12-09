@@ -238,7 +238,7 @@
           this.sort = 'asc'
         } else if (this.current === 'new') {
           this.sortActive = 'createdAt'
-          this.sort = 'asc'
+          this.sort = 'desc'
         } else {
           this.sortActive = ''
           this.sort = 'asc'
