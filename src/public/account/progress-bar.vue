@@ -27,7 +27,10 @@ export default {
   name: 'progress-bar',
   data(){
     return {
-      data:{}
+      data:{
+        thisWeekDealAmount:0,
+        lastWeekDealAmount:0
+      }
     }
   },
   computed:{
@@ -59,13 +62,20 @@ export default {
     }
   },
   created(){
-    this.getUnlockSchedule()
+    this.getThisWeekTradingVolume()
+    this.getLastWeekTradingVolume()
   },
   methods:{
-    getUnlockSchedule(){
-      userUtils.getUnlockSchedule((res) => {
-        console.log(res)
-        this.data = res
+    getThisWeekTradingVolume(){
+      userUtils.getThisWeekTradingVolume((res) => {
+        this.data.thisWeekDealAmount = res
+      }, (msg) => {
+        Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
+      })
+    },
+    getLastWeekTradingVolume(){
+      userUtils.getLastWeekTradingVolume((res) => {
+        this.data.lastWeekDealAmount = res
       }, (msg) => {
         Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
       })

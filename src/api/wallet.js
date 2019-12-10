@@ -18,6 +18,30 @@ const getUnlockSchedule = function (success, error) {
 }
 wallet.getUnlockSchedule = getUnlockSchedule
 
+// 本周交易量
+const getThisWeekTradingVolume = function (success, error) {
+  api.get(`${domain}api/v2/account2/thisWeekTradingVolume`, (res) => {
+    if (res.rst === 1) {
+      success && success(res.thisWeekDealAmount)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+wallet.getThisWeekTradingVolume = getThisWeekTradingVolume
+
+// 上周交易量
+const getLastWeekTradingVolume = function (success, error) {
+  api.get(`${domain}api/v2/account2/lastWeekTradingVolume`, (res) => {
+    if (res.rst === 1) {
+      success && success(res.lastWeekDealAmount)
+    } else {
+      error && error(res.msg)
+    }
+  }, error)
+}
+wallet.getLastWeekTradingVolume = getLastWeekTradingVolume
+
 // 锁仓接口
 const findStakingRecords = function (data, success, error) {
   api.post(`${domain}api/v2/account2/findMinerRecords/${data.pageSize}/${data.page}`, {
