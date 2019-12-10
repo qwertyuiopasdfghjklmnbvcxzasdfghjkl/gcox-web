@@ -5,23 +5,23 @@
       <left :iconUrl="iconUrl" :currentSymbol="currentSymbol" :baseSymbol="baseSymbol" :symbol="symbol" :toFixed="toFixed" :lastPrice="toFixed(getLast24h.close, fixedNumber)" @changeSymbol="changeSymbol"/>
       <div class="right-container ui-flex-1">
         <div class="block">
-          <table class="current-detail"> 
-           <thead> 
-            <tr> 
-             <th class="text-left"> {{$t('home.home_change_24h')}}<!--24h涨跌--> </th> 
-             <th class="text-left"> {{$t('home.home_high_24h')}}<!--24h最高价--> </th> 
-             <th class="text-left"> {{$t('home.home_low_24h')}}<!--24h最低价--> </th> 
-             <th class="text-left"> {{$t('home.home_volume_24h')}}<!--24h成交量--> </th> 
-            </tr> 
-           </thead> 
-           <tbody> 
-            <tr> 
-             <td class="text-left" :class="[getLast24h.isDown?'rang-down':'rang-up']"> {{getLast24h.isDown?'':'+'}}{{getLast24h.percent}}% </td> 
-             <td class="rang-up text-left"> {{toFixed(getLast24h.high, fixedNumber)}} </td> 
-             <td class="rang-down text-left"> {{toFixed(getLast24h.bottom, fixedNumber)}} </td> 
-             <td class="text-left"> {{toFixed(getLast24h.vol, 2)}} {{baseSymbol}} </td> 
-            </tr> 
-           </tbody> 
+          <table class="current-detail">
+           <thead>
+            <tr>
+             <th class="text-left"> {{$t('home.home_change_24h')}}<!--24h涨跌--> </th>
+             <th class="text-left"> {{$t('home.home_high_24h')}}<!--24h最高价--> </th>
+             <th class="text-left"> {{$t('home.home_low_24h')}}<!--24h最低价--> </th>
+             <th class="text-left"> {{$t('home.home_volume_24h')}}<!--24h成交量--> </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <td class="text-left" :class="[getLast24h.isDown?'rang-down':'rang-up']"> {{getLast24h.isDown?'':'+'}}{{getLast24h.percent}}% </td>
+             <td class="rang-up text-left"> {{toFixed(getLast24h.high, fixedNumber)}} </td>
+             <td class="rang-down text-left"> {{toFixed(getLast24h.bottom, fixedNumber)}} </td>
+             <td class="text-left"> {{toFixed(getLast24h.vol, 2)}} {{baseSymbol}} </td>
+            </tr>
+           </tbody>
           </table>
         </div>
         <kline ref="kline" :iconUrl="iconUrl" :klineData="klineData" :baseSymbol="baseSymbol" :currentSymbol="currentSymbol" :symbol="symbol" :fixedNumber="fixedNumber" />

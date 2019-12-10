@@ -55,8 +55,10 @@
           <div dd="">
             <a target="_blank" href="https://gcoxgroup.com/privacy_policy.html" class="link-url">
               {{$t('usercontent.foot-policy')}}</a></div>
-          <div dd=""><a target="_blank" href="https://gcoxgroup.com/wallet_tnc.html" class="link-url">{{$t('usercontent.wallet-rule')}}</a></div>
-          <div dd=""><a target="_blank" href="https://gcoxgroup.com/terms_of_use.html" class="link-url">{{$t('usercontent.use-rule')}}</a></div>
+          <div dd=""><a target="_blank" href="https://gcoxgroup.com/wallet_tnc.html" class="link-url">{{$t('usercontent.wallet-rule')}}</a>
+          </div>
+          <div dd=""><a target="_blank" href="https://gcoxgroup.com/terms_of_use.html" class="link-url">{{$t('usercontent.use-rule')}}</a>
+          </div>
         </div>
       </div>
     </div>
@@ -94,9 +96,9 @@
         market.getCmsList(
           {
             firstLevel: 2,
+            state: 1
           },
           res => {
-            
             res.filter(data => {
               if (data.secondLevel === 3) {
                 this.about.push(data)

@@ -48,6 +48,7 @@
         let data = {
           firstLevel: 1,
           secondLevel: 2,
+          state: 1,
           page: this.page,
           size: this.size
         }
@@ -58,7 +59,7 @@
               return res
             }
           })
-          
+
           this.list = res
           this.total = total
           this.loading = false
