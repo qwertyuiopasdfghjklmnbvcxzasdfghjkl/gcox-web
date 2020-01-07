@@ -24,13 +24,17 @@ import bheader from '@/components/header'
 import bottom from '@/components/bottom'
 import userApi from '@/api/user'
 import marketApi from '@/api/market'
+import jumpto from '@/public/dialog/jumpto'
+import jumpto2 from '@/public/dialog/jumpto2'
 
 
 export default {
   name: 'app',
   components: {
     bheader,
-    bottom
+    bottom,
+    jumpto,
+    jumpto2
   },
   data () {
     return {
@@ -61,6 +65,7 @@ export default {
       this.getBTCValuation()
       if (val) {
         this.getUserInfoMethod()
+        this.showJumpTo2()
       }
       try {
         this.gws.changeLogin()
@@ -104,6 +109,7 @@ export default {
     }
   },
   created () {
+    this.showJumpTo()
     this.getSysparams()
     this.getBTCValuation()
     this.getUserInfoMethod()
@@ -146,6 +152,24 @@ export default {
   },
   methods: {
     ...mapActions(['setBTCValuation', 'setUSDCNY', 'setNetworkSignal', 'setUserInfo','setSysParams']),
+    showJumpTo(){
+      marketApi.getIpVerify(res=>{
+        if(res){
+          utils.setDialog(jumpto, {
+            // backClose:true
+          })
+        }
+      })
+    },
+    showJumpTo2(){
+      marketApi.getKycValidate(res=>{
+        if(res){
+          utils.setDialog(jumpto2, {
+            // backClose:true
+          })
+        }
+      })
+    },
     getSysparams(){
       marketApi.rateSysparams(res=>{
         let params = {}
@@ -178,6 +202,7 @@ export default {
       if (!this.getApiToken) {
         return
       }
+      this.showJumpTo2()
       userApi.getUserInfo((userInfo) => {
         if (this.getApiToken) {
           this.setUserInfo(userInfo)
