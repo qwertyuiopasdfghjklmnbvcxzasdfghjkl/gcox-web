@@ -68,7 +68,9 @@
           }
           return n1 < n2 ? -1 : 1
         })
-        return datas
+        return datas.filter(item=>{
+          return item.siteType?(item.siteType===this.getSiteType?true:false):true
+        })
       }
     },
     created () {
