@@ -353,8 +353,8 @@ const invitedAwardRank = function (success, error) {
 individual.invitedAwardRank = invitedAwardRank
 
 // 获取首页banner数据
-const getBannersList = function (success, error) {
-  api.get(`${domain}api/v2/individual/promotionActivity`, (res) => {
+const getBannersList = function (data, success, error) {
+  api.get(`${domain}api/v2/individual/promotionActivity`, data, (res) => {
     if (res.rst === 1) {
       success && success(res.data)
     } else {

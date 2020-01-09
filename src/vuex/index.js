@@ -31,9 +31,12 @@ export default new Vuex.Store({
     networkSignal: 0,
     events: {},
     btcValues: {},
-    sysParams:{} //System params
+    sysParams:{}, //System params
   },
   getters: {
+    getSiteType(state){
+      return location.hostname == 'gcox.sg'?2:1
+    },
     getSysParams(state){
       return state.sysParams
     },
