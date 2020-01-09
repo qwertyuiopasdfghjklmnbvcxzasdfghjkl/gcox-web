@@ -153,6 +153,9 @@ export default {
   methods: {
     ...mapActions(['setBTCValuation', 'setUSDCNY', 'setNetworkSignal', 'setUserInfo','setSysParams']),
     showJumpTo(){
+      if(this.getSiteType===1){
+        return
+      }
       marketApi.getIpVerify(res=>{
         if(res && this.getSiteType===1){
           utils.setDialog(jumpto, {
@@ -162,6 +165,9 @@ export default {
       })
     },
     showJumpTo2(){
+      if(this.getSiteType===1){
+        return
+      }
       marketApi.getKycValidate(res=>{
         if(res && this.getSiteType===1){
           utils.setDialog(jumpto2, {
