@@ -39,7 +39,7 @@
       }
     },
     computed: {
-      ...mapGetters(['getLang']),
+      ...mapGetters(['getLang','getSiteType']),
       banners () {
         let datas = []
         this.datas.forEach((item) => {
@@ -72,7 +72,7 @@
       }
     },
     created () {
-      userApi.getBannersList((res) => {
+      userApi.getBannersList({siteType:this.getSiteType},(res) => {
         this.datas = res
       })
     }
