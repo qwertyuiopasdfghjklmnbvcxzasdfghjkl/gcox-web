@@ -68,14 +68,14 @@
           }
           return n1 < n2 ? -1 : 1
         })
-        return datas.filter(item=>{
-          return item.siteType?(item.siteType===this.getSiteType?true:false):true
-        })
+        return datas
       }
     },
     created () {
       userApi.getBannersList({siteType:this.getSiteType},(res) => {
-        this.datas = res
+        this.datas = res.filter(item=>{
+          return item.siteType?(item.siteType===this.getSiteType?true:false):true
+        })
       })
     }
   }
