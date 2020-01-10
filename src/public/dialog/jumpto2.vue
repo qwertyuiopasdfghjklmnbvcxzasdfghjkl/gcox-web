@@ -1,24 +1,26 @@
 <template>
     <div class="dialog">
-        <p class="title text-center">即将转到新加坡地区的网站</p>
-        <p class="mt40 text-center dark">您是新加坡用户，根据相关政策要求，请使用<a href="https://gcox.sg" target="_self">GCOX.SG</a>网站</p>
-        <p class="text-center mt80"><button class="gobtn" type="button" onclick="location.href = 'https://gcox.sg'">立即跳转({{time}}S)</button></p>
+        <p class="title text-center">{{$t(key?'user.go_main_soon':'user.go_sg_soon')}}</p>
+        <p class="mt40 text-center dark">{{$t(key?'user.no_sg_user':'user.yes_sg_user')}}<a :href="url" target="_self">{{key?'GCOX.COM':'GCOX.SG'}}</a>{{$t('user.site')}}</p>
+        <p class="text-center mt80"><a :href="url" target="_self" class="gobtn">{{$t('user.goto_rightnow')}}({{time}}S)</a></p>
     </div>
 </template>
 
 <script>
 
 export default {
+  props:['key'],
   data () {
     return {
-      time:20
+      time:20,
+      url:this.key?'https://gcox.com':'https://gcox.sg'
     }
   },
   mounted(){
     let timeOut = () => {
       this.time--
       if (this.time === 0) {
-        location.href = 'https://gcox.sg'
+        location.href = this.url
         return
       }
       setTimeout(timeOut, 1000)
@@ -32,5 +34,5 @@ export default {
 .dark {color: #B6C4CA;}
 .dialog {width: 880px;background-color: #2E2E2E; color: #EDF7FB; padding-top: 55px; padding-bottom: 65px;}
 .title {font-size: 26px;}
-.gobtn {line-height: 43px; padding-left: 25px; padding-right: 25px; font-size: 16px; color: #fff; background: linear-gradient(top, #16B6FF,#006593); cursor: pointer;}
+.gobtn {display: inline-block;line-height: 43px; padding-left: 25px; padding-right: 25px; font-size: 16px; color: #fff; background: linear-gradient(top, #16B6FF,#006593); cursor: pointer;}
 </style>

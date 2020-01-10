@@ -28,7 +28,7 @@
       loading
     },
     computed: {
-      ...mapGetters(['getLang'])
+      ...mapGetters(['getLang','getSiteType'])
     },
     data () {
       return {
@@ -50,7 +50,8 @@
           secondLevel: 2,
           state: 1,
           page: this.page,
-          size: this.size
+          size: this.size,
+          siteType:this.getSiteType
         }
         market.getCmsList(data, (res, total) => {
           //console.log(res)

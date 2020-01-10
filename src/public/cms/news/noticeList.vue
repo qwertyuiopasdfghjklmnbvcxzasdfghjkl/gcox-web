@@ -36,7 +36,7 @@
       }
     },
     computed: {
-      ...mapGetters(['getLang'])
+      ...mapGetters(['getLang','getSiteType'])
     },
     created () {
       this.getList()
@@ -49,7 +49,9 @@
           secondLevel: 1,
           state: 1,
           page: this.page,
-          size: this.size
+          size: this.size,
+          siteType:this.getSiteType
+
         }
         market.getCmsList(data, (res, total) => {
 
