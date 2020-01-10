@@ -45,7 +45,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getApiToken', 'getOtcSocketEvents', 'getLang']),
+    ...mapGetters(['getApiToken', 'getOtcSocketEvents', 'getLang', 'getSiteType']),
     isIE () {
       // (true = IE9) || true >= IE10
       return (document.all && document.addEventListener && !window.atob) || (document.body.style.msTouchAction !== undefined)
@@ -154,7 +154,7 @@ export default {
     ...mapActions(['setBTCValuation', 'setUSDCNY', 'setNetworkSignal', 'setUserInfo','setSysParams']),
     showJumpTo(){
       marketApi.getIpVerify(res=>{
-        if(res){
+        if(res && this.getSiteType===1){
           utils.setDialog(jumpto, {
             // backClose:true
           })
@@ -163,9 +163,14 @@ export default {
     },
     showJumpTo2(){
       marketApi.getKycValidate(res=>{
-        if(res){
+        if(res && this.getSiteType===1){
           utils.setDialog(jumpto2, {
             // backClose:true
+          })
+        } else if(!res && this.getSiteType===2){
+          utils.setDialog(jumpto2, {
+            // backClose:true
+            key:true
           })
         }
       })

@@ -28,14 +28,14 @@ data(){
     }
 },
 computed: {
-    ...mapGetters(['getLang']),
+    ...mapGetters(['getLang','getSiteType']),
 },
 created() {
     this.getCmsList()
 },
 methods:{
     getCmsList(){
-      marketApi.getCmsList({firstLevel:1,secondLevel:2,page:1,size:3},res=>{
+      marketApi.getCmsList({firstLevel:1,secondLevel:2,page:1,size:3,siteType:this.getSiteType},res=>{
         this.news = res
       })
     },

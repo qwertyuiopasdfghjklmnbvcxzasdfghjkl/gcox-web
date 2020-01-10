@@ -9,7 +9,7 @@ ul,ol{ list-style:none;}
 table { border-collapse:collapse; border-spacing:0;}
 a{ text-decoration:none;}
 a:link{ text-decoration:none; color: #00a0e9;}
-a:visited{ text-decoration:none;}
+a:visited{ text-decoration:none; color: #00a0e9;}
 input,button,select,textarea{outline:none; border:none;box-shadow:none;}
 input[type='number']::-webkit-outer-spin-button,input[type='number']::-webkit-inner-spin-button {appearance:none!important;margin: 0;}
 input[type='number']{-moz-appearance:textfield!important;}
