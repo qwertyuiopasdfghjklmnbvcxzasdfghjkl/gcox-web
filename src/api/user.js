@@ -21,7 +21,8 @@ const login = function (formData, success, error) {
     if (res.rst === 1) {
       success && success(res.api_token, res)
     } else {
-      error && error(res.data.error, res.rst)
+      let _error = res.data&&res.data.error || res.msg
+      error && error(_error, res.rst)
     }
   }, error)
 }
