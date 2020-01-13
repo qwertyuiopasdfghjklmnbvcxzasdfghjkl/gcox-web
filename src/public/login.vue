@@ -107,7 +107,7 @@ export default {
         } else {
           this.loginAC(formData)
         }
-        
+
       })
     },
     loginAC(formData){
@@ -119,18 +119,15 @@ export default {
           if (apiToken) {
             this.setApiToken(apiToken)
             myAPi.addLoginHistory()
-            return
           }
-        }, (msg, rst) => {
+        }, (msg, error) => {
           this.locked = false
-          Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${typeof msg === 'string' ? msg : msg[0]}`)})
+          Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg ? (typeof msg === 'string' ? msg : msg[0]) : error}`)})
           if (msg === 'verify_email_required') {
             this.$router.push({name: 'sendemail', query: {email: this.formData.username}})
           } else if (msg === 'invalid_totp') {
-            // this.needGoogleCode = true
             this.showTwoVerify()
           }
-          
         })
       }, () => {
         this.locked = false
