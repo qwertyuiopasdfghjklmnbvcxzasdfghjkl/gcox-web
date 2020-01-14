@@ -151,7 +151,7 @@ export default {
     this.ws && this.ws.close()
   },
   methods: {
-    ...mapActions(['setBTCValuation', 'setUSDCNY', 'setNetworkSignal', 'setUserInfo','setSysParams']),
+    ...mapActions(['setBTCValuation','setApiToken', 'setUSDCNY', 'setNetworkSignal', 'setUserInfo','setSysParams']),
     showJumpTo(){
       marketApi.getIpVerify(res=>{
         if(res && this.getSiteType===1){
@@ -164,10 +164,12 @@ export default {
     showJumpTo2(){
       marketApi.getKycValidate(res=>{
         if(res && this.getSiteType===1){
+          this.setApiToken()
           utils.setDialog(jumpto2, {
             // backClose:true
           })
         } else if(!res && this.getSiteType===2){
+          this.setApiToken()
           utils.setDialog(jumpto2, {
             // backClose:true
             key:true
