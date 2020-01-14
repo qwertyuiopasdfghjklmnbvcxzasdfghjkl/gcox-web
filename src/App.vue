@@ -158,6 +158,11 @@ export default {
           utils.setDialog(jumpto, {
             // backClose:true
           })
+        } else if(!res && this.getSiteType===2){
+          utils.setDialog(jumpto, {
+            // backClose:true
+            key:true
+          })
         }
       })
     },
