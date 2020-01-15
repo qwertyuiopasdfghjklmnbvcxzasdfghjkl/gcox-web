@@ -1,6 +1,6 @@
 <template>
     <div class="dialog">
-        <p class="title">{{$t('user.area_chioce')}}<!-- 选择一个区 --></p>
+        <p class="title">&nbsp;<!-- {{$t('user.area_chioce')}} --><!-- 选择一个区 --></p>
         <img class="banner" src="../../assets/img/jump_banner.png">
         <p class="mt60 text-center fs26">{{$t(key?'user.goto_main_site':'user.goto_sg_site')}}<!-- 转到GCOX新加坡站点 --></p>
         <p class="mt25 text-center dark">{{$t(key?'user.curr_pos_notsg':'user.curr_pos_sg')}}<!-- 您当前的位置：新加坡 --></p>
