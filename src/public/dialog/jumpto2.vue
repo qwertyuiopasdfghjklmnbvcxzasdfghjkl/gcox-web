@@ -3,7 +3,7 @@
         <p class="title text-center">{{$t(key?'user.go_main_soon':'user.go_sg_soon')}}</p>
         <p class="mt40 text-center dark">{{$t(key?'user.no_sg_user':'user.yes_sg_user')}}<a :href="url" target="_self">{{key?'GCOX.COM':'GCOX.SG'}}</a>{{$t('user.site')}}</p>
         <p class="mt20 text-center dark">{{$t('user.skip_apologize')}}</p>
-        <p class="text-center mt80"><a :href="url" target="_self" class="gobtn">{{$t('user.goto_rightnow')}}({{time}}S)</a></p>
+        <p class="text-center mt80"><a :href="url" target="_self" class="gobtn">{{$t('user.goto_rightnow').format(key?'GCOX.COM':'GCOX.SG')}}({{time}}S)</a></p>
     </div>
 </template>
 
