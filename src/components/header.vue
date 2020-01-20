@@ -63,7 +63,7 @@
                 <div class="sub-item" @click="setLanguage('zh-CN')">
                   <span>简体中文</span>
                 </div>
-                <div class="sub-item" @click="setLanguage('kr')">
+                <div class="sub-item" @click="setLanguage('kr')" v-if="getSiteType==1">
                   <span>한국어</span>
                 </div>
               </div>
@@ -104,7 +104,7 @@
 
     },
     methods: {
-      ...mapActions(['setLang', 'setApiToken']),
+      ...mapActions(['setLang', 'setApiToken', 'getSiteType']),
       showQuickLogin () {
         utils.setDialog(quickLogin, {
           backClose:true
