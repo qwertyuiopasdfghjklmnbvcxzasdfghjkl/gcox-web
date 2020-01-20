@@ -86,7 +86,7 @@
       return {}
     },
     computed: {
-      ...mapGetters(['isLogin', 'getUserInfo', 'getLang']),
+      ...mapGetters(['isLogin', 'getUserInfo', 'getLang','getSiteType']),
       displayUsername () {
         if (this.getUserInfo.username) {
           let temp = this.getUserInfo.username.split('@')
@@ -104,7 +104,7 @@
 
     },
     methods: {
-      ...mapActions(['setLang', 'setApiToken', 'getSiteType']),
+      ...mapActions(['setLang', 'setApiToken']),
       showQuickLogin () {
         utils.setDialog(quickLogin, {
           backClose:true
