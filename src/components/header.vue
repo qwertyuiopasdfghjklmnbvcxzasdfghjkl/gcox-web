@@ -3,7 +3,7 @@
     <div class="header-bg"></div>
     <div class="header w1200 ui-flex ui-flex-justify">
       <div class="ui-flex-1">
-        <router-link :to="{name:'home'}" class="icon_logo item"></router-link>
+        <router-link :to="{name:'home'}" class="icon_logo item" :class="{sg:getSiteType==2}"></router-link>
         <router-link :to="{name:'market'}" class="item"><i class="market"></i> {{$t('home.home_pair')}}<!-- 市场 -->
         </router-link>
         <router-link :to="{name:'exchange_index2'}" class="item" :class="{active:$route.name === 'exchange_index2' || $route.name === 'exchange_index' || $route.name === 'quickTrade'}">
@@ -259,6 +259,7 @@
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
+      &.sg {background-image: url('../assets/img/logo_sg.png');}
     }
 
     a {
