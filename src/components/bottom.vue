@@ -52,13 +52,27 @@
               {{getLang==='zh-CN'?item.titleCn:item.titleEn}}
             </router-link>
           </div>
-          <div dd="">
-            <a target="_blank" href="https://gcoxgroup.com/privacy_policy.html" class="link-url">
-              {{$t('usercontent.foot-policy')}}</a></div>
-          <div dd=""><a target="_blank" href="https://gcoxgroup.com/wallet_tnc.html" class="link-url">{{$t('usercontent.wallet-rule')}}</a>
-          </div>
-          <div dd=""><a target="_blank" href="https://gcoxgroup.com/terms_of_use.html" class="link-url">{{$t('usercontent.use-rule')}}</a>
-          </div>
+          <template  v-if="getSiteType==1">
+            <div dd="">
+              <a target="_blank" href="https://gcoxgroup.com/privacy_policy.html" class="link-url">
+                {{$t('usercontent.foot-policy')}}</a></div>
+            <div dd=""><a target="_blank" href="https://gcoxgroup.com/wallet_tnc.html" class="link-url">{{$t('usercontent.wallet-rule')}}</a>
+            </div>
+            <div dd=""><a target="_blank" href="https://gcoxgroup.com/terms_of_use.html" class="link-url">{{$t('usercontent.use-rule')}}</a>
+            </div>
+          </template>
+          <template  v-else>
+            <div dd="">
+              <router-link :to="{name: 'footDetail',params:{id: '252889472868286464',type:'clause'}}">{{$t('usercontent.foot-policy')}}</router-link>
+            </div>
+            <div dd="">
+              <router-link :to="{name: 'footDetail',params:{id: '252892086951477248',type:'clause'}}">{{$t('usercontent.wallet-rule')}}</router-link>
+            </div>
+            <div dd="">
+              <router-link :to="{name: 'footDetail',params:{id: '252892490401579008',type:'clause'}}">{{$t('usercontent.use-rule')}}</router-link>
+            </div>
+          
+          </template>
         </div>
       </div>
     </div>
@@ -80,7 +94,7 @@
       }
     },
     computed: {
-      ...mapGetters(['isLogin', 'getUserInfo', 'getLang']),
+      ...mapGetters(['isLogin', 'getUserInfo', 'getLang', 'getSiteType']),
     },
     watch: {},
     created () {
@@ -96,7 +110,8 @@
         market.getCmsList(
           {
             firstLevel: 2,
-            state: 1
+            state: 1,
+            siteType:this.getSiteType
           },
           res => {
             res.filter(data => {

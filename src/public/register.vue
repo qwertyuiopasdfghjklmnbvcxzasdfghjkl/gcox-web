@@ -41,7 +41,12 @@
             <i :class="[checked?'icon-checkbox-checked':'icon-checkbox-unchecked']" @click="checked=!checked"></i>
             <span>
               <em @click="checked=!checked">{{$t('login_register.agree_Service')}}<!--我已阅读并同意--></em>
+              <template v-if="getSiteType==1">
               《<a :href="walletAgreement" target="_blank">{{$t('usercontent.wallet-rule')}}<!--钱包使用条款--></a>》、《<a :href="useAgreement" target="_blank">{{$t('usercontent.use-rule')}}<!--使用条款--></a>》、《<a :href="privacyAgreement" target="_blank">{{$t('usercontent.foot-policy')}}<!--隐私条款--></a>》
+              </template>
+              <template v-else>
+                《<router-link :to="{name: 'footDetail',params:{id: '252892086951477248',type:'clause'}}">{{$t('usercontent.wallet-rule')}}<!--钱包使用条款--></router-link>》、《<router-link :to="{name: 'footDetail',params:{id: '252892490401579008',type:'clause'}}">{{$t('usercontent.use-rule')}}<!--使用条款--></router-link>》、《<router-link :to="{name: 'footDetail',params:{id: '252889472868286464',type:'clause'}}">{{$t('usercontent.foot-policy')}}<!--隐私条款--></router-link>》
+              </template>
             </span>
         </div>
         <div class="text-right mt60"><button type="button" class="mint-btn default round efont" style="width: 140px;" :disabled="!checked" @click="register">{{$t('login_register.register')}}<!-- 注册 --></button></div>
@@ -79,7 +84,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getLang']),
+    ...mapGetters(['getLang','getSiteType']),
     msgs () {
       return {
         username: {required: this.$t('login_register.email'), email: this.$t('exchange.exchange_Email_format_error')}, // 请输入邮箱||邮箱格式错误
