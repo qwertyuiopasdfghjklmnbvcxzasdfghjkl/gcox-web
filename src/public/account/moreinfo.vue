@@ -27,7 +27,8 @@
                             <!--</span>-->
               <span class="reche icon_withdraw" :class="{disabled: !item.openStaking}"
                     @click="showStake"
-                    :title="$t('account.stake')">
+                    :title="$t('account.stake')"
+                    v-if="getSiteType==1">
                     {{$t('account.stake')}}<!--锁仓-->
               </span>
 
@@ -150,7 +151,7 @@
       }
     },
     computed: {
-      ...mapGetters(['getMarketList','getUserInfo', 'getLang']),
+      ...mapGetters(['getMarketList','getUserInfo', 'getLang', 'getSiteType']),
       blockQuantity () {
         if (this.item.blockConfirm) {
           return this.item.blockConfirm
