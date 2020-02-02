@@ -19,7 +19,7 @@
         <span>{{$t('usercontent.user60')}}</span>
         <!--我的订单-->
       </li>
-      <li :class="{'active': active === 'ieorecords'}" @click="switch_tab('ieorecords')">
+      <li :class="{'active': active === 'ieorecords'}" @click="switch_tab('ieorecords')" v-if="getSiteType==1">
         <span>{{$t('ieo.myieo')}}</span>
       </li>
       <!--我的Sparkle-->
@@ -28,12 +28,16 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
   export default {
     name: 'left',
     props: {
       active: {
         type: String
       }
+    },
+    computed: {
+      ...mapGetters(['getSiteType']),
     },
     methods: {
       switch_tab (tab) {

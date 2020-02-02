@@ -4,7 +4,7 @@
     <div class="history_nav">
       <label :class="{active:show==='deposit'}" @click="show = 'deposit'">{{$t('account.user_center_history_deposit')}}<!--充值记录--></label>
       <label :class="{active:show==='withdrawal'}" @click="show = 'withdrawal'">{{$t('account.user_center_history_withdrawal')}}<!--提现记录--></label>
-      <label :class="{active:show==='staked'}" @click="show = 'staked'">{{$t('account.history_staked')}}<!--锁仓记录--></label>
+      <label :class="{active:show==='staked'}" @click="show = 'staked'"  v-if="getSiteType==1">{{$t('account.history_staked')}}<!--锁仓记录--></label>
       <label :class="{active:show==='distributed'}" @click="show = 'distributed'">{{$t('account.history_distributed')}}<!--分发记录--></label>
     </div>
 
@@ -234,6 +234,7 @@
   import page from '@/components/page'
   import loading from '@/components/loading'
   import numUtils from '@/assets/js/numberUtils'
+  import {mapGetters} from 'vuex'
 
   export default {
     components: {
@@ -296,6 +297,7 @@
       }
     },
     computed: {
+      ...mapGetters(['getSiteType']),
       paramsChange () {
         return {
           direction: 1,

@@ -92,7 +92,7 @@ export default {
   computed: {
     ...mapGetters(['getLast24h', 'getEntrustPrices', 'getNetworkSignal']),
     load () {
-      return this.filterBids.length && this.filterAsks.length
+      return this.filterBids.length || this.filterAsks.length
     },
     getDigit (){
       return this.fixedNumber>=this.digit?this.digit:this.fixedNumber

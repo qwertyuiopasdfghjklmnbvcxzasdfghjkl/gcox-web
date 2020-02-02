@@ -3,7 +3,7 @@
     <div class="header-bg"></div>
     <div class="header w1200 ui-flex ui-flex-justify">
       <div class="ui-flex-1">
-        <router-link :to="{name:'home'}" class="icon_logo item"></router-link>
+        <router-link :to="{name:'home'}" class="icon_logo item" :class="{sg:getSiteType==2}"></router-link>
         <router-link :to="{name:'market'}" class="item"><i class="market"></i> {{$t('home.home_pair')}}<!-- 市场 -->
         </router-link>
         <router-link :to="{name:'exchange_index2'}" class="item" :class="{active:$route.name === 'exchange_index2' || $route.name === 'exchange_index' || $route.name === 'quickTrade'}">
@@ -19,7 +19,7 @@
               </div>
             </div>
         </router-link>
-        <router-link :to="{name:'ieo_index'}" class="item"><i class="icon-stars"></i> SPARKLE</router-link>
+        <router-link :to="{name:'ieo_index'}" class="item" v-if="getSiteType==1"><i class="icon-stars"></i> SPARKLE</router-link>
         <!-- <router-link :to="{name:'acm'}" class="item"><i class="acm"></i> ACM</router-link> -->
         <a href="javascript:;" v-if="!isLogin" class="item" @click="showQuickLogin"><i class="account"></i> {{$t('usercontent.user56')}}<!-- 资产管理 --></a>
         <router-link v-if="isLogin" :to="{name:'account'}" class="item"><i class="account"></i> {{$t('usercontent.user56')}}<!-- 资产管理 --></router-link>
@@ -63,7 +63,7 @@
                 <div class="sub-item" @click="setLanguage('zh-CN')">
                   <span>简体中文</span>
                 </div>
-                <div class="sub-item" @click="setLanguage('kr')">
+                <div class="sub-item" @click="setLanguage('kr')" v-if="getSiteType==1">
                   <span>한국어</span>
                 </div>
               </div>
@@ -86,7 +86,7 @@
       return {}
     },
     computed: {
-      ...mapGetters(['isLogin', 'getUserInfo', 'getLang']),
+      ...mapGetters(['isLogin', 'getUserInfo', 'getLang','getSiteType']),
       displayUsername () {
         if (this.getUserInfo.username) {
           let temp = this.getUserInfo.username.split('@')
@@ -259,6 +259,7 @@
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
+      &.sg {background-image: url('../assets/img/logo_sg.png');}
     }
 
     a {

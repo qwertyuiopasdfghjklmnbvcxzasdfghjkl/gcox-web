@@ -3,8 +3,8 @@
     <h3>{{$t('usercontent.user58')}}<!--我的数字资产-->
       <template v-if="pandectShow">
         <span class="ml80 pointer" :class="{'f-c-main':accountType===1}" @click="accountType=1">{{$t('account.trading_wallet')}}<!-- 交易钱包 --></span>
-        &nbsp;&nbsp;|&nbsp;&nbsp;
-        <span class="pointer" :class="{'f-c-main':accountType===2}" @click="accountType=2">{{$t('account.staking_wallet')}}<!-- 锁仓钱包 --></span>
+        <template v-if="getSiteType==1">&nbsp;&nbsp;|&nbsp;&nbsp;</template>
+        <span class="pointer" :class="{'f-c-main':accountType===2}" @click="accountType=2" v-if="getSiteType==1">{{$t('account.staking_wallet')}}<!-- 锁仓钱包 --></span>
       </template>
     </h3>
     <div class="hcontainer">
@@ -15,7 +15,7 @@
           <span>{{String(getBTCValuation).toMoney()}} BTC</span>
           </p>
           <!--≈ {{getCoinSign}} {{USDCNY}}-->
-          <progress-bar></progress-bar>
+          <progress-bar v-if="getSiteType==1"></progress-bar>
         </div>
         <div class="balance_search" v-if="pandectShow">
 
@@ -77,7 +77,7 @@
                   <i class="icon-arrow-down" :class="{active:sort==='asc'}"></i>
                 </em>
               </div>
-              <div class="useable f-right " v-if="!pandectShow">
+              <div class="useable f-right " v-if="!pandectShow && getSiteType==1">
                 {{$t('account.staked_balanc')}}<!--当前锁仓-->
               </div>
               <div class="opreat f-right ng-binding" v-if="accountType===1">
@@ -97,7 +97,7 @@
                   <div class="f-right " :title="toFixed(numUtils.add(data.totalBalance, getStakeBalance(data.accountName)))|removeEndZero" v-else>{{toFixed(numUtils.add(data.totalBalance, getStakeBalance(data.accountName)))|removeEndZero}}</div>
                   <div class="f-right " :title="toFixed(data.availableBalance)|removeEndZero">{{toFixed(data.availableBalance)|removeEndZero}}</div>
                   <div class="useable f-right " :title="toFixed(data.frozenBalance)|removeEndZero">{{toFixed(data.frozenBalance)|removeEndZero}}</div>
-                  <div class="useable f-right " v-if="!pandectShow" :title="toFixed(getStakeBalance(data.accountName))|removeEndZero">{{toFixed(getStakeBalance(data.accountName))|removeEndZero}}</div>
+                  <div class="useable f-right " v-if="!pandectShow && getSiteType==1" :title="toFixed(getStakeBalance(data.accountName))|removeEndZero">{{toFixed(getStakeBalance(data.accountName))|removeEndZero}}</div>
                   <moreinfo class="action"
                             :googleState="getUserInfo.googleAuthEnable"
                             :verifyState="getUserInfo.kycState"
@@ -273,7 +273,7 @@
       loading
     },
     computed: {
-      ...mapGetters(['getBTCValuation', 'getUSDCNY', 'getCoinSign']),
+      ...mapGetters(['getBTCValuation', 'getUSDCNY', 'getCoinSign', 'getSiteType']),
       USDCNY () {
         return numUtils.mul(this.getBTCValuation, this.getUSDCNY).toFixed(2).toMoney()
       },
