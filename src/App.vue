@@ -45,7 +45,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getApiToken', 'getOtcSocketEvents', 'getLang', 'getSiteType']),
+    ...mapGetters(['getApiToken', 'getOtcSocketEvents', 'getLang', 'getSiteType','getUserInfo']),
     isIE () {
       // (true = IE9) || true >= IE10
       return (document.all && document.addEventListener && !window.atob) || (document.body.style.msTouchAction !== undefined)
@@ -65,7 +65,6 @@ export default {
       this.getBTCValuation()
       if (val) {
         this.getUserInfoMethod()
-        this.showJumpTo2()
       }
       try {
         this.gws.changeLogin()
@@ -167,6 +166,9 @@ export default {
       })
     },
     showJumpTo2(){
+      if(this.getUserInfo.kycState !== 2){
+        return
+      }
       marketApi.getKycValidate(res=>{
         if(res && this.getSiteType===1){
           this.setApiToken()
@@ -214,10 +216,11 @@ export default {
       if (!this.getApiToken) {
         return
       }
-      this.showJumpTo2()
+      
       userApi.getUserInfo((userInfo) => {
         if (this.getApiToken) {
           this.setUserInfo(userInfo)
+          this.showJumpTo2()
         }
       }, (res) => {
         console.warn(res)
