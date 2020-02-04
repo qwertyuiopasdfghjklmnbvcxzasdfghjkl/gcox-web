@@ -166,7 +166,7 @@ export default {
       })
     },
     showJumpTo2(){
-      if(this.getUserInfo.kycState !== 2){
+      if(this.getUserInfo.kycState != 1){
         return
       }
       marketApi.getKycValidate(res=>{
