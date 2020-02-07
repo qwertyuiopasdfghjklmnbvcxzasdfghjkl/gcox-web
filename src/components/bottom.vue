@@ -16,7 +16,7 @@
         </div>
         <div class="mt10">©2019 Global Crypto Offering Exchange Ltd. All Rights Reserved</div>
       </div>
-      <div class="right">
+      <div class="right" v-if="!$parent.maintain">
         <div>
           <div dt="" class="title">
             <router-link :to="{name: 'about'}">{{$t('usercontent.user92')}}</router-link><!--关于我们--></div>
@@ -158,7 +158,7 @@
       color: #979799;
 
       .logo {
-        height: 50px;
+        height: 40px;
         display: block;
       }
 
