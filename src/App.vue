@@ -9,7 +9,8 @@
     <div v-if="isIE" class="compatible" v-show="browser">
       <div class="compatible-w">{{$t('public0.public239').format('GCOX')}}<!--建议您使用Chrome浏览器获取GCOX最佳体验。如使用360或QQ浏览器，可切换至极速模式。--><span @click="closeCompa">×</span></div>
     </div>
-    <div class="minHeight rp"><router-view/></div>
+    <div class="minHeight rp" v-if="maintain"><maintain/></div>
+    <div class="minHeight rp" v-else><router-view/></div>
     <bottom v-show="!$route.meta.noBottom" />
   </div>
 </template>
@@ -26,7 +27,7 @@ import userApi from '@/api/user'
 import marketApi from '@/api/market'
 import jumpto from '@/public/dialog/jumpto'
 import jumpto2 from '@/public/dialog/jumpto2'
-
+import maintain from '@/components/maintain'
 
 export default {
   name: 'app',
@@ -34,7 +35,8 @@ export default {
     bheader,
     bottom,
     jumpto,
-    jumpto2
+    jumpto2,
+    maintain
   },
   data () {
     return {
@@ -45,10 +47,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getApiToken', 'getOtcSocketEvents', 'getLang', 'getSiteType','getUserInfo']),
+    ...mapGetters(['getApiToken', 'getOtcSocketEvents', 'getLang', 'getSiteType','getUserInfo','getSysParams']),
     isIE () {
       // (true = IE9) || true >= IE10
       return (document.all && document.addEventListener && !window.atob) || (document.body.style.msTouchAction !== undefined)
+    },
+    maintain(){
+      return this.getSysParams.maintain && Number(this.getSysParams.maintain.value)
     }
   },
   watch: {
