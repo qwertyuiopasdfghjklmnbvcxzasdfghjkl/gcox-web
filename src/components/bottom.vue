@@ -158,7 +158,7 @@
       color: #979799;
 
       .logo {
-        height: 40px;
+        height: 50px;
         display: block;
       }
 
