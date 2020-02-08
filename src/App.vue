@@ -113,7 +113,7 @@ export default {
     }
   },
   created () {
-    this.showJumpTo()
+    // this.showJumpTo()
     this.getSysparams()
     this.getBTCValuation()
     this.getUserInfoMethod()
@@ -196,6 +196,9 @@ export default {
           params[item.code] = item
         }
         this.setSysParams(params)
+        if(!this.maintain){
+          this.showJumpTo()
+        }
       })
     },
     getBTCValuation(){
