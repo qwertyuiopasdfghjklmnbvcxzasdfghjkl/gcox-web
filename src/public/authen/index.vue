@@ -59,7 +59,7 @@
       submitKYC () {
         api.get(`${domain}api/v1/gcox/user/initiate-kyc`, (res) => {
           if (res.rst === 1) {
-            utils.setDialog(kyc, {redirect_url: res.data.redirect_url})
+            utils.setDialog(kyc, {redirect_url: res.data.SubmitUrl})
           } else {
             Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${res.msg}`)})
           }
