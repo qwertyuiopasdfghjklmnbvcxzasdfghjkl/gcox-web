@@ -134,7 +134,7 @@ user.reSendEmail = reSendEmail
 const getGtInfo = function (success, error) {
   api.get(`${domain}api/v2/user/gtCaptcha`, (res) => {
     if (res.rst === 1) {
-      success && success(res.data)
+      success && success(res.data, res.gtStatus)
     } else {
       error && error()
     }

@@ -9,7 +9,8 @@
     <div v-if="isIE" class="compatible" v-show="browser">
       <div class="compatible-w">{{$t('public0.public239').format('GCOX')}}<!--建议您使用Chrome浏览器获取GCOX最佳体验。如使用360或QQ浏览器，可切换至极速模式。--><span @click="closeCompa">×</span></div>
     </div>
-    <div class="minHeight rp"><router-view/></div>
+    <div class="minHeight rp" v-if="maintain"><maintain/></div>
+    <div class="minHeight rp" v-else><router-view/></div>
     <bottom v-show="!$route.meta.noBottom" />
   </div>
 </template>
@@ -26,7 +27,7 @@ import userApi from '@/api/user'
 import marketApi from '@/api/market'
 import jumpto from '@/public/dialog/jumpto'
 import jumpto2 from '@/public/dialog/jumpto2'
-
+import maintain from '@/components/maintain'
 
 export default {
   name: 'app',
@@ -34,7 +35,8 @@ export default {
     bheader,
     bottom,
     jumpto,
-    jumpto2
+    jumpto2,
+    maintain
   },
   data () {
     return {
@@ -45,10 +47,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getApiToken', 'getOtcSocketEvents', 'getLang', 'getSiteType']),
+    ...mapGetters(['getApiToken', 'getOtcSocketEvents', 'getLang', 'getSiteType','getUserInfo','getSysParams']),
     isIE () {
       // (true = IE9) || true >= IE10
       return (document.all && document.addEventListener && !window.atob) || (document.body.style.msTouchAction !== undefined)
+    },
+    maintain(){
+      return this.getSysParams.maintain && Number(this.getSysParams.maintain.value)
     }
   },
   watch: {
@@ -65,7 +70,6 @@ export default {
       this.getBTCValuation()
       if (val) {
         this.getUserInfoMethod()
-        this.showJumpTo2()
       }
       try {
         this.gws.changeLogin()
@@ -109,7 +113,7 @@ export default {
     }
   },
   created () {
-    this.showJumpTo()
+    // this.showJumpTo()
     this.getSysparams()
     this.getBTCValuation()
     this.getUserInfoMethod()
@@ -151,23 +155,33 @@ export default {
     this.ws && this.ws.close()
   },
   methods: {
-    ...mapActions(['setBTCValuation', 'setUSDCNY', 'setNetworkSignal', 'setUserInfo','setSysParams']),
+    ...mapActions(['setBTCValuation','setApiToken', 'setUSDCNY', 'setNetworkSignal', 'setUserInfo','setSysParams']),
     showJumpTo(){
       marketApi.getIpVerify(res=>{
         if(res && this.getSiteType===1){
           utils.setDialog(jumpto, {
             // backClose:true
           })
+        } else if(!res && this.getSiteType===2){
+          utils.setDialog(jumpto, {
+            // backClose:true
+            key:true
+          })
         }
       })
     },
     showJumpTo2(){
+      if(this.getUserInfo.kycState != 1){
+        return
+      }
       marketApi.getKycValidate(res=>{
         if(res && this.getSiteType===1){
+          this.setApiToken()
           utils.setDialog(jumpto2, {
             // backClose:true
           })
         } else if(!res && this.getSiteType===2){
+          this.setApiToken()
           utils.setDialog(jumpto2, {
             // backClose:true
             key:true
@@ -182,6 +196,9 @@ export default {
           params[item.code] = item
         }
         this.setSysParams(params)
+        if(!this.maintain){
+          this.showJumpTo()
+        }
       })
     },
     getBTCValuation(){
@@ -207,10 +224,11 @@ export default {
       if (!this.getApiToken) {
         return
       }
-      this.showJumpTo2()
+      
       userApi.getUserInfo((userInfo) => {
         if (this.getApiToken) {
           this.setUserInfo(userInfo)
+          this.showJumpTo2()
         }
       }, (res) => {
         console.warn(res)

@@ -10,7 +10,7 @@
     <indexdatatable/>
     <tipbox/>
     <news/>
-    <download/>
+    <download v-if="getSiteType==1"/>
     <regbox/>
   </div>
 </template>
@@ -39,7 +39,7 @@
       regbox
     },
     computed: {
-      ...mapGetters(['getApiToken', 'getLang']),
+      ...mapGetters(['getApiToken', 'getLang','getSiteType','getMarketList']),
       aboutUrl () {
         if (this.getLang === 'zh-CN' || this.getLang === 'cht') {
           return 'https://gcox.kf5.com/hc/kb/article/1225583/'
@@ -91,7 +91,7 @@
     methods:{
       ...mapActions(['setMarketList']),
       mergeMarkets(newData){
-        let oldData = this.$refs.indexdatatable.products, tempObj = {}
+        let oldData = this.getMarketList, tempObj = {}
         oldData.forEach((item) => {
           tempObj[item.market] = item.iconBase64
         })

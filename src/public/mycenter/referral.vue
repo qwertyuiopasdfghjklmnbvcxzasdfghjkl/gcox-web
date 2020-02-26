@@ -23,7 +23,7 @@
 
     <div class="ref-profit mt50 ui-flex">
       <div class="ui-flex-1">
-        <p class="fs16">{{$t('referral.refunded')}} (ACM) <!-- Refunded --></p>
+        <p class="fs16">{{$t('referral.refunded')}} <template v-if="getSiteType==1">(ACM)</template> <!-- Refunded --></p>
         <p class="f-c-main fs24 mt10"><strong>{{invitedInfo.rewardCount | numbean}}</strong></p>
       </div>
       <div class="ml15 ui-flex-1">
@@ -35,7 +35,7 @@
     <div class="ref-history mt50">
       <ul class="tabs ui-flex">
         <li class="ui-flex-1" :class="{active:active}" @click="active=true">{{$t('referral.invitation_history')}}<!-- Invitation History --></li>
-        <li class="ui-flex-1" :class="{active:!active}" @click="active=false">{{$t('referral.program_rules')}}<!-- Program Rules --></li>
+        <li class="ui-flex-1" :class="{active:!active}" @click="active=(getSiteType==1?false:true)">{{$t('referral.program_rules')}}<!-- Program Rules --></li>
       </ul>
       <div class="mt40 detail" v-show="active">
         <ul class="selector ui-flex">
@@ -67,7 +67,7 @@
               <span class="ui-flex-1">{{$t('account.user_center_account')}}<!-- Account --></span>
               <span class="ui-flex-1">{{$t('referral.registeration_time')}}<!-- Registeration Time --></span>
               <span class="ui-flex-1">{{$t('referral.invitation_status')}}<!-- Invitation Status --></span>
-              <span class="ui-flex-1">{{$t('referral.refunded')}}<!-- Refunded --> (ACM)</span>
+              <span class="ui-flex-1">{{$t('referral.refunded')}}<!-- Refunded --> <template v-if="getSiteType==1">(ACM)</template></span>
             </li>
             <li class="ui-flex" v-for="item in historyList">
               <span class="ui-flex-1">{{item.username}}</span>
@@ -167,7 +167,7 @@
       }
     },
     computed: {
-      ...mapGetters(['getUserInfo','getLang']),
+      ...mapGetters(['getUserInfo','getLang', 'getSiteType']),
       myInvitationUrl(){
         return `${Config.origin}/register?ref=${this.invitedInfo.myInvitationCode}`
       },
