@@ -82,7 +82,7 @@ const get = function (url, data, success, error) {
     success = data
     data = {}
   }
-  axios.get(url, {
+  axios.get(url+'?izone=gray', {
     params: data
   }).then((res) => {
     if (!res) {
@@ -102,7 +102,7 @@ const post = function (url, data, success, error) {
     success = data
     data = {}
   }
-  axios.post(url, data).then((res) => {
+  axios.post(url+'?izone=gray', data).then((res) => {
     if (!res) {
       return
     }
@@ -120,7 +120,7 @@ const del = function (url, data, success, error) {
     success = data
     data = {}
   }
-  axios.delete(url, {
+  axios.delete(url+'?izone=gray', {
     data: data
   }).then((res) => {
     if (!res) {
@@ -140,7 +140,7 @@ const put = function (url, data, success, error) {
     success = data
     data = {}
   }
-  axios.put(url, data).then((res) => {
+  axios.put(url+'?izone=gray', data).then((res) => {
     if (!res) {
       return
     }
@@ -158,7 +158,7 @@ const postForm = function (url, data, success, error) {
     success = data
     data = {}
   }
-  axios.post(url, data).then((res) => {
+  axios.post(url+'?izone=gray', data).then((res) => {
     if (!res) {
       return
     }
