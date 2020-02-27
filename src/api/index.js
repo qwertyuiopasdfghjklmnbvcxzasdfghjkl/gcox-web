@@ -33,7 +33,7 @@ function getUrlHashParams() {
   return param
 }
 
-let search = getUrlHashParams()['izone'] || null
+let search = getUrlHashParams().izone || null
 console.log(search)
 
 let parmes = ''
