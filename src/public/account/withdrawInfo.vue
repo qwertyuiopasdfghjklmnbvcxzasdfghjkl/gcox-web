@@ -119,6 +119,7 @@
       <!--<li>{{$t('public0.public229')}}&lt;!&ndash;您可以在充值提现历史记录页面跟踪状态。&ndash;&gt;</li>-->
       <!--</ul>-->
       <!--</div>-->
+      <loading v-if="isLoading"/>
     </div>
   </div>
 </template>
@@ -163,7 +164,8 @@
           amount: {required: this.$t('public0.public46')}, // 请输入提现金额
           payPassword: {required: this.$t('usercontent.inp-pay-pw')}, // 请输入资金密码
           googleCode: {required: this.$t('usercontent.user33')}, // 请输入谷歌认证码
-        }
+        },
+        isLoading: false
       }
     },
     watch: {
@@ -290,6 +292,7 @@
         this.amount = this.available
       },
       walletWithdraw () { // 提现请求
+        this.isLoading = true
         let validData = {}
         validData = {
           alias: this.alias,
@@ -300,6 +303,7 @@
         }
         this.$validator.validateAll(validData).then((validResult) => {
           if (!validResult) {
+            this.isLoading = false
             return
           }
           //
@@ -318,12 +322,14 @@
             type: 0
           }
           userUtils.walletWithdraw(formData, (res) => {
+            this.isLoading = false
             Vue.$koallTipBox({icon: 'success', message: res})
             this.$emit('okCallback')
             this.$emit('removeDialog')
             this.payPassword = ''
             this.googleCode = ''
           }, (msg) => {
+            this.isLoading = false
             Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
           })
         })

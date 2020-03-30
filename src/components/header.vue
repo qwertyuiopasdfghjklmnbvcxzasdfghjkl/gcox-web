@@ -4,6 +4,7 @@
     <div class="header w1200 ui-flex ui-flex-justify">
       <div class="ui-flex-1">
         <router-link :to="{name:'home'}" class="icon_logo item" :class="{sg:getSiteType==2}"></router-link>
+        <template v-if="!$parent.maintain">
         <router-link :to="{name:'market'}" class="item"><i class="market"></i> {{$t('home.home_pair')}}<!-- 市场 -->
         </router-link>
         <router-link :to="{name:'exchange_index2'}" class="item" :class="{active:$route.name === 'exchange_index2' || $route.name === 'exchange_index' || $route.name === 'quickTrade'}">
@@ -25,8 +26,9 @@
         <router-link v-if="isLogin" :to="{name:'account'}" class="item"><i class="account"></i> {{$t('usercontent.user56')}}<!-- 资产管理 --></router-link>
         <router-link v-if="isLogin" v-show="false" :to="{name:'fiat'}" class="item"><i class="icon-curry"></i> FIAT<!-- FIAT --></router-link>
         <router-link v-if="isLogin" :to="{name:'mycenter_menu', params:{menu:'referral'}}" class="item"><i class="icon-users"></i> {{$t('referral.referral_programme')}}<!-- 我的推荐 --></router-link>
+        </template>
       </div>
-      <div class="right">
+      <div class="right" v-if="!$parent.maintain">
           <router-link to="" class="item" v-if="isLogin">
             <span style="color: #fff;">{{displayUsername}}</span>
             <div class="popover-nav" :class="{en:getLang==='en'}" ref="nav1" @click="hidePopoverNav('nav1')">

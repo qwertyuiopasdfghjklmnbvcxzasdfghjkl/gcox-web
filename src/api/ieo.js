@@ -20,7 +20,7 @@ ieo.getIEOProjectsList = getIEOProjectsList
 
 // 获取IEO详情
 const getIEOprojectsDetail = function (id, success, error) {
-  api.get(`${domain}api/ieo/projects/detail?projectId=${id}`, (res) => {
+  api.get(`${domain}api/ieo/projects/detail`,{projectId:id}, (res) => {
     if (res.rst === 1) {
       success && success(res.data, res.timestamp)
     } else {

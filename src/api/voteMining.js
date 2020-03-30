@@ -56,7 +56,7 @@ voteMining.getVoteStatistics = getVoteStatistics
 
 // 投票列表
 const getVoteRecord = function (data, success, error) {
-  api.get(`${domain}api/v2/account2/vote/record?page=${data.page}&size=${data.size}`, (res) => {
+  api.get(`${domain}api/v2/account2/vote/record`,{page:data.page,size:data.size}, (res) => {
     if (res.rst === 1) {
       success && success(res.data)
     } else {
@@ -104,7 +104,7 @@ voteMining.getCommunityStatistics = getCommunityStatistics
 
 // 我的矿池
 const getMiningPool = function (data, success, error) {
-  api.get(`${domain}api/v2/account2/mining/pool?page=${data.page}&size=${data.size}`, (res) => {
+  api.get(`${domain}api/v2/account2/mining/pool`,{page:data.page,size:data.size}, (res) => {
     if (res.rst === 1) {
       success && success(res.data)
     } else {

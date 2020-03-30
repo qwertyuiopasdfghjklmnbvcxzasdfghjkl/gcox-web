@@ -3,13 +3,44 @@ import JsCookies from 'js-cookie'
 import config from '@/assets/js/config'
 import userApi from './user'
 import Vue from 'vue'
+import utils from '../assets/js/utils'
 
 const DOMAIN = process.env.NODE_ENV === 'development' ? `http://${config.domain}:80/` : '/'
 
 axios.defaults.baseURL = DOMAIN
 axios.defaults.timeout = 100000
 
+function getUrlHashParams() {
+  let hash = location.search
+  if (!hash) {
+    return {}
+  }
+  if (hash.indexOf('?') === -1) {
+    return {}
+  }
+  let ps = hash.substring(hash.indexOf('?') + 1)
+  if (!ps) {
+    return {}
+  }
+  ps = ps.split('&')
+  let param = {}
+  for (let i = 0; i < ps.length; i++) {
+    let p = ps[i].split('=')
+    if (p[0]) {
+      param[p[0]] = p[1] || ''
+    }
+  }
+  return param
+}
 
+let search = getUrlHashParams().izone || null
+console.log(search)
+
+let parmes = ''
+
+if (search) {
+  parmes = '?izone=' + search
+}
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
   var apiToken = JsCookies.get('api_token')
@@ -37,7 +68,7 @@ function requireLogin(response) {
     showCancel: false,
     content: window.$i18n.t(`error_code.LOGIN_AGAIN`), // 请重新登录
     okCallback: () => {
-      window.vm.$router.push({name:'login'})
+      window.vm.$router.push({name: 'login'})
       window.location.reload()
     }
   })
@@ -65,8 +96,8 @@ axios.interceptors.response.use(function (response) {
   }
   if (response.status === 500 && typeof response.data === "string" && response.data.toLowerCase.indexOf("token") >= 0) {
     requireLogin(response);
-  } else if(response.status === 500){
-     Vue.$koallTipBox({icon: 'notification', message: window.$i18n.t(`error_code.server_deserted`)})
+  } else if (response.status === 500) {
+    Vue.$koallTipBox({icon: 'notification', message: window.$i18n.t(`error_code.server_deserted`)})
     return Promise.resolve('')
   }
 
@@ -82,7 +113,7 @@ const get = function (url, data, success, error) {
     success = data
     data = {}
   }
-  axios.get(url, {
+  axios.get(url + parmes, {
     params: data
   }).then((res) => {
     if (!res) {
@@ -102,7 +133,7 @@ const post = function (url, data, success, error) {
     success = data
     data = {}
   }
-  axios.post(url, data).then((res) => {
+  axios.post(url + parmes, data).then((res) => {
     if (!res) {
       return
     }
@@ -120,7 +151,7 @@ const del = function (url, data, success, error) {
     success = data
     data = {}
   }
-  axios.delete(url, {
+  axios.delete(url + parmes, {
     data: data
   }).then((res) => {
     if (!res) {
@@ -140,7 +171,7 @@ const put = function (url, data, success, error) {
     success = data
     data = {}
   }
-  axios.put(url, data).then((res) => {
+  axios.put(url + parmes, data).then((res) => {
     if (!res) {
       return
     }
@@ -158,7 +189,7 @@ const postForm = function (url, data, success, error) {
     success = data
     data = {}
   }
-  axios.post(url, data).then((res) => {
+  axios.post(url + parmes, data).then((res) => {
     if (!res) {
       return
     }

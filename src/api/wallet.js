@@ -96,7 +96,8 @@ wallet.getWalletByCoin = getWalletByCoin
 
 // 我的资产
 const myAssets = function (data, success, error) {
-  api.get(`${domain}api/v2/account/listAccounts?r=${Math.round(Math.random()*10000)}`, data, (res) => {
+  data.r = Math.round(Math.random()*10000)
+  api.get(`${domain}api/v2/account/listAccounts`, data, (res) => {
     if (res.rst === 1) {
       success && success(res.data)
     } else {
@@ -108,7 +109,7 @@ wallet.myAssets = myAssets
 
 // 查询钱包地址
 const listWithdraws = function (symbol, success, error) {
-  api.get(`${domain}api/v2/account/showWithdraw?symbol=${symbol}`, (res) => {
+  api.get(`${domain}api/v2/account/showWithdraw`,{symbol:symbol}, (res) => {
     if (res.rst === 1) {
       success && success(res.data)
     } else {
