@@ -93,18 +93,18 @@ export default {
       let symbol = this.$route.params.symbol
       if (symbol) {
         symbol = symbol.split('_')[1]
-        return symbol || 'BTC'
+        return symbol || 'USDT'
       } else {
-        return 'BTC'
+        return 'USDT'
       }
     },
     currentSymbol () {
       let symbol = this.$route.params.symbol
       if (symbol) {
         symbol = symbol.split('_')[0]
-        return symbol || 'ETH'
+        return symbol || 'ACM'
       } else {
-        return 'ETH'
+        return 'ACM'
       }
     },
     symbol () {
