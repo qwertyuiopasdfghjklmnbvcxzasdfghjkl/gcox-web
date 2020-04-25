@@ -283,7 +283,7 @@ export default {
           userApi.bindGoogleAuth(formData, (msg) => {
             Vue.$koallTipBox({icon: 'success', message: this.$t(`error_code.${msg}`)})
             this.bindGoogleFormData = {key: '', verifyCode: '', password: ''}
-            this.fnUserState()
+            setTimeout(this.fnUserState,3000)
           }, (msg) => {
             Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
           })
@@ -305,7 +305,7 @@ export default {
           userApi.unbindGoogleAuth(formData, (msg) => {
             Vue.$koallTipBox({icon: 'success', message: this.$t(`error_code.${msg}`)})
             this.unbindGoogleFormData = {verifyCode: '', password: ''}
-            this.fnUserState()
+            setTimeout(this.fnUserState,3000)
             this.showUnbindGoogleForm = false
           }, (msg) => {
             Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${msg}`)})
