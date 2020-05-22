@@ -96,7 +96,7 @@
       return {
         fixedNumber: 8,
         current: 'all',
-        baseSymbol: 'BTC',
+        baseSymbol: '',
         sortActive: '',
         sort: 'desc',
         favorSymbol: favorSymbol,
@@ -168,6 +168,11 @@
     watch: {
       getApiToken () {
         this.socket && this.socket.changeLogin()
+      },
+      symbolList(_n){
+        if(!this.baseSymbol && _n.length){
+          this.baseSymbol = _n[0]
+        }
       }
     },
     created () {
