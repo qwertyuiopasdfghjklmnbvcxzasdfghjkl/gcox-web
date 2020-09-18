@@ -10,10 +10,11 @@
     <div class="hcontainer">
       <div class="chargeWithdraw" v-if="!showLoaing">
         <div class="total ui-flex-justify">
-          <p>
-          {{$t('exchange.exchange_valuation')}}：<!--总当前估值：-->
+            <!--总当前估值：-->
+          <!-- <p>
+          {{$t('exchange.exchange_valuation')}}：
           <span>{{String(getBTCValuation).toMoney()}} BTC</span>
-          </p>
+          </p> -->
           <!--≈ {{getCoinSign}} {{USDCNY}}-->
           <progress-bar v-if="getSiteType==1"></progress-bar>
         </div>
