@@ -1,4 +1,4 @@
-let domain = process.env.NODE_ENV === 'development' ? 'gcox.com' : location.host.split(':')[0]
+let domain = process.env.NODE_ENV === 'development' ? 'gcox-test.lab.ssss.so' : location.host.split(':')[0]
 // let domain = process.env.NODE_ENV === 'development' ? 'exchange-staging.gcox.com' : location.host.split(':')[0]
 // let domain = process.env.NODE_ENV === 'development' ? 'sit.gcox.cc' : location.host.split(':')[0]
 // let domain = process.env.NODE_ENV === 'development' ? 'sit.koall.io' : location.host.split(':')[0]
