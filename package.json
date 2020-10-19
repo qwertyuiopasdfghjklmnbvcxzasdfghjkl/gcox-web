@@ -14,8 +14,6 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "@sentry/browser": "^5.6.2",
-    "@sentry/integrations": "^5.6.1",
     "axios": "^0.17.1",
     "echarts": "^4.2.1",
     "hopscotch": "^0.3.1",

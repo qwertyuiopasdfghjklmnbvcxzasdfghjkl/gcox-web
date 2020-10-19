@@ -381,6 +381,17 @@ export default {
         direction: direction // 1买 2卖
       }
 
+      if(this.active === 'limit' && this.getSysParams.upDownRatio){ //限价委托最大涨跌幅控制
+          const upDownRatio = Number(this.getSysParams.upDownRatio.value)
+          if (this.tradeType === 'sell' && numUtils.BN(this.formData.price).lt(numUtils.mul(this.getLast24h.close, 1-upDownRatio))) {
+              Vue.$koallTipBox({icon: 'notification', message: this.$t('exchange.entrustment_price_lower').format(numUtils.mul(this.getLast24h.close, 1-upDownRatio))}) // 当前委托价格不能低于{0}
+              return
+          } else if (this.tradeType === 'buy' && numUtils.BN(this.formData.price).gt(numUtils.mul(this.getLast24h.close, 1+upDownRatio))) {
+              Vue.$koallTipBox({icon: 'notification', message: this.$t('exchange.entrustment_price_higher').format(numUtils.mul(this.getLast24h.close, 1+upDownRatio))}) // 当前委托价格不能高于{0}
+              return
+          }
+      }
+
       if (this.active === 'limit' && this.tradeType === 'sell' && numUtils.BN(this.formData.price).lt(numUtils.mul(this.getLast24h.close, 0.95))) {
         // 您委托价格低于最新成交价5%，是否确认下单？
         Vue.$confirmDialog({

@@ -47,7 +47,8 @@
           <span class="text-right rang-down with-35">{{index+1}}</span>
         </li>
       </ul>
-      <loading v-show="!load" class="load"/>
+      <div v-show="noDepthData" class="nodata" :class="{cn:getLang=='zh-CN'}"></div>
+      <loading v-show="load" class="load"/>
     </div>
   </div>
 </template>
@@ -86,13 +87,14 @@ export default {
       mergeValue: 8,
       price: '0',
       direction: null,
-      showDigit:false
+      showDigit:false,
+      load:true
     }
   },
   computed: {
-    ...mapGetters(['getLast24h', 'getEntrustPrices', 'getNetworkSignal']),
-    load () {
-      return this.filterBids.length || this.filterAsks.length
+    ...mapGetters(['getLast24h', 'getEntrustPrices', 'getNetworkSignal', 'getLang']),
+    noDepthData () {
+      return this.load?false:(this.filterBids.length || this.filterAsks.length?false:true)
     },
     getDigit (){
       return this.fixedNumber>=this.digit?this.digit:this.fixedNumber
@@ -162,8 +164,10 @@ export default {
     ...mapActions(['setEntrustNewPrice', 'addEvents', 'removeEvents', 'tiggerEvents']),
     getDepthList () {
       let tempSymbol = this.symbol
+      this.load = true
       // 获取深度信息
       marketApi.getDepths(this.symbol, (res) => {
+        this.load = false
         if (tempSymbol !== this.symbol) {
           //console.log(`depth-symbol不匹配${tempSymbol}-${this.symbol}`)
           return
@@ -373,4 +377,6 @@ export default {
     margin-top: -25px;
   }
 }
+.nodata {position: absolute; left: 50%; top: 50%; margin-left: -75px; margin-top: -85px; z-index: 1; width: 150px; height: 170px; background: url('../../assets/img/nodata_en.png') no-repeat center; background-size: contain;}
+.nodata.cn {background-image: url('../../assets/img/nodata.png')}
 </style>

@@ -109,7 +109,7 @@
           <em class="error" v-if="errors.has('googleCode')">{{getErrors('googleCode')}}</em>
         </div>
         <div class="filed">
-          <input type="button" class="BNB-subbtn" :value="$t('account.user_submit')" @click="walletWithdraw"/><!--提交-->
+          <input type="button" class="BNB-subbtn" :value="$t('account.user_submit')" @click="!isLoading&&walletWithdraw()"/><!--提交-->
         </div>
       </div>
       <!--<div class="f-fr">-->

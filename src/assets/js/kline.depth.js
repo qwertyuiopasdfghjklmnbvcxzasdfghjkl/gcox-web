@@ -1,4 +1,4 @@
-import BigNumber from '@/assets/js/bignumber.min'
+let BigNumber = require((('@/assets/js/bignumber.min')))
 /**
  * 币种深度图
  * asks: 卖
@@ -10,13 +10,7 @@ import BigNumber from '@/assets/js/bignumber.min'
  * fallColor: 跌
  * }
  */
-(function (KLineDepth) {
-  if (typeof module === 'object') {
-    module.exports = KLineDepth
-  } else {
-    window.KLineDepth = KLineDepth
-  }
-})(function (opts) {
+export default function (opts) {
   opts = opts || {}
   opts.container = opts.container || document.body
   let riseColor = opts.riseColor || '#0ee7a5' // 绿涨
@@ -37,18 +31,18 @@ import BigNumber from '@/assets/js/bignumber.min'
   let zoomRatio = new BigNumber(1)
 
   // polyfill 提供了这个方法用来获取设备的 pixel ratio
-	var getPixelRatio = function () {
-		var context = document.createElement("canvas");
-		var backingStore = context.backingStorePixelRatio ||
-			context.webkitBackingStorePixelRatio ||
-			context.mozBackingStorePixelRatio ||
-			context.msBackingStorePixelRatio ||
-			context.oBackingStorePixelRatio ||
-			context.backingStorePixelRatio || 1;
+  var getPixelRatio = function () {
+    var context = document.createElement("canvas");
+    var backingStore = context.backingStorePixelRatio ||
+      context.webkitBackingStorePixelRatio ||
+      context.mozBackingStorePixelRatio ||
+      context.msBackingStorePixelRatio ||
+      context.oBackingStorePixelRatio ||
+      context.backingStorePixelRatio || 1;
 
-		return (window.devicePixelRatio || 1) / backingStore
+    return (window.devicePixelRatio || 1) / backingStore
   }
-  let _ratio = 1 || getPixelRatio()
+  let _ratio = 1
 
   var container = opts.container
   var cWidth = container.clientWidth * _ratio
@@ -145,13 +139,13 @@ import BigNumber from '@/assets/js/bignumber.min'
         var sColorChange = []
         for(var i = 1; i < 7; i += 2){
           sColorChange.push(parseInt('0x' + sColor.slice(i, i + 2)))
-        }  
+        }
         return 'rgba(' + sColorChange.join(',') + ',' + (alpha === undefined ? 1 : alpha) + ')'
     } else {
       return sColor
     }
   }
-  
+
   // 获取自然数
   function getNaturalNumber() {
     let s = this.split('.')
@@ -182,7 +176,7 @@ import BigNumber from '@/assets/js/bignumber.min'
     s[0] = arr.join(',')
     return s.join('.')
   }
-  
+
   function ChartManager () {
     this._rightWidth = (isAmountShowLeft ? 0 : 100) * _ratio
     this._bottomHeight = 30 * _ratio
@@ -192,7 +186,7 @@ import BigNumber from '@/assets/js/bignumber.min'
     this._grid = gridCanvas.getContext('2d')
     this._depth = depthCanvas.getContext('2d')
     this._mark = markCanvas.getContext('2d')
-    
+
     let self = this
     markCanvas.addEventListener('mousemove', function (e) {
       let p = markCanvas.getBoundingClientRect ? markCanvas.getBoundingClientRect() : {x: 0, y: 0}
@@ -277,7 +271,7 @@ import BigNumber from '@/assets/js/bignumber.min'
     // 右边
     ctx.moveTo(this._right + 0.5, 0.5)
     ctx.lineTo(this._right + 0.5, this._bottom + 0.5)
-    
+
     // y分割线
     ySplit.call(this, (y) => {
       ctx.moveTo(0.5, y + 0.5)
@@ -348,6 +342,7 @@ import BigNumber from '@/assets/js/bignumber.min'
     // 买
     let bids = mergeDepthAmounts(res.bids)
     this.bids = bids
+    // console.log(this.asks,this.bids)
 
     // 量
     let askAmounts = asks.data.length ? asks.data[asks.data.length - 1].amounts : new BigNumber(0)
@@ -388,6 +383,14 @@ import BigNumber from '@/assets/js/bignumber.min'
       centerPrice = pxPrice.mul(this._right / 2)
     }
     this._centerPrice = centerPrice
+    // console.log('centerPrice=',centerPrice.toString(),JSON.stringify(asks.data),JSON.stringify(bids.data))
+    if(this._centerPrice-bids.min>asks.max-this._centerPrice){
+      this.asks.data.push({price:this._centerPrice.mul(2).minus(this.bids.min), amounts:askAmounts})
+      // console.log(JSON.stringify(this.asks.data))
+    } else {
+      this.bids.data.push({price:this._centerPrice.mul(2).minus(this.asks.max), amounts:bidAmounts})
+      // console.log(JSON.stringify(this.bids.data))
+    }
 
     // 计算买单最大没像素的价格
     let bidPxPrice = BigNumber.max(centerPrice, bids.max).minus(bids.min).div(this._right / 2).toFixed()
@@ -395,12 +398,18 @@ import BigNumber from '@/assets/js/bignumber.min'
     // 计算卖卖单没像素的价格
     let askPxPrice = asks.max.minus(BigNumber.min(centerPrice, asks.min)).div(this._right / 2).toFixed()
     askPxPrice = (new BigNumber(askPxPrice)).toFixed(getNaturalNumber.call(askPxPrice))
-    let avgPxPrice = BigNumber.min(bidPxPrice, askPxPrice)
+    let avgPxPrice = BigNumber.max(bidPxPrice, askPxPrice)
     if (!avgPxPrice.equals(0)) {
       pxPrice = avgPxPrice
     }
     pxPrice = pxPrice.mul(zoomRatio)
     this._pxPrice = pxPrice
+    if(bids.max.lt(this._centerPrice)){
+      bids.data.unshift({"price":this._centerPrice,"amounts":new BigNumber(0)})
+    }
+    if(asks.min.gt(this._centerPrice)){
+      asks.data.unshift({"price":this._centerPrice,"amounts":new BigNumber(0)})
+    }
 
     // X轴Price信息
     ctx.textAlign = 'center'
@@ -461,7 +470,7 @@ import BigNumber from '@/assets/js/bignumber.min'
       }
       if (dataType === 'bid') {
         // 买
-        x = Math.min(this._right, x) 
+        x = Math.min(this._right, x)
       } else if (dataType === 'ask') {
         // 卖
         x = Math.max(0, x)
@@ -573,4 +582,4 @@ import BigNumber from '@/assets/js/bignumber.min'
   var cm = new ChartManager()
 
   return cm
-})
+}
