@@ -74,7 +74,10 @@
       submitKYC () {
         api.get(`${domain}api/v1/gcox/user/initiate-kyc`, (res) => {
           if (res.rst === 1) {
-            utils.setDialog(kyc, {redirect_url: res.data.redirect_url})
+            // kyc 国际化为 Locale = zh
+            const url = res.data.redirect_url.replace(/locale=zh-CN/i, 'locale=zh')
+
+            utils.setDialog(kyc, { redirect_url: url })
           } else {
             Vue.$koallTipBox({icon: 'notification', message: this.$t(`error_code.${res.msg}`)})
           }
