@@ -53,7 +53,7 @@ export default {
       return (document.all && document.addEventListener && !window.atob) || (document.body.style.msTouchAction !== undefined)
     },
     maintain(){
-      return this.getSysParams.maintain && Number(this.getSysParams.maintain.value)
+      return this.getSysParams.maintain && Number(this.getSysParams.maintain.value) && this.$route.query.admin!=1
     }
   },
   watch: {
