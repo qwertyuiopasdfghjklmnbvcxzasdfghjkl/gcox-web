@@ -257,7 +257,7 @@
 
     .icon_logo {
       width: 120px;
-      background-image: url('../assets/img/logo.svg');
+      background-image: url('../assets/img/logo.png');
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
