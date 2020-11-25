@@ -14,7 +14,7 @@
           <a href="https://www.youtube.com/c/GCOXOfficial" target="_blank"><img src="../assets/img/youtube.svg"></a>
           <a href="https://vimeo.com/gcox" target="_blank"><img src="../assets/img/vimeo.svg"></a>
         </div>
-        <div class="mt10">©2019 Global Crypto Offering Exchange Ltd. All Rights Reserved</div>
+        <div class="mt10">©2019 GCOX Limited. All Rights Reserved.</div>
       </div>
       <div class="right" v-if="!$parent.maintain">
         <div>
